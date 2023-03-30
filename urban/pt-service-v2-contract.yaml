@@ -1,0 +1,1413 @@
+openapi: 3.0.1
+info:
+  title: eGov Property Tax Information System.
+  description: |
+    APIs for Property Tax module. This modules handles assessment of new properties, changes to existing properties (Detail Updates, division of property, etc.),  search of required properties and property tax calculation, demand generation, notices to enable ULBs to cmpletely manage the proeprties within their jurisdiction.
+  contact:
+    name: Ghanshyam Rawat
+    email: ghanshyam.rawat@egovernments.org
+  version: 2.0.0
+servers:
+- url: /properties/v2
+paths:
+  /_search:
+    post:
+      tags:
+      - Property
+      summary: Get the list of properties defined in the system.
+      description: |
+        Get the properties list based on the input parameters.
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: name
+        in: query
+        description: Name of owner whose property is to be searched.
+        allowEmptyValue: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: List of system generated ids of properties.
+        schema:
+          type: string
+          format: varchar
+      - name: propertyDetailids
+        in: query
+        description: List of assessmentNumbers to search.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: true
+          maxLength: 128
+          minLength: 4
+          type: string
+      - name: oldpropertyids
+        in: query
+        description: List of oldassessmentNumbers to search..
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: true
+          maxLength: 128
+          minLength: 4
+          type: string
+      - name: mobileNumber
+        in: query
+        description: MobileNumber of owner whose property is to be searched.
+        schema:
+          type: integer
+          format: int64
+      - name: accountId
+        in: query
+        description: The uuid of the user who created the property.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: true
+          maxLength: 64
+          minLength: 1
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Successful response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PropertyResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /_create:
+    post:
+      tags:
+      - Property
+      summary: Create new properties.
+      description: API to create new properties.
+      requestBody:
+        description: Details for the new property + RequestInfo meta data.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/PropertyRequest'
+        required: true
+      responses:
+        201:
+          description: Property(s) created sucessfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PropertyResponse'
+        400:
+          description: Property(s) creation failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: property
+  /_update:
+    post:
+      tags:
+      - Property
+      summary: Update existing properties.
+      description: Updates a given `Property` with newer details.
+      requestBody:
+        description: Request header for the property Request.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/PropertyRequest'
+        required: true
+      responses:
+        200:
+          description: Update Property(s) successful
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PropertyResponse'
+        400:
+          description: Update Property(s) failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: property
+components:
+  schemas:
+    PropertyType:
+      required:
+      - code
+      type: object
+      properties:
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: name of the propertytype
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: code of the propertytype
+        active:
+          type: boolean
+          description: describes Whether propertyType is Active or not.
+    Exemption:
+      type: object
+      properties:
+        isEnabled:
+          type: boolean
+          description: if Exemption are applicable, the value will be true.
+        rate:
+          type: number
+          description: Exemption rate in percentage.
+          format: double
+        maxAmount:
+          type: number
+          description: Maximum exemption amount, it is applicable if exemption are
+            applied using exemptionRate.
+          format: double
+        flatAmount:
+          type: number
+          description: Flat amount exemption.
+          format: double
+        fromFY:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Exemption are applicable from the defined date.
+    Rebate:
+      type: object
+      properties:
+        rate:
+          type: number
+          description: Exemption rate in percentage.
+          format: double
+        maxAmount:
+          type: number
+          description: Maximum exemption amount, it is applicable if exemption are
+            applied using exemptionRate.
+          format: double
+        flatAmount:
+          type: number
+          description: Flat amount exemption.
+          format: double
+        fromFY:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Exemption are applicable from the defined date.
+        endDate:
+          type: string
+          description: this is the rebate end date, this will be date and month.
+    Penalty:
+      type: object
+      properties:
+        rate:
+          type: number
+          description: Exemption rate in percentage.
+          format: double
+        minAmount:
+          type: number
+          description: Maximum exemption amount, it is applicable if exemption are
+            applied using exemptionRate.
+          format: double
+        flatAmount:
+          type: number
+          description: Flat amount exemption.
+          format: double
+        fromFY:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Exemption are applicable from the defined date.
+        startDate:
+          type: string
+          description: this is the rebate end date, this will be date and month.
+    PropertySubType:
+      required:
+      - code
+      type: object
+      properties:
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: name of the PropertySubType
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: code of the propertySubType
+        propertyType:
+          $ref: '#/components/schemas/PropertyType'
+        active:
+          type: boolean
+          description: provides info on whether the propertySubType is active for
+            usage.
+    UsageCategoryMajor:
+      allOf:
+      - $ref: '#/components/schemas/Exemption'
+    UsageCategoryMinor:
+      allOf:
+      - $ref: '#/components/schemas/Exemption'
+    UsageCategorySubMinor:
+      allOf:
+      - $ref: '#/components/schemas/Exemption'
+    UsageCategoryDetail:
+      allOf:
+      - $ref: '#/components/schemas/Exemption'
+    ConstructionType:
+      required:
+      - code
+      type: object
+      properties:
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: name of the construction type.
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: unique code of the construction type.
+        active:
+          type: boolean
+          description: Whether UsageCategorySubMinor is Active or not. If the value
+            is TRUE, then UsageCategorySubMinor is active, if the value is FALSE then
+            UsageCategorySubMinor is inactive, default value is TRUE
+    ConstructionSubType:
+      required:
+      - code
+      type: object
+      properties:
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: name of the
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: code of the UsageMaster
+        constructionTypeCode:
+          $ref: '#/components/schemas/ConstructionType'
+        active:
+          type: boolean
+          description: Whether UsageCategorySubMinor is Active or not. If the value
+            is TRUE, then UsageCategorySubMinor is active, if the value is FALSE then
+            UsageCategorySubMinor is inactive, default value is TRUE
+    OwnerShipCategory:
+      required:
+      - code
+      type: object
+      properties:
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: name of the OwnerShipCategory
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: unique code for Ownership category.
+        active:
+          type: boolean
+          description: Whether UsageCategorySubMinor is Active or not. If the value
+            is TRUE, then UsageCategorySubMinor is active, if the value is FALSE then
+            UsageCategorySubMinor is inactive, default value is TRUE
+    SubOwnerShipCategory:
+      required:
+      - code
+      - ownerShipCategoryCode
+      type: object
+      properties:
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: name of the SubOwnerShipCategory
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: code of the Owner Type.
+        ownerShipCategoryCode:
+          $ref: '#/components/schemas/OwnerShipCategory'
+        active:
+          type: boolean
+          description: Whether UsageCategorySubMinor is Active or not. If the value
+            is TRUE, then UsageCategorySubMinor is active, if the value is FALSE then
+            UsageCategorySubMinor is inactive, default value is TRUE
+    OwnerType:
+      allOf:
+      - $ref: '#/components/schemas/Exemption'
+    Floor:
+      required:
+      - code
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Code of Floor Number.
+        active:
+          type: boolean
+          description: Whether UsageCategorySubMinor is Active or not. If the value
+            is TRUE, then UsageCategorySubMinor is active, if the value is FALSE then
+            UsageCategorySubMinor is inactive, default value is TRUE
+    OccupancyType:
+      required:
+      - code
+      type: object
+      properties:
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: name of the occupancy
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: code of the OccupancyType
+        active:
+          type: boolean
+          description: Whether OccupancyType is Active or not. If the value is TRUE,
+            then OccupancyType is active, if the value is FALSE then OccupancyType
+            is inactive, default value is TRUE
+    BillingSlab:
+      required:
+      - code
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 4
+          type: string
+          description: Unique ulb identifier
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: name of the slab
+        code:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: unique identifier of the billing slab object from business
+            perspective
+        propertyType:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Based on property type charges will change.
+        usage:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        fromFloor:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        toFloor:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        area:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        fromPlotSize:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        toPlotSize:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        unitRate:
+          type: number
+          description: Floor Number.
+          format: double
+    DocumentType:
+      required:
+      - application
+      - code
+      - name
+      - tenantId
+      type: object
+      properties:
+        id:
+          type: integer
+          description: unique id of the ApplicationType.
+          format: int64
+        tenantId:
+          maxLength: 128
+          minLength: 4
+          type: string
+          description: tenant id of the Property
+        name:
+          type: string
+          description: name of the document
+        code:
+          type: string
+          description: code of the document, should be unique to the combination of
+            name, application and tenentid
+        application:
+          type: string
+          description: Application type.
+          enum:
+          - CREATE
+          - TITLE_TRANSFER
+          - BIFURCATION
+          - ALTER
+          - EDIT
+          - AMALGAMATION
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      description: This object holds type of documents to be uploaded during the transaction
+        for each application type.
+    PropertyInfo:
+      required:
+      - address
+      type: object
+      properties:
+        propertyId:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Unique Identifier of the Property.
+          readOnly: true
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+          description: tenant id of the Property
+        acknowldgementNumber:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Acknowldgement number given to citizen on submitting the application
+            for creation or modification of the property.
+          readOnly: true
+        oldPropertyId:
+          maxLength: 256
+          minLength: 1
+          type: string
+          description: Old upic no of the Property. ULBs have the existing property
+            in their system/manual records with their identification number, they
+            want to continue the old reference number in this case the same identification
+            number will be captured here.
+        status:
+          type: string
+          description: status of the Property
+          enum:
+          - ACTIVE
+          - INACTIVE
+        address:
+          $ref: '#/components/schemas/Address'
+      description: This is lightweight property object that can be used as reference
+        by definitions needing property linking. Actual Property Object extends this
+        to include more elaborate attributes of the property.
+    Property:
+      allOf:
+      - $ref: '#/components/schemas/PropertyInfo'
+      - required:
+        - propertyDetail
+        type: object
+        properties:
+          creationReason:
+            type: string
+            description: New property comes into system either property is newly constructed
+              or existing property got sub divided. Here the reason for creation will
+              be captured.
+            enum:
+            - NEWPROPERTY
+            - SUBDIVISION
+          occupancyDate:
+            type: integer
+            description: Property is constructed but the tax will be applicable only
+              from the occupation date (time in epoch). System capture that date here.
+            format: int64
+          propertyDetail:
+            type: array
+            items:
+              $ref: '#/components/schemas/PropertyDetail'
+        description: A Object holds the basic data for a property
+    PropertyDetail:
+      type: object
+      properties:
+        financialYear:
+          type: string
+          description: Latest tax paid year.
+        assessmentNumber:
+          maxLength: 64
+          type: string
+          description: unique assesment number for each financial year.
+          readOnly: true
+        assessmentDate:
+          type: integer
+          description: There will be work flow to create a new property in a system.
+            The assessment date is the final approval and UPIC no generation date.
+          format: int64
+        propertyType:
+          maxLength: 64
+          type: string
+          description: Type of a property like Private, Vacant Land, State Government,
+            Central Government etc.
+        propertySubType:
+          maxLength: 64
+          type: string
+          description: Sub Type of a property defined in mdms 'PropertySubType' Masetr.
+        usageCategoryMajor:
+          maxLength: 64
+          type: string
+          description: This is about the usage of the property like Residential, Non-residential,
+            Mixed(Property witch is gettiong used for Residential, Non-residential
+            purpose)
+        usageCategoryMinor:
+          maxLength: 64
+          type: string
+          description: Sub category of 'UsageCategoryMajor' defined in 'UsageCategoryMinor'
+            master of mdms.
+        ownershipCategory:
+          maxLength: 64
+          type: string
+          description: The type of ownership of the property.
+        subOwnershipCategory:
+          maxLength: 64
+          type: string
+          description: Sub category of 'OwnershipCategory' defined in 'SubOwnershipCategory'
+            master ofmdms.
+        owners:
+          type: array
+          description: Property owners, these will be citizen users in system.
+          items:
+            $ref: '#/components/schemas/OwnerInfo'
+        citizenInfo:
+          type: array
+          description: The ownerInfo of the user to whose account the property is
+            to be assigned in case of assessment done by employee.
+          items:
+            $ref: '#/components/schemas/OwnerInfo'
+        source:
+          type: string
+          description: Source of a assessment data. The properties will be created
+            in a system based on the data avaialble in their manual records or during
+            field survey. There can be more from client to client.
+          enum:
+          - MUNICIPAL_RECORDS
+          - FIELD_SURVEY
+        noOfFloors:
+          type: integer
+          description: no of floors in the property
+          format: int64
+        landArea:
+          type: number
+          description: Land area of the property in sq ft
+          format: float
+        buildUpArea:
+          type: number
+          description: Total built up area in sq ft
+          format: float
+        adhocExemption:
+          type: number
+          description: Exemption applied by the employee.
+          format: double
+        adhocPenalty:
+          type: number
+          description: Penalty applied by the employee.
+          format: double
+        adhocExemptionReason:
+          maxLength: 1024
+          type: string
+          description: The reason for giving adhocExemption.
+        adhocPenaltyReason:
+          maxLength: 1024
+          type: string
+          description: The type of ownership of the property.
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+        units:
+          type: array
+          description: List of Units in the property. E.g. A property might have 2
+            units in ground floor and 1 ion first floor. Unit can be Room, floor or
+            any bounded area with a defined usage.
+          items:
+            $ref: '#/components/schemas/Unit'
+        documents:
+          type: array
+          description: The documents attached during assessment, modification or any
+            transaction happened on the property.
+          items:
+            $ref: '#/components/schemas/Document'
+        additionalDetails:
+          type: string
+          description: The json (array of '#/definitions/Factor')
+        channel:
+          type: string
+          description: Property can be created from different channels Eg. System
+            (properties created by ULB officials), CFC Counter (From citizen faciliation
+            counters) etc. Here we are defining some known channels, there can be
+            more client to client.
+          enum:
+          - SYSTEM
+          - CFC_COUNTER
+          - CITIZEN
+          - DATA_ENTRY
+          - MIGRATION
+        institution:
+          type: array
+          description: The details of institution if the ownershipCategory is institutional
+          items:
+            $ref: '#/components/schemas/Institution'
+        calculation:
+          type: object
+          properties: {}
+          description: The calculation details of the property
+      description: Financial year wise property details will be capture here. For
+        each financial year property details may change.
+    Institution:
+      type: object
+      properties:
+        id:
+          maxLength: 64
+          type: string
+          description: Unique Identifier of the Property(UUID).
+        tenantId:
+          maxLength: 256
+          type: string
+          description: tenant id of the Property
+        name:
+          maxLength: 64
+          type: string
+          description: Name of the Instituion
+        type:
+          maxLength: 64
+          type: string
+          description: Institution type.
+        designation:
+          maxLength: 64
+          type: string
+          description: Designation of the person doing the assessment
+    OwnerInfo:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          isPrimaryOwner:
+            type: boolean
+            description: The owner is primary or not
+          ownerShipPercentage:
+            type: number
+            description: Ownership percentage.
+            format: double
+          ownerType:
+            maxLength: 256
+            type: string
+            description: Type of owner, based on this option Exemptions will be applied.
+              This is master data defined in mdms.
+          institutionId:
+            maxLength: 64
+            type: string
+            description: The id of the institution if the owner is the authorized
+              person for one
+          documents:
+            type: array
+            description: The documents attached by owner for exemption.
+            items:
+              $ref: '#/components/schemas/Document'
+          relationship:
+            type: string
+            description: The relationship of gaurdian.
+            enum:
+            - FATHER
+            - HUSBAND
+    Address:
+      allOf:
+      - $ref: '#/components/schemas/Address_2'
+      - type: object
+        properties:
+          buildingName:
+            maxLength: 64
+            minLength: 2
+            type: string
+            description: Name of the building
+          street:
+            maxLength: 64
+            minLength: 2
+            type: string
+            description: Street Name
+          locality:
+            $ref: '#/components/schemas/Boundary'
+        description: Address of the property.
+    Document:
+      type: object
+      properties:
+        id:
+          maxLength: 64
+          type: string
+          description: system id of the Document.
+        documentType:
+          type: string
+          description: unique document type code, should be validated with document
+            type master
+        fileStore:
+          type: string
+          description: File store reference key.
+        documentUid:
+          maxLength: 64
+          type: string
+          description: The unique id(Pancard Number,Adhar etc.) of the given Document.
+      description: This object holds list of documents attached during the transaciton
+        for a property
+    Unit:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique Identifier of the Property(UUID).
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+          description: tenant id of the Property
+        floorNo:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: floor no for the floor
+        unitType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Unit type.
+        unitArea:
+          type: number
+          description: Area of the defined Unit.
+          format: float
+        usageCategoryMajor:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: This is about the usage of the property like Residential, Non-residential,
+            Mixed(Property witch is gettiong used for Residential, Non-residential
+            purpose)
+        usageCategoryMinor:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Sub category of 'UsageCategoryMajor' defined in 'UsageCategoryMinor'
+            master of mdms.
+        usageCategorySubMinor:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Sub category of 'usageCategoryMinor' defined in 'UsageCategorySubMinor'
+            master of mdms.
+        usageCategoryDetail:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Sub category of 'usageCategorySubMinor' defined in 'usageCategoryDetail'
+            master of mdms.
+        occupancyType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: end date for the unit usage.
+          enum:
+          - Owner
+          - Tenant
+        occupancyDate:
+          type: number
+          description: Date on which unit is occupied.
+          format: int64
+        constructionType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Construction type is defined in MDMS ConstructionTypeMaster.
+        constructionSubType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Construction Sub type is defined in MDMS 'ConstructionSubType'
+            master, this is sub category of constructionType.
+        arv:
+          type: number
+          description: Annual rental value(arv), if occupancy type is Tenant.
+          format: double
+    PropertyRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Properties:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Property'
+      description: Contract class to receive request. Array of Property items  are
+        used in case of create . Where as single Property item is used for update
+    PropertyResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Properties:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Property'
+      description: Contract class to send response. Array of Property items  are used
+        in case of search results or response for create. Where as single Property
+        item is used for update
+    ErrorRes:
+      required:
+      - ResponseInfo
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Errors:
+          type: array
+          description: Error response array corresponding to Request Object array.
+            In case of single object submission or _search related paths this may
+            be an array of one error element
+          items:
+            $ref: '#/components/schemas/Error'
+      description: All APIs will return ErrorRes in case of failure which will carry
+        ResponseInfo as metadata and Error object as actual representation of error.
+        In case of bulk apis, some apis may chose to return the array of Error objects
+        to indicate individual failure.
+    ResponseInfo:
+      required:
+      - apiId
+      - status
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version
+        ts:
+          type: integer
+          description: response time in epoch
+          format: int64
+        resMsgId:
+          maxLength: 256
+          type: string
+          description: unique response message id (UUID) - will usually be the correlation
+            id from the server
+        msgId:
+          maxLength: 256
+          type: string
+          description: message id of the request
+        status:
+          type: string
+          description: status of request processing - to be enhanced in futuer to
+            include INPROGRESS
+          enum:
+          - SUCCESSFUL
+          - FAILED
+      description: ResponseInfo should be used to carry metadata information about
+        the response from the server. apiId, ver and msgId in ResponseInfo should
+        always correspond to the same values in respective request's RequestInfo.
+    Error:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code will be module specific error label/code to identiffy
+            the error. All modules should also publish the Error codes with their
+            specific localized values in localization service to ensure clients can
+            print locale specific error messages. Example for error code would be
+            User.NotFound to indicate User Not Found by User/Authentication service.
+            All services must declare their possible Error Codes with brief description
+            in the error response section of their API path.
+        message:
+          type: string
+          description: English locale message of the error code. Clients should make
+            a separate call to get the other locale description if configured with
+            the service. Clients may choose to cache these locale specific messages
+            to enhance performance with a reasonable TTL (May be defined by the localization
+            service based on tenant + module combination).
+        description:
+          type: string
+          description: Optional long description of the error to help clients take
+            remedial action. This will not be available as part of localization service.
+        params:
+          type: array
+          description: Some error messages may carry replaceable fields (say $1, $2)
+            to provide more context to the message. E.g. Format related errors may
+            want to indicate the actual field for which the format is invalid. Client's
+            should use the values in the param array to replace those fields.
+          items:
+            type: string
+      description: Error object will be returned as a part of reponse body in conjunction
+        with ResponseInfo as part of ErrorResponse whenever the request processing
+        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
+        be HTTP 400.
+    AuditDetails:
+      type: object
+      properties:
+        createdBy:
+          type: string
+          description: username (preferred) or userid of the user that created the
+            object
+        lastModifiedBy:
+          type: string
+          description: username (preferred) or userid of the user that last modified
+            the object
+        createdTime:
+          type: integer
+          description: epoch of the time object is created
+          format: int64
+        lastModifiedTime:
+          type: integer
+          description: epoch of the time object is last modified
+          format: int64
+      description: Collection of audit related fields used by most models
+    User:
+      required:
+      - active
+      - gender
+      - locale
+      - mobileNumber
+      - name
+      - tenantId
+      - type
+      - userName
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique id an user.
+          format: int64
+        userName:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: The unique username used for user login.
+        password:
+          maxLength: 64
+          type: string
+          description: Password for user login.
+          format: password
+        salutation:
+          maxLength: 5
+          type: string
+          description: The salutation of user name. Example- Mr, Miss, Mrs
+        name:
+          maxLength: 100
+          minLength: 3
+          type: string
+          description: The full name of the user.
+        gender:
+          type: string
+          description: Gender of the user.
+        mobileNumber:
+          maxLength: 10
+          type: string
+          description: Mobile number ofuser the user
+        emailId:
+          maxLength: 128
+          type: string
+          description: Email address of the user
+        altContactNumber:
+          maxLength: 10
+          type: string
+          description: Alternate contact number of the user
+        pan:
+          maxLength: 10
+          type: string
+          description: PAN number of the user
+        aadhaarNumber:
+          maxLength: 12
+          pattern: '[0-9]'
+          type: string
+          description: Aadhaar number of the user
+        permanentAddress:
+          maxLength: 300
+          type: string
+          description: Permanent address of the user.
+        permanentCity:
+          maxLength: 300
+          type: string
+          description: City of the permanent address.
+        permanentPincode:
+          maxLength: 6
+          type: string
+          description: Permanent address pincode.
+        correspondenceCity:
+          maxLength: 50
+          type: string
+          description: City of the correspondence address.
+        correspondencePincode:
+          maxLength: 6
+          type: string
+          description: Permanent address pincode.
+        correspondenceAddress:
+          maxLength: 300
+          type: string
+          description: Correspondence address of the user.
+        active:
+          type: boolean
+          description: True if the user is active and False if the user is inactive.
+        dob:
+          type: string
+          description: Data of bith of the user in dd/mm/yyyy format.
+          format: date
+        pwdExpiryDate:
+          type: string
+          description: Date on which the password registered will expire.
+          format: date
+          readOnly: true
+        locale:
+          maxLength: 10
+          type: string
+          description: Value will be set to "en_IN".
+        type:
+          maxLength: 20
+          type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
+        signature:
+          type: string
+          description: Image to be loaded for the signature of the employee
+        accountLocked:
+          type: boolean
+          description: Set to True if account is locked after several incorrect password
+            attempt. False if account is not locked.
+        roles:
+          type: array
+          description: List of roles that are attached to the user.
+          items:
+            $ref: '#/components/schemas/Role'
+        fatherOrHusbandName:
+          maxLength: 100
+          type: string
+          description: Name of user's father or husband.
+        bloodGroup:
+          maxLength: 3
+          type: string
+          description: Blood group of the user.
+        identificationMark:
+          maxLength: 300
+          type: string
+          description: Any identification mark of the person.
+        photo:
+          type: string
+          description: Image to be loaded for the photo of the user
+        createdBy:
+          type: integer
+          description: Id of the user who created the record.
+          format: int64
+        createdDate:
+          type: string
+          description: Date on which the user master data was added into the system.
+          format: date
+        lastModifiedBy:
+          type: integer
+          description: Id of the user who last modified the record.
+          format: int64
+        lastModifiedDate:
+          type: string
+          description: Date on which the user master data was last modified.
+          format: date
+        otpReference:
+          type: string
+          description: This is the UUID token that we genarate as part of OTP.
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+    Role:
+      required:
+      - name
+      - tenantId
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the role.
+          format: int64
+        name:
+          maxLength: 100
+          minLength: 2
+          type: string
+          description: The Name of the Role.
+        code:
+          maxLength: 50
+          minLength: 2
+          type: string
+          description: The Code of the Role.
+        description:
+          maxLength: 256
+          type: string
+          description: The description of the Role.
+        createdBy:
+          type: integer
+          description: Id of the user who created the record.
+          format: int64
+        createdDate:
+          type: string
+          description: Date on which the role master data was added into the system.
+          format: date
+        lastModifiedBy:
+          type: integer
+          description: Id of the user who last modified the record.
+          format: int64
+        lastModifiedDate:
+          type: string
+          description: Date on which the role master data was last modified.
+          format: date
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+    Boundary:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        code:
+          type: string
+          description: code of the boundary.
+        name:
+          type: string
+          description: name of the boundary.
+        label:
+          type: string
+          description: localized label for the boundry.
+        latitude:
+          type: string
+          description: latitude of the boundary.
+        longitude:
+          type: string
+          description: longitude of the boundary.
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        materializedPath:
+          type: string
+          description: materialized path of the boundary - this would be of the format
+            tenantid.[code] from parentt till teh current boundary
+          readOnly: true
+    Address_2:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        doorNo:
+          type: string
+          description: House number or door number.
+        latitude:
+          type: number
+          description: latitude of the address
+          format: double
+        longitude:
+          type: number
+          description: longitude of the address
+          format: double
+        addressId:
+          type: string
+          description: System generated id for the address
+          readOnly: true
+        addressNumber:
+          type: string
+          description: House, Door, Building number in the address
+        type:
+          type: string
+          description: Blood group of the user.
+        addressLine1:
+          type: string
+          description: Apartment, Block, Street of the address
+        addressLine2:
+          type: string
+          description: Locality, Area, Zone, Ward of the address
+        landmark:
+          type: string
+          description: additional landmark to help locate the address
+        city:
+          type: string
+          description: City of the address. Can be represented by the tenantid itself
+        pincode:
+          type: string
+          description: PIN code of the address. Indian pincodes will usually be all
+            numbers.
+        detail:
+          type: string
+          description: more address detail as may be needed
+      description: |
+        Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case.
+    RequestInfo:
+      required:
+      - action
+      - apiId
+      - msgId
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version - for HTTP based request this will be same as used
+            in path
+        ts:
+          type: integer
+          description: time in epoch
+          format: int64
+        action:
+          maxLength: 32
+          type: string
+          description: API action to be performed like _create, _update, _search (denoting
+            POST, PUT, GET) or _oauth etc
+        did:
+          maxLength: 1024
+          type: string
+          description: Device ID from which the API is called
+        key:
+          maxLength: 256
+          type: string
+          description: API key (API key provided to the caller in case of server to
+            server communication)
+        msgId:
+          maxLength: 256
+          type: string
+          description: Unique request message id from the caller
+        requesterId:
+          maxLength: 256
+          type: string
+          description: UserId of the user calling
+        authToken:
+          type: string
+          description: //session/jwt/saml token/oauth token - the usual value that
+            would go into HTTP bearer token
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        correlationId:
+          type: string
+          readOnly: true
+      description: RequestInfo should be used to carry meta information about the
+        requests to the server as described in the fields below. All eGov APIs will
+        use requestinfo as a part of the request body to carry this meta information.
+        Some of this information will be returned back from the server as part of
+        the ResponseInfo in the response body to ensure correlation.
+    UserInfo:
+      required:
+      - primaryrole
+      - tenantId
+      - userName
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        id:
+          type: integer
+          description: User id of the authenticated user. Will be deprecated in future
+          format: int32
+        userName:
+          type: string
+          description: Unique user name of the authenticated user
+        mobile:
+          type: string
+          description: mobile number of the autheticated user
+        email:
+          type: string
+          description: email address of the authenticated user
+        primaryrole:
+          type: array
+          description: List of all the roles for the primary tenant
+          items:
+            $ref: '#/components/schemas/Role_2'
+        additionalroles:
+          type: array
+          description: array of additional tenantids authorized for the authenticated
+            user
+          items:
+            $ref: '#/components/schemas/TenantRole'
+      description: This is acting ID token of the authenticated user on the server.
+        Any value provided by the clients will be ignored and actual user based on
+        authtoken will be used on the server.
+    Role_2:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          type: string
+          description: Unique name of the role
+        description:
+          type: string
+          description: brief description of the role
+      description: |
+        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
+    TenantRole:
+      required:
+      - roles
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: tenantid for the tenant
+        roles:
+          type: array
+          description: Roles assigned for a particular tenant - array of role codes/names
+          items:
+            $ref: '#/components/schemas/Role_2'
+      description: User role carries the tenant related role information for the user.
+        A user can have multiple roles per tenant based on the need of the tenant.
+        A user may also have multiple roles for multiple tenants.
+x-module: PT
+x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml

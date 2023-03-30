@@ -1,0 +1,905 @@
+openapi: 3.0.1
+info:
+  title: eGov User Event System.
+  description: "APIs for Events information. This module handles Below functionality.\
+    \ \n1. Create/Update new event\n2. Search existing event\n3. An event in the system\
+    \ includes -\n   a. System generated events like changes in state of a complaint,\
+    \ PT or TL etc.\n   b. Public Message broadcast\n   c. Events that happen within\
+    \ an ULB and are published on mSeva.\n   d. any other events that are to be notified\
+    \ to the user.\n"
+  contact:
+    name: eGovernments Foundation
+    email: contacts@egovernments.org
+  version: 1.0.0
+servers:
+- url: /user-event
+tags:
+- name: Events
+  description: APIs required for Event handling.
+paths:
+  /v1/events/_search:
+    post:
+      tags:
+        - Events
+      summary: search
+      operationId: searchUsingPOST
+      parameters:
+        - name: eventTypes
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: isCitizenSearch
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: isEventsCountCall
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: name
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: postedBy
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: recepients
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: referenceIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: roles
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: source
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: status
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: toDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/events/_create:
+    post:
+      tags:
+      - Events
+      summary: Create new Event
+      requestBody:
+        description: Details for the new Events + RequestInfo meta data.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+        required: true
+      responses:
+        201:
+          description: ReponseInfo with Events created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+        400:
+          description: Events creation failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes_2'
+      x-codegen-request-body-name: EventRequest
+  /v1/events/_update:
+    post:
+      tags:
+      - Events
+      summary: Update existing events
+      description: This API is used to update existing events in the system.
+      requestBody:
+        description: Details for the new Events + RequestInfo meta data.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+        required: true
+      responses:
+        201:
+          description: ReponseInfo with Events updated sudcessfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+        400:
+          description: Events(s) updation failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes_2'
+      x-codegen-request-body-name: EventRequest
+  /v1/events/lat/_update:
+    post:
+      tags:
+        - Events
+      summary: updatellt
+      operationId: updatelltUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found    
+  /v1/events/notifications/_count:
+    post:
+      tags:
+        - Events
+      summary: count
+      operationId: countUsingPOST
+      parameters:
+        - name: eventTypes
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: isCitizenSearch
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: isEventsCountCall
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: name
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: postedBy
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: recepients
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: referenceIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: roles
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: source
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: status
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: toDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+components:
+  schemas:
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+    Action:
+      required:
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Unique Identifier of ULB
+        id:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique Identifier of the action (UUID)
+        eventId:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Event Id for which this action is applicable.
+        actionUrls:
+          type: array
+          description: Array of action urls and labels.
+          items:
+            $ref: '#/components/schemas/ActionItem'
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      description: Object holds that holds basic data for actions associated to an
+        event.
+    Event:
+      required:
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Unique Identifier of ULB
+        id:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique Identifier of the Event (UUID)
+        eventType:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: This MDMS master data to diffrenciate the category of event
+            which is namespaced.
+        description:
+          maxLength: 1024
+          minLength: 2
+          type: string
+          description: Description of the event
+        status:
+          type: string
+          description: Status of the event in the system. Can hold one of the following
+            enum values.
+          enum:
+          - Active
+          - Inactive
+          - Canceled
+        toRoles:
+          type: array
+          description: Array of roles of the receipients of this notification.
+          items:
+            type: string
+        toUsers:
+          type: array
+          description: Array of ids (uuids) of the receipients of this notification.
+          items:
+            type: string
+        actions:
+          $ref: '#/components/schemas/Action'
+        eventDetails:
+          $ref: '#/components/schemas/EventDetails'
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      description: A Object holds the basic data for an Event.
+    ActionItem:
+      type: object
+      properties:
+        actionUrl:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: This is redirection url.
+        code:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: Code is to fetch localisation name for each action. This is
+            applicable only if there are more then one actions are available for single
+            event.
+      description: Object that holds basic data for actionable url associated to an
+        action.
+    EventDetails:
+      type: object
+      properties:
+        fromDate:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: Start date of event.
+        toDate:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: End date of event.
+        latitude:
+          type: number
+          description: latitude value of the location.
+        longitude:
+          type: number
+          description: longitude value of the location.
+        documents:
+          type: array
+          description: List of file store ids.
+          items:
+            type: string
+      description: Object that holds details such as time, venue etc of an event.
+    EventRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Events:
+          type: array
+          description: Array of events to be created in the system.
+          items:
+            $ref: '#/components/schemas/Event'
+      description: Contract class to receive request. Array of Event items are used
+        in case of create and update
+    EventResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo_2'
+        Events:
+          type: array
+          description: Array of events to be received from the system.
+          items:
+            $ref: '#/components/schemas/Event'
+      description: Contract class to send response. Array of Event items are used
+        in case of search results or response for create and update
+    ErrorRes:
+      required:
+      - ResponseInfo
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Errors:
+          type: array
+          description: Error response array corresponding to Request Object array.
+            In case of single object submission or _search related paths this may
+            be an array of one error element
+          items:
+            $ref: '#/components/schemas/Error'
+      description: All APIs will return ErrorRes in case of failure which will carry
+        ResponseInfo as metadata and Error object as actual representation of error.
+        In case of bulk apis, some apis may chose to return the array of Error objects
+        to indicate individual failure.
+    ResponseInfo:
+      required:
+      - apiId
+      - status
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version
+        ts:
+          type: integer
+          description: response time in epoch
+          format: int64
+        resMsgId:
+          maxLength: 256
+          type: string
+          description: unique response message id (UUID) - will usually be the correlation
+            id from the server
+        msgId:
+          maxLength: 256
+          type: string
+          description: message id of the request
+        status:
+          type: string
+          description: status of request processing - to be enhanced in futuer to
+            include INPROGRESS
+          enum:
+          - SUCCESSFUL
+          - FAILED
+      description: ResponseInfo should be used to carry metadata information about
+        the response from the server. apiId, ver and msgId in ResponseInfo should
+        always correspond to the same values in respective request's RequestInfo.
+    Error:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code will be module specific error label/code to identiffy
+            the error. All modules should also publish the Error codes with their
+            specific localized values in localization service to ensure clients can
+            print locale specific error messages. Example for error code would be
+            User.NotFound to indicate User Not Found by User/Authentication service.
+            All services must declare their possible Error Codes with brief description
+            in the error response section of their API path.
+        message:
+          type: string
+          description: English locale message of the error code. Clients should make
+            a separate call to get the other locale description if configured with
+            the service. Clients may choose to cache these locale specific messages
+            to enhance performance with a reasonable TTL (May be defined by the localization
+            service based on tenant + module combination).
+        description:
+          type: string
+          description: Optional long description of the error to help clients take
+            remedial action. This will not be available as part of localization service.
+        params:
+          type: array
+          description: Some error messages may carry replaceable fields (say $1, $2)
+            to provide more context to the message. E.g. Format related errors may
+            want to indicate the actual field for which the format is invalid. Client's
+            should use the values in the param array to replace those fields.
+          items:
+            type: string
+      description: Error object will be returned as a part of reponse body in conjunction
+        with ResponseInfo as part of ErrorResponse whenever the request processing
+        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
+        be HTTP 400.
+    ErrorRes_2:
+      required:
+      - ResponseInfo
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo_2'
+        Errors:
+          type: array
+          description: Error response array corresponding to Request Object array.
+            In case of single object submission or _search related paths this may
+            be an array of one error element
+          items:
+            $ref: '#/components/schemas/Error_2'
+      description: All APIs will return ErrorRes in case of failure which will carry
+        ResponseInfo as metadata and Error object as actual representation of error.
+        In case of bulk apis, some apis may chose to return the array of Error objects
+        to indicate individual failure.
+    ResponseInfo_2:
+      required:
+      - apiId
+      - status
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version
+        ts:
+          type: integer
+          description: response time in epoch
+          format: int64
+        resMsgId:
+          maxLength: 256
+          type: string
+          description: unique response message id (UUID) - will usually be the correlation
+            id from the server
+        msgId:
+          maxLength: 256
+          type: string
+          description: message id of the request
+        status:
+          type: string
+          description: status of request processing - to be enhanced in futuer to
+            include INPROGRESS
+          enum:
+          - SUCCESSFUL
+          - FAILED
+      description: ResponseInfo should be used to carry metadata information about
+        the response from the server. apiId, ver and msgId in ResponseInfo should
+        always correspond to the same values in respective request's RequestInfo.
+    Error_2:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code will be module specific error label/code to identiffy
+            the error. All modules should also publish the Error codes with their
+            specific localized values in localization service to ensure clients can
+            print locale specific error messages. Example for error code would be
+            User.NotFound to indicate User Not Found by User/Authentication service.
+            All services must declare their possible Error Codes with brief description
+            in the error response section of their API path.
+        message:
+          type: string
+          description: English locale message of the error code. Clients should make
+            a separate call to get the other locale description if configured with
+            the service. Clients may choose to cache these locale specific messages
+            to enhance performance with a reasonable TTL (May be defined by the localization
+            service based on tenant + module combination).
+        description:
+          type: string
+          description: Optional long description of the error to help clients take
+            remedial action. This will not be available as part of localization service.
+        params:
+          type: array
+          description: Some error messages may carry replaceable fields (say $1, $2)
+            to provide more context to the message. E.g. Format related errors may
+            want to indicate the actual field for which the format is invalid. Client's
+            should use the values in the param array to replace those fields.
+          items:
+            type: string
+      description: Error object will be returned as a part of reponse body in conjunction
+        with ResponseInfo as part of ErrorResponse whenever the request processing
+        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
+        be HTTP 400.
+    AuditDetails:
+      type: object
+      properties:
+        createdBy:
+          type: string
+          description: username (preferred) or userid of the user that created the
+            object
+        lastModifiedBy:
+          type: string
+          description: username (preferred) or userid of the user that last modified
+            the object
+        createdTime:
+          type: integer
+          description: epoch of the time object is created
+          format: int64
+        lastModifiedTime:
+          type: integer
+          description: epoch of the time object is last modified
+          format: int64
+      description: Collection of audit related fields used by most models
+    RequestInfo:
+      required:
+      - action
+      - apiId
+      - msgId
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version - for HTTP based request this will be same as used
+            in path
+        ts:
+          type: integer
+          description: time in epoch
+          format: int64
+        action:
+          maxLength: 32
+          type: string
+          description: API action to be performed like _create, _update, _search (denoting
+            POST, PUT, GET) or _oauth etc
+        did:
+          maxLength: 1024
+          type: string
+          description: Device ID from which the API is called
+        key:
+          maxLength: 256
+          type: string
+          description: API key (API key provided to the caller in case of server to
+            server communication)
+        msgId:
+          maxLength: 256
+          type: string
+          description: Unique request message id from the caller
+        requesterId:
+          maxLength: 256
+          type: string
+          description: UserId of the user calling
+        authToken:
+          type: string
+          description: //session/jwt/saml token/oauth token - the usual value that
+            would go into HTTP bearer token
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        correlationId:
+          type: string
+          readOnly: true
+      description: RequestInfo should be used to carry meta information about the
+        requests to the server as described in the fields below. All eGov APIs will
+        use requestinfo as a part of the request body to carry this meta information.
+        Some of this information will be returned back from the server as part of
+        the ResponseInfo in the response body to ensure correlation.
+    UserInfo:
+      required:
+      - primaryrole
+      - tenantId
+      - userName
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        uuid:
+          type: string
+          description: System Generated User id of the authenticated user.
+        userName:
+          type: string
+          description: Unique user name of the authenticated user
+        password:
+          type: string
+          description: password of the user.
+        idToken:
+          type: string
+          description: This will be the OTP.
+        mobile:
+          type: string
+          description: mobile number of the autheticated user
+        email:
+          type: string
+          description: email address of the authenticated user
+        primaryrole:
+          type: array
+          description: List of all the roles for the primary tenant
+          items:
+            $ref: '#/components/schemas/Role'
+        additionalroles:
+          type: array
+          description: array of additional tenantids authorized for the authenticated
+            user
+          items:
+            $ref: '#/components/schemas/TenantRole'
+      description: This is acting ID token of the authenticated user on the server.
+        Any value provided by the clients will be ignored and actual user based on
+        authtoken will be used on the server.
+    Role:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          type: string
+          description: Unique name of the role
+        code:
+          maxLength: 64
+          type: string
+          description: Unique code of the role
+        description:
+          type: string
+          description: brief description of the role
+      description: |
+        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
+    TenantRole:
+      required:
+      - roles
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: tenantid for the tenant
+        roles:
+          type: array
+          description: Roles assigned for a particular tenant - array of role codes/names
+          items:
+            $ref: '#/components/schemas/Role'
+      description: User role carries the tenant related role information for the user.
+        A user can have multiple roles per tenant based on the need of the tenant.
+        A user may also have multiple roles for multiple tenants.
+x-api-id: org.egov.user.event
+x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml
