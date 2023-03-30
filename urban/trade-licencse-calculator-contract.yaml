@@ -1,0 +1,1799 @@
+openapi: 3.0.1
+info:
+  title: Trade License Calculation APIs
+  description: |
+    APIs available for Trade License
+      - Calculate Trade License.
+  contact:
+    name: eGovernments Foundation
+    email: contacts@egovernments.org
+  version: 2.0.0
+servers:
+- url: /tl-calculator/
+paths:
+  /v1/_calculate:
+    post:
+      tags:
+      - Trade License Calculation
+      summary: Calculates Trade License and generates the respective demands in the
+        system.
+      description: Calculate Trade License Fee based on criteria.
+      requestBody:
+        description: required parameters have to be populated
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/CalculationReq'
+        required: true
+      responses:
+        200:
+          description: Success response with calculated tax amount.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        400:
+          description: Error response in case of failures.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: calculationReq
+  /v1/_getbill:
+    post:
+      tags:
+      - Trade License Bill
+      summary: Updates demand with time based penalty if applicable and Generates
+        bill for the given criteria.
+      description: Generates bill for payment.
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: applicationNumber
+        in: query
+        description: Unique Trade application number.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Success response calculated tax amount.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Bill'
+        400:
+          description: Error response in case of failures.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /v1/_estimate:
+    post:
+      tags:
+        - Trade License Calculation
+      summary: estimate
+      operationId: estimateUsingPOST
+      parameters:
+        - name: servicename
+          in: path
+          description: servicename
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationReq'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found    
+  /v1/{servicename}/_calculate:
+    post:
+      tags:
+        - Trade License Calculation
+      summary: calculate
+      operationId: calculateUsingPOST_1
+      parameters:
+        - name: servicename
+          in: path
+          description: servicename
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationReq'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /v1/{servicename}/_estimate:
+    post:
+      tags:
+        - Trade License Calculation
+      summary: estimate
+      operationId: estimateUsingPOST_1
+      parameters:
+        - name: servicename
+          in: path
+          description: servicename
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationReq'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /v1/{servicename}/_getbill:
+    post:
+      tags:
+        - Trade License Calculation
+      summary: getBill
+      operationId: getBillUsingPOST_1
+      parameters:
+        - name: businessService
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: consumerCode
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: demandId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: mobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tenantId
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: servicename
+          in: path
+          description: servicename
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillAndCalculations'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found                
+  /billingslab/_search:
+    post:
+      tags:
+      - BillingSlab
+      summary: Get the list of properties defined in the system for trade license
+        calculation.
+      description: |
+        Get the properties list based on the input parameters.
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: active
+        in: query
+        description: True will be set in cases where only active properties are needed
+          and False will be set when inactive properties are needed and no value will
+          be set when all properties are needed.
+        allowEmptyValue: true
+        schema:
+          type: boolean
+          format: varchar
+      - name: propertyId
+        in: query
+        description: Primary key of Property object.
+        schema:
+          type: string
+          format: varchar
+      - name: assessmentNumber
+        in: query
+        description: The unique reference number for a property.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: true
+          maxLength: 128
+          minLength: 4
+          type: string
+      - name: oldAssessmentNumber
+        in: query
+        description: The unique old assessment no for a Property.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: true
+          maxLength: 128
+          minLength: 4
+          type: string
+      - name: locality
+        in: query
+        description: Locality boundary where the property is located.
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Successful response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabRes'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes_2'
+      x-codegen-request-body-name: requestInfo
+  /billingslab/_create:
+    post:
+      tags:
+      - BillingSlab
+      summary: Create new billing slabs for trade license calculation.
+      description: API to billing slabs for trade license calculation.
+      requestBody:
+        description: Details for the new slab + RequestInfo meta data.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BillingSlabReq'
+        required: true
+      responses:
+        201:
+          description: Billing Slab(s) created sucessfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabRes'
+        400:
+          description: Billing Slab(s) creation failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes_2'
+      x-codegen-request-body-name: billingSlab
+  /billingslab/_update:
+    post:
+      tags:
+      - BillingSlab
+      summary: Update existing billing slabs.
+      description: Updates a given billing slab with new properties
+      requestBody:
+        description: Request header for the update of billing slab.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BillingSlab'
+        required: true
+      responses:
+        200:
+          description: Update Billing Slab(s) successful
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlab'
+        400:
+          description: Update Billing Slab(s) failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes_2'
+      x-codegen-request-body-name: billingSlab
+  /billingslab/{servicename}/_search:
+    post:
+      tags:
+        - BillingSlab
+      summary: billingslabSearchPost
+      operationId: billingslabSearchPostUsingPOST_1
+      parameters:
+        - name: accessoryCategory
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationType
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: false
+          style: form
+          schema:
+            type: number
+            format: double
+        - name: ids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: licenseType
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: structureType
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tenantId
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: to
+          in: query
+          required: false
+          style: form
+          schema:
+            type: number
+            format: double
+        - name: tradeType
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: uom
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: uomValue
+          in: query
+          required: false
+          style: form
+          schema:
+            type: number
+            format: double
+        - name: servicename
+          in: path
+          description: servicename
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabRes'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found    
+  
+components:
+  schemas:
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+    BillAndCalculations:
+      title: BillAndCalculations
+      type: object
+      properties:
+        billResponse:
+          $ref: '#/components/schemas/BillResponse'
+        billingSlabIds:
+          $ref: '#/components/schemas/BillingSlabIds'      
+    BillingSlabIds:
+      title: BillingSlabIds
+      type: object
+      properties:
+        accesssoryBillingSlabIds:
+          type: array
+          items:
+            type: string
+        consumerCode:
+          type: string
+        tradeTypeBillingSlabIds:
+          type: array
+          items:
+            type: string       
+    BillResponse:
+      title: BillResponse
+      type: object
+      properties:
+        Bill:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bill'
+        ResposneInfo:
+          $ref: '#/components/schemas/ResponseInfo'      
+    CalulationCriteria:
+      required:
+      - tenantId
+      type: object
+      properties:
+        tradelicense:
+          $ref: '#/components/schemas/TradeLicense'
+        applicationNumber:
+          maxLength: 64
+          minLength: 2
+          type: string
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+      description: Either tradelicense object or the application number is mandatory
+        apart from tenantid.
+    Calculation:
+      type: object
+      properties:
+        applicationNumber:
+          type: string
+          description: TradeLicense application number.
+        totalAmount:
+          type: number
+          description: Total payable tax amount.
+          format: double
+        penalty:
+          type: number
+          description: Total Penality if applicable.
+          format: double
+        exemption:
+          type: number
+          description: Total Exemption amount if applicable.
+          format: double
+        rebate:
+          type: number
+          description: Total Rebate amount if applicable.
+          format: double
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+    BillingSlab:
+      required:
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 4
+          type: string
+          description: Unique ulb identifier
+        id:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: unique identifier of the billing slab uuid
+        licenseType:
+          type: string
+          description: LicenseType, is unique enum value for a license
+          enum:
+          - TEMPORARY
+          - PERMANENT
+        structureType:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: StructureType and Structure subtype, this mdms data.
+        tradeType:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: value from Trade type master of mdms .
+        accessoryCategory:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Accessory Category is a master from mdms .
+        type:
+          type: string
+          description: Type will define the rate value is flat amount or rate.
+          enum:
+          - RATE
+          - FLAT
+        rate:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Rate of the trade license, this can be the rate of flat amount
+            based on type.
+        uom:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: unit of measurement of trade type.
+        from:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: uom value lower bound.
+        to:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: uom value upper bound.
+    CalculationReq:
+      required:
+      - RequestInfo
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        CalulationCriteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalulationCriteria'
+    CalculationRes:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo_2'
+        Calculation:
+          type: array
+          items:
+            $ref: '#/components/schemas/Calculation'
+    BillingSlabReq:
+      required:
+      - RequestInfo
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        BillingSlab:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillingSlab'
+    BillingSlabRes:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        BillingSlab:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillingSlab'
+    ErrorRes:
+      required:
+      - ResponseInfo
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Errors:
+          type: array
+          description: Error response array corresponding to Request Object array.
+            In case of single object submission or _search related paths this may
+            be an array of one error element
+          items:
+            $ref: '#/components/schemas/Error'
+      description: All APIs will return ErrorRes in case of failure which will carry
+        ResponseInfo as metadata and Error object as actual representation of error.
+        In case of bulk apis, some apis may chose to return the array of Error objects
+        to indicate individual failure.
+    ResponseInfo:
+      required:
+      - apiId
+      - status
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version
+        ts:
+          type: integer
+          description: response time in epoch
+          format: int64
+        resMsgId:
+          maxLength: 256
+          type: string
+          description: unique response message id (UUID) - will usually be the correlation
+            id from the server
+        msgId:
+          maxLength: 256
+          type: string
+          description: message id of the request
+        status:
+          type: string
+          description: status of request processing - to be enhanced in futuer to
+            include INPROGRESS
+          enum:
+          - SUCCESSFUL
+          - FAILED
+      description: ResponseInfo should be used to carry metadata information about
+        the response from the server. apiId, ver and msgId in ResponseInfo should
+        always correspond to the same values in respective request's RequestInfo.
+    Error:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code will be module specific error label/code to identiffy
+            the error. All modules should also publish the Error codes with their
+            specific localized values in localization service to ensure clients can
+            print locale specific error messages. Example for error code would be
+            User.NotFound to indicate User Not Found by User/Authentication service.
+            All services must declare their possible Error Codes with brief description
+            in the error response section of their API path.
+        message:
+          type: string
+          description: English locale message of the error code. Clients should make
+            a separate call to get the other locale description if configured with
+            the service. Clients may choose to cache these locale specific messages
+            to enhance performance with a reasonable TTL (May be defined by the localization
+            service based on tenant + module combination).
+        description:
+          type: string
+          description: Optional long description of the error to help clients take
+            remedial action. This will not be available as part of localization service.
+        params:
+          type: array
+          description: Some error messages may carry replaceable fields (say $1, $2)
+            to provide more context to the message. E.g. Format related errors may
+            want to indicate the actual field for which the format is invalid. Client's
+            should use the values in the param array to replace those fields.
+          items:
+            type: string
+      description: Error object will be returned as a part of reponse body in conjunction
+        with ResponseInfo as part of ErrorResponse whenever the request processing
+        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
+        be HTTP 400.
+    Bill:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the bill
+        mobileNumber:
+          type: string
+          description: MobileNumber of the payer.
+        payerName:
+          type: string
+          description: name of the payer.
+        payerAddress:
+          type: string
+          description: Address details from the payer.
+        payerEmail:
+          type: string
+          description: email address of the payer.
+        isActive:
+          type: boolean
+          description: true when active bill is created, false when inactive bill
+            is created.
+        isCancelled:
+          type: boolean
+          description: true when cancelled bill is cancelled, false when non-cancelled
+            bill is created.
+        additionalDetails:
+          type: object
+          properties: {}
+          description: field for capturing any additional details.
+        taxAndPayments:
+          type: array
+          items:
+            $ref: '#/components/schemas/taxAndPayment'
+        billDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillDetail'
+        tenantId:
+          maxLength: 128
+          minLength: 4
+          type: string
+          description: Unique Identifier of the tenant
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+    taxAndPayment:
+      type: object
+      properties:
+        businessService:
+          type: string
+          description: unique code of the business service
+        taxAmount:
+          type: string
+          description: amount to be paid by the payer
+        amountPaid:
+          type: string
+          description: amount paid by the payer
+    BillDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of bill details
+        tenantId:
+          maxLength: 256
+          minLength: 4
+          type: string
+          description: Unique Identifier of the tenant
+        demandId:
+          type: string
+          description: Unique Identifier of the demand associated with the bill detail
+        bill:
+          type: string
+          description: Id of bill
+        businessService:
+          type: string
+          description: BusinessService code.
+        billNumber:
+          type: string
+          description: Bill number.
+        billDate:
+          type: number
+          description: Bill date.
+          format: int64
+        consumerCode:
+          type: string
+          description: Consumer code of the entity for which the bill is being created.
+        consumerType:
+          type: string
+          description: Type of the entity for which the bill is being created.
+        minimumAmount:
+          type: number
+          description: Minimum bill amount to be paid.
+        totalAmount:
+          type: number
+          description: Total bill amount to be paid.
+        fromPeriod:
+          type: number
+          description: starting date of the demand period referred by the bill detail.
+          format: int64
+        toPeriod:
+          type: number
+          description: ending date of the demand period referred by the bill detail.
+          format: int64
+        collectedAmount:
+          type: number
+          description: sum of the amount which has been collected for the demand.
+        collectionModesNotAllowed:
+          type: array
+          description: List of collection modes not allowed.
+          items:
+            type: string
+        partPaymentAllowed:
+          type: boolean
+          description: true if part payment allowed, false if part payment is not
+            allowed.
+        additionalDetails:
+          type: object
+          properties: {}
+          description: field for capturing any additional details.
+        billAccountDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillAccountDetail'
+        status:
+          type: string
+          description: status if the bill detail
+          enum:
+          - CREATED
+          - CANCELLED
+          - INSTRUMENT_BOUNCED
+    BillAccountDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of bill account details
+        tenantId:
+          maxLength: 128
+          minLength: 4
+          type: string
+          description: Unique Identifier of the tenant
+        billDetail:
+          type: string
+          description: Id of billdetail
+        demandDetailId:
+          type: string
+          description: unique id of the demand detail object.
+        order:
+          type: integer
+          description: Order number used for apportioning amount in case of part payment.
+          format: int32
+        amount:
+          type: number
+          description: Credit account head amount to be paid.
+        adjustedAmount:
+          type: number
+          description: Credit account head amount.
+        isActualDemand:
+          type: boolean
+          description: True for tax/charges/penalty. False for advances(if any).
+        glcode:
+          type: string
+          description: field for capturing the glcode value.
+        taxHeadCode:
+          type: string
+          description: field for capturing the taxhead-code value.
+        additionalDetails:
+          type: object
+          properties: {}
+          description: field for capturing any additional details.
+        purpose:
+          type: string
+          description: Purpose of Account head.
+          enum:
+          - ARREAR
+          - CURRENT
+          - ADVANCE
+    AuditDetails:
+      type: object
+      properties:
+        createdBy:
+          type: string
+          description: username (preferred) or userid of the user that created the
+            object
+        lastModifiedBy:
+          type: string
+          description: username (preferred) or userid of the user that last modified
+            the object
+        createdTime:
+          type: integer
+          description: epoch of the time object is created
+          format: int64
+        lastModifiedTime:
+          type: integer
+          description: epoch of the time object is last modified
+          format: int64
+      description: Collection of audit related fields used by most models
+    ErrorRes_2:
+      required:
+      - ResponseInfo
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo_2'
+        Errors:
+          type: array
+          description: Error response array corresponding to Request Object array.
+            In case of single object submission or _search related paths this may
+            be an array of one error element
+          items:
+            $ref: '#/components/schemas/Error_2'
+      description: All APIs will return ErrorRes in case of failure which will carry
+        ResponseInfo as metadata and Error object as actual representation of error.
+        In case of bulk apis, some apis may chose to return the array of Error objects
+        to indicate individual failure.
+    ResponseInfo_2:
+      required:
+      - apiId
+      - status
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version
+        ts:
+          type: integer
+          description: response time in epoch
+          format: int64
+        resMsgId:
+          maxLength: 256
+          type: string
+          description: unique response message id (UUID) - will usually be the correlation
+            id from the server
+        msgId:
+          maxLength: 256
+          type: string
+          description: message id of the request
+        status:
+          type: string
+          description: status of request processing - to be enhanced in futuer to
+            include INPROGRESS
+          enum:
+          - SUCCESSFUL
+          - FAILED
+      description: ResponseInfo should be used to carry metadata information about
+        the response from the server. apiId, ver and msgId in ResponseInfo should
+        always correspond to the same values in respective request's RequestInfo.
+    Error_2:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code will be module specific error label/code to identiffy
+            the error. All modules should also publish the Error codes with their
+            specific localized values in localization service to ensure clients can
+            print locale specific error messages. Example for error code would be
+            User.NotFound to indicate User Not Found by User/Authentication service.
+            All services must declare their possible Error Codes with brief description
+            in the error response section of their API path.
+        message:
+          type: string
+          description: English locale message of the error code. Clients should make
+            a separate call to get the other locale description if configured with
+            the service. Clients may choose to cache these locale specific messages
+            to enhance performance with a reasonable TTL (May be defined by the localization
+            service based on tenant + module combination).
+        description:
+          type: string
+          description: Optional long description of the error to help clients take
+            remedial action. This will not be available as part of localization service.
+        params:
+          type: array
+          description: Some error messages may carry replaceable fields (say $1, $2)
+            to provide more context to the message. E.g. Format related errors may
+            want to indicate the actual field for which the format is invalid. Client's
+            should use the values in the param array to replace those fields.
+          items:
+            type: string
+      description: Error object will be returned as a part of reponse body in conjunction
+        with ResponseInfo as part of ErrorResponse whenever the request processing
+        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
+        be HTTP 400.
+    TradeLicense:
+      required:
+      - commencementDate
+      - licenseType
+      - tenantId
+      - tradeLicenseDetail
+      type: object
+      properties:
+        id:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique Identifier of the Trade License (UUID)
+          readOnly: true
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Unique Identifier of ULB
+        name:
+          maxLength: 256
+          minLength: 2
+          type: string
+          description: Name of the trade.
+        licenseType:
+          type: string
+          description: Unique Identifier of the Trade License (UUID)
+          enum:
+          - TEMPORARY
+          - PERMANENT
+        licenseNumber:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique License Number of the Trade. This is  unique in system
+            for a tenant. This is mandatory but always be generated on the final approval.
+            In Case of Legacy License User will enter the Old License Number.
+          readOnly: true
+        oldLicenseNumber:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique Old License Number of the Trade. This is  unique in
+            system for a tenant. This is mandatory  for legacy license(DataEntry).
+        propertyId:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique property id.
+        oldPropertyId:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique Old property id.
+        applicationDate:
+          type: integer
+          description: date on which applicaiton has been generated for new Trade
+            License.
+          format: int64
+          readOnly: true
+        commencementDate:
+          type: integer
+          description: Commencement Date of the trade as epoch
+          format: int64
+        issuedDate:
+          type: integer
+          description: 1. License issued Date of the trade as epoch. 2. Application
+            approval date.
+          format: int64
+          readOnly: true
+        financialYear:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: TradeLicense applicable for financial year.
+        validFrom:
+          type: integer
+          description: Date from when license is valid as epoch
+          format: int64
+        validTo:
+          type: integer
+          description: Expiry Date of the Trade License as epoch
+          format: int64
+        action:
+          type: string
+          description: 1. Perform action to change the state of the trade license.
+            2. INITIATE, if application is getting submitted without required document.
+            3. APPLY, if application is getting submitted with application documents,
+            in that case api will validate all the required application document.
+            4. APPROVE action is only applicable for specific role, that role has
+            to be configurable at service level. Employee can approve a application
+            only if application is in APPLIED state and Licesance fees is paid.
+          enum:
+          - INITIATE
+          - APPLY
+          - APPROVE
+          - REJECT
+          - CANCEL
+        status:
+          type: string
+          description: Unique identifier (code) of the Trade license Status
+          enum:
+          - INITIATED
+          - APPLIED
+          - APPROVED
+          - REJECTED
+          - CANCELED
+        tradeLicenseDetail:
+          $ref: '#/components/schemas/TradeLicenseDetail'
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      description: A Object holds the basic data for a Trade License
+    TradeLicenseDetail:
+      required:
+      - channel
+      - owners
+      - subOwnerShipCategory
+      - tradeUnits
+      type: object
+      properties:
+        surveyNo:
+          type: string
+          description: Survey number.
+        subOwnerShipCategory:
+          type: string
+          description: Unique code of SubOwnerShipCategory from SubOwnerShipCategory
+            master of MDMS.
+        structureType:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: StructureType and Structure subtype, this mdms data.
+        operationalArea:
+          type: number
+          description: This is always in sq yard.
+          format: double
+        owners:
+          type: array
+          description: Trade owners, these will be citizen users in system.
+          items:
+            $ref: '#/components/schemas/OwnerInfo'
+        channel:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: License can be created from different channels
+          enum:
+          - COUNTER
+          - CITIZEN
+          - DATAENTRY
+        address:
+          $ref: '#/components/schemas/Address'
+        tradeUnits:
+          type: array
+          description: Send list of trades here.
+          items:
+            $ref: '#/components/schemas/TradeUnit'
+        accessories:
+          type: array
+          description: Send list of accessories here.
+          items:
+            $ref: '#/components/schemas/Accessory'
+        applicationDocuments:
+          type: array
+          description: 1. List of all the required documents. 2. Application can be
+            submitted without required document 3. Once all the document submitted
+            then only application submition process will be completed. 4. Mandatry
+            application documents for a trade type are defined under ApplicationDocument
+            master which is defined under MDMS.
+          items:
+            $ref: '#/components/schemas/Document'
+        verificationDocuments:
+          type: array
+          description: 1. Verification Documents will uploaded at the time of approval.
+            2. Mandatry verification documents for a trade type are defined under
+            VerificationDocument master which is defined under MDMS.
+          items:
+            $ref: '#/components/schemas/Document'
+        additionalDetail:
+          type: string
+          description: Json object to store additional details about license
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      description: A Object holds the basic data for a Trade License
+    OwnerInfo:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          isPrimaryOwner:
+            type: boolean
+            description: The owner is primary or not
+          ownerShipPercentage:
+            type: number
+            description: Ownership percentage.
+            format: double
+          ownerType:
+            maxLength: 256
+            minLength: 4
+            type: string
+            description: Type of owner, based on this option Exemptions will be applied.
+              This is master data defined in mdms.
+          relationship:
+            type: string
+            description: Relationship with owner.
+            enum:
+            - FATHER
+            - HUSBAND
+          documents:
+            type: object
+            description: Document of the owner.
+    User:
+      required:
+      - active
+      - gender
+      - locale
+      - mobileNumber
+      - name
+      - tenantId
+      - type
+      - userName
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique id an user.
+          format: int64
+        userName:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: The unique username used for user login.
+        password:
+          maxLength: 64
+          type: string
+          description: Password for user login.
+          format: password
+        salutation:
+          maxLength: 5
+          type: string
+          description: The salutation of user name. Example- Mr, Miss, Mrs
+        name:
+          maxLength: 100
+          minLength: 3
+          type: string
+          description: The full name of the user.
+        gender:
+          type: string
+          description: Gender of the user.
+        mobileNumber:
+          maxLength: 10
+          type: string
+          description: Mobile number ofuser the user
+        emailId:
+          maxLength: 128
+          type: string
+          description: Email address of the user
+        altContactNumber:
+          maxLength: 10
+          type: string
+          description: Alternate contact number of the user
+        pan:
+          maxLength: 10
+          type: string
+          description: PAN number of the user
+        aadhaarNumber:
+          maxLength: 12
+          pattern: '[0-9]'
+          type: string
+          description: Aadhaar number of the user
+        permanentAddress:
+          maxLength: 300
+          type: string
+          description: Permanent address of the user.
+        permanentCity:
+          maxLength: 300
+          type: string
+          description: City of the permanent address.
+        permanentPincode:
+          maxLength: 6
+          type: string
+          description: Permanent address pincode.
+        correspondenceCity:
+          maxLength: 50
+          type: string
+          description: City of the correspondence address.
+        correspondencePincode:
+          maxLength: 6
+          type: string
+          description: Permanent address pincode.
+        correspondenceAddress:
+          maxLength: 300
+          type: string
+          description: Correspondence address of the user.
+        active:
+          type: boolean
+          description: True if the user is active and False if the user is inactive.
+        dob:
+          type: string
+          description: Data of bith of the user in dd/mm/yyyy format.
+          format: date
+        pwdExpiryDate:
+          type: string
+          description: Date on which the password registered will expire.
+          format: date
+          readOnly: true
+        locale:
+          maxLength: 10
+          type: string
+          description: Value will be set to "en_IN".
+        type:
+          maxLength: 20
+          type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
+        signature:
+          type: string
+          description: Image to be loaded for the signature of the employee
+        accountLocked:
+          type: boolean
+          description: Set to True if account is locked after several incorrect password
+            attempt. False if account is not locked.
+        roles:
+          type: array
+          description: List of roles that are attached to the user.
+          items:
+            $ref: '#/components/schemas/Role'
+        fatherOrHusbandName:
+          maxLength: 100
+          type: string
+          description: Name of user's father or husband.
+        bloodGroup:
+          maxLength: 3
+          type: string
+          description: Blood group of the user.
+        identificationMark:
+          maxLength: 300
+          type: string
+          description: Any identification mark of the person.
+        photo:
+          type: string
+          description: Image to be loaded for the photo of the user
+        createdBy:
+          type: integer
+          description: Id of the user who created the record.
+          format: int64
+        createdDate:
+          type: string
+          description: Date on which the user master data was added into the system.
+          format: date
+        lastModifiedBy:
+          type: integer
+          description: Id of the user who last modified the record.
+          format: int64
+        lastModifiedDate:
+          type: string
+          description: Date on which the user master data was last modified.
+          format: date
+        otpReference:
+          type: string
+          description: This is the UUID token that we genarate as part of OTP.
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+    Role:
+      required:
+      - name
+      - tenantId
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the role.
+          format: int64
+        name:
+          maxLength: 100
+          minLength: 2
+          type: string
+          description: The Name of the Role.
+        code:
+          maxLength: 50
+          minLength: 2
+          type: string
+          description: The Code of the Role.
+        description:
+          maxLength: 256
+          type: string
+          description: The description of the Role.
+        createdBy:
+          type: integer
+          description: Id of the user who created the record.
+          format: int64
+        createdDate:
+          type: string
+          description: Date on which the role master data was added into the system.
+          format: date
+        lastModifiedBy:
+          type: integer
+          description: Id of the user who last modified the record.
+          format: int64
+        lastModifiedDate:
+          type: string
+          description: Date on which the role master data was last modified.
+          format: date
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+    Address:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        doorNo:
+          type: string
+          description: House number or door number.
+        latitude:
+          type: number
+          description: latitude of the address
+          format: double
+        longitude:
+          type: number
+          description: longitude of the address
+          format: double
+        addressId:
+          type: string
+          description: System generated id for the address
+          readOnly: true
+        addressNumber:
+          type: string
+          description: House, Door, Building number in the address
+        type:
+          type: string
+          description: Blood group of the user.
+        addressLine1:
+          type: string
+          description: Apartment, Block, Street of the address
+        addressLine2:
+          type: string
+          description: Locality, Area, Zone, Ward of the address
+        landmark:
+          type: string
+          description: additional landmark to help locate the address
+        city:
+          type: string
+          description: City of the address. Can be represented by the tenantid itself
+        pincode:
+          type: string
+          description: PIN code of the address. Indian pincodes will usually be all
+            numbers.
+        detail:
+          type: string
+          description: more address detail as may be needed
+        buildingName:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Name of the building
+        street:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Street Name
+        locality:
+          $ref: '#/components/schemas/Boundary'
+      description: |
+        Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case.
+    Boundary:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        code:
+          type: string
+          description: code of the boundary.
+        name:
+          type: string
+          description: name of the boundary.
+        label:
+          type: string
+          description: localized label for the boundry.
+        latitude:
+          type: string
+          description: latitude of the boundary.
+        longitude:
+          type: string
+          description: longitude of the boundary.
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        materializedPath:
+          type: string
+          description: materialized path of the boundary - this would be of the format
+            tenantid.[code] from parentt till teh current boundary
+          readOnly: true
+    TradeUnit:
+      required:
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Unique Identifier of ULB
+        tradeType:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique Identifier of the Trade License (UUID)
+        uom:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: Unique License Number of the Trade. This is  unique in system
+            for a tenant. This is mandatory but always be generated on the final approval.
+            In Case of Legacy License User will enter the Old License Number.
+        uomValue:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: Unique License Number of the Trade. This is  unique in system
+            for a tenant. This is mandatory but always be generated on the final approval.
+            In Case of Legacy License User will enter the Old License Number.
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      description: A Object holds the basic data for a Trade License
+    Accessory:
+      required:
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Unique Identifier of ULB
+        accessoryCategory:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique Identifier of the Trade License (UUID)
+        uom:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: Unique License Number of the Trade. This is  unique in system
+            for a tenant. This is mandatory but always be generated on the final approval.
+            In Case of Legacy License User will enter the Old License Number.
+        uomValue:
+          maxLength: 32
+          minLength: 2
+          type: string
+          description: Unique License Number of the Trade. This is  unique in system
+            for a tenant. This is mandatory but always be generated on the final approval.
+            In Case of Legacy License User will enter the Old License Number.
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      description: A Object holds the basic data for a Trade License
+    Document:
+      required:
+      - documentType
+      - fileStoreId
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Unique Identifier of ULB
+        documentType:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: 1.Unique document type code from common master. 2. This is
+            defined under mdms common master. 3. Object defination is defined under
+            'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/DocumentType'
+        fileStoreId:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique file store id of uploaded document.
+        documentUid:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: document number(eg.Pan number, aadhar number).
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      description: A Object holds the basic data for a Trade License
+    RequestInfo:
+      required:
+      - action
+      - apiId
+      - msgId
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version - for HTTP based request this will be same as used
+            in path
+        ts:
+          type: integer
+          description: time in epoch
+          format: int64
+        action:
+          maxLength: 32
+          type: string
+          description: API action to be performed like _create, _update, _search (denoting
+            POST, PUT, GET) or _oauth etc
+        did:
+          maxLength: 1024
+          type: string
+          description: Device ID from which the API is called
+        key:
+          maxLength: 256
+          type: string
+          description: API key (API key provided to the caller in case of server to
+            server communication)
+        msgId:
+          maxLength: 256
+          type: string
+          description: Unique request message id from the caller
+        requesterId:
+          maxLength: 256
+          type: string
+          description: UserId of the user calling
+        authToken:
+          type: string
+          description: //session/jwt/saml token/oauth token - the usual value that
+            would go into HTTP bearer token
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        correlationId:
+          type: string
+          readOnly: true
+      description: RequestInfo should be used to carry meta information about the
+        requests to the server as described in the fields below. All eGov APIs will
+        use requestinfo as a part of the request body to carry this meta information.
+        Some of this information will be returned back from the server as part of
+        the ResponseInfo in the response body to ensure correlation.
+    UserInfo:
+      required:
+      - primaryrole
+      - tenantId
+      - userName
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        uuid:
+          type: string
+          description: System Generated User id of the authenticated user.
+        userName:
+          type: string
+          description: Unique user name of the authenticated user
+        password:
+          type: string
+          description: password of the user.
+        idToken:
+          type: string
+          description: This will be the OTP.
+        mobile:
+          type: string
+          description: mobile number of the autheticated user
+        email:
+          type: string
+          description: email address of the authenticated user
+        primaryrole:
+          type: array
+          description: List of all the roles for the primary tenant
+          items:
+            $ref: '#/components/schemas/Role_2'
+        additionalroles:
+          type: array
+          description: array of additional tenantids authorized for the authenticated
+            user
+          items:
+            $ref: '#/components/schemas/TenantRole'
+      description: This is acting ID token of the authenticated user on the server.
+        Any value provided by the clients will be ignored and actual user based on
+        authtoken will be used on the server.
+    Role_2:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          type: string
+          description: Unique name of the role
+        code:
+          maxLength: 64
+          type: string
+          description: Unique code of the role
+        description:
+          type: string
+          description: brief description of the role
+      description: |
+        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
+    TenantRole:
+      required:
+      - roles
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: tenantid for the tenant
+        roles:
+          type: array
+          description: Roles assigned for a particular tenant - array of role codes/names
+          items:
+            $ref: '#/components/schemas/Role_2'
+      description: User role carries the tenant related role information for the user.
+        A user can have multiple roles per tenant based on the need of the tenant.
+        A user may also have multiple roles for multiple tenants.

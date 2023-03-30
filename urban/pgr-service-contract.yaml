@@ -1,0 +1,1272 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: DIGIT Public Grievance Redressal(PGR) V2
+  description: |
+    ### API specs for PGR ###
+    Application to Raise Grivances and track the progress.
+    . It allows any citizen registered in the system to raise a complaint (based on the   Service definition provided in the master data, Please Refer MDMS service to        Service Definition master) for any ulb belonging to the state.
+    . Notifications will be provided on progress of the complaint in evevry step.
+    . Feedback can be provided by the citizen once the complint is resolved.
+    . If not satisfied the citizen can reopen the complaint.
+  contact:
+    name: Egovernments Foundation
+    email: contact@egovernments.org
+x-module: BPA
+x-common-path: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml'
+paths:
+  /migration/_transform:
+    post:
+      tags:
+        - migration-controller
+      summary: requestsCreatePost
+      operationId: requestsCreatePostUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceResponse'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /mock/requests/_create:
+    post:
+      tags:
+        - mock-controller
+      summary: requestsCreatePost
+      operationId: requestsCreatePostUsingPOST_1
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /mock/requests/_search:
+    post:
+      tags:
+        - mock-controller
+      summary: requestsSearchPost
+      operationId: requestsSearchPostUsingPOST
+      parameters:
+        - name: accountId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationStatus
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: isPlainSearch
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locality
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: mobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: serviceCode
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: serviceRequestId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: slaDeltaMaxLimit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: slaDeltaMinLimit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: sortBy
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - applicationStatus
+              - locality
+              - serviceRequestId
+        - name: sortOrder
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: tenantId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tenantIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: toDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /mock/requests/_test:
+    post:
+      tags:
+        - mock-controller
+      summary: requestsTest
+      operationId: requestsTestUsingPOST
+      parameters:
+        - name: tenantId
+          in: query
+          description: tenantId
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: uuids
+          in: query
+          description: uuids
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /mock/requests/_update:
+    post:
+      tags:
+        - mock-controller
+      summary: requestsUpdatePost
+      operationId: requestsUpdatePostUsingPOST
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /v2/request/_count:
+    post:
+      tags:
+        - requests-api-controller
+      summary: requestsCountPost
+      operationId: requestsCountPostUsingPOST
+      parameters:
+        - name: accountId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationStatus
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: isPlainSearch
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locality
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: mobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: serviceCode
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: serviceRequestId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: slaDeltaMaxLimit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: slaDeltaMinLimit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: sortBy
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - applicationStatus
+              - locality
+              - serviceRequestId
+        - name: sortOrder
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: tenantId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tenantIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: toDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v2/request/_create:
+    post:
+      tags:
+        - requests-api-controller
+      summary: requestsCreatePost
+      operationId: requestsCreatePostUsingPOST_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /v2/request/_plainsearch:
+    post:
+      tags:
+        - requests-api-controller
+      summary: requestsPlainSearchPost
+      operationId: requestsPlainSearchPostUsingPOST
+      parameters:
+        - name: accountId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationStatus
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: isPlainSearch
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locality
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: mobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: serviceCode
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: serviceRequestId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: slaDeltaMaxLimit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: slaDeltaMinLimit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: sortBy
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - applicationStatus
+              - locality
+              - serviceRequestId
+        - name: sortOrder
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: tenantId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tenantIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: toDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /v2/request/_search:
+    post:
+      tags:
+        - requests-api-controller
+      summary: requestsSearchPost
+      operationId: requestsSearchPostUsingPOST_1
+      parameters:
+        - name: accountId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationStatus
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: isPlainSearch
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locality
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: mobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: serviceCode
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: serviceRequestId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: slaDeltaMaxLimit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: slaDeltaMinLimit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: sortBy
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - applicationStatus
+              - locality
+              - serviceRequestId
+        - name: sortOrder
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: tenantId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tenantIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: toDate
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userIds
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /v2/request/_update:
+    post:
+      tags:
+        - requests-api-controller
+      summary: requestsUpdatePost
+      operationId: requestsUpdatePostUsingPOST_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+components:
+  schemas:
+    Address:
+      title: Address
+      type: object
+      properties:
+        additionDetails:
+          type: object
+        buildingName:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        district:
+          type: string
+        doorNo:
+          type: string
+        geoLocation:
+          $ref: '#/components/schemas/GeoLocation'
+        id:
+          type: string
+        landmark:
+          type: string
+        locality:
+          $ref: '#/components/schemas/Boundary'
+        pincode:
+          type: string
+        plotNo:
+          type: string
+        region:
+          type: string
+        state:
+          type: string
+        street:
+          type: string
+        tenantId:
+          type: string
+      description: 'Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case. '
+    AuditDetails:
+      title: AuditDetails
+      type: object
+      properties:
+        createdBy:
+          type: string
+        createdTime:
+          type: integer
+          format: int64
+        lastModifiedBy:
+          type: string
+        lastModifiedTime:
+          type: integer
+          format: int64
+      description: Collection of audit related fields used by most models
+    Boundary:
+      title: Boundary
+      required:
+        - code
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        code:
+          type: string
+        label:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+        materializedPath:
+          type: string
+        name:
+          type: string
+    CountResponse:
+      title: CountResponse
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        count:
+          type: integer
+          format: int32
+    Document:
+      title: Document
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        documentType:
+          type: string
+        documentUid:
+          type: string
+        fileStoreId:
+          type: string
+        id:
+          type: string
+      description: This object holds list of documents attached during the transaciton for a property
+    GeoLocation:
+      title: GeoLocation
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+    RequestInfo:
+      title: RequestInfo
+      type: object
+      properties:
+        action:
+          type: string
+        apiId:
+          type: string
+        authToken:
+          type: string
+        correlationId:
+          type: string
+        did:
+          type: string
+        key:
+          type: string
+        msgId:
+          type: string
+        ts:
+          type: integer
+          format: int64
+        userInfo:
+          $ref: '#/components/schemas/User0'
+        ver:
+          type: string
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+    ResponseInfo:
+      title: ResponseInfo
+      type: object
+      properties:
+        apiId:
+          type: string
+        msgId:
+          type: string
+        resMsgId:
+          type: string
+        status:
+          type: string
+        ts:
+          type: integer
+          format: int64
+        ver:
+          type: string
+    RoleReq:
+      title: RoleReq
+      type: object
+      properties:
+        code:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        tenantId:
+          type: string
+    RoleRes:
+      title: RoleRes
+      type: object
+      properties:
+        code:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        tenantId:
+          type: string
+    ServiceReq:
+      title: ServiceReq
+      required:
+        - address
+        - serviceCode
+        - source
+        - tenantId
+      type: object
+      properties:
+        accountId:
+          type: string
+        active:
+          type: boolean
+        additionalDetail:
+          type: object
+        address:
+          $ref: '#/components/schemas/Address'
+        applicationStatus:
+          type: string
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+        citizen:
+          $ref: '#/components/schemas/UserReq'
+        description:
+          type: string
+        id:
+          type: string
+        rating:
+          type: integer
+          format: int32
+        serviceCode:
+          type: string
+        serviceRequestId:
+          type: string
+        source:
+          type: string
+        tenantId:
+          type: string
+      description: 'Instance of Service request raised for a particular service. As per extension propsed in the Service definition "attributes" carry the input values requried by metadata definition in the structure as described by the corresponding schema.  * Any one of ''address'' or ''(lat and lang)'' or ''addressid'' is mandatory '
+    ServiceRequest:
+      title: ServiceRequest
+      required:
+        - RequestInfo
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        service:
+          $ref: '#/components/schemas/ServiceReq'
+        workflow:
+          $ref: '#/components/schemas/Workflow'
+      description: Request object to fetch the report data
+    ServiceRes:
+      title: ServiceRes
+      required:
+        - address
+        - serviceCode
+        - source
+        - tenantId
+      type: object
+      properties:
+        accountId:
+          type: string
+        active:
+          type: boolean
+        additionalDetail:
+          type: object
+        address:
+          $ref: '#/components/schemas/Address'
+        applicationStatus:
+          type: string
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+        citizen:
+          $ref: '#/components/schemas/UserRes'
+        description:
+          type: string
+        id:
+          type: string
+        rating:
+          type: integer
+          format: int32
+        serviceCode:
+          type: string
+        serviceRequestId:
+          type: string
+        source:
+          type: string
+        tenantId:
+          type: string
+      description: 'Instance of Service request raised for a particular service. As per extension propsed in the Service definition "attributes" carry the input values requried by metadata definition in the structure as described by the corresponding schema.  * Any one of ''address'' or ''(lat and lang)'' or ''addressid'' is mandatory '
+    ServiceResponse:
+      title: ServiceResponse
+      type: object
+      properties:
+        ServiceWrappers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceWrapper'
+        averageResolutionTime:
+          type: integer
+          format: int32
+        complaintTypes:
+          type: integer
+          format: int32
+        complaintsResolved:
+          type: integer
+          format: int32
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+      description: Response to the service request
+    ServiceWrapper:
+      title: ServiceWrapper
+      type: object
+      properties:
+        service:
+          $ref: '#/components/schemas/ServiceRes'
+        workflow:
+          $ref: '#/components/schemas/Workflow'
+    User0:
+      title: User0
+      type: object
+      properties:
+        emailId:
+          type: string
+        id:
+          type: integer
+          format: int64
+        mobileNumber:
+          type: string
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleReq'
+        tenantId:
+          type: string
+        type:
+          type: string
+        userName:
+          type: string
+        uuid:
+          type: string
+    UserReq:
+      title: UserReq
+      type: object
+      properties:
+        active:
+          type: boolean
+        emailId:
+          type: string
+        id:
+          type: integer
+          format: int64
+        mobileNumber:
+          type: string
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleReq'
+        tenantId:
+          type: string
+        type:
+          type: string
+        userName:
+          type: string
+        uuid:
+          type: string
+    UserRes:
+      title: UserRes
+      type: object
+      properties:
+        active:
+          type: boolean
+        emailId:
+          type: string
+        id:
+          type: integer
+          format: int64
+        mobileNumber:
+          type: string
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRes'
+        tenantId:
+          type: string
+        type:
+          type: string
+        userName:
+          type: string
+        uuid:
+          type: string
+    Workflow:
+      title: Workflow
+      type: object
+      properties:
+        action:
+          type: string
+        assignes:
+          type: array
+          items:
+            type: string
+        comments:
+          type: string
+        verificationDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+      description: BPA application object to capture the details of land, land owners, and address of the land.

@@ -1,0 +1,5879 @@
+openapi: 3.0.1
+info:
+  title: Master Service
+  description: Master services APIs - to create, update and search Master.
+  contact:
+    name: Manikanta P T
+    email: info@egovernments.org
+  version: 1.0.0
+servers:
+- url: /egf-master/v110
+paths:
+  /funds/_search:
+    post:
+      tags:
+      - Master
+      - Fund
+      summary: Get the list of funds
+      description: funds
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: |
+          name is the name of the fund . Example :Municipal Fund,Capital Fund. Also
+          name is unique.
+        schema:
+          maxLength: 50
+          type: string
+      - name: code
+        in: query
+        description: |
+          code is a unique number given to each fund . ULB may refer this for the
+          short name
+        schema:
+          maxLength: 50
+          type: string
+      - name: identifier
+        in: query
+        description: |
+          identifier of the Fund
+        schema:
+          type: string
+      - name: parent
+        in: query
+        description: |
+          parent adding a parent will create the fund as a sub-fund (child) of a
+          fund already created (parent fund).
+        schema:
+          type: integer
+          format: int64
+      - name: active
+        in: query
+        description: |
+          active is a boolean value which says whether fund is in use or not . If
+          Fund is active, then accounting of transactions under the fund is
+          enabled. If Fund becomes inactive, and no transactions can be accounted
+          under the Fund.
+        schema:
+          type: boolean
+      - name: isParent
+        in: query
+        description: |
+          isParent is updated internally so that system can identify whether the
+          fund is parent or child. Only child which is not parent for any other
+          fund can only participate in transaction .
+        schema:
+          type: boolean
+      - name: level
+        in: query
+        description: |
+          level identifies what is the level of the fund in the tree structure. Top
+          most parent will have level 0 and its child will have level as 1
+        schema:
+          type: integer
+          format: int64
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Fund retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FundResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /funds/_create:
+    post:
+      tags:
+      - Master
+      - Fund
+      summary: Create  new  funds
+      description: Create  new funds
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FundRequest'
+        required: false
+      responses:
+        201:
+          description: Fund created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FundResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: fundRequest
+  /funds/_update:
+    post:
+      tags:
+      - Master
+      - Fund
+      summary: Update any of the funds
+      description: Update any of the funds
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FundRequest'
+        required: false
+      responses:
+        200:
+          description: Fund updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FundResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: fundRequest
+  /financialyears/_search:
+    post:
+      tags:
+      - Master
+      - FinancialYear
+      summary: Get the list of financialyears
+      description: financialyears
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: finYearRange
+        in: query
+        description: |
+          finYearRange is the name of the Financial Year . for example for
+          accounting year 2017 and 2018 it may be named 2017-18
+        schema:
+          maxLength: 25
+          type: string
+      - name: startingDate
+        in: query
+        description: |
+          startingDate is the date on which Accounting Year starts. Usually it is
+          1st April of that year.
+        schema:
+          type: string
+          format: date
+      - name: endingDate
+        in: query
+        description: |
+          endingDate is the date on which Financial Year ends. Usually it is 31st
+          march of next year
+        schema:
+          type: string
+          format: date
+      - name: active
+        in: query
+        description: |
+          active says whether Financial Year is active or not . Over a period
+          system will have number of Financial years. Reports
+          ,searches,transactions will need to display this.If the active value is
+          true then Financial Year is listed, if value is false it wont be listed
+        schema:
+          type: boolean
+      - name: isActiveForPosting
+        in: query
+        description: |
+          isActiveForPosting refers whether posting allowed for the Financial Year
+          or not . This value will be true for current year and few previous year
+          for which data entry will be happening. Once the account is closed this
+          value is set to false . All transactions will happen if and only if
+          isActiveForPosting is true
+        schema:
+          type: boolean
+      - name: isClosed
+        in: query
+        description: |
+          isClosed refers whether the account is closed or not . Once the account
+          is closed and balance is transferred this value is set to false if the
+          account is closed no transaction can happen on that financial year.
+        schema:
+          type: boolean
+      - name: transferClosingBalance
+        in: query
+        description: |
+          transferClosingBalance informs whether While closing account balance is
+          transferred or not .
+        schema:
+          type: boolean
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: FinancialYear retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialYearResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /financialyears/_create:
+    post:
+      tags:
+      - Master
+      - FinancialYear
+      summary: Create  new  financialyears
+      description: Create  new financialyears
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FinancialYearRequest'
+        required: false
+      responses:
+        201:
+          description: FinancialYear created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialYearResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: financialYearRequest
+  /financialyears/_update:
+    post:
+      tags:
+      - Master
+      - FinancialYear
+      summary: Update any of the financialyears
+      description: Update any of the financialyears
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FinancialYearRequest'
+        required: false
+      responses:
+        200:
+          description: FinancialYear updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialYearResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: financialYearRequest
+  /fiscalperiods/_search:
+    post:
+      tags:
+      - Master
+      - FiscalPeriod
+      summary: Get the list of fiscalperiods
+      description: fiscalperiods
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: |
+          name of the FiscalPeriod
+        schema:
+          maxLength: 25
+          type: string
+      - name: financialYear
+        in: query
+        description: |
+          financial year of the FiscalPeriod
+        schema:
+          type: integer
+          format: int64
+      - name: startingDate
+        in: query
+        description: |
+          startingDate is the date on which period starts.
+        schema:
+          type: string
+          format: date
+      - name: endingDate
+        in: query
+        description: |
+          endingDate is the date on which period ends.
+        schema:
+          type: string
+          format: date
+      - name: active
+        in: query
+        description: |
+          active says whether fiscal period is active or not . Over a period system
+          will have number of fiscal period. Reports ,searches,transactions will
+          need to display this.If the active value is true then fiscal period is
+          listed, if value is false it wont be listed
+        schema:
+          type: boolean
+      - name: isActiveForPosting
+        in: query
+        description: |
+          isActiveForPosting refers whether posting allowed for the fiscal period
+          or not . This value will be true for current year and few previous year
+          for which data entry will be happening. Once the account is closed this
+          value is set to false . All transactions will happen if and only if
+          isActiveForPosting is true
+        schema:
+          type: boolean
+      - name: isClosed
+        in: query
+        description: |
+          isClosed refers whether the account is closed or not . Once the account
+          is closed and balance is transferred this value is set to false if the
+          account is closed no transaction can happen on that fiscal period.
+        schema:
+          type: boolean
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: FiscalPeriod retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FiscalPeriodResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /fiscalperiods/_create:
+    post:
+      tags:
+      - Master
+      - FiscalPeriod
+      summary: Create  new  fiscalperiods
+      description: Create  new fiscalperiods
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FiscalPeriodRequest'
+        required: false
+      responses:
+        201:
+          description: FiscalPeriod created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FiscalPeriodResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: fiscalPeriodRequest
+  /fiscalperiods/_update:
+    post:
+      tags:
+      - Master
+      - FiscalPeriod
+      summary: Update any of the fiscalperiods
+      description: Update any of the fiscalperiods
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FiscalPeriodRequest'
+        required: false
+      responses:
+        200:
+          description: FiscalPeriod updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FiscalPeriodResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: fiscalPeriodRequest
+  /functions/_search:
+    post:
+      tags:
+      - Master
+      - Function
+      summary: Get the list of functions
+      description: functions
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: |
+          name is the name of the function .
+        schema:
+          maxLength: 128
+          type: string
+      - name: code
+        in: query
+        description: |
+          code is a unique number given to each function . ULBs may refer this for
+          the short name.
+        schema:
+          maxLength: 16
+          type: string
+      - name: level
+        in: query
+        description: |
+          level identifies what is the level of the function in the tree structure.
+          Top most parent will have level 0 and its child will have level as 1
+        schema:
+          type: integer
+          format: int32
+      - name: active
+        in: query
+        description: |
+          active is a boolean value which says whether function is in use or not .
+          If Function is active, then accounting of transactions under the Function
+          is enabled. If Function becomes inactive, and no transactions can be
+          accounted under the Function. Only leaf function can be used in
+          transaction ie function which is not parent to any other function
+        schema:
+          type: boolean
+      - name: parentId
+        in: query
+        description: |
+          parent id of the Function
+        schema:
+          type: integer
+          format: int64
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Function retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FunctionResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /functions/_create:
+    post:
+      tags:
+      - Master
+      - Function
+      summary: Create  new  functions
+      description: Create  new functions
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FunctionRequest'
+        required: false
+      responses:
+        201:
+          description: Function created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FunctionResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: functionRequest
+  /functions/_update:
+    post:
+      tags:
+      - Master
+      - Function
+      summary: Update any of the functions
+      description: Update any of the functions
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FunctionRequest'
+        required: false
+      responses:
+        200:
+          description: Function updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FunctionResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: functionRequest
+  /functionaries/_search:
+    post:
+      tags:
+      - Master
+      - Functionary
+      summary: Get the list of functionaries
+      description: functionaries
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: code
+        in: query
+        description: |
+          code is uniue identifier and ULB may refer this for short name.
+        schema:
+          maxLength: 16
+          type: string
+      - name: name
+        in: query
+        description: |
+          name is the name of the functionary
+        schema:
+          maxLength: 256
+          type: string
+      - name: active
+        in: query
+        description: |
+          active states whether the functionary is active or not . Only active
+          functionaries will be used in transaction
+        schema:
+          type: boolean
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Functionary retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FunctionaryResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /functionaries/_create:
+    post:
+      tags:
+      - Master
+      - Functionary
+      summary: Create  new  functionaries
+      description: Create  new functionaries
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FunctionaryRequest'
+        required: false
+      responses:
+        201:
+          description: Functionary created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FunctionaryResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: functionaryRequest
+  /functionaries/_update:
+    post:
+      tags:
+      - Master
+      - Functionary
+      summary: Update any of the functionaries
+      description: Update any of the functionaries
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FunctionaryRequest'
+        required: false
+      responses:
+        200:
+          description: Functionary updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FunctionaryResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: functionaryRequest
+  /fundsources/_search:
+    post:
+      tags:
+      - Master
+      - Fundsource
+      summary: Get the list of fundsources
+      description: fundsources
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: code
+        in: query
+        description: |
+          code of the Fundsource
+        schema:
+          maxLength: 25
+          type: string
+      - name: name
+        in: query
+        description: |
+          name of the Fundsource
+        schema:
+          maxLength: 25
+          type: string
+      - name: type
+        in: query
+        description: |
+          type of the Fundsource
+        schema:
+          maxLength: 25
+          type: string
+      - name: parent
+        in: query
+        description: |
+          parent of the Fundsource
+        schema:
+          type: integer
+          format: int64
+      - name: llevel
+        in: query
+        description: |
+          llevel of the Fundsource
+        schema:
+          type: number
+          format: double
+      - name: active
+        in: query
+        description: |
+          Whether Fundsource is Active or not. If the value is TRUE, then Fundsource is active,If the value is FALSE then Fundsource is inactive,Default value is TRUE
+        schema:
+          type: boolean
+      - name: isParent
+        in: query
+        description: |
+          is parent of the Fundsource
+        schema:
+          type: boolean
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Fundsource retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FundsourceResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /fundsources/_create:
+    post:
+      tags:
+      - Master
+      - Fundsource
+      summary: Create  new  fundsources
+      description: Create  new fundsources
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FundsourceRequest'
+        required: false
+      responses:
+        201:
+          description: Fundsource created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FundsourceResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: fundsourceRequest
+  /fundsources/_update:
+    post:
+      tags:
+      - Master
+      - Fundsource
+      summary: Update any of the fundsources
+      description: Update any of the fundsources
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FundsourceRequest'
+        required: false
+      responses:
+        200:
+          description: Fundsource updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FundsourceResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: fundsourceRequest
+  /schemes/_search:
+    post:
+      tags:
+      - Master
+      - Scheme
+      summary: Get the list of schemes
+      description: schemes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: fund
+        in: query
+        description: |
+          fund of the Scheme
+        schema:
+          type: integer
+          format: int64
+      - name: code
+        in: query
+        description: |
+          code of the Scheme
+        schema:
+          maxLength: 25
+          type: string
+      - name: name
+        in: query
+        description: |
+          name of the Scheme
+        schema:
+          maxLength: 25
+          type: string
+      - name: validFrom
+        in: query
+        description: |
+          valid from of the Scheme
+        schema:
+          type: string
+          format: date
+      - name: validTo
+        in: query
+        description: |
+          valid to of the Scheme
+        schema:
+          type: string
+          format: date
+      - name: active
+        in: query
+        description: |
+          Whether Scheme is Active or not. If the value is TRUE, then Scheme is active,If the value is FALSE then Scheme is inactive,Default value is TRUE
+        schema:
+          type: boolean
+      - name: description
+        in: query
+        description: |
+          description of the Scheme
+        schema:
+          maxLength: 256
+          type: string
+      - name: boundary
+        in: query
+        description: |
+          boundary of the Scheme
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Scheme retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SchemeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /schemes/_create:
+    post:
+      tags:
+      - Master
+      - Scheme
+      summary: Create  new  schemes
+      description: Create  new schemes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SchemeRequest'
+        required: false
+      responses:
+        201:
+          description: Scheme created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SchemeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: schemeRequest
+  /schemes/_update:
+    post:
+      tags:
+      - Master
+      - Scheme
+      summary: Update any of the schemes
+      description: Update any of the schemes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SchemeRequest'
+        required: false
+      responses:
+        200:
+          description: Scheme updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SchemeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: schemeRequest
+  /banks/_search:
+    post:
+      tags:
+      - Master
+      - Bank
+      summary: Get the list of banks
+      description: banks
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: code
+        in: query
+        description: |
+          code is the code of the bank
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: |
+          name is the Bank Name .
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: |
+          description more detailed description of the bank
+        schema:
+          type: string
+      - name: active
+        in: query
+        description: |
+          active states whether the bank is active in the system or not .
+        schema:
+          type: boolean
+      - name: type
+        in: query
+        description: |
+          type of the Bank
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Bank retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /banks/_create:
+    post:
+      tags:
+      - Master
+      - Bank
+      summary: Create  new  banks
+      description: Create  new banks
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BankRequest'
+        required: false
+      responses:
+        201:
+          description: Bank created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: bankRequest
+  /banks/_update:
+    post:
+      tags:
+      - Master
+      - Bank
+      summary: Update any of the banks
+      description: Update any of the banks
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BankRequest'
+        required: false
+      responses:
+        200:
+          description: Bank updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: bankRequest
+  /bankbranches/_search:
+    post:
+      tags:
+      - Master
+      - BankBranch
+      summary: Get the list of bankbranches
+      description: bankbranches
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: bank
+        in: query
+        description: |
+          bank is the bank of the branch
+        schema:
+          type: integer
+          format: int64
+      - name: code
+        in: query
+        description: |
+          code is the branch code
+        schema:
+          maxLength: 50
+          type: string
+      - name: name
+        in: query
+        description: |
+          name is the branch name
+        schema:
+          maxLength: 50
+          type: string
+      - name: address
+        in: query
+        description: |
+          address2 is the secondary address of the branch
+        schema:
+          maxLength: 50
+          type: string
+      - name: address2
+        in: query
+        description: |
+          address2 of the BankBranch
+        schema:
+          maxLength: 50
+          type: string
+      - name: city
+        in: query
+        description: |
+          city is the name of the bank branches city
+        schema:
+          maxLength: 50
+          type: string
+      - name: state
+        in: query
+        description: |
+          state is the name of the state
+        schema:
+          maxLength: 50
+          type: string
+      - name: pincode
+        in: query
+        description: |
+          pincode is the pincode of the branch
+        schema:
+          maxLength: 50
+          type: string
+      - name: phone
+        in: query
+        description: |
+          phone is the phone number of the branch
+        schema:
+          maxLength: 15
+          type: string
+      - name: fax
+        in: query
+        description: |
+          fax is the fax number of the branch
+        schema:
+          maxLength: 15
+          type: string
+      - name: contactPerson
+        in: query
+        description: |
+          contactPerson is the name of the person in contact
+        schema:
+          maxLength: 50
+          type: string
+      - name: active
+        in: query
+        description: |
+          active states whether branch is active. i.e is usable by the system or not
+          if not active it cannot be used
+        schema:
+          type: boolean
+      - name: description
+        in: query
+        description: |
+          description is the more detailed description of the branch
+        schema:
+          maxLength: 256
+          type: string
+      - name: micr
+        in: query
+        description: |
+          micr is the micr code of the bank branch
+        schema:
+          maxLength: 50
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: BankBranch retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankBranchResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /bankbranches/_create:
+    post:
+      tags:
+      - Master
+      - BankBranch
+      summary: Create  new  bankbranches
+      description: Create  new bankbranches
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BankBranchRequest'
+        required: false
+      responses:
+        201:
+          description: BankBranch created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankBranchResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: bankBranchRequest
+  /bankbranches/_update:
+    post:
+      tags:
+      - Master
+      - BankBranch
+      summary: Update any of the bankbranches
+      description: Update any of the bankbranches
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BankBranchRequest'
+        required: false
+      responses:
+        200:
+          description: BankBranch updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankBranchResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: bankBranchRequest
+  /bankaccounts/_search:
+    post:
+      tags:
+      - Master
+      - BankAccount
+      summary: Get the list of bankaccounts
+      description: bankaccounts
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: bankBranch
+        in: query
+        description: |
+          bank branch of the BankAccount
+        schema:
+          type: integer
+          format: int64
+      - name: chartOfAccount
+        in: query
+        description: |
+          chart of account of the BankAccount
+        schema:
+          type: integer
+          format: int64
+      - name: fund
+        in: query
+        description: |
+          fund of the BankAccount
+        schema:
+          type: integer
+          format: int64
+      - name: accountNumber
+        in: query
+        description: |
+          account number of the BankAccount
+        schema:
+          maxLength: 25
+          type: string
+      - name: accountType
+        in: query
+        description: |
+          account type of the BankAccount
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: |
+          description of the BankAccount
+        schema:
+          maxLength: 256
+          type: string
+      - name: active
+        in: query
+        description: |
+          Whether BankAccount is Active or not. If the value is TRUE, then BankAccount is active,If the value is FALSE then BankAccount is inactive,Default value is TRUE
+        schema:
+          type: boolean
+      - name: payTo
+        in: query
+        description: |
+          pay to of the BankAccount
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: BankAccount retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankAccountResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /bankaccounts/_create:
+    post:
+      tags:
+      - Master
+      - BankAccount
+      summary: Create  new  bankaccounts
+      description: Create  new bankaccounts
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BankAccountRequest'
+        required: false
+      responses:
+        201:
+          description: BankAccount created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankAccountResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: bankAccountRequest
+  /bankaccounts/_update:
+    post:
+      tags:
+      - Master
+      - BankAccount
+      summary: Update any of the bankaccounts
+      description: Update any of the bankaccounts
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BankAccountRequest'
+        required: false
+      responses:
+        200:
+          description: BankAccount updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankAccountResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: bankAccountRequest
+  /subschemes/_search:
+    post:
+      tags:
+      - Master
+      - SubScheme
+      summary: Get the list of subschemes
+      description: subschemes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: scheme
+        in: query
+        description: |
+          scheme of the SubScheme
+        schema:
+          type: integer
+          format: int64
+      - name: code
+        in: query
+        description: |
+          code of the SubScheme
+        schema:
+          maxLength: 50
+          type: string
+      - name: name
+        in: query
+        description: |
+          name of the SubScheme
+        schema:
+          maxLength: 50
+          type: string
+      - name: validFrom
+        in: query
+        description: |
+          valid from of the SubScheme
+        schema:
+          type: string
+          format: date
+      - name: validTo
+        in: query
+        description: |
+          valid to of the SubScheme
+        schema:
+          type: string
+          format: date
+      - name: active
+        in: query
+        description: |
+          Whether SubScheme is Active or not. If the value is TRUE, then SubScheme is active,If the value is FALSE then SubScheme is inactive,Default value is TRUE
+        schema:
+          type: boolean
+      - name: departmentId
+        in: query
+        description: |
+          department id of the SubScheme
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: SubScheme retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubSchemeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /subschemes/_create:
+    post:
+      tags:
+      - Master
+      - SubScheme
+      summary: Create  new  subschemes
+      description: Create  new subschemes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SubSchemeRequest'
+        required: false
+      responses:
+        201:
+          description: SubScheme created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubSchemeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: subSchemeRequest
+  /subschemes/_update:
+    post:
+      tags:
+      - Master
+      - SubScheme
+      summary: Update any of the subschemes
+      description: Update any of the subschemes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SubSchemeRequest'
+        required: false
+      responses:
+        200:
+          description: SubScheme updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubSchemeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: subSchemeRequest
+  /suppliers/_search:
+    post:
+      tags:
+      - Master
+      - Supplier
+      summary: Get the list of suppliers
+      description: suppliers
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: code
+        in: query
+        description: |
+          code of the Supplier
+        schema:
+          maxLength: 50
+          type: string
+      - name: name
+        in: query
+        description: |
+          name of the Supplier
+        schema:
+          maxLength: 50
+          type: string
+      - name: address
+        in: query
+        description: |
+          address of the Supplier
+        schema:
+          maxLength: 300
+          type: string
+      - name: mobile
+        in: query
+        description: |
+          mobile of the Supplier
+        schema:
+          maxLength: 10
+          type: string
+      - name: email
+        in: query
+        description: |
+          email of the Supplier
+        schema:
+          maxLength: 25
+          type: string
+      - name: description
+        in: query
+        description: |
+          description of the Supplier
+        schema:
+          maxLength: 250
+          type: string
+      - name: active
+        in: query
+        description: |
+          Whether Supplier is Active or not. If the value is TRUE, then Supplier is active,If the value is FALSE then Supplier is inactive,Default value is TRUE
+        schema:
+          type: boolean
+      - name: panNo
+        in: query
+        description: |
+          pan no of the Supplier
+        schema:
+          maxLength: 10
+          type: string
+      - name: tinNo
+        in: query
+        description: |
+          tin no of the Supplier
+        schema:
+          maxLength: 20
+          type: string
+      - name: registationNo
+        in: query
+        description: |
+          registation no of the Supplier
+        schema:
+          maxLength: 25
+          type: string
+      - name: bankAccount
+        in: query
+        description: |
+          bank account of the Supplier
+        schema:
+          type: integer
+          format: int64
+      - name: ifscCode
+        in: query
+        description: |
+          ifsc code of the Supplier
+        schema:
+          maxLength: 12
+          type: string
+      - name: bank
+        in: query
+        description: |
+          bank of the Supplier
+        schema:
+          type: integer
+          format: int64
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Supplier retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /suppliers/_create:
+    post:
+      tags:
+      - Master
+      - Supplier
+      summary: Create  new  suppliers
+      description: Create  new suppliers
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SupplierRequest'
+        required: false
+      responses:
+        201:
+          description: Supplier created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: supplierRequest
+  /suppliers/_update:
+    post:
+      tags:
+      - Master
+      - Supplier
+      summary: Update any of the suppliers
+      description: Update any of the suppliers
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SupplierRequest'
+        required: false
+      responses:
+        200:
+          description: Supplier updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: supplierRequest
+  /accountdetailtypes/_search:
+    post:
+      tags:
+      - Master
+      - AccountDetailType
+      summary: Get the list of accountdetailtypes
+      description: accountdetailtypes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: |
+          name of the AccountDetailType
+        schema:
+          maxLength: 50
+          type: string
+      - name: description
+        in: query
+        description: |
+          description of the AccountDetailType
+        schema:
+          maxLength: 50
+          type: string
+      - name: tableName
+        in: query
+        description: |
+          table name of the AccountDetailType
+        schema:
+          maxLength: 25
+          type: string
+      - name: active
+        in: query
+        description: |
+          Whether AccountDetailType is Active or not. If the value is TRUE, then AccountDetailType is active,If the value is FALSE then AccountDetailType is inactive,Default value is TRUE
+        schema:
+          type: boolean
+      - name: fullyQualifiedName
+        in: query
+        description: |
+          fully qualified name of the AccountDetailType
+        schema:
+          maxLength: 250
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: AccountDetailType retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDetailTypeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /accountdetailtypes/_create:
+    post:
+      tags:
+      - Master
+      - AccountDetailType
+      summary: Create  new  accountdetailtypes
+      description: Create  new accountdetailtypes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AccountDetailTypeRequest'
+        required: false
+      responses:
+        201:
+          description: AccountDetailType created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDetailTypeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: accountDetailTypeRequest
+  /accountdetailtypes/_update:
+    post:
+      tags:
+      - Master
+      - AccountDetailType
+      summary: Update any of the accountdetailtypes
+      description: Update any of the accountdetailtypes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AccountDetailTypeRequest'
+        required: false
+      responses:
+        200:
+          description: AccountDetailType updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDetailTypeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: accountDetailTypeRequest
+  /accountdetailkeys/_search:
+    post:
+      tags:
+      - Master
+      - AccountDetailKey
+      summary: Get the list of accountdetailkeys
+      description: accountdetailkeys
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: key
+        in: query
+        description: |
+          key of the AccountDetailKey
+        schema:
+          type: string
+      - name: accountDetailType
+        in: query
+        description: |
+          account detail type of the AccountDetailKey
+        schema:
+          type: integer
+          format: int64
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: AccountDetailKey retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDetailKeyResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /accountdetailkeys/_create:
+    post:
+      tags:
+      - Master
+      - AccountDetailKey
+      summary: Create  new  accountdetailkeys
+      description: Create  new accountdetailkeys
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AccountDetailKeyRequest'
+        required: false
+      responses:
+        201:
+          description: AccountDetailKey created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDetailKeyResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: accountDetailKeyRequest
+  /accountdetailkeys/_update:
+    post:
+      tags:
+      - Master
+      - AccountDetailKey
+      summary: Update any of the accountdetailkeys
+      description: Update any of the accountdetailkeys
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AccountDetailKeyRequest'
+        required: false
+      responses:
+        200:
+          description: AccountDetailKey updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDetailKeyResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: accountDetailKeyRequest
+  /accountentities/_search:
+    post:
+      tags:
+      - Master
+      - AccountEntity
+      summary: Get the list of accountentities
+      description: accountentities
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: accountDetailType
+        in: query
+        description: |
+          account detail type of the AccountEntity
+        schema:
+          type: integer
+          format: int64
+      - name: code
+        in: query
+        description: |
+          code of the AccountEntity
+        schema:
+          maxLength: 25
+          type: string
+      - name: name
+        in: query
+        description: |
+          name of the AccountEntity
+        schema:
+          maxLength: 350
+          type: string
+      - name: active
+        in: query
+        description: |
+          Whether AccountEntity is Active or not. If the value is TRUE, then AccountEntity is active,If the value is FALSE then AccountEntity is inactive,Default value is TRUE
+        schema:
+          type: boolean
+      - name: description
+        in: query
+        description: |
+          description of the AccountEntity
+        schema:
+          maxLength: 256
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: AccountEntity retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountEntityResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /accountentities/_create:
+    post:
+      tags:
+      - Master
+      - AccountEntity
+      summary: Create  new  accountentities
+      description: Create  new accountentities
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AccountEntityRequest'
+        required: false
+      responses:
+        201:
+          description: AccountEntity created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountEntityResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: accountEntityRequest
+  /accountentities/_update:
+    post:
+      tags:
+      - Master
+      - AccountEntity
+      summary: Update any of the accountentities
+      description: Update any of the accountentities
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AccountEntityRequest'
+        required: false
+      responses:
+        200:
+          description: AccountEntity updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountEntityResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: accountEntityRequest
+  /accountcodepurposes/_search:
+    post:
+      tags:
+      - Master
+      - AccountCodePurpose
+      summary: Get the list of accountcodepurposes
+      description: accountcodepurposes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: |
+          name of the AccountCodePurpose
+        schema:
+          maxLength: 256
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: AccountCodePurpose retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountCodePurposeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /accountcodepurposes/_create:
+    post:
+      tags:
+      - Master
+      - AccountCodePurpose
+      summary: Create  new  accountcodepurposes
+      description: Create  new accountcodepurposes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AccountCodePurposeRequest'
+        required: false
+      responses:
+        201:
+          description: AccountCodePurpose created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountCodePurposeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: accountCodePurposeRequest
+  /accountcodepurposes/_update:
+    post:
+      tags:
+      - Master
+      - AccountCodePurpose
+      summary: Update any of the accountcodepurposes
+      description: Update any of the accountcodepurposes
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AccountCodePurposeRequest'
+        required: false
+      responses:
+        200:
+          description: AccountCodePurpose updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountCodePurposeResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: accountCodePurposeRequest
+  /chartofaccounts/_search:
+    post:
+      tags:
+      - Master
+      - ChartOfAccount
+      summary: Get the list of chartofaccounts
+      description: chartofaccounts
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: glcode
+        in: query
+        description: |
+          glcode is the Account Code or Account Head in Accounting terms.It may be
+          Major head,Minor head or Detailed head.It is numeric examples are
+          1,110,1101,1101001,2,210,21000,210010
+        schema:
+          maxLength: 16
+          type: string
+      - name: name
+        in: query
+        description: |
+          name is the name of the account code . for example 110 glcode has the
+          name "Tax Revenue"
+        schema:
+          maxLength: 128
+          type: string
+      - name: accountCodePurpose
+        in: query
+        description: |
+          accountCodePurpose is the mapped AccountCodePurpose . This mapping can
+          happen at any level say Major,minor or detailed. When Account code is
+          searched 1. If mapped at major code then it lists major and all other
+          codes under that major code 2. If mapped at minor code then it list minor
+          code and all other codes under that minor code 3. If mapped at detailed
+          code then it lists only that code
+        schema:
+          type: integer
+          format: int64
+      - name: description
+        in: query
+        description: |
+          description is the more detailed description about the account code
+        schema:
+          maxLength: 256
+          type: string
+      - name: isActiveForPosting
+        in: query
+        description: |
+          isActiveForPosting true will be considered for transactions. All
+          major,minor codes will be false and only detailed code will be true .
+          Further any account code can be disabled for transaction by making this
+          field false
+        schema:
+          type: boolean
+      - name: parentId
+        in: query
+        description: |
+          parentId is the id of other account code in the chart of account .Chart
+          of account is created in tree structure. Any code can have other code as
+          parent . All minor code will have manjor code as parent . All detailed
+          code will have minor code as parent only leaf account code that is which
+          is not parent for any account code will used for transactions.
+        schema:
+          type: integer
+          format: int64
+      - name: type
+        in: query
+        description: |
+          type is a single character representation of account code type I: Income
+          E: Expenditure L: Liability A: Asset Account code for all I start with 1
+          Account code for all E start with 2 Account code for all L start with 3
+          Account code for all A start with 4
+        schema:
+          type: string
+      - name: classification
+        in: query
+        description: |
+          classification is internal to the system. This tells whether the code is
+          Major ,Minor,Subminor or detailed. Major code classification value is 1
+          Minor code is 2 Subminor code is 3 Detailed code is 4. Only
+          classification 4 and is activeforposting=true will be used in
+          transactions. Reports can be generated at any level.
+        schema:
+          type: integer
+          format: int64
+      - name: functionRequired
+        in: query
+        description: |
+          functionRequired field specifies while transacting with this accountcode
+          is the function is mandatory or not . For any account code this field is
+          set to true then all transactions expect a fun=ction code to be passed
+          along with account code
+        schema:
+          type: boolean
+      - name: budgetCheckRequired
+        in: query
+        description: |
+          budgetCheckRequired field specifies whether budgeting check required for
+          this account code. Apart from global Budgetcheck configuration this is
+          where glcode wise budget check decision is made.
+        schema:
+          type: boolean
+      - name: majorCode
+        in: query
+        description: |
+          major code of the ChartOfAccount
+        schema:
+          maxLength: 16
+          type: string
+      - name: isSubLedger
+        in: query
+        description: |
+          is sub ledger of the ChartOfAccount
+        schema:
+          type: boolean
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: ChartOfAccount retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChartOfAccountResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /chartofaccounts/_create:
+    post:
+      tags:
+      - Master
+      - ChartOfAccount
+      summary: Create  new  chartofaccounts
+      description: Create  new chartofaccounts
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ChartOfAccountRequest'
+        required: false
+      responses:
+        201:
+          description: ChartOfAccount created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChartOfAccountResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: chartOfAccountRequest
+  /chartofaccounts/_update:
+    post:
+      tags:
+      - Master
+      - ChartOfAccount
+      summary: Update any of the chartofaccounts
+      description: Update any of the chartofaccounts
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ChartOfAccountRequest'
+        required: false
+      responses:
+        200:
+          description: ChartOfAccount updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChartOfAccountResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: chartOfAccountRequest
+  /chartofaccountdetails/_search:
+    post:
+      tags:
+      - Master
+      - ChartOfAccountDetail
+      summary: Get the list of chartofaccountdetails
+      description: chartofaccountdetails
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: chartOfAccount
+        in: query
+        description: |
+          chart of account of the ChartOfAccountDetail
+        schema:
+          type: integer
+          format: int64
+      - name: accountDetailType
+        in: query
+        description: |
+          account detail type of the ChartOfAccountDetail
+        schema:
+          type: integer
+          format: int64
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: ChartOfAccountDetail retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChartOfAccountDetailResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /chartofaccountdetails/_create:
+    post:
+      tags:
+      - Master
+      - ChartOfAccountDetail
+      summary: Create  new  chartofaccountdetails
+      description: Create  new chartofaccountdetails
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ChartOfAccountDetailRequest'
+        required: false
+      responses:
+        201:
+          description: ChartOfAccountDetail created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChartOfAccountDetailResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: chartOfAccountDetailRequest
+  /chartofaccountdetails/_update:
+    post:
+      tags:
+      - Master
+      - ChartOfAccountDetail
+      summary: Update any of the chartofaccountdetails
+      description: Update any of the chartofaccountdetails
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ChartOfAccountDetailRequest'
+        required: false
+      responses:
+        200:
+          description: ChartOfAccountDetail updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChartOfAccountDetailResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: chartOfAccountDetailRequest
+  /budgetgroups/_search:
+    post:
+      tags:
+      - Master
+      - BudgetGroup
+      summary: Get the list of budgetgroups
+      description: budgetgroups
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: |
+          name of the BudgetGroup
+        schema:
+          maxLength: 250
+          type: string
+      - name: description
+        in: query
+        description: |
+          description of the BudgetGroup
+        schema:
+          maxLength: 250
+          type: string
+      - name: majorCode
+        in: query
+        description: |
+          major code of the BudgetGroup
+        schema:
+          type: integer
+          format: int64
+      - name: maxCode
+        in: query
+        description: |
+          max code of the BudgetGroup
+        schema:
+          type: integer
+          format: int64
+      - name: minCode
+        in: query
+        description: |
+          min code of the BudgetGroup
+        schema:
+          type: integer
+          format: int64
+      - name: active
+        in: query
+        description: |
+          Whether BudgetGroup is Active or not. If the value is TRUE, then BudgetGroup is active,If the value is FALSE then BudgetGroup is inactive,Default value is TRUE
+        schema:
+          type: boolean
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: BudgetGroup retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BudgetGroupResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /budgetgroups/_create:
+    post:
+      tags:
+      - Master
+      - BudgetGroup
+      summary: Create  new  budgetgroups
+      description: Create  new budgetgroups
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BudgetGroupRequest'
+        required: false
+      responses:
+        201:
+          description: BudgetGroup created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BudgetGroupResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: budgetGroupRequest
+  /budgetgroups/_update:
+    post:
+      tags:
+      - Master
+      - BudgetGroup
+      summary: Update any of the budgetgroups
+      description: Update any of the budgetgroups
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BudgetGroupRequest'
+        required: false
+      responses:
+        200:
+          description: BudgetGroup updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BudgetGroupResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: budgetGroupRequest
+  /financialstatuses/_search:
+    post:
+      tags:
+      - Master
+      - FinancialStatus
+      summary: Get the list of financialstatuses
+      description: financialstatuses
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: moduleType
+        in: query
+        description: |
+          module type of the FinancialStatus
+        schema:
+          type: string
+      - name: code
+        in: query
+        description: |
+          code of the FinancialStatus
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: |
+          name of the FinancialStatus
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: |
+          description of the FinancialStatus
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: FinancialStatus retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialStatusResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /financialstatuses/_create:
+    post:
+      tags:
+      - Master
+      - FinancialStatus
+      summary: Create  new  financialstatuses
+      description: Create  new financialstatuses
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FinancialStatusRequest'
+        required: false
+      responses:
+        201:
+          description: FinancialStatus created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialStatusResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: financialStatusRequest
+  /financialstatuses/_update:
+    post:
+      tags:
+      - Master
+      - FinancialStatus
+      summary: Update any of the financialstatuses
+      description: Update any of the financialstatuses
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FinancialStatusRequest'
+        required: false
+      responses:
+        200:
+          description: FinancialStatus updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialStatusResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: financialStatusRequest
+  /financialconfigurations/_search:
+    post:
+      tags:
+      - Master
+      - FinancialConfiguration
+      summary: Get the list of financialconfigurations
+      description: financialconfigurations
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: ids
+        in: query
+        description: comma seperated list of Ids
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: |
+          name of the FinancialConfiguration
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: |
+          description of the FinancialConfiguration
+        schema:
+          type: string
+      - name: module
+        in: query
+        description: |
+          module of the FinancialConfiguration
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: pageSize
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: offset
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: "This takes any field from the Object seperated by comma and\
+          \ asc,desc keywords.  \nexample name asc,code desc or name,code or name,code\
+          \ desc \n"
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: FinancialConfiguration retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialConfigurationResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /financialconfigurations/_create:
+    post:
+      tags:
+      - Master
+      - FinancialConfiguration
+      summary: Create  new  financialconfigurations
+      description: Create  new financialconfigurations
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: Create  new
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FinancialConfigurationRequest'
+        required: false
+      responses:
+        201:
+          description: FinancialConfiguration created Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialConfigurationResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: financialConfigurationRequest
+  /financialconfigurations/_update:
+    post:
+      tags:
+      - Master
+      - FinancialConfiguration
+      summary: Update any of the financialconfigurations
+      description: Update any of the financialconfigurations
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      requestBody:
+        description: common Request info
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/FinancialConfigurationRequest'
+        required: false
+      responses:
+        200:
+          description: FinancialConfiguration updated Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FinancialConfigurationResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: financialConfigurationRequest
+components:
+  schemas:
+    Auditable:
+      type: object
+      properties:
+        tenantId:
+          maxLength: 50
+          minLength: 5
+          type: string
+          description: |
+            tenantId Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+            represents the client for which the transaction is created.
+        createdBy:
+          $ref: '#/components/schemas/User'
+        lastModifiedBy:
+          $ref: '#/components/schemas/User'
+        createdDate:
+          type: string
+          description: ""
+          format: date
+        lastModifiedDate:
+          type: string
+          description: |
+            lastModifiedDate date is on which trnasaction is updated lastly
+          format: date
+    Page:
+      type: object
+      properties:
+        totalResults:
+          type: integer
+          description: total results of the Pagination
+          format: int32
+        totalPages:
+          type: integer
+          description: total pages of the Pagination
+          format: int32
+        pageSize:
+          type: integer
+          description: Number of records in a per page in  the Pagination, Default
+            value is 20
+          format: int32
+        currentPage:
+          type: integer
+          description: current page of the Pagination
+          format: int32
+        offSet:
+          type: integer
+          description: page number of the Pagination, Default value is 0
+          format: int32
+    Fund:
+      required:
+      - active
+      - code
+      - identifier
+      - level
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            identifier appears as prefix in all the vouchers accounted in the books
+            of the Fund. Each fund must have an identifier – each voucher belonging
+            to a fund must have the identifier embedded in the voucher number for
+            easy identification. Fund is taken at a voucher head level for each
+            voucher transaction.
+        name:
+          maxLength: 50
+          minLength: 2
+          type: string
+          description: |
+            name is the name of the fund . Example :Municipal Fund,Capital Fund. Also
+            name is unique.
+        code:
+          maxLength: 50
+          minLength: 2
+          type: string
+          description: |
+            code is a unique number given to each fund . ULB may refer this for the
+            short name
+        identifier:
+          type: string
+          description: |
+            identifier of the Fund
+        parent:
+          type: integer
+          description: |
+            parent adding a parent will create the fund as a sub-fund (child) of a
+            fund already created (parent fund).
+          format: int64
+        active:
+          type: boolean
+          description: |
+            active is a boolean value which says whether fund is in use or not . If
+            Fund is active, then accounting of transactions under the fund is
+            enabled. If Fund becomes inactive, and no transactions can be accounted
+            under the Fund.
+        isParent:
+          type: boolean
+          description: |
+            isParent is updated internally so that system can identify whether the
+            fund is parent or child. Only child which is not parent for any other
+            fund can only participate in transaction .
+        level:
+          type: integer
+          description: |
+            level identifies what is the level of the fund in the tree structure. Top
+            most parent will have level 0 and its child will have level as 1
+          format: int64
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: |
+        Fund is a defining concept in municipal accounting – where it is required to
+        segregate all accounting transactions into designated funds. Each fund needs
+        to be treated as an independent accounting entity – in other words, all
+        vouchers within a fund must be self-balancing and balance sheets and
+        IncomeExpenditure reports must be generated for each fund. A hierarchy of
+        funds may be defined – i.e. each fund can have multiple sub-funds and so on.
+    FundRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        funds:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Fund'
+      description: Contract class for web request. Array of Fund items  are used in
+        case of create or update
+    FundResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        funds:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Fund'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of Fund items  are used
+        in case of search ,create or update request.
+    FinancialYear:
+      required:
+      - active
+      - endingDate
+      - finYearRange
+      - isActiveForPosting
+      - startingDate
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id is the unique identifier. it is generated internally
+        finYearRange:
+          maxLength: 25
+          minLength: 1
+          type: string
+          description: |
+            finYearRange is the name of the Financial Year . for example for
+            accounting year 2017 and 2018 it may be named 2017-18
+        startingDate:
+          type: string
+          description: |
+            startingDate is the date on which Accounting Year starts. Usually it is
+            1st April of that year.
+          format: date
+        endingDate:
+          type: string
+          description: |
+            endingDate is the date on which Financial Year ends. Usually it is 31st
+            march of next year
+          format: date
+        active:
+          type: boolean
+          description: |
+            active says whether Financial Year is active or not . Over a period
+            system will have number of Financial years. Reports
+            ,searches,transactions will need to display this.If the active value is
+            true then Financial Year is listed, if value is false it wont be listed
+        isActiveForPosting:
+          type: boolean
+          description: |
+            isActiveForPosting refers whether posting allowed for the Financial Year
+            or not . This value will be true for current year and few previous year
+            for which data entry will be happening. Once the account is closed this
+            value is set to false . All transactions will happen if and only if
+            isActiveForPosting is true
+        isClosed:
+          type: boolean
+          description: |
+            isClosed refers whether the account is closed or not . Once the account
+            is closed and balance is transferred this value is set to false if the
+            account is closed no transaction can happen on that financial year.
+        transferClosingBalance:
+          type: boolean
+          description: |
+            transferClosingBalance informs whether While closing account balance is
+            transferred or not .
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    FinancialYearRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        financialYears:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/FinancialYear'
+      description: Contract class for web request. Array of FinancialYear items  are
+        used in case of create or update
+    FinancialYearResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        financialYears:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/FinancialYear'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of FinancialYear items  are
+        used in case of search ,create or update request.
+    FiscalPeriod:
+      required:
+      - active
+      - endingDate
+      - financialYear
+      - isActiveForPosting
+      - name
+      - startingDate
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id is the unique identifier. it is generated internally
+        name:
+          maxLength: 25
+          minLength: 1
+          type: string
+          description: |
+            name of the FiscalPeriod
+        financialYear:
+          $ref: '#/components/schemas/FinancialYear'
+        startingDate:
+          type: string
+          description: |
+            startingDate is the date on which period starts.
+          format: date
+        endingDate:
+          type: string
+          description: |
+            endingDate is the date on which period ends.
+          format: date
+        active:
+          type: boolean
+          description: |
+            active says whether fiscal period is active or not . Over a period system
+            will have number of fiscal period. Reports ,searches,transactions will
+            need to display this.If the active value is true then fiscal period is
+            listed, if value is false it wont be listed
+        isActiveForPosting:
+          type: boolean
+          description: |
+            isActiveForPosting refers whether posting allowed for the fiscal period
+            or not . This value will be true for current year and few previous year
+            for which data entry will be happening. Once the account is closed this
+            value is set to false . All transactions will happen if and only if
+            isActiveForPosting is true
+        isClosed:
+          type: boolean
+          description: |
+            isClosed refers whether the account is closed or not . Once the account
+            is closed and balance is transferred this value is set to false if the
+            account is closed no transaction can happen on that fiscal period.
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    FiscalPeriodRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        fiscalPeriods:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/FiscalPeriod'
+      description: Contract class for web request. Array of FiscalPeriod items  are
+        used in case of create or update
+    FiscalPeriodResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        fiscalPeriods:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/FiscalPeriod'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of FiscalPeriod items  are
+        used in case of search ,create or update request.
+    Function:
+      required:
+      - active
+      - code
+      - level
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id is the unique identifier .
+        name:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: |
+            name is the name of the function .
+        code:
+          maxLength: 16
+          minLength: 2
+          type: string
+          description: |
+            code is a unique number given to each function . ULBs may refer this for
+            the short name.
+        level:
+          type: integer
+          description: |
+            level identifies what is the level of the function in the tree structure.
+            Top most parent will have level 0 and its child will have level as 1
+          format: int32
+        active:
+          type: boolean
+          description: |
+            active is a boolean value which says whether function is in use or not .
+            If Function is active, then accounting of transactions under the Function
+            is enabled. If Function becomes inactive, and no transactions can be
+            accounted under the Function. Only leaf function can be used in
+            transaction ie function which is not parent to any other function
+        parentId:
+          type: integer
+          description: |
+            parent id of the Function
+          format: int64
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    FunctionRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        functions:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Function'
+      description: Contract class for web request. Array of Function items  are used
+        in case of create or update
+    FunctionResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        functions:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Function'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of Function items  are used
+        in case of search ,create or update request.
+    Functionary:
+      required:
+      - active
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id is the unique identifier and it is generated internally
+        code:
+          maxLength: 16
+          minLength: 1
+          type: string
+          description: |
+            code is uniue identifier and ULB may refer this for short name.
+        name:
+          maxLength: 256
+          minLength: 1
+          type: string
+          description: |
+            name is the name of the functionary
+        active:
+          type: boolean
+          description: |
+            active states whether the functionary is active or not . Only active
+            functionaries will be used in transaction
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: |
+        Functionary is considered as another cost center. In the government set-up,
+        demands for expenditure are drawn by the department discharging the functions
+        and become the responsibility center for the assigned functions. Functionary
+        group represents this. Each sub-level within this group typically can
+        represent the organisational structure within the ULB. This level is used
+        only for the internal control of the ULB.
+    FunctionaryRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        functionaries:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Functionary'
+      description: Contract class for web request. Array of Functionary items  are
+        used in case of create or update
+    FunctionaryResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        functionaries:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Functionary'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of Functionary items  are
+        used in case of search ,create or update request.
+    Fundsource:
+      required:
+      - active
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the Fundsource
+        code:
+          maxLength: 25
+          minLength: 1
+          type: string
+          description: |
+            code of the Fundsource
+        name:
+          maxLength: 25
+          minLength: 1
+          type: string
+          description: |
+            name of the Fundsource
+        type:
+          maxLength: 25
+          minLength: 1
+          type: string
+          description: |
+            type of the Fundsource
+        parent:
+          type: integer
+          description: |
+            parent of the Fundsource
+          format: int64
+        llevel:
+          type: number
+          description: |
+            llevel of the Fundsource
+          format: double
+        active:
+          type: boolean
+          description: |
+            Whether Fundsource is Active or not. If the value is TRUE, then Fundsource is active,If the value is FALSE then Fundsource is inactive,Default value is TRUE
+        isParent:
+          type: boolean
+          description: |
+            is parent of the Fundsource
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    FundsourceRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        fundsources:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Fundsource'
+      description: Contract class for web request. Array of Fundsource items  are
+        used in case of create or update
+    FundsourceResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        fundsources:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Fundsource'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of Fundsource items  are
+        used in case of search ,create or update request.
+    Scheme:
+      required:
+      - active
+      - validFrom
+      - validTo
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the Scheme
+        fund:
+          $ref: '#/components/schemas/Fund'
+        code:
+          maxLength: 25
+          minLength: 1
+          type: string
+          description: |
+            code of the Scheme
+        name:
+          maxLength: 25
+          minLength: 1
+          type: string
+          description: |
+            name of the Scheme
+        validFrom:
+          type: string
+          description: |
+            valid from of the Scheme
+          format: date
+        validTo:
+          type: string
+          description: |
+            valid to of the Scheme
+          format: date
+        active:
+          type: boolean
+          description: |
+            Whether Scheme is Active or not. If the value is TRUE, then Scheme is active,If the value is FALSE then Scheme is inactive,Default value is TRUE
+        description:
+          maxLength: 256
+          type: string
+          description: |
+            description of the Scheme
+        boundary:
+          type: string
+          description: |
+            boundary of the Scheme
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    SchemeRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        schemes:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Scheme'
+      description: Contract class for web request. Array of Scheme items  are used
+        in case of create or update
+    SchemeResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        schemes:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Scheme'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of Scheme items  are used
+        in case of search ,create or update request.
+    Bank:
+      required:
+      - active
+      - code
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id is unique identifier . It is generated internally
+        code:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            code is the code of the bank
+        name:
+          maxLength: 100
+          minLength: 2
+          type: string
+          description: |
+            name is the Bank Name .
+        description:
+          maxLength: 250
+          type: string
+          description: |
+            description more detailed description of the bank
+        active:
+          type: boolean
+          description: |
+            active states whether the bank is active in the system or not .
+        type:
+          maxLength: 50
+          type: string
+          description: |
+            type of the Bank
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    BankRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        banks:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Bank'
+      description: Contract class for web request. Array of Bank items  are used in
+        case of create or update
+    BankResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        banks:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Bank'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of Bank items  are used
+        in case of search ,create or update request.
+    BankBranch:
+      required:
+      - active
+      - address
+      - bank
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id is the unique identifier
+        bank:
+          $ref: '#/components/schemas/Bank'
+        code:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            code is the branch code
+        name:
+          maxLength: 50
+          minLength: 1
+          pattern: ^[a-zA-Z0-9_]*$
+          type: string
+          description: |
+            name is the branch name
+        address:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            address2 is the secondary address of the branch
+        address2:
+          maxLength: 50
+          type: string
+          description: |
+            address2 of the BankBranch
+        city:
+          maxLength: 50
+          type: string
+          description: |
+            city is the name of the bank branches city
+        state:
+          maxLength: 50
+          type: string
+          description: |
+            state is the name of the state
+        pincode:
+          maxLength: 50
+          type: string
+          description: |
+            pincode is the pincode of the branch
+        phone:
+          maxLength: 15
+          type: string
+          description: |
+            phone is the phone number of the branch
+        fax:
+          maxLength: 15
+          type: string
+          description: |
+            fax is the fax number of the branch
+        contactPerson:
+          maxLength: 50
+          type: string
+          description: |
+            contactPerson is the name of the person in contact
+        active:
+          type: boolean
+          description: |
+            active states whether branch is active. i.e is usable by the system or not
+            if not active it cannot be used
+        description:
+          maxLength: 256
+          type: string
+          description: |
+            description is the more detailed description of the branch
+        micr:
+          maxLength: 50
+          type: string
+          description: |
+            micr is the micr code of the bank branch
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    BankBranchRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        bankBranches:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/BankBranch'
+      description: Contract class for web request. Array of BankBranch items  are
+        used in case of create or update
+    BankBranchResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        bankBranches:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/BankBranch'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of BankBranch items  are
+        used in case of search ,create or update request.
+    BankAccount:
+      required:
+      - accountNumber
+      - active
+      - bankBranch
+      - chartOfAccount
+      - fund
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the BankAccount
+        bankBranch:
+          $ref: '#/components/schemas/BankBranch'
+        chartOfAccount:
+          $ref: '#/components/schemas/ChartOfAccount'
+        fund:
+          $ref: '#/components/schemas/Fund'
+        accountNumber:
+          maxLength: 25
+          type: string
+          description: |
+            account number of the BankAccount
+        accountType:
+          type: string
+          description: |
+            account type of the BankAccount
+        description:
+          maxLength: 256
+          type: string
+          description: |
+            description of the BankAccount
+        active:
+          type: boolean
+          description: |
+            Whether BankAccount is Active or not. If the value is TRUE, then BankAccount is active,If the value is FALSE then BankAccount is inactive,Default value is TRUE
+        payTo:
+          maxLength: 100
+          type: string
+          description: |
+            pay to of the BankAccount
+        type:
+          type: string
+          description: |
+            type of the BankAccount
+          enum:
+          - RECEIPTS
+          - PAYMENTS
+          - RECEIPTS_PAYMENTS
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    BankAccountRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        bankAccounts:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/BankAccount'
+      description: Contract class for web request. Array of BankAccount items  are
+        used in case of create or update
+    BankAccountResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        bankAccounts:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/BankAccount'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of BankAccount items  are
+        used in case of search ,create or update request.
+    SubScheme:
+      required:
+      - active
+      - code
+      - name
+      - scheme
+      - validFrom
+      - validTo
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the SubScheme
+        scheme:
+          $ref: '#/components/schemas/Scheme'
+        code:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            code of the SubScheme
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            name of the SubScheme
+        validFrom:
+          type: string
+          description: |
+            valid from of the SubScheme
+          format: date
+        validTo:
+          type: string
+          description: |
+            valid to of the SubScheme
+          format: date
+        active:
+          type: boolean
+          description: |
+            Whether SubScheme is Active or not. If the value is TRUE, then SubScheme is active,If the value is FALSE then SubScheme is inactive,Default value is TRUE
+        departmentId:
+          type: string
+          description: |
+            department id of the SubScheme
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    SubSchemeRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        subSchemes:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/SubScheme'
+      description: Contract class for web request. Array of SubScheme items  are used
+        in case of create or update
+    SubSchemeResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        subSchemes:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/SubScheme'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of SubScheme items  are
+        used in case of search ,create or update request.
+    Supplier:
+      required:
+      - active
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the Supplier
+        code:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            code of the Supplier
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            name of the Supplier
+        address:
+          maxLength: 300
+          type: string
+          description: |
+            address of the Supplier
+        mobile:
+          maxLength: 10
+          type: string
+          description: |
+            mobile of the Supplier
+        email:
+          maxLength: 25
+          type: string
+          description: |
+            email of the Supplier
+        description:
+          maxLength: 250
+          type: string
+          description: |
+            description of the Supplier
+        active:
+          type: boolean
+          description: |
+            Whether Supplier is Active or not. If the value is TRUE, then Supplier is active,If the value is FALSE then Supplier is inactive,Default value is TRUE
+        panNo:
+          maxLength: 10
+          type: string
+          description: |
+            pan no of the Supplier
+        tinNo:
+          maxLength: 20
+          type: string
+          description: |
+            tin no of the Supplier
+        registationNo:
+          maxLength: 25
+          type: string
+          description: |
+            registation no of the Supplier
+        bankAccount:
+          $ref: '#/components/schemas/BankAccount'
+        ifscCode:
+          maxLength: 12
+          type: string
+          description: |
+            ifsc code of the Supplier
+        bank:
+          $ref: '#/components/schemas/Bank'
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    SupplierRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        suppliers:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Supplier'
+      description: Contract class for web request. Array of Supplier items  are used
+        in case of create or update
+    SupplierResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        suppliers:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/Supplier'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of Supplier items  are used
+        in case of search ,create or update request.
+    AccountDetailType:
+      required:
+      - active
+      - description
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the AccountDetailType
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            name of the AccountDetailType
+        description:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: |
+            description of the AccountDetailType
+        tableName:
+          maxLength: 25
+          type: string
+          description: |
+            table name of the AccountDetailType
+        active:
+          type: boolean
+          description: |
+            Whether AccountDetailType is Active or not. If the value is TRUE, then AccountDetailType is active,If the value is FALSE then AccountDetailType is inactive,Default value is TRUE
+        fullyQualifiedName:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: |
+            fully qualified name of the AccountDetailType
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    AccountDetailTypeRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        accountDetailTypes:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/AccountDetailType'
+      description: Contract class for web request. Array of AccountDetailType items  are
+        used in case of create or update
+    AccountDetailTypeResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        accountDetailTypes:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/AccountDetailType'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of AccountDetailType items  are
+        used in case of search ,create or update request.
+    AccountDetailKey:
+      required:
+      - accountDetailType
+      - key
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the AccountDetailKey
+        key:
+          type: string
+          description: |
+            key of the AccountDetailKey
+        accountDetailType:
+          $ref: '#/components/schemas/AccountDetailType'
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    AccountDetailKeyRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        accountDetailKeys:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/AccountDetailKey'
+      description: Contract class for web request. Array of AccountDetailKey items  are
+        used in case of create or update
+    AccountDetailKeyResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        accountDetailKeys:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/AccountDetailKey'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of AccountDetailKey items  are
+        used in case of search ,create or update request.
+    AccountEntity:
+      required:
+      - accountDetailType
+      - active
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the AccountEntity
+        accountDetailType:
+          $ref: '#/components/schemas/AccountDetailType'
+        code:
+          maxLength: 25
+          minLength: 1
+          type: string
+          description: |
+            code of the AccountEntity
+        name:
+          maxLength: 350
+          minLength: 1
+          type: string
+          description: |
+            name of the AccountEntity
+        active:
+          type: boolean
+          description: |
+            Whether AccountEntity is Active or not. If the value is TRUE, then AccountEntity is active,If the value is FALSE then AccountEntity is inactive,Default value is TRUE
+        description:
+          maxLength: 256
+          type: string
+          description: |
+            description of the AccountEntity
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    AccountEntityRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        accountEntities:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/AccountEntity'
+      description: Contract class for web request. Array of AccountEntity items  are
+        used in case of create or update
+    AccountEntityResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        accountEntities:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/AccountEntity'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of AccountEntity items  are
+        used in case of search ,create or update request.
+    AccountCodePurpose:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the AccountCodePurpose
+        name:
+          maxLength: 256
+          minLength: 3
+          type: string
+          description: |
+            name of the AccountCodePurpose
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    AccountCodePurposeRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        accountCodePurposes:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/AccountCodePurpose'
+      description: Contract class for web request. Array of AccountCodePurpose items  are
+        used in case of create or update
+    AccountCodePurposeResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        accountCodePurposes:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/AccountCodePurpose'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of AccountCodePurpose items  are
+        used in case of search ,create or update request.
+    ChartOfAccount:
+      required:
+      - budgetCheckRequired
+      - classification
+      - functionRequired
+      - glcode
+      - isActiveForPosting
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            id is the Unique Identifier . This data is generated internally
+        glcode:
+          maxLength: 16
+          minLength: 1
+          type: string
+          description: |
+            glcode is the Account Code or Account Head in Accounting terms.It may be
+            Major head,Minor head or Detailed head.It is numeric examples are
+            1,110,1101,1101001,2,210,21000,210010
+        name:
+          maxLength: 128
+          minLength: 5
+          type: string
+          description: |
+            name is the name of the account code . for example 110 glcode has the
+            name "Tax Revenue"
+        accountCodePurpose:
+          $ref: '#/components/schemas/AccountCodePurpose'
+        description:
+          maxLength: 256
+          type: string
+          description: |
+            description is the more detailed description about the account code
+        isActiveForPosting:
+          type: boolean
+          description: |
+            isActiveForPosting true will be considered for transactions. All
+            major,minor codes will be false and only detailed code will be true .
+            Further any account code can be disabled for transaction by making this
+            field false
+        parentId:
+          type: integer
+          description: |
+            parentId is the id of other account code in the chart of account .Chart
+            of account is created in tree structure. Any code can have other code as
+            parent . All minor code will have manjor code as parent . All detailed
+            code will have minor code as parent only leaf account code that is which
+            is not parent for any account code will used for transactions.
+          format: int64
+        type:
+          type: string
+          description: |
+            type is a single character representation of account code type I: Income
+            E: Expenditure L: Liability A: Asset Account code for all I start with 1
+            Account code for all E start with 2 Account code for all L start with 3
+            Account code for all A start with 4
+        classification:
+          type: integer
+          description: |
+            classification is internal to the system. This tells whether the code is
+            Major ,Minor,Subminor or detailed. Major code classification value is 1
+            Minor code is 2 Subminor code is 3 Detailed code is 4. Only
+            classification 4 and is activeforposting=true will be used in
+            transactions. Reports can be generated at any level.
+          format: int64
+        functionRequired:
+          type: boolean
+          description: |
+            functionRequired field specifies while transacting with this accountcode
+            is the function is mandatory or not . For any account code this field is
+            set to true then all transactions expect a fun=ction code to be passed
+            along with account code
+        budgetCheckRequired:
+          type: boolean
+          description: |
+            budgetCheckRequired field specifies whether budgeting check required for
+            this account code. Apart from global Budgetcheck configuration this is
+            where glcode wise budget check decision is made.
+        majorCode:
+          maxLength: 16
+          type: string
+          description: |
+            major code of the ChartOfAccount
+        isSubLedger:
+          type: boolean
+          description: |
+            is sub ledger of the ChartOfAccount
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    ChartOfAccountRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        chartOfAccounts:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/ChartOfAccount'
+      description: Contract class for web request. Array of ChartOfAccount items  are
+        used in case of create or update
+    ChartOfAccountResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        chartOfAccounts:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/ChartOfAccount'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of ChartOfAccount items  are
+        used in case of search ,create or update request.
+    ChartOfAccountDetail:
+      required:
+      - accountDetailType
+      - chartOfAccount
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the ChartOfAccountDetail
+        chartOfAccount:
+          $ref: '#/components/schemas/ChartOfAccount'
+        accountDetailType:
+          $ref: '#/components/schemas/AccountDetailType'
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    ChartOfAccountDetailRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        chartOfAccountDetails:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/ChartOfAccountDetail'
+      description: Contract class for web request. Array of ChartOfAccountDetail items  are
+        used in case of create or update
+    ChartOfAccountDetailResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        chartOfAccountDetails:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/ChartOfAccountDetail'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of ChartOfAccountDetail
+        items  are used in case of search ,create or update request.
+    BudgetGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the BudgetGroup
+        name:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: |
+            name of the BudgetGroup
+        description:
+          maxLength: 250
+          type: string
+          description: |
+            description of the BudgetGroup
+        majorCode:
+          $ref: '#/components/schemas/ChartOfAccount'
+        maxCode:
+          $ref: '#/components/schemas/ChartOfAccount'
+        minCode:
+          $ref: '#/components/schemas/ChartOfAccount'
+        accountType:
+          type: string
+          description: |
+            account type of the BudgetGroup
+          enum:
+          - REVENUE_RECEIPTS
+          - REVENUE_EXPENDITURE
+          - CAPITAL_RECEIPTS
+          - CAPITAL_EXPENDITURE
+        budgetingType:
+          type: string
+          description: |
+            budgeting type of the BudgetGroup
+          enum:
+          - ALL
+          - DEBIT
+          - CREDIT
+        active:
+          type: boolean
+          description: |
+            Whether BudgetGroup is Active or not. If the value is TRUE, then BudgetGroup is active,If the value is FALSE then BudgetGroup is inactive,Default value is TRUE
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    BudgetGroupRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        budgetGroups:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/BudgetGroup'
+      description: Contract class for web request. Array of BudgetGroup items  are
+        used in case of create or update
+    BudgetGroupResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        budgetGroups:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/BudgetGroup'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of BudgetGroup items  are
+        used in case of search ,create or update request.
+    FinancialStatus:
+      required:
+      - code
+      - description
+      - moduleType
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the FinancialStatus
+        moduleType:
+          maxLength: 50
+          minLength: 3
+          type: string
+          description: |
+            module type of the FinancialStatus
+        code:
+          maxLength: 20
+          minLength: 3
+          type: string
+          description: |
+            code of the FinancialStatus
+        name:
+          maxLength: 20
+          minLength: 3
+          type: string
+          description: |
+            name of the FinancialStatus
+        description:
+          maxLength: 250
+          minLength: 3
+          type: string
+          description: |
+            description of the FinancialStatus
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: ""
+    FinancialStatusRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        financialStatuses:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/FinancialStatus'
+      description: Contract class for web request. Array of FinancialStatus items  are
+        used in case of create or update
+    FinancialStatusResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        financialStatuses:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/FinancialStatus'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of FinancialStatus items  are
+        used in case of search ,create or update request.
+    FinancialConfiguration:
+      required:
+      - description
+      - id
+      - module
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Unique Identifier of the FinancialConfiguration
+        name:
+          maxLength: 50
+          minLength: 3
+          type: string
+          description: |
+            name of the FinancialConfiguration
+        description:
+          maxLength: 250
+          minLength: 3
+          type: string
+          description: |
+            description of the FinancialConfiguration
+        module:
+          maxLength: 50
+          minLength: 3
+          type: string
+          description: |
+            module of the FinancialConfiguration
+        auditDetails:
+          $ref: '#/components/schemas/Auditable'
+      description: |
+        what s
+    FinancialConfigurationRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        financialConfigurations:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/FinancialConfiguration'
+      description: Contract class for web request. Array of FinancialConfiguration
+        items  are used in case of create or update
+    FinancialConfigurationResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        financialConfigurations:
+          type: array
+          description: Used for search result and create only
+          items:
+            $ref: '#/components/schemas/FinancialConfiguration'
+        page:
+          $ref: '#/components/schemas/Page'
+      description: Contract class for web response. Array of FinancialConfiguration
+        items  are used in case of search ,create or update request.
+    ErrorRes:
+      required:
+      - ResponseInfo
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Errors:
+          type: array
+          description: Error response array corresponding to Request Object array.
+            In case of single object submission or _search related paths this may
+            be an array of one error element
+          items:
+            $ref: '#/components/schemas/Error'
+      description: All APIs will return ErrorRes in case of failure which will carry
+        ResponseInfo as metadata and Error object as actual representation of error.
+        In case of bulk apis, some apis may chose to return the array of Error objects
+        to indicate individual failure.
+    ResponseInfo:
+      required:
+      - apiId
+      - status
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version
+        ts:
+          type: integer
+          description: response time in epoch
+          format: int64
+        resMsgId:
+          maxLength: 256
+          type: string
+          description: unique response message id (UUID) - will usually be the correlation
+            id from the server
+        msgId:
+          maxLength: 256
+          type: string
+          description: message id of the request
+        status:
+          type: string
+          description: status of request processing - to be enhanced in futuer to
+            include INPROGRESS
+          enum:
+          - SUCCESSFUL
+          - FAILED
+      description: ResponseInfo should be used to carry metadata information about
+        the response from the server. apiId, ver and msgId in ResponseInfo should
+        always correspond to the same values in respective request's RequestInfo.
+    Error:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code will be module specific error label/code to identiffy
+            the error. All modules should also publish the Error codes with their
+            specific localized values in localization service to ensure clients can
+            print locale specific error messages. Example for error code would be
+            User.NotFound to indicate User Not Found by User/Authentication service.
+            All services must declare their possible Error Codes with brief description
+            in the error response section of their API path.
+        message:
+          type: string
+          description: English locale message of the error code. Clients should make
+            a separate call to get the other locale description if configured with
+            the service. Clients may choose to cache these locale specific messages
+            to enhance performance with a reasonable TTL (May be defined by the localization
+            service based on tenant + module combination).
+        description:
+          type: string
+          description: Optional long description of the error to help clients take
+            remedial action. This will not be available as part of localization service.
+        params:
+          type: array
+          description: Some error messages may carry replaceable fields (say $1, $2)
+            to provide more context to the message. E.g. Format related errors may
+            want to indicate the actual field for which the format is invalid. Client's
+            should use the values in the param array to replace those fields.
+          items:
+            type: string
+      description: Error object will be returned as a part of reponse body in conjunction
+        with ResponseInfo as part of ErrorResponse whenever the request processing
+        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
+        be HTTP 400.
+    User:
+      required:
+      - active
+      - gender
+      - locale
+      - mobileNumber
+      - name
+      - tenantId
+      - type
+      - userName
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique id an user.
+          format: int64
+        userName:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: The unique username used for user login.
+        password:
+          maxLength: 64
+          type: string
+          description: Password for user login.
+          format: password
+        salutation:
+          maxLength: 5
+          type: string
+          description: The salutation of user name. Example- Mr, Miss, Mrs
+        name:
+          maxLength: 100
+          minLength: 3
+          type: string
+          description: The full name of the user.
+        gender:
+          type: string
+          description: Gender of the user.
+        mobileNumber:
+          maxLength: 10
+          type: string
+          description: Mobile number ofuser the user
+        emailId:
+          maxLength: 128
+          type: string
+          description: Email address of the user
+        altContactNumber:
+          maxLength: 10
+          type: string
+          description: Alternate contact number of the user
+        pan:
+          maxLength: 10
+          type: string
+          description: PAN number of the user
+        aadhaarNumber:
+          maxLength: 12
+          pattern: '[0-9]'
+          type: string
+          description: Aadhaar number of the user
+        permanentAddress:
+          maxLength: 300
+          type: string
+          description: Permanent address of the user.
+        permanentCity:
+          maxLength: 300
+          type: string
+          description: City of the permanent address.
+        permanentPincode:
+          maxLength: 6
+          type: string
+          description: Permanent address pincode.
+        correspondenceCity:
+          maxLength: 50
+          type: string
+          description: City of the correspondence address.
+        correspondencePincode:
+          maxLength: 6
+          type: string
+          description: Permanent address pincode.
+        correspondenceAddress:
+          maxLength: 300
+          type: string
+          description: Correspondence address of the user.
+        active:
+          type: boolean
+          description: True if the user is active and False if the user is inactive.
+        dob:
+          type: string
+          description: Data of bith of the user in dd/mm/yyyy format.
+          format: date
+        pwdExpiryDate:
+          type: string
+          description: Date on which the password registered will expire.
+          format: date
+          readOnly: true
+        locale:
+          maxLength: 10
+          type: string
+          description: Value will be set to "en_IN".
+        type:
+          maxLength: 20
+          type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
+        signature:
+          type: string
+          description: Image to be loaded for the signature of the employee
+        accountLocked:
+          type: boolean
+          description: Set to True if account is locked after several incorrect password
+            attempt. False if account is not locked.
+        roles:
+          type: array
+          description: List of roles that are attached to the user.
+          items:
+            $ref: '#/components/schemas/Role'
+        fatherOrHusbandName:
+          maxLength: 100
+          type: string
+          description: Name of user's father or husband.
+        bloodGroup:
+          maxLength: 3
+          type: string
+          description: Blood group of the user.
+        identificationMark:
+          maxLength: 300
+          type: string
+          description: Any identification mark of the person.
+        photo:
+          type: string
+          description: Image to be loaded for the photo of the user
+        createdBy:
+          type: integer
+          description: Id of the user who created the record.
+          format: int64
+        createdDate:
+          type: string
+          description: Date on which the user master data was added into the system.
+          format: date
+        lastModifiedBy:
+          type: integer
+          description: Id of the user who last modified the record.
+          format: int64
+        lastModifiedDate:
+          type: string
+          description: Date on which the user master data was last modified.
+          format: date
+        otpReference:
+          type: string
+          description: This is the UUID token that we genarate as part of OTP.
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+    Role:
+      required:
+      - name
+      - tenantId
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the role.
+          format: int64
+        name:
+          maxLength: 100
+          minLength: 2
+          type: string
+          description: The Name of the Role.
+        code:
+          maxLength: 50
+          minLength: 2
+          type: string
+          description: The Code of the Role.
+        description:
+          maxLength: 256
+          type: string
+          description: The description of the Role.
+        createdBy:
+          type: integer
+          description: Id of the user who created the record.
+          format: int64
+        createdDate:
+          type: string
+          description: Date on which the role master data was added into the system.
+          format: date
+        lastModifiedBy:
+          type: integer
+          description: Id of the user who last modified the record.
+          format: int64
+        lastModifiedDate:
+          type: string
+          description: Date on which the role master data was last modified.
+          format: date
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+    RequestInfo:
+      required:
+      - action
+      - apiId
+      - msgId
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version - for HTTP based request this will be same as used
+            in path
+        ts:
+          type: integer
+          description: time in epoch
+          format: int64
+        action:
+          maxLength: 32
+          type: string
+          description: API action to be performed like _create, _update, _search (denoting
+            POST, PUT, GET) or _oauth etc
+        did:
+          maxLength: 1024
+          type: string
+          description: Device ID from which the API is called
+        key:
+          maxLength: 256
+          type: string
+          description: API key (API key provided to the caller in case of server to
+            server communication)
+        msgId:
+          maxLength: 256
+          type: string
+          description: Unique request message id from the caller
+        requesterId:
+          maxLength: 256
+          type: string
+          description: UserId of the user calling
+        authToken:
+          type: string
+          description: //session/jwt/saml token/oauth token - the usual value that
+            would go into HTTP bearer token
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        correlationId:
+          type: string
+          readOnly: true
+      description: RequestInfo should be used to carry meta information about the
+        requests to the server as described in the fields below. All eGov APIs will
+        use requestinfo as a part of the request body to carry this meta information.
+        Some of this information will be returned back from the server as part of
+        the ResponseInfo in the response body to ensure correlation.
+    UserInfo:
+      required:
+      - primaryrole
+      - tenantId
+      - userName
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        id:
+          type: integer
+          description: User id of the authenticated user. Will be deprecated in future
+          format: int32
+        userName:
+          type: string
+          description: Unique user name of the authenticated user
+        mobile:
+          type: string
+          description: mobile number of the autheticated user
+        email:
+          type: string
+          description: email address of the authenticated user
+        primaryrole:
+          type: array
+          description: List of all the roles for the primary tenant
+          items:
+            $ref: '#/components/schemas/Role_2'
+        additionalroles:
+          type: array
+          description: array of additional tenantids authorized for the authenticated
+            user
+          items:
+            $ref: '#/components/schemas/TenantRole'
+      description: This is acting ID token of the authenticated user on the server.
+        Any value provided by the clients will be ignored and actual user based on
+        authtoken will be used on the server.
+    Role_2:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          type: string
+          description: Unique name of the role
+        description:
+          type: string
+          description: brief description of the role
+      description: |
+        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
+    TenantRole:
+      required:
+      - roles
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: tenantid for the tenant
+        roles:
+          type: array
+          description: Roles assigned for a particular tenant - array of role codes/names
+          items:
+            $ref: '#/components/schemas/Role_2'
+      description: User role carries the tenant related role information for the user.
+        A user can have multiple roles per tenant based on the need of the tenant.
+        A user may also have multiple roles for multiple tenants.
+  parameters:
+    pageSize:
+      name: pageSize
+      in: query
+      description: pageSize
+      schema:
+        type: integer
+        format: int32
+    offset:
+      name: offset
+      in: query
+      description: offset
+      schema:
+        type: integer
+        format: int32
+x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/financials/contracts/egf-master/v1-0-0.yml
+x-api-id: org.egov.egf.master

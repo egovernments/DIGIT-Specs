@@ -1,0 +1,128 @@
+openapi: 3.0.1
+info:
+  title: DSS Ingest APIs
+  description: APIs for DSS Ingest consist of 5 APIs.
+  version: 1.0.0
+servers:
+- url: https://egov-micro-dev.egovernments.org/dashboard-ingest/ingest/[APIEndPoint]
+- url: http://egov-micro-dev.egovernments.org/dashboard-ingest/ingest/[APIEndPoint]
+paths:
+  /save:
+    post:
+      tags:
+      - Ingest
+      summary: API receives the Transaction Details JSON Request and passes it on
+        to
+      description: This API receives the Transaction Details JSON Request and passes
+        it on to the Service Layer for further process of persisting into elastic
+        search.
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/IncomingData'
+        required: true
+      responses:
+        201:
+          description: Response for Success State of the API
+          content: {}
+        400:
+          description: Invalid input.
+          content: {}
+      x-codegen-request-body-name: body
+  /upload:
+    post:
+      summary: API use to provide response for external data upload
+      description: uploded file get parsed and stores target data to Elastic search.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+        required: true
+      responses:
+        201:
+          description: Response for Success State of the API
+          content: {}
+        400:
+          description: Invalid input.
+          content: {}
+  /migrate/{indexName}/{version}:
+    post:
+      summary: This api is used for scroll search
+      description: Response for Success State of the API
+      parameters:
+      - name: indexName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        201:
+          description: create
+          content: {}
+  /pause/{consumerId}:
+    get:
+      summary: This API use to pause a active kafka consumer
+      parameters:
+      - name: consumerId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Response for Success State of the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Invalid input.
+          content: {}
+  /resume/{consumerId}:
+    get:
+      summary: This API is to resume a paused kafka consumer
+      parameters:
+      - name: consumerId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Response for Success State of the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Invalid input.
+          content: {}
+components:
+  schemas:
+    Response:
+      type: boolean
+    IncomingData:
+      type: object
+      properties:
+        dataContext:
+          type: string
+          description: context of the transactional data
+        dataContextVersion:
+          type: string
+          description: version of the context
+        dataObject:
+          type: object
+          properties: {}
+          description: this contains the transactional object
