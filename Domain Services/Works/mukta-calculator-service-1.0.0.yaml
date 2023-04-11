@@ -50,7 +50,8 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/CalculationResponse'
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-Works/expense-service-codegen/backend/expense/src/main/resources/expense-service-contract.yaml#/components/schemas/BillResponse
         '400':
           description: Invalid input.
           content:
