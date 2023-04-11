@@ -192,10 +192,13 @@ components:
         id:
           type: integer
           format: int64
+          description: Unique id of the role
         name:
           type: string
+          description: Unique name of the role
         code:
           type: string
+          description: code assigned for a particular tenant - array of role codes/names
     User:
       required:
       - emailId
@@ -212,41 +215,58 @@ components:
         id:
           type: integer
           format: int64
+          description: User id of the authenticated user. Will be deprecated in future
         userName:
           type: string
+          description: Unique user name of the authenticated user
         name:
           type: string
+          description: Name of the user.
         type:
           type: string
         mobileNumber:
           type: string
+          description: mobile number of the autheticated user
         emailId:
           type: string
+          description: email address of the authenticated user
         roles:
           type: array
           items:
             $ref: '#/components/schemas/Role'
+          description: User role carries the tenant related role information for the user. A user can have multiple roles per tenant based on the need of the tenant. A user may also have multiple roles for multiple tenants.
         tenantId:
           type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
         uuid:
           type: string
+          description: Unique UUid generated for authenticated user. 
     ResponseInfo:
       type: object
       properties:
         apiId:
           type: string
+          description: unique id for api request
         ver:
           type: string
+          description: API version - for HTTP based request this will be same as used
         ts:
           type: number
+          description: time in epoch
         resMsgId:
           type: string
+          description: unique response message id (UUID) - will usually be the correlation
+            id from the server
         msgId:
           type: string
+          description: message id of the request
         status:
           type: string
+          description: status of request processing - to be enhanced in futuer to
+            include INPROGRESS
         correlationId:
           type: string
+          description: RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation.
         userInfo:
           $ref: '#/components/schemas/User'
     RequestInfo:
@@ -265,23 +285,35 @@ components:
       properties:
         apiId:
           type: string
+          description: unique id for api request
         ver:
           type: string
+          description: API version - for HTTP based request this will be same as used
         ts:
           type: integer
           format: int64
+          description: time in epoch
         action:
           type: string
+          description: API action to be performed like _create, _update, _search (denoting
+            POST, PUT, GET) or _oauth etc
         did:
           type: string
+          description: Device ID from which the API is called
         key:
           type: string
+          description: API key (API key provided to the caller in case of server to
+            server communication)
         msgId:
           type: string
+          description: Unique request message id from the caller
         authToken:
           type: string
+          description: //session/jwt/saml token/oauth token - the usual value that
+            would go into HTTP bearer token
         correlationId:
           type: string
+          description: RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation.
         userInfo:
           $ref: '#/components/schemas/User'
     PDFRequest:

@@ -14,6 +14,8 @@ paths:
       tags:
         - Action
       summary: authorize
+      description: |
+        Authorize the user based on authorization request.
       operationId: authorizeUsingPOST
       requestBody:
         content:
@@ -531,10 +533,12 @@ components:
         tenantIds:
           uniqueItems: true
           type: array
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
           items:
             type: string
         uri:
           type: string
+          description: sequence of characters that distinguishes one resource from another
     AuthorizationRequestWrapper:
       title: AuthorizationRequestWrapper
       type: object
@@ -995,4 +999,4 @@ components:
             $ref: '#/components/schemas/Role_2'
       description: User role carries the tenant related role information for the user.
         A user can have multiple roles per tenant based on the need of the tenant.
-        A user may also have multiple roles for multiple tenants.
+        A user may also have multiple roles for multiple tenants.	

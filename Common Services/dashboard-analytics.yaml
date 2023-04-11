@@ -52,6 +52,7 @@ paths:
       parameters:
       - name: contextPath
         in: query
+        description: path to Confluence relative to the root directory of the webserver
         required: false
         style: form
         schema:

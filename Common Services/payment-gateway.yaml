@@ -12,6 +12,8 @@ servers:
 paths:
   "/pg-service/gateway/v1/_search":
     post:
+      description: |
+        Returns the current status of a payment-gateway in our systems
       tags:
       - transactions-api-controller
       summary: transactionsV1AvailableGatewaysPost
@@ -36,6 +38,7 @@ paths:
           description: Not Found
   "/pg-service/transaction/v1/_create":
     post:
+      description: Initiates a new payment transaction, on successful validation, a redirect is issued to the payment gateway.
       tags:
       - transactions-api-controller
       summary: transactionsV1CreatePost
@@ -62,6 +65,8 @@ paths:
           description: Not Found
   "/pg-service/transaction/v1/_search":
     post:
+      description: |
+        Returns the current status of a payment in our systems.
       tags:
       - transactions-api-controller
       summary: transactionsV1SearchPost
@@ -69,18 +74,21 @@ paths:
       parameters:
       - name: billId
         in: query
+        description: Unique module based ID for which the transaction is being initiated, if billId is used, module should be included.
         required: false
         style: form
         schema:
           type: string
       - name: consumerCode
         in: query
+        description: A unique identification for a billing entity.  
         required: false
         style: form
         schema:
           type: string
       - name: createdTime
         in: query
+        description: Created time
         required: false
         style: form
         schema:
@@ -102,18 +110,21 @@ paths:
           format: int32
       - name: receipt
         in: query
+        description: Receipt ID generated for this payment
         required: false
         style: form
         schema:
           type: string
       - name: tenantId
         in: query
+        description: Unique id for a tenant.
         required: false
         style: form
         schema:
           type: string
       - name: txnId
         in: query
+        description: Current id of the transaction
         required: false
         style: form
         schema:
@@ -130,6 +141,7 @@ paths:
           - SUCCESS
       - name: userUuid
         in: query
+        description: User ID of the user as registered in user service, for whom the transaction was carried out.
         required: false
         style: form
         schema:

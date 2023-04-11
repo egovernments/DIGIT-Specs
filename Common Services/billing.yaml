@@ -15,6 +15,7 @@ paths:
 
   /billing-service/amendment/_create:
     post:
+      description: create bill amendment 
       tags:
       - amendment-controller
       summary: create
@@ -41,6 +42,7 @@ paths:
           description: Not Found
   /billing-service/amendment/_search:
     post:
+      description: search bill amendment
       tags:
       - amendment-controller
       summary: search
@@ -48,18 +50,21 @@ paths:
       parameters:
       - name: amendmentId
         in: query
+        description: Identifier of amendment created
         required: false
         style: form
         schema:
           type: string
       - name: businessService
         in: query
+        description: Billing system details e.g., PropertyTax,Water Charges etc.
         required: true
         style: form
         schema:
           type: string
       - name: consumerCode
         in: query
+        description: A unique identification for a billing entity.
         required: false
         style: pipeDelimited
         schema:
@@ -69,12 +74,14 @@ paths:
             type: string
       - name: mobileNumber
         in: query
+        description: Mobile Number of Primary owner of business detail.
         required: false
         style: form
         schema:
           type: string
       - name: status
         in: query
+        description: status of amendment
         required: false
         style: pipeDelimited
         schema:
@@ -110,6 +117,7 @@ paths:
           description: Not Found
   /billing-service/amendment/_update:
     post:
+      description: update bill amendment
       tags:
       - amendment-controller
       summary: update
@@ -136,6 +144,7 @@ paths:
           description: Not Found
   /billing-service/bill/v2/_cancelbill:
     post:
+      description: cancel bill
       tags:
       - bill-controllerv-2
       summary: cancelBill
@@ -162,6 +171,7 @@ paths:
           description: Not Found
   /billing-service/bill/v2/_create:
     post:
+      description: create bill using bill request
       tags:
       - bill-controllerv-2
       summary: create
@@ -188,6 +198,7 @@ paths:
           description: Not Found
   /billing-service/bill/v2/_fetchbill:
     post:
+      description: fetch bill created using bill request
       tags:
       - bill-controllerv-2
       summary: fetchBill
@@ -195,6 +206,7 @@ paths:
       parameters:
       - name: businessService
         in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         required: true
         style: form
         schema:
@@ -205,6 +217,7 @@ paths:
           type: string
       - name: consumerCode
         in: query
+        description: Unique identification provided by business details.
         required: false
         style: pipeDelimited
         schema:
@@ -214,6 +227,7 @@ paths:
             type: string
       - name: demandId
         in: query
+        description: Unique identification provided by demand details.
         required: false
         style: form
         schema:
@@ -224,12 +238,14 @@ paths:
           type: string
       - name: email
         in: query
+        description: Email Id of Primary owner of business detail.
         required: false
         style: form
         schema:
           type: string
       - name: mobileNumber
         in: query
+        description: Mobile Number of Primary owner of business detail.
         required: false
         style: form
         schema:
@@ -237,6 +253,7 @@ paths:
           type: string
       - name: tenantId
         in: query
+        description: unique identifier of tenant
         required: true
         style: form
         schema:
@@ -274,6 +291,7 @@ paths:
       parameters:
       - name: businessService
         in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         required: true
         style: form
         schema:
@@ -284,6 +302,7 @@ paths:
           type: string
       - name: consumerCode
         in: query
+        description: Unique identification provided by business details.
         required: false
         style: pipeDelimited
         schema:
@@ -293,6 +312,7 @@ paths:
             type: string
       - name: demandId
         in: query
+        description: Id(s) of the Demand(s) to be returned
         required: false
         style: form
         schema:
@@ -303,12 +323,14 @@ paths:
           type: string
       - name: email
         in: query
+        description: Email Id of Primary owner of business detail.
         required: false
         style: form
         schema:
           type: string
       - name: mobileNumber
         in: query
+        description: Mobile Number of Primary owner of business detail.
         required: false
         style: form
         schema:
@@ -316,6 +338,7 @@ paths:
           type: string
       - name: tenantId
         in: query
+        description: unique identifier of tenant
         required: true
         style: form
         schema:
@@ -346,6 +369,7 @@ paths:
           description: Not Found
   /billing-service/bill/v2/_search:
     post:
+      description: 'Returns a Bill along with its list of bill details. By default active and non-cancelled bills will be returned when no value passed for active or cancelled. Along with tenantId, any one parameter is mandatory. By default results will be sorted by bill creation date'
       tags:
       - bill-controllerv-2
       summary: search
@@ -353,6 +377,7 @@ paths:
       parameters:
       - name: billId
         in: query
+        description: Id(s) of the Bill(s) to be returned
         required: false
         style: pipeDelimited
         schema:
@@ -362,6 +387,7 @@ paths:
             type: string
       - name: billNumber
         in: query
+        description: Serial No(s) of the Bill(s) to be returned
         required: false
         style: form
         schema:
@@ -372,6 +398,7 @@ paths:
           type: string
       - name: consumerCode
         in: query
+        description: A unique identification for a billing entity.
         required: false
         style: pipeDelimited
         schema:
@@ -381,12 +408,14 @@ paths:
             type: string
       - name: email
         in: query
+        description: Email Id of Primary owner of business detail.
         required: false
         style: form
         schema:
           type: string
       - name: fromPeriod
         in: query
+        description: Date from which the billing starts
         required: false
         style: form
         schema:
@@ -394,18 +423,21 @@ paths:
           format: int64
       - name: isActive
         in: query
+        description: 'true when active bill required,  when inactive bill required.'
         required: false
         style: form
         schema:
           type: boolean
       - name: isCancelled
         in: query
+        description: 'true when cancelled bill required, false when non-cancelled bill required.'
         required: false
         style: form
         schema:
           type: boolean
       - name: mobileNumber
         in: query
+        description: Mobile Number of Primary owner of business detail.
         required: false
         style: form
         schema:
@@ -413,6 +445,7 @@ paths:
           type: string
       - name: offset
         in: query
+        description: 'starting index of the result set.'
         required: false
         style: form
         schema:
@@ -432,6 +465,7 @@ paths:
           type: boolean
       - name: service
         in: query
+        description: Name of the business service for which 'TaxHeadMaster' to be returned.
         required: false
         style: form
         schema:
@@ -442,6 +476,7 @@ paths:
           type: string
       - name: size
         in: query
+        description: size of the result set.
         required: false
         style: form
         schema:
@@ -462,6 +497,7 @@ paths:
           - PAYMENT_CANCELLED
       - name: tenantId
         in: query
+        description: unique identifier of tenant
         required: true
         style: form
         schema:
@@ -472,6 +508,7 @@ paths:
           type: string
       - name: toPeriod
         in: query
+        description: Date to which the billing ends
         required: false
         style: form
         schema:
@@ -627,12 +664,14 @@ paths:
       parameters:
       - name: businessService
         in: query
+        description: Billing system details e.g., PropertyTax,Water Charges etc.
         required: false
         style: form
         schema:
           type: string
       - name: consumerCode
         in: query
+        description: A unique identification for a billing entity.
         required: false
         style: pipeDelimited
         schema:
@@ -642,6 +681,7 @@ paths:
             type: string
       - name: demandFrom
         in: query
+        description: date from demand is created.
         required: false
         style: form
         schema:
@@ -649,6 +689,7 @@ paths:
           format: bigdecimal
       - name: demandId
         in: query
+        description: Id(s) of the Demand(s) to be returned
         required: false
         style: pipeDelimited
         schema:
@@ -658,6 +699,7 @@ paths:
             type: string
       - name: demandTo
         in: query
+        description: date to which demand is created.
         required: false
         style: form
         schema:
@@ -665,24 +707,28 @@ paths:
           format: bigdecimal
       - name: email
         in: query
+        description: Email Id of Primary owner of business detail.
         required: false
         style: form
         schema:
           type: string
       - name: isPaymentCompleted
         in: query
+        description: confirmation for payment completion
         required: false
         style: form
         schema:
           type: boolean
       - name: mobileNumber
         in: query
+        description: Mobile Number of Primary owner of business detail.
         required: false
         style: form
         schema:
           type: string
       - name: payer
         in: query
+        description: name of payer
         required: false
         style: pipeDelimited
         schema:
@@ -706,18 +752,21 @@ paths:
           format: int64
       - name: receiptRequired
         in: query
+        description: 'True if receipt is required else False'
         required: false
         style: form
         schema:
           type: boolean
       - name: status
         in: query
+        description: 'current status of demand'
         required: false
         style: form
         schema:
           type: string
       - name: tenantId
         in: query
+        description: unique identifier for tenant
         required: true
         style: form
         schema:

@@ -19,6 +19,8 @@ tags:
 paths:
   /v1/events/_search:
     post:
+      description: |-
+        1. Search and get events based on defined search criteria.
       tags:
         - Events
       summary: search
@@ -26,6 +28,7 @@ paths:
       parameters:
         - name: eventTypes
           in: query
+          description: Array of event types for which the events are being searched
           required: false
           style: pipeDelimited
           schema:
@@ -34,6 +37,7 @@ paths:
               type: string
         - name: fromDate
           in: query
+          description: epoch date
           required: false
           style: form
           schema:
@@ -41,6 +45,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: unique identifier (uuid) of events
           required: false
           style: pipeDelimited
           schema:
@@ -68,6 +73,7 @@ paths:
             format: int32
         - name: name
           in: query
+          description: Array of event name for which the events are being searched.
           required: false
           style: pipeDelimited
           schema:
@@ -76,6 +82,7 @@ paths:
               type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -83,6 +90,7 @@ paths:
             format: int32
         - name: postedBy
           in: query
+          description: unique identifier (uuid) of the employees posting the event. 
           required: false
           style: pipeDelimited
           schema:
@@ -99,6 +107,7 @@ paths:
               type: string
         - name: referenceIds
           in: query
+          description: unique id labels that identify a specific item
           required: false
           style: pipeDelimited
           schema:
@@ -107,6 +116,7 @@ paths:
               type: string
         - name: roles
           in: query
+          description: List of Roles of employee
           required: false
           style: pipeDelimited
           schema:
@@ -123,6 +133,7 @@ paths:
               type: string
         - name: status
           in: query
+          description: current status in the system
           required: false
           style: pipeDelimited
           schema:
@@ -131,12 +142,14 @@ paths:
               type: string
         - name: tenantId
           in: query
+          description: unique identifier of the ULB.
           required: true
           style: form
           schema:
             type: string
         - name: toDate
           in: query
+          description: epoch date
           required: false
           style: form
           schema:
@@ -144,6 +157,7 @@ paths:
             format: int64
         - name: userids
           in: query
+          description: unique identifier (uuid) of the users.
           required: false
           style: pipeDelimited
           schema:
@@ -225,6 +239,7 @@ paths:
       x-codegen-request-body-name: EventRequest
   /v1/events/lat/_update:
     post:
+      description: Update event 
       tags:
         - Events
       summary: updatellt
@@ -251,6 +266,7 @@ paths:
           description: Not Found    
   /v1/events/notifications/_count:
     post:
+      description: count event notifications
       tags:
         - Events
       summary: count
@@ -258,6 +274,7 @@ paths:
       parameters:
         - name: eventTypes
           in: query
+          description: Array of event types for which the events are being updated
           required: false
           style: pipeDelimited
           schema:
@@ -266,6 +283,7 @@ paths:
               type: string
         - name: fromDate
           in: query
+          description: epoch date
           required: false
           style: form
           schema:
@@ -273,6 +291,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: unique identifier (uuid) of events
           required: false
           style: pipeDelimited
           schema:
@@ -300,6 +319,7 @@ paths:
             format: int32
         - name: name
           in: query
+          description: Array of event name for which the events are being updated.
           required: false
           style: pipeDelimited
           schema:
@@ -315,6 +335,7 @@ paths:
             format: int32
         - name: postedBy
           in: query
+          description: unique identifier (uuid) of the employees posting the event. 
           required: false
           style: pipeDelimited
           schema:
@@ -331,6 +352,7 @@ paths:
               type: string
         - name: referenceIds
           in: query
+          description: unique id labels that identify a specific item
           required: false
           style: pipeDelimited
           schema:
@@ -339,6 +361,7 @@ paths:
               type: string
         - name: roles
           in: query
+          description: List of Roles of employee
           required: false
           style: pipeDelimited
           schema:
@@ -355,6 +378,7 @@ paths:
               type: string
         - name: status
           in: query
+          description: current status in the system
           required: false
           style: pipeDelimited
           schema:
@@ -363,12 +387,14 @@ paths:
               type: string
         - name: tenantId
           in: query
+          description: unique identifier of the ULB.
           required: true
           style: form
           schema:
             type: string
         - name: toDate
           in: query
+          description: epoch date
           required: false
           style: form
           schema:
@@ -376,6 +402,7 @@ paths:
             format: int64
         - name: userids
           in: query
+          description: unique identifier (uuid) of the users.
           required: false
           style: pipeDelimited
           schema:

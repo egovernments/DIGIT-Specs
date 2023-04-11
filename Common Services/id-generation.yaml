@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: ID Generation service
-  description: "This service generates a unique ID/Code given the needed format e.g.\
+  description: This service generates a unique ID/Code given the needed format e.g.\
     \ an id wit format AP-PT-2017/04/11-000001-23 where format is can be decomposed\
     \ as (- is used as a separator in the above example) -\n  \n  AP - Fixed string\
     \ indicating the tenant\n  \n  PT - fixed string indicating module\n  \n  2017/04/11\
@@ -14,7 +14,7 @@ info:
     \ (https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html)\n \
     \     2. Regex patterns as per Java regex paterns (http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html)\n\
     \      3. SEQ_ where X is the name of a sequence to be used, e.g. SEQ_ACK_NUM\n\
-    \      4. Static elements will be without enclosing square brackets\n  \n"
+    \      4. Static elements will be without enclosing square brackets\n  \n
   contact:
     name: Pranav
   version: 1.0.0

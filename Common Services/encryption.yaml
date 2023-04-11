@@ -189,9 +189,10 @@ paths:
     post:
       tags:
         - Crypto
-      summary: cryptoRotateAllKeys
+      summary: Deactivate the keys for the given tenant and generate new keys. It will deactivate both symmetric and asymmetric keys for the provided tenant.
       operationId: cryptoRotateAllKeysUsingPOST
       requestBody:
+        description: Request has the name of the tenant for which the key needs to be rotated.
         content:
           application/json:
             schema:
