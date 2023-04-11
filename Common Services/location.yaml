@@ -1,0 +1,582 @@
+openapi: 3.0.1
+info:
+  title: Location Service
+  contact:
+    name: eGov
+    email: info@egovernments.org
+  version: 1.1.0
+servers:
+- url: /location/v11
+paths:
+  /boundarys/_search:
+    post:
+      tags:
+      - Boundary
+      summary: It Will provide the List of boundaries based on search criteria Like
+        "Srikakulam  Municipality","Zone-1","Zone-2" etc.
+      description: |
+        Provides a list of boundaries based on TenantId And List of Boundary id's And List Of codes And BoundaryType And HierarchyType
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: boundaryType
+        in: query
+        description: lable of boundary within the tenant boundary structure
+        schema:
+          type: integer
+      - name: hierarchyTypeCode
+        in: query
+        description: Type Of the BoundaryType Like REVENUE, ADMIN
+        schema:
+          type: string
+          format: varchar
+      - name: codes
+        in: query
+        description: Unique List of boundary codes.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            format: varchar
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BoundaryResponse'
+        400:
+          description: Tenantid was not provided or General service error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /geography/_search:
+    post:
+      deprecated: true
+      tags:
+      - Geography
+      summary: Handles all requests related to Geographical boundaries by providing
+        appropriate GeoJson and other associated data
+      description: |
+        Handles all requests related to Geographical boundaries by providing appropriate GeoJson and other associated data based on tenantId or lat/long etc
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: filter
+        in: query
+        description: JSON path filter string for filtering the output
+        schema:
+          type: string
+      requestBody:
+        description: JSON path filter string for filtering the output
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+        required: false
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GeographicalResponse'
+        400:
+          description: Invalid tenant Id provided
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfoWapper
+  /tenant/_search:
+    post:
+      deprecated: true
+      tags:
+      - Tenant
+      summary: 'Resolves a given latitude / longitude to the corresponding tenant
+        Id '
+      description: |
+        Tries to resolve a given lat, long to a corresponding tenant, provided there exists a mapping between the reverse geocoded city to tenant.
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: lat
+        in: query
+        description: Latitude
+        required: true
+        schema:
+          type: number
+      - name: lng
+        in: query
+        description: Longitude
+        required: true
+        schema:
+          type: number
+      requestBody:
+        description: JSON path filter string for filtering the output
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+        required: false
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TenantResponse'
+        400:
+          description: Unable to resolve tenant
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfoWapper
+components:
+  schemas:
+    HierarchyType:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id for the HierarchyType.
+        code:
+          type: string
+          description: Unique Code for HierarchyType.
+        name:
+          type: string
+          description: HierarchyType Name.
+          format: varchar
+        label:
+          type: string
+          description: label in localization service
+          format: varchar
+    Boundary:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        code:
+          type: string
+          description: code of the boundary.
+        name:
+          type: string
+          description: name of the boundary.
+        label:
+          type: string
+          description: localized label for the boundry.
+        latitude:
+          type: string
+          description: latitude of the boundary.
+        longitude:
+          type: string
+          description: longitude of the boundary.
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        materializedPath:
+          type: string
+          description: materialized path of the boundary - this would be of the format
+            tenantid.[code] from parentt till teh current boundary
+          readOnly: true
+    Geography:
+      required:
+      - division
+      - geoJson
+      - name
+      - tenantId
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the Geography.
+        division:
+          type: string
+          description: Geographical division such as State, District, City.
+        geoJson:
+          type: object
+          properties: {}
+          description: Json Node object containing geoJson of the requested tenant
+        geoJsonChildren:
+          type: object
+          properties: {}
+          description: Json Node object containing geoJson of the requested tenant's
+            children
+        tenantId:
+          type: string
+          description: Tenant Id whose geographical data is requested.
+    TenantBoundary:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique id of the boundary tenant.
+        hierarchyType:
+          $ref: '#/components/schemas/HierarchyType'
+        boundary:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+    BoundaryResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Boundary:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantBoundary'
+    GeographicalResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Geography:
+          type: array
+          items:
+            $ref: '#/components/schemas/Geography'
+    TenantResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Tenant:
+          $ref: '#/components/schemas/Tenant'
+    RequestInfoWrapper:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+    ErrorRes:
+      required:
+      - ResponseInfo
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Errors:
+          type: array
+          description: Error response array corresponding to Request Object array.
+            In case of single object submission or _search related paths this may
+            be an array of one error element
+          items:
+            $ref: '#/components/schemas/Error'
+      description: All APIs will return ErrorRes in case of failure which will carry
+        ResponseInfo as metadata and Error object as actual representation of error.
+        In case of bulk apis, some apis may chose to return the array of Error objects
+        to indicate individual failure.
+    ResponseInfo:
+      required:
+      - apiId
+      - status
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version
+        ts:
+          type: integer
+          description: response time in epoch
+          format: int64
+        resMsgId:
+          maxLength: 256
+          type: string
+          description: unique response message id (UUID) - will usually be the correlation
+            id from the server
+        msgId:
+          maxLength: 256
+          type: string
+          description: message id of the request
+        status:
+          type: string
+          description: status of request processing - to be enhanced in futuer to
+            include INPROGRESS
+          enum:
+          - SUCCESSFUL
+          - FAILED
+      description: ResponseInfo should be used to carry metadata information about
+        the response from the server. apiId, ver and msgId in ResponseInfo should
+        always correspond to the same values in respective request's RequestInfo.
+    Error:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code will be module specific error label/code to identiffy
+            the error. All modules should also publish the Error codes with their
+            specific localized values in localization service to ensure clients can
+            print locale specific error messages. Example for error code would be
+            User.NotFound to indicate User Not Found by User/Authentication service.
+            All services must declare their possible Error Codes with brief description
+            in the error response section of their API path.
+        message:
+          type: string
+          description: English locale message of the error code. Clients should make
+            a separate call to get the other locale description if configured with
+            the service. Clients may choose to cache these locale specific messages
+            to enhance performance with a reasonable TTL (May be defined by the localization
+            service based on tenant + module combination).
+        description:
+          type: string
+          description: Optional long description of the error to help clients take
+            remedial action. This will not be available as part of localization service.
+        params:
+          type: array
+          description: Some error messages may carry replaceable fields (say $1, $2)
+            to provide more context to the message. E.g. Format related errors may
+            want to indicate the actual field for which the format is invalid. Client's
+            should use the values in the param array to replace those fields.
+          items:
+            type: string
+      description: Error object will be returned as a part of reponse body in conjunction
+        with ResponseInfo as part of ErrorResponse whenever the request processing
+        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
+        be HTTP 400.
+    Tenant:
+      required:
+      - code
+      - imageId
+      - logoId
+      - name
+      - type
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          maxLength: 256
+          type: string
+          description: The tenant name
+        description:
+          type: string
+        imageId:
+          type: string
+        logoId:
+          type: string
+        domainUrl:
+          type: string
+        type:
+          type: string
+          enum:
+          - CITY
+        address:
+          maxLength: 300
+          type: string
+          description: Address of the tenant
+        contactNumber:
+          maxLength: 16
+          type: string
+          description: Contact number of the tenant
+        helpLineNumber:
+          maxLength: 16
+          type: string
+          description: Help line number of the tenant
+        twitterUrl:
+          maxLength: 100
+          type: string
+          description: Twitter URL of the tenant
+        facebookUrl:
+          maxLength: 100
+          type: string
+          description: Facebook URL of the tenant
+        emailId:
+          maxLength: 100
+          type: string
+          description: Email address of the tenant
+        city:
+          $ref: '#/components/schemas/City'
+    City:
+      type: object
+      properties:
+        name:
+          type: string
+        localName:
+          type: string
+        districtCode:
+          type: string
+        districtName:
+          type: string
+        regionName:
+          type: string
+        longitude:
+          type: number
+        latitude:
+          type: number
+        shapeFilePath:
+          maxLength: 100
+          type: string
+          description: Path in which tenant wise shape files are saved
+        captcha:
+          maxLength: 100
+          type: string
+          description: Captcha to distinguish human from machine input
+    RequestInfo:
+      required:
+      - action
+      - apiId
+      - msgId
+      - ts
+      - ver
+      type: object
+      properties:
+        apiId:
+          maxLength: 128
+          type: string
+          description: unique API ID
+        ver:
+          maxLength: 32
+          type: string
+          description: API version - for HTTP based request this will be same as used
+            in path
+        ts:
+          type: integer
+          description: time in epoch
+          format: int64
+        action:
+          maxLength: 32
+          type: string
+          description: API action to be performed like _create, _update, _search (denoting
+            POST, PUT, GET) or _oauth etc
+        did:
+          maxLength: 1024
+          type: string
+          description: Device ID from which the API is called
+        key:
+          maxLength: 256
+          type: string
+          description: API key (API key provided to the caller in case of server to
+            server communication)
+        msgId:
+          maxLength: 256
+          type: string
+          description: Unique request message id from the caller
+        requesterId:
+          maxLength: 256
+          type: string
+          description: UserId of the user calling
+        authToken:
+          type: string
+          description: //session/jwt/saml token/oauth token - the usual value that
+            would go into HTTP bearer token
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        correlationId:
+          type: string
+          readOnly: true
+      description: RequestInfo should be used to carry meta information about the
+        requests to the server as described in the fields below. All eGov APIs will
+        use requestinfo as a part of the request body to carry this meta information.
+        Some of this information will be returned back from the server as part of
+        the ResponseInfo in the response body to ensure correlation.
+    UserInfo:
+      required:
+      - primaryrole
+      - tenantId
+      - userName
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        id:
+          type: integer
+          description: User id of the authenticated user. Will be deprecated in future
+          format: int32
+        userName:
+          type: string
+          description: Unique user name of the authenticated user
+        mobile:
+          type: string
+          description: mobile number of the autheticated user
+        email:
+          type: string
+          description: email address of the authenticated user
+        primaryrole:
+          type: array
+          description: List of all the roles for the primary tenant
+          items:
+            $ref: '#/components/schemas/Role'
+        additionalroles:
+          type: array
+          description: array of additional tenantids authorized for the authenticated
+            user
+          items:
+            $ref: '#/components/schemas/TenantRole'
+      description: This is acting ID token of the authenticated user on the server.
+        Any value provided by the clients will be ignored and actual user based on
+        authtoken will be used on the server.
+    Role:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          type: string
+          description: Unique name of the role
+        description:
+          type: string
+          description: brief description of the role
+      description: |
+        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
+    TenantRole:
+      required:
+      - roles
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: tenantid for the tenant
+        roles:
+          type: array
+          description: Roles assigned for a particular tenant - array of role codes/names
+          items:
+            $ref: '#/components/schemas/Role'
+      description: User role carries the tenant related role information for the user.
+        A user can have multiple roles per tenant based on the need of the tenant.
+        A user may also have multiple roles for multiple tenants.
+x-api-id: org.egov.boundary
+

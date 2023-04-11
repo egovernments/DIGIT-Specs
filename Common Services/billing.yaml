@@ -499,6 +499,7 @@ paths:
           description: Not Found
   /billing-service/businessservices/_search:
     post:
+      deprecated: true
       tags:
       - business-service-detail-controller
       summary: search
@@ -779,6 +780,7 @@ paths:
           description: Not Found
   /billing-service/taxheads/_search:
     post:
+      deprecated: true
       tags:
       - tax-head-master-controller
       summary: search
@@ -860,6 +862,7 @@ paths:
           description: Not Found        
   /billing-service/taxperiods/_search:
     post:
+      deprecated: true
       tags:
       - tax-period-controller
       summary: search
