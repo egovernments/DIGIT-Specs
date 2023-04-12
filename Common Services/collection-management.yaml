@@ -12,9 +12,10 @@ servers:
 paths:
   /bankAccountServiceMapping/_create:
     post:
+      description: creates service mapping for bank account
       tags:
       - bank-account-service-mapping-controller
-      summary: create
+      summary: Creates service mapping for bank account
       operationId: createUsingPOST
       requestBody:
         content:
@@ -23,7 +24,7 @@ paths:
               "$ref": "#/components/schemas/BankAccountServiceMappingReq"
       responses:
         '200':
-          description: OK
+          description: Created Successfully 
           content:
             "*/*":
               schema:
@@ -38,19 +39,23 @@ paths:
           description: Not Found
   /bankAccountServiceMapping/_search:
     post:
+      description: Searches the service mapping for bank account
       tags:
       - bank-account-service-mapping-controller
-      summary: search
+      summary: Searches the service mapping for bank account
       operationId: searchUsingPOST
       parameters:
       - name: bankAccount
         in: query
+        description: Bank account details 
         schema: {}
       - name: businessDetails
         in: query
+        description: Details of business
         schema: {}
       - name: tenantId
         in: query
+        description: Unique id for a tenant.
         schema: {}
       responses:
         200:
@@ -249,6 +254,7 @@ paths:
       parameters:
       - name: billIds
         in: query
+        description: List of bill ids to search receipts.Business details code is mandatory for searching with this criteria.
         required: false
         style: pipeDelimited
         schema:
@@ -258,6 +264,7 @@ paths:
             type: string
       - name: businessServices
         in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         required: false
         style: pipeDelimited
         schema:
@@ -268,6 +275,7 @@ paths:
       - name: consumerCodes
         in: query
         required: false
+        description: Consumer Code.
         style: pipeDelimited
         schema:
           uniqueItems: true
@@ -276,6 +284,7 @@ paths:
             type: string
       - name: fromDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate.
         required: false
         style: form
         schema:
@@ -284,6 +293,7 @@ paths:
       - name: ids
         in: query
         required: false
+        description: Payment Ids.
         style: pipeDelimited
         schema:
           uniqueItems: true
@@ -292,6 +302,7 @@ paths:
             type: string
       - name: instrumentStatus
         in: query
+        description: Search based on the status of the instrument.
         required: false
         style: pipeDelimited
         schema:
@@ -314,12 +325,14 @@ paths:
           format: int32
       - name: mobileNumber
         in: query
+        description: Unique tansaction number for multiple receipts created in one transaction.
         required: false
         style: form
         schema:
           type: string
       - name: offset
         in: query
+        description: offset
         required: false
         style: form
         schema:
@@ -327,6 +340,7 @@ paths:
           format: int32
       - name: payerIds
         in: query
+        description: The ids of the payer
         required: false
         style: pipeDelimited
         schema:
@@ -335,6 +349,7 @@ paths:
             type: string
       - name: paymentModes
         in: query
+        description: The mode of the payment
         required: false
         style: pipeDelimited
         schema:
@@ -344,6 +359,7 @@ paths:
             type: string
       - name: receiptNumbers
         in: query
+        description: List of receipt numbers.
         required: false
         style: pipeDelimited
         schema:
@@ -353,6 +369,7 @@ paths:
             type: string
       - name: status
         in: query
+        description: Search based on the status of the Payment.
         required: false
         style: pipeDelimited
         schema:
@@ -362,12 +379,14 @@ paths:
             type: string
       - name: tenantId
         in: query
+        description: "Unique id for a tenant."
         required: false
         style: form
         schema:
           type: string
       - name: tenantIds
         in: query
+        description: "List of unique ids for a tenant."
         required: false
         style: pipeDelimited
         schema:
@@ -377,6 +396,7 @@ paths:
             type: string
       - name: toDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
         required: false
         style: form
         schema:
@@ -384,6 +404,7 @@ paths:
           format: int64
       - name: transactionNumber
         in: query
+        description: Unique tansaction number for multiple receipts created in one transaction.
         required: false
         style: form
         schema:
@@ -395,7 +416,7 @@ paths:
               "$ref": "#/components/schemas/RequestInfoWrapper"
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             "*/*":
               schema:
@@ -466,13 +487,15 @@ paths:
       x-codegen-request-body-name: PaymentRequest
   /payments/{moduleName}/_search:
     post:
+      description: Searches the payment for a particular module based on search criteria
       tags:
       - Payment
-      summary: search
+      summary: Searches the payment for a particular module based on search criteria
       operationId: searchUsingPOST_2
       parameters:
       - name: billIds
         in: query
+        description: Id for a particular bill
         required: false
         style: pipeDelimited
         schema:
@@ -482,6 +505,7 @@ paths:
             type: string
       - name: businessServices
         in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         required: false
         style: pipeDelimited
         schema:
@@ -491,6 +515,7 @@ paths:
             type: string
       - name: consumerCodes
         in: query
+        description: Consumer Code 
         required: false
         style: pipeDelimited
         schema:
@@ -500,6 +525,7 @@ paths:
             type: string
       - name: fromDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
         required: false
         style: form
         schema:
@@ -507,6 +533,7 @@ paths:
           format: int64
       - name: ids
         in: query
+        description: "List of system generated ids of applications."
         required: false
         style: pipeDelimited
         schema:
@@ -516,6 +543,7 @@ paths:
             type: string
       - name: instrumentStatus
         in: query
+        description: Search based on the status of the instrument.
         required: false
         style: pipeDelimited
         schema:
@@ -538,12 +566,14 @@ paths:
           format: int32
       - name: mobileNumber
         in: query
+        description: Unique tansaction number for multiple receipts created in one transaction.
         required: false
         style: form
         schema:
           type: string
       - name: offset
         in: query
+        description: offset
         required: false
         style: form
         schema:
@@ -551,6 +581,7 @@ paths:
           format: int32
       - name: payerIds
         in: query
+        description: The ids of the payer
         required: false
         style: pipeDelimited
         schema:
@@ -559,6 +590,7 @@ paths:
             type: string
       - name: paymentModes
         in: query
+        description: The mode of the payment
         required: false
         style: pipeDelimited
         schema:
@@ -568,6 +600,7 @@ paths:
             type: string
       - name: receiptNumbers
         in: query
+        description: List of receipt numbers.
         required: false
         style: pipeDelimited
         schema:
@@ -577,6 +610,7 @@ paths:
             type: string
       - name: status
         in: query
+        description: Search based on the status of the Payment.
         required: false
         style: pipeDelimited
         schema:
@@ -586,12 +620,14 @@ paths:
             type: string
       - name: tenantId
         in: query
+        description: Unique id for a tenant.
         required: false
         style: form
         schema:
           type: string
       - name: tenantIds
         in: query
+        description: List of unique ids for a tenant.
         required: false
         style: pipeDelimited
         schema:
@@ -601,6 +637,7 @@ paths:
             type: string
       - name: toDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
         required: false
         style: form
         schema:
@@ -608,6 +645,7 @@ paths:
           format: int64
       - name: transactionNumber
         in: query
+        description: Unique tansaction number for multiple receipts created in one transaction.
         required: false
         style: form
         schema:
@@ -641,9 +679,10 @@ paths:
           description: Not Found        
   /payments/{moduleName}/_workflow:
     post:
+      description: Payment workflow on a particular module
       tags:
       - Payment
-      summary: workflow
+      summary: Payment workflow on a particular module
       operationId: workflowUsingPOST
       parameters:
       - name: moduleName
@@ -692,9 +731,10 @@ paths:
           description: Not Found        
   /remittances/_create:
     post:
+      description: Creates the payment remittance
       tags:
       - remittance-controller
-      summary: create
+      summary: Creates the payment remittance
       operationId: createUsingPOST_2
       requestBody:
         content:
@@ -718,19 +758,22 @@ paths:
           description: Not Found
   /remittances/_search:
     post:
+      description: Searches the payment remmitance based on a search criteria
       tags:
       - remittance-controller
-      summary: search
+      summary: Searches the payment remmitance based on a search criteria
       operationId: searchUsingPOST_3
       parameters:
       - name: bankaccount
         in: query
+        description: Bank account details
         required: false
         style: form
         schema:
           type: string
       - name: fromDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
         required: false
         style: form
         schema:
@@ -738,18 +781,21 @@ paths:
           format: int64
       - name: function
         in: query
+        description: function
         required: false
         style: form
         schema:
           type: string
       - name: fund
         in: query
+        description: fund
         required: false
         style: form
         schema:
           type: string
       - name: ids
         in: query
+        description: "List of system generated ids of applications."
         required: false
         style: pipeDelimited
         schema:
@@ -765,6 +811,7 @@ paths:
           format: int32
       - name: offset
         in: query
+        description: offset
         required: false
         style: form
         schema:
@@ -772,6 +819,7 @@ paths:
           format: int32
       - name: pageSize
         in: query
+        description: Size of page
         required: false
         style: form
         schema:
@@ -779,12 +827,14 @@ paths:
           format: int32
       - name: reasonForDelay
         in: query
+        description: Reason behind delay 
         required: false
         style: form
         schema:
           type: string
       - name: referenceNumbers
         in: query
+        description: Reference number
         required: false
         style: pipeDelimited
         schema:
@@ -793,36 +843,42 @@ paths:
             type: string
       - name: remarks
         in: query
+        description: remarks if any
         required: false
         style: form
         schema:
           type: string
       - name: sortBy
         in: query
+        description: Sorting parameter
         required: false
         style: form
         schema:
           type: string
       - name: sortOrder
         in: query
+        description: Order of sorting
         required: false
         style: form
         schema:
           type: string
       - name: status
         in: query
+        description: status of application
         required: false
         style: form
         schema:
           type: string
       - name: tenantId
         in: query
+        description: "Unique id for a tenant."
         required: true
         style: form
         schema:
           type: string
       - name: toDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
         required: false
         style: form
         schema:
@@ -856,9 +912,10 @@ paths:
           description: Not Found
   /remittances/_update:
     post:
+      description: Updates the payment remittance
       tags:
       - remittance-controller
-      summary: update
+      summary: Updates the payment remittance
       operationId: updateUsingPOST_1
       requestBody:
         content:
@@ -925,14 +982,18 @@ components:
       type: object
       properties:
         bank:
+          description: Name of bank
           type: string
         bankAccount:
+          description: Details of bank account
           type: string
         bankBranch:
+          description: Branch name of bank 
           type: string
         businessDetails:
           type: string
         tenantId:
+          description: "Unique id for a tenant."
           type: string      
     Bill:
       type: object
@@ -1480,6 +1541,7 @@ components:
           "$ref": "#/components/schemas/AuditDetails"
         bankaccount:
           type: string
+          description: bank account details
         function:
           type: string
         fund:
@@ -1524,17 +1586,22 @@ components:
       properties:
         chartOfAccount:
           type: string
+          description: Account chart
         creditAmount:
           type: number
+          description: Credit amount
           format: bigdecimal
         debitAmount:
           type: number
+          description: Debit amount
           format: bigdecimal
         id:
+          description: Unique system generated id
           type: string
         remittance:
           type: string
         tenantId:
+          description: "Unique id for a tenant."
           type: string
     RemittanceInstrument:
       title: RemittanceInstrument
@@ -1542,7 +1609,8 @@ components:
       - instrument
       type: object
       properties:
-        id:
+        id: 
+          description: "List of system generated ids of applications."
           type: string
         instrument:
           type: string
@@ -1551,6 +1619,7 @@ components:
         remittance:
           type: string
         tenantId:
+          description: Unique id of tenant
           type: string
     RemittanceReceipt:
       title: RemittanceReceipt
@@ -1558,8 +1627,10 @@ components:
       properties:
         id:
           type: string
+          description: Unique system generated id
         receipt:
           type: string
+          description:  Receipt ID generated for this payment
         remittance:
           type: string
         tenantId:
