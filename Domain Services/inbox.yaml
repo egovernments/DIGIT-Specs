@@ -14,9 +14,10 @@ paths:
 
   /inbox/v1/_search:
     post:
+      description: Returns applications to be displayed in inbox
       tags:
         - inbox-controller
-      summary: search
+      summary:  Searches applications based on given search criteria
       operationId: searchUsingPOST
       requestBody:
         content:
@@ -39,10 +40,11 @@ paths:
         '404':
           description: Not Found
   /inbox/v1/dss/_search:
+    description: Returns dss applications to be displayed in inbox
     post:
       tags:
         - inbox-controller
-      summary: getChartV2
+      summary: getChartV2 for dss applications
       operationId: getChartV2UsingPOST
       requestBody:
         content:
@@ -69,9 +71,10 @@ paths:
           description: Not Found        
   /inbox/v1/elastic/_search:
     post:
+      description: Returns elastic search response to be displayed in inbox
       tags:
         - inbox-controller
-      summary: elasticSearch
+      summary: Returns elastic search response
       operationId: elasticSearchUsingPOST
       requestBody:
         content:
@@ -154,42 +157,68 @@ components:
     PlainAccessRequest:
       title: PlainAccessRequest
       type: object
+      description: plain access request for inbox
       properties:
         plainRequestFields:
           type: array
+          description: plain request fields
           items:
             type: string
+            description: items in plain access request
         recordId:
           type: string
+          description: record id for request
     
     RequestInfo:
       title: RequestInfo
       type: object
       properties:
-        action:
-          type: string
         apiId:
+          maxLength: 128
           type: string
-        authToken:
+          description: unique API ID
+        ver:
+          maxLength: 32
           type: string
-        correlationId:
-          type: string
-        did:
-          type: string
-        key:
-          type: string
-        msgId:
-          type: string
-        plainAccessRequest:
-          $ref: '#/components/schemas/PlainAccessRequest'
+          description: API version - for HTTP based request this will be same as used
+            in path
         ts:
           type: integer
+          description: time in epoch
           format: int64
+        action:
+          maxLength: 32
+          type: string
+          description: API action to be performed like _create, _update, _search (denoting
+            POST, PUT, GET) or _oauth etc
+        did:
+          maxLength: 1024
+          type: string
+          description: Device ID from which the API is called
+        key:
+          maxLength: 256
+          type: string
+          description: API key (API key provided to the caller in case of server to
+            server communication)
+        msgId:
+          maxLength: 256
+          type: string
+          description: Unique request message id from the caller
+        requesterId:
+          maxLength: 256
+          type: string
+          description: UserId of the user calling
+        authToken:
+          type: string
+          description: //session/jwt/saml token/oauth token - the usual value that
+            would go into HTTP bearer token
         userInfo:
           $ref: '#/components/schemas/User'
-        ver:
-          type: string
-    
+      description: RequestInfo should be used to carry meta information about the
+        requests to the server as described in the fields below. All eGov APIs will
+        use requestinfo as a part of the request body to carry this meta information.
+        Some of this information will be returned back from the server as part of
+        the ResponseInfo in the response body to ensure correlation.
     InboxElasticSearchRequest:
       title: InboxElasticSearchRequest
       type: object
@@ -203,21 +232,25 @@ components:
       title: Role
       type: object
       properties:
+        id:
+          type: integer
+          description: Unique identifier of the role.
+          format: int64
+        name:
+          maxLength: 100
+          minLength: 2
+          type: string
+          description: The Name of the Role.
         code:
           maxLength: 50
           minLength: 0
           type: string
-        id:
-          type: integer
-          format: int64
-        name:
-          maxLength: 128
-          minLength: 0
-          type: string
+          description: The Code of the Role.
         tenantId:
           maxLength: 256
           minLength: 0
           type: string
+          description: Tenant ID of the Role.
     
     User:
       title: User
@@ -227,37 +260,47 @@ components:
           maxLength: 300
           minLength: 0
           type: string
+          description: email address of the authenticated user
         id:
           type: integer
           format: int64
+          description: "List of system generated ids of applications."
         mobileNumber:
           maxLength: 150
           minLength: 0
           type: string
+          description: mobile number of the autheticated user
         name:
           maxLength: 250
           minLength: 0
           type: string
+          description: name of the user
         roles:
           type: array
+          description: List of all the roles for the primary tenant
           items:
             $ref: '#/components/schemas/Role'
+            
         tenantId:
           maxLength: 256
           minLength: 0
           type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
         type:
           maxLength: 50
           minLength: 0
           type: string
+          description: type of user (if the user is a citizen/employee) 
         userName:
           maxLength: 180
           minLength: 0
           type: string
+          description: Unique user name of the authenticated user
         uuid:
           maxLength: 36
           minLength: 0
           type: string
+          description: System Generated User id of the authenticated user.
     
     InboxMetricCriteria:
       title: InboxMetricCriteria
@@ -265,8 +308,10 @@ components:
       properties:
         module:
           type: string
+          description: Module name of the applications 
         tenantId:
           type: string
+          description: Unique Identifier of the tenant to which inbox metric primarily belongs
    
     ProcessInstanceSearchCriteria:
       type: object

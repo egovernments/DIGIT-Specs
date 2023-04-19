@@ -115,9 +115,10 @@ paths:
         - eChallan APIs
   /eChallan/v1/_count:
     post:
+      description: Get the list of count of paid, active, cancelled and total number of challan for given tenant Id.
       tags:
-        - challan-controller
-      summary: count
+        - eChallan APIs
+      summary: Get the list of count of paid, active, cancelled and total number of challan 
       operationId: countUsingPOST
       parameters:
         - name: tenantId
@@ -149,8 +150,9 @@ paths:
           description: Not Found
   /eChallan/v1/_test:
     post:
+      description: test api for eChallan
       tags:
-        - challan-controller
+        - eChallan APIs
       summary: test
       operationId: testUsingPOST
       requestBody:
@@ -180,47 +182,58 @@ components:
       title: Address
       type: object
       properties:
-        addressId:
+        addressId: 
           maxLength: 64
           minLength: 0
           type: string
+          description: Address Id  
         addressLine1:
           type: string
+          description: first address line 
         addressLine2:
           maxLength: 256
           minLength: 0
           type: string
+          description: second address line 
         addressNumber:
           maxLength: 64
           minLength: 0
           type: string
+          description: address number
         buildingName:
           maxLength: 64
           minLength: 0
+          description: Name of the building
           type: string
         city:
           maxLength: 64
           minLength: 0
+          description: City of the address. Can be represented by the tenantid itself
           type: string
         country:
           type: string
+          description: The country in which the property is located
         detail:
           maxLength: 64
           minLength: 0
           type: string
         district:
           type: string
+          description: The district in which the property is located
         doorNo:
           maxLength: 64
           minLength: 0
+          description: House number or door number.
           type: string
         id:
           maxLength: 64
           minLength: 0
+          description: System generated id for the address
           type: string
         landmark:
           maxLength: 64
           minLength: 0
+          description: additional landmark to help locate the address
           type: string
         latitude:
           type: number
@@ -233,21 +246,27 @@ components:
         pincode:
           maxLength: 64
           minLength: 0
+          description: PIN code of the address. Indian pincodes will usually be all numbers.
           type: string
         plotNo:
           type: string
+          description: Plot number of the house.
         region:
           type: string
+          description: The Region in which the property is located
         state:
           type: string
+          description: The State in which the property is located
         street:
           maxLength: 64
           minLength: 0
           type: string
+          description: Street Name
         tenantId:
           maxLength: 64
           minLength: 0
           type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
         type:
           maxLength: 64
           minLength: 0
@@ -262,22 +281,29 @@ components:
           exclusiveMinimum: false
           type: number
           format: bigdecimal
+          description: Capture the amount for a tax head
         taxHeadCode:
           type: string
+          description: Tax head code from tax head master(Tax codes are desfined at business service level so each business service can have diffrent tax head code defined) 
     AuditDetails:
       title: AuditDetails
       type: object
       properties:
         createdBy:
           type: string
+          description: username (preferred) or userid of the user that created the object
         createdTime:
           type: integer
+          description: epoch of the time object is created
           format: int64
         lastModifiedBy:
           type: string
+          description: username (preferred) or userid of the user that last modified the object
         lastModifiedTime:
           type: integer
+          description: epoch of the time object is last modified
           format: int64
+      description: Collection of audit related fields used by most models
     Boundary:
       title: Boundary
       required:
@@ -290,16 +316,22 @@ components:
             $ref: '#/components/schemas/Boundary'
         code:
           type: string
+          description: code of the boundary.
         label:
           type: string
+          description: localized label for the boundary
         latitude:
           type: string
+          description: latitude of the boundary.
         longitude:
           type: string
+          description: longitude of the boundary.
         materializedPath:
           type: string
+          description: materialized path of the boundary - this would be of the format tenantid.[code] from parentt till teh current boundary  
         name:
           type: string
+          description: name of the boundary.
     Calculation:
       title: Calculation
       required:
@@ -324,6 +356,7 @@ components:
       properties:
         accountId:
           type: string
+          description: "Initiator User UUID"
         additionalDetail:
           type: object
         address:
@@ -346,20 +379,26 @@ components:
           $ref: '#/components/schemas/Calculation'
         challanNo:
           type: string
+          description:  The unique formatted id for challan.
         citizen:
           $ref: '#/components/schemas/UserInfoReq'
         description:
           type: string
         filestoreid:
           type: string
+          description: id generated by filestore 
         id:
+          description: "List of system generated ids of applications."
           type: string
         receiptNumber:
           type: string
+          description: the verification code generated by system which acknowledges the received communication of return information or extension request.
         referenceId:
           type: string
+          description: Unique identifier of the entity for which the challan is generated
         source:
           type: string
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
         taxPeriodFrom:
           type: integer
           format: int64
@@ -368,6 +407,7 @@ components:
           format: int64
         tenantId:
           type: string
+          description: "Unique id for a tenant."
     ChallanRequest:
       title: ChallanRequest
       type: object
@@ -400,6 +440,7 @@ components:
           $ref: '#/components/schemas/AuditDetails'
         businessService:
           type: string
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         calculation:
           $ref: '#/components/schemas/Calculation'
         challanNo:
@@ -410,14 +451,19 @@ components:
           type: string
         filestoreid:
           type: string
+          description: id generated by filestore
         id:
           type: string
+          description: "List of system generated ids of applications."
         receiptNumber:
           type: string
+          description: the verification code generated by system which acknowledges the received communication of return information or extension request.
         referenceId:
           type: string
+          description: Unique identifier of the entity for which the challan is generated
         source:
           type: string
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
         taxPeriodFrom:
           type: integer
           format: int64
@@ -426,6 +472,7 @@ components:
           format: int64
         tenantId:
           type: string
+          description: "Unique id for a tenant."
     ChallanResponse:
       title: ChallanResponse
       type: object
@@ -454,21 +501,29 @@ components:
       properties:
         action:
           type: string
+          description: "Action on the application in certain"
         apiId:
           type: string
         authToken:
           type: string
+          description: "//session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token"
         correlationId:
           type: string
+          description: "RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation."
         did:
           type: string
+          description: "Device ID from which the API is called"
         key:
           type: string
+          description: "API key (API key provided to the caller in case of server\
+            \ to server communication)"
         msgId:
           type: string
+          description: "message id of the request"
         ts:
           type: integer
           format: int64
+          description: time in epoch
         userInfo:
           $ref: '#/components/schemas/User'
         ver:
@@ -479,6 +534,7 @@ components:
       properties:
         body:
           type: object
+          description: response body 
         statusCode:
           type: string
           enum:
@@ -553,22 +609,30 @@ components:
         statusCodeValue:
           type: integer
           format: int32
+          description: value of status code to be displayed 
     ResponseInfo:
       title: ResponseInfo
       type: object
       properties:
         apiId:
+          description: "unique API ID"
           type: string
         msgId:
           type: string
+          description: "message id of the request"
         resMsgId:
           type: string
+          description: "unique response message id (UUID) - will usually be the correlation id from the server"
         status:
           type: string
+          description: current application status in the system records
         ts:
           type: integer
           format: int64
+          description: time in epoch
         ver:
+          description: "API version - for HTTP based request this will be same as\
+            \ used in path"
           type: string
     RoleReq:
       title: RoleReq
@@ -576,12 +640,15 @@ components:
       properties:
         code:
           type: string
+          description: "Unique code of the role"
         id:
           type: integer
+          description: "List of system generated ids of BPA applications."
           format: int64
         name:
           type: string
         tenantId:
+          description: "Unique id for a tenant."
           type: string
     RoleRes:
       title: RoleRes
@@ -589,13 +656,16 @@ components:
       properties:
         code:
           type: string
+          description: "Unique code of the role"
         id:
           type: integer
           format: int64
+          description: "List of system generated ids of applications."
         name:
           type: string
         tenantId:
           type: string
+          description: "Unique id for a tenant."
     TaxHeadEstimate:
       title: TaxHeadEstimate
       type: object
@@ -642,27 +712,35 @@ components:
       properties:
         emailId:
           type: string
+          description: "email address of the authenticated user"
         id:
           type: integer
+          description: "List of system generated ids of applications."
           format: int64
         mobileNumber:
           type: string
+          description: "MobileNumber of land owners"
         name:
           type: string
+          description: name of user
         roles:
           type: array
           items:
             $ref: '#/components/schemas/RoleReq'
         tenantId:
           type: string
+          description: "Unique id for a tenant."
         type:
           type: string
         userName:
           type: string
+          description: "Unique user name of the authenticated user"
         uuid:
           type: string
+          description: System Generated User id of the authenticated user.
     UserInfoReq:
       title: UserInfoReq
+      description: User info request
       required:
         - mobileNumber
         - name
@@ -670,9 +748,11 @@ components:
       properties:
         aadhaarNumber:
           pattern: ^[0-9]{12}$
+          description: Aadhaar number of the User
           type: string
         accountLocked:
           type: boolean
+          description: Is account locked for the user 
         active:
           type: boolean
         additionalroles:
@@ -683,22 +763,27 @@ components:
           maxLength: 50
           minLength: 0
           type: string
+          description: Alternate Contact Number of the User
         bloodGroup:
           maxLength: 32
           minLength: 0
           type: string
+          description: Blood group of the User
         correspondenceAddress:
           maxLength: 300
           minLength: 0
           type: string
+          description: Correspondence address of the User
         correspondenceCity:
           maxLength: 300
           minLength: 0
           type: string
+          description: Correspondence city of the User
         correspondencePinCode:
           maxLength: 10
           minLength: 0
           type: string
+          description: Correspondence pin code of the User
         createdBy:
           maxLength: 64
           minLength: 0
@@ -706,11 +791,14 @@ components:
         createdDate:
           type: integer
           format: int64
+          description: Date of creation
         dob:
           type: integer
           format: int64
+          description: Date of birth of the User
         email:
           type: string
+          description: Email address of the User
         emailId:
           maxLength: 128
           minLength: 0
@@ -797,6 +885,7 @@ components:
           type: string
     UserInfoRes:
       title: UserInfoRes
+      description: User info response
       required:
         - mobileNumber
         - name

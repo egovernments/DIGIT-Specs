@@ -267,25 +267,29 @@ paths:
       x-roles: "BPA_ARCHITECT,CITIZEN,EMPLOYEE"
   /v1/bpa/_plainsearch:
     post:
+      description: "Get the properties plainsearch list based on the input parameters.\n"
       tags:
-        - bpa-controller
-      summary: plainSearch
+        - BPA_APPLY
+      summary: Get the properties plainsearch list by passing different criteria.
       operationId: plainSearchUsingPOST
       parameters:
         - name: applicationNo
           in: query
+          description: "application numbers"
           required: false
           style: form
           schema:
             type: string
         - name: applicationType
           in: query
+          description: "type of application"
           required: false
           style: form
           schema:
             type: string
         - name: approvalDate
           in: query
+          description: "date of approval"
           required: false
           style: form
           schema:
@@ -293,12 +297,14 @@ paths:
             format: int64
         - name: approvalNo
           in: query
+          description: "approval no"
           required: false
           style: form
           schema:
             type: string
         - name: businessService
           in: query
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
           required: false
           style: pipeDelimited
           schema:
@@ -307,6 +313,7 @@ paths:
               type: string
         - name: createdBy
           in: query
+          description: created By
           required: false
           style: pipeDelimited
           schema:
@@ -315,12 +322,14 @@ paths:
               type: string
         - name: edcrNumber
           in: query
+          description: "edcr Number."
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: start date of the record
           required: false
           style: form
           schema:
@@ -328,6 +337,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: "List of system generated ids of BPA applications."
           required: false
           style: pipeDelimited
           schema:
@@ -336,6 +346,7 @@ paths:
               type: string
         - name: landId
           in: query
+          description: land identifier.
           required: false
           style: pipeDelimited
           schema:
@@ -344,6 +355,7 @@ paths:
               type: string
         - name: limit
           in: query
+          description: limit 
           required: false
           style: form
           schema:
@@ -351,18 +363,21 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of land owners"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -370,6 +385,7 @@ paths:
             format: int32
         - name: ownerIds
           in: query
+          description: Id credential for Owners
           required: false
           style: pipeDelimited
           schema:
@@ -378,30 +394,35 @@ paths:
               type: string
         - name: permitNumber
           in: query
+          description: permit serial number
           required: false
           style: form
           schema:
             type: string
         - name: serviceType
           in: query
+          description: type of service 
           required: false
           style: form
           schema:
             type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: form
           schema:
             type: string
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: false
           style: form
           schema:
             type: string
         - name: toDate
           in: query
+          description: date to which data is recorded
           required: false
           style: form
           schema:
@@ -427,10 +448,11 @@ paths:
           description: Forbidden
         '404':
           description: Not Found    
-  /bpa-services/v1/bpa/_permitorderedcr:
+  /v1/bpa/_permitorderedcr:
     post:
+      description: "Get the pdf for order permit on edcr \n"
       tags:
-        - bpa-controller
+        - BPA_APPLY
       summary: getPdf
       operationId: getPdfUsingPOST
       requestBody:

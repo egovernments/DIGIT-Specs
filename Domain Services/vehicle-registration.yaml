@@ -179,11 +179,14 @@ paths:
     post:
       tags:
         - Vehicle
-      summary: plainsearch
+      summary: Get the Vehicle details via plain search
+      description: |
+        Gets the list of Vehicle for a particular ULB based on plain search criteria.
       operationId: plainsearchUsingPOST
       parameters:
         - name: applicationStatus
           in: query
+          description: search application by list of application Status(s)
           required: false
           style: pipeDelimited
           schema:
@@ -192,6 +195,7 @@ paths:
               type: string
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -200,6 +204,7 @@ paths:
               type: string
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -207,12 +212,14 @@ paths:
             format: int32
         - name: mobileNumber
           in: query
+          description: Search by mobile number of service requester
           required: false
           style: form
           schema:
             type: string
         - name: model
           in: query
+          description: Search by model of the vehicle
           required: false
           style: pipeDelimited
           schema:
@@ -221,6 +228,7 @@ paths:
               type: string
         - name: offset
           in: query
+          description: offset index of the overall search resulsts
           required: false
           style: form
           schema:
@@ -228,6 +236,7 @@ paths:
             format: int32
         - name: ownerId
           in: query
+          description: Search by uuid of service requester
           required: false
           style: pipeDelimited
           schema:
@@ -236,6 +245,7 @@ paths:
               type: string
         - name: registrationNumber
           in: query
+          description: Allows search for service type - comma separated list
           required: false
           style: pipeDelimited
           schema:
@@ -244,6 +254,7 @@ paths:
               type: string
         - name: sortBy
           in: query
+          description: sort the search results by fields
           required: false
           style: form
           schema:
@@ -261,6 +272,7 @@ paths:
               - vehicleOwner
         - name: sortOrder
           in: query
+          description: sorting order of the search resulsts
           required: false
           style: form
           schema:
@@ -270,6 +282,7 @@ paths:
               - DESC
         - name: status
           in: query
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
           required: false
           style: pipeDelimited
           schema:
@@ -278,6 +291,7 @@ paths:
               type: string
         - name: suctionType
           in: query
+          description: Search by suction model of the vehicle
           required: false
           style: pipeDelimited
           schema:
@@ -286,6 +300,7 @@ paths:
               type: string
         - name: tankCapacity
           in: query
+          description: Search by tankCapacity of the vehicle
           required: false
           style: form
           schema:
@@ -293,12 +308,14 @@ paths:
             format: double
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: false
           style: form
           schema:
             type: string
         - name: type
           in: query
+          description: Search by type of the vehicle
           required: false
           style: pipeDelimited
           schema:
@@ -307,6 +324,7 @@ paths:
               type: string
         - name: vehicleOwner
           in: query
+          description: vehicle owner details
           required: false
           style: pipeDelimited
           schema:
@@ -315,12 +333,14 @@ paths:
               type: string
         - name: vehicleWithNoVendor
           in: query
+          description: Vehicle without vendor
           required: false
           style: form
           schema:
             type: boolean
         - name: vendorVehicleStatus
           in: query
+          description: Vendor vehicle status
           required: false
           style: pipeDelimited
           schema:
@@ -334,13 +354,19 @@ paths:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response sorted by reverse chrnological order of creation
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/VehicleResponse'
         '201':
           description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -350,23 +376,31 @@ paths:
   /vehicle/v1/fetchApplicationStatusCount:
     post:
       tags:
-        - vehicle-inbox-controller
-      summary: fetchApplicationCount
+        - Vehicle
+      summary: Fetch Application Count 
+      description: This api fethces application count
       operationId: fetchApplicationCountUsingPOST
       requestBody:
+        description: Request schema.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/VehicleSearchCriteria'
       responses:
         '200':
-          description: OK
+          description: Successful Response
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/VehicleCustomResponse'
         '201':
           description: Created
+        '400':
+          description: Failed to process the Request
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'  
         '401':
           description: Unauthorized
         '403':
@@ -376,23 +410,31 @@ paths:
   /vehicle/v1/searchTrip:
     post:
       tags:
-        - vehicle-inbox-controller
-      summary: fetchVehicleTripDetail
+        - Vehicle
+      summary: Fetch Vehicle Trip Detail
+      description: This api fetches vehicle trip details
       operationId: fetchVehicleTripDetailUsingPOST
       requestBody:
+        description: Request schema.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/VehicleTripSearchCriteria'
       responses:
         '200':
-          description: OK
+          description: Successful Response
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/VehicleTripDetailResponse'
         '201':
           description: Created
+        '400':
+          description: Failed to process the Request
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'  
         '401':
           description: Unauthorized
         '403':
@@ -577,7 +619,9 @@ paths:
     post:
       tags:
         - VehicleTrip
-      summary: plainsearch
+      summary: Get the VehicleTrip details via plain search
+      description: |
+        Gets the list of VehicleLog for a particular ULB based on plain search criteria.
       operationId: plainsearchUsingPOST_1
       parameters:
         - name: applicationNos
@@ -590,6 +634,7 @@ paths:
               type: string
         - name: applicationStatus
           in: query
+          description: search application by list of application Status(s)
           required: false
           style: pipeDelimited
           schema:
@@ -598,12 +643,14 @@ paths:
               type: string
         - name: businessService
           in: query
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
           required: false
           style: form
           schema:
             type: string
         - name: driverIds
           in: query
+          description: Search by list of UUID of of the drivers
           required: false
           style: pipeDelimited
           schema:
@@ -612,6 +659,7 @@ paths:
               type: string
         - name: ids
           in: query
+          description: List of system generated ids of applications.
           required: false
           style: pipeDelimited
           schema:
@@ -620,6 +668,7 @@ paths:
               type: string
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -627,6 +676,7 @@ paths:
             format: int32
         - name: offset
           in: query
+          description: offset index of the overall search resulsts
           required: false
           style: form
           schema:
@@ -634,6 +684,7 @@ paths:
             format: int32
         - name: refernceNos
           in: query
+          description: Search by the referenceNo(s)
           required: false
           style: pipeDelimited
           schema:
@@ -642,6 +693,7 @@ paths:
               type: string
         - name: sortBy
           in: query
+          description: sort the search results by fields
           required: false
           style: form
           schema:
@@ -665,12 +717,14 @@ paths:
               - DESC
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: false
           style: form
           schema:
             type: string
         - name: tripOwnerIds
           in: query
+          description: Search by list of UUID of of the trip owners
           required: false
           style: pipeDelimited
           schema:
@@ -679,6 +733,7 @@ paths:
               type: string
         - name: vehicleIds
           in: query
+          description: Search by list of UUID of vehicle(s)
           required: false
           style: pipeDelimited
           schema:
@@ -686,19 +741,26 @@ paths:
             items:
               type: string
       requestBody:
+        description: Request schema.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response sorted by reverse chrnological order of creation
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/VehicleTripResponse'
         '201':
           description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -808,10 +870,12 @@ components:
       properties:
         applicationIds:
           type: array
+          description: application ids
           items:
             type: string
         applicationStatusCount:
           type: array
+          description: application status count
           items:
             type: object
             additionalProperties:
@@ -824,33 +888,42 @@ components:
       properties:
         applicationStatus:
           type: array
+          description: application status
           items:
             type: string
         ids:
+          description: "List of system generated ids of applications."
           type: array
           items:
             type: string
         limit:
+          description: Limit
           type: integer
           format: int32
         mobileNumber:
           type: string
+          description: "MobileNumber of vehicle owners"
         model:
+          description: Vehicle model number(this the master data defined in MDMS).
           type: array
           items:
             type: string
         offset:
+          description: offset index of the overall search resulsts
           type: integer
           format: int32
         ownerId:
+          description: uuid of service requester
           type: array
           items:
             type: string
         registrationNumber:
+          description: Allows search for service type - comma separated list
           type: array
           items:
             type: string
         sortBy:
+          description: sort the search results by fields
           type: string
           enum:
             - InsuranceCertValidTill
@@ -864,35 +937,44 @@ components:
             - type
             - vehicleOwner
         sortOrder:
+          description: sorting order of the search results
           type: string
           enum:
             - ASC
             - DESC
         status:
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
           type: array
           items:
             type: string
         suctionType:
           type: array
+          description: Suction model of the vehicle
           items:
             type: string
         tankCapacity:
           type: number
+          description: Tank Capacity of the vehicle
           format: double
         tenantId:
+          description: Unique id for a tenant
           type: string
         type:
+          description: Type of vehicle
           type: array
           items:
             type: string
         vehicleOwner:
+          description: Vehicle owner details
           type: array
           items:
             type: string
         vehicleWithNoVendor:
           type: boolean
+          description: Vehicle without Vendor
         vendorVehicleStatus:
           type: array
+          description: Vendor Vehicle Status
           items:
             type: string      
     ResponseInfo:
@@ -900,17 +982,23 @@ components:
       type: object
       properties:
         apiId:
+          description: unique API ID
           type: string
         msgId:
+          description: "message id of the request"
           type: string
         resMsgId:
+          description: "unique response message id (UUID) - will usually be the correlation id from the server"
           type: string
         status:
+          description: current application status in the system records
           type: string
-        ts:
+        ts: 
+          description: time in epoch
           type: integer
           format: int64
         ver:
+          description: "API version - for HTTP based request this will be same as used in path"
           type: string        
     RequestInfoWrapper:
       title: RequestInfoWrapper
@@ -924,50 +1012,69 @@ components:
       properties:
         action:
           type: string
+          description: "Action on the application in certain"
         apiId:
+          description: unique API ID
           type: string
         authToken:
+          description: "//session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token"
           type: string
         correlationId:
           type: string
+          description: "RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation."
         did:
           type: string
+          description: "Device ID from which the API is called"
         key:
+          description: "API key (API key provided to the caller in case of server to server communication)"
           type: string
         msgId:
+          description: "message id of the request"
           type: string
         ts:
+          description: time in epoch
           type: integer
           format: int64
         userInfo:
           $ref: '#/components/schemas/User0Req'
         ver:
+          description: "API version - for HTTP based request this will be same as used in path"
           type: string
     User0Req:
       title: User0Req
       type: object
       properties:
         emailId:
+          description: "email address of the authenticated user"
           type: string
         id:
           type: integer
+          description: The unique id an user.
           format: int64
         mobileNumber:
           type: string
+          description: Mobile number of the user
         name:
           type: string
+          description: The full name of the user.
         roles:
           type: array
+          description: List of roles that are attached to the user.
           items:
             $ref: '#/components/schemas/RoleReq'
         tenantId:
           type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
         type:
           type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
         userName:
           type: string
+          description: The unique username used for user login.
         uuid:
           type: string      
+          description: "System Generated User id of the authenticated user."
     VehicleRequest:
       type: object
       description: Request for vehicle details
@@ -998,13 +1105,17 @@ components:
       type: object
       properties:
         code:
+          description: "Unique code of the role"
           type: string
         id:
+          description: "Unique id of the role"
           type: integer
           format: int64
         name:
+          description: "Unique name of the role"
           type: string
         tenantId:
+          description: "Unique tenantId of the tenant"
           type: string    
     VehicleTrip:
       type: object
@@ -1150,33 +1261,42 @@ components:
       properties:
         applicationNos:
           type: array
+          description: Application Numbers
           items:
             type: string
         applicationStatus:
+          description: Application Status
           type: array
           items:
             type: string
         businessService:
           type: string
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         driverIds:
           type: array
+          description: Search by list of UUID of of the drivers
           items:
             type: string
         ids:
+          description: "List of system generated ids of applications."
           type: array
           items:
             type: string
         limit:
+          description: limit 
           type: integer
           format: int32
         offset:
+          description: Offset
           type: integer
           format: int32
         refernceNos:
           type: array
+          description: Reference Numbers
           items:
             type: string
         sortBy:
+          description: sort the search results by fields
           type: string
           enum:
             - applicationStatus
@@ -1187,17 +1307,21 @@ components:
             - tripStartTime
             - vehicle
         sortOrder:
+          description: sorting order of the search resulsts
           type: string
           enum:
             - ASC
             - DESC
         tenantId:
+          description: "Unique id for a tenant."
           type: string
         tripOwnerIds:
+          description: Trip Owner Id credential
           type: array
           items:
             type: string
         vehicleIds:
+          description: Unique Vehicle Id credential
           type: array
           items:
             type: string        

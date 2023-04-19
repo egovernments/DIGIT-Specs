@@ -14,9 +14,10 @@ paths:
   
   /bpa-calculator/_calculate:
     post:
+      description: Calculate the Fee and create Demand for the building plan application
       tags:
         - bpa-calculator-controller
-      summary: calculate
+      summary: Calculate the Fee and create Demand for the building plan application
       operationId: calculateUsingPOST
       requestBody:
         content:
@@ -35,10 +36,10 @@ paths:
         '401':
           description: Unauthorized
         '403':
-          description: Forbidden
+          description: Failed to process the application 
         '404':
           description: Not Found
-  
+    
 servers:
 # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking

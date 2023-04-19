@@ -73,12 +73,14 @@ paths:
       parameters:
         - name: accountId
           in: query
+          description: "Initiator User UUID" 
           required: false
           style: form
           schema:
             type: string
         - name: applicationStatus
           in: query
+          description: Search by list of Application Status
           required: false
           style: pipeDelimited
           schema:
@@ -88,6 +90,7 @@ paths:
               type: string
         - name: fromDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
           required: false
           style: form
           schema:
@@ -95,6 +98,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -104,12 +108,14 @@ paths:
               type: string
         - name: isPlainSearch
           in: query
+          description: 'true if Plain search is enabled, otherwise false'
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit 
           required: false
           style: form
           schema:
@@ -117,6 +123,7 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: pipeDelimited
           schema:
@@ -126,12 +133,14 @@ paths:
               type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of citizen"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -139,6 +148,7 @@ paths:
             format: int32
         - name: serviceCode
           in: query
+          description: Allows search for service type - comma separated list
           required: false
           style: pipeDelimited
           schema:
@@ -148,12 +158,14 @@ paths:
               type: string
         - name: serviceRequestId
           in: query
+          description: Search by serviceRequestId of the complaint
           required: false
           style: form
           schema:
             type: string
         - name: slaDeltaMaxLimit
           in: query
+          description: Maximum SLA Delta Limit
           required: false
           style: form
           schema:
@@ -161,6 +173,7 @@ paths:
             format: int64
         - name: slaDeltaMinLimit
           in: query
+          description: Minimum SLA Delta Limit
           required: false
           style: form
           schema:
@@ -168,6 +181,7 @@ paths:
             format: int64
         - name: sortBy
           in: query
+          description: parameter for sorting
           required: false
           style: form
           schema:
@@ -178,6 +192,7 @@ paths:
               - serviceRequestId
         - name: sortOrder
           in: query
+          description: order of sorting
           required: false
           style: form
           schema:
@@ -187,12 +202,14 @@ paths:
               - DESC
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: "List of tenant ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -202,6 +219,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
           required: false
           style: form
           schema:
@@ -209,6 +227,7 @@ paths:
             format: int64
         - name: userIds
           in: query
+          description: "UserId of the user calling"
           required: false
           style: pipeDelimited
           schema:
@@ -245,14 +264,14 @@ paths:
       parameters:
         - name: tenantId
           in: query
-          description: tenantId
+          description: "Unique id for a tenant."
           required: true
           style: form
           schema:
             type: string
         - name: uuids
           in: query
-          description: uuids
+          description: "System Generated User id of the authenticated user."
           required: true
           style: form
           explode: true
@@ -310,12 +329,14 @@ paths:
       parameters:
         - name: accountId
           in: query
+          description: "Initiator User UUID" 
           required: false
           style: form
           schema:
             type: string
         - name: applicationStatus
           in: query
+          description: Search by list of Application Status
           required: false
           style: pipeDelimited
           schema:
@@ -325,6 +346,7 @@ paths:
               type: string
         - name: fromDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
           required: false
           style: form
           schema:
@@ -332,6 +354,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -341,12 +364,14 @@ paths:
               type: string
         - name: isPlainSearch
           in: query
+          description: 'true if Plain search is enabled, otherwise false'
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit 
           required: false
           style: form
           schema:
@@ -354,6 +379,7 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: pipeDelimited
           schema:
@@ -363,12 +389,14 @@ paths:
               type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of citizen"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -376,6 +404,7 @@ paths:
             format: int32
         - name: serviceCode
           in: query
+          description: Allows search for service type - comma separated list
           required: false
           style: pipeDelimited
           schema:
@@ -385,12 +414,14 @@ paths:
               type: string
         - name: serviceRequestId
           in: query
+          description: Search by serviceRequestId of the complaint
           required: false
           style: form
           schema:
             type: string
         - name: slaDeltaMaxLimit
           in: query
+          description: Maximum SLA Delta Limit
           required: false
           style: form
           schema:
@@ -398,6 +429,7 @@ paths:
             format: int64
         - name: slaDeltaMinLimit
           in: query
+          description: Minimum SLA Delta Limit
           required: false
           style: form
           schema:
@@ -405,6 +437,7 @@ paths:
             format: int64
         - name: sortBy
           in: query
+          description: parameter for sorting
           required: false
           style: form
           schema:
@@ -415,6 +448,7 @@ paths:
               - serviceRequestId
         - name: sortOrder
           in: query
+          description: order of sorting
           required: false
           style: form
           schema:
@@ -424,12 +458,14 @@ paths:
               - DESC
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: "List of tenant ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -439,6 +475,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
           required: false
           style: form
           schema:
@@ -446,6 +483,7 @@ paths:
             format: int64
         - name: userIds
           in: query
+          description: "UserId of the user calling"
           required: false
           style: pipeDelimited
           schema:
@@ -508,12 +546,14 @@ paths:
       parameters:
         - name: accountId
           in: query
+          description: "Initiator User UUID" 
           required: false
           style: form
           schema:
             type: string
         - name: applicationStatus
           in: query
+          description: Search by list of Application Status
           required: false
           style: pipeDelimited
           schema:
@@ -523,6 +563,7 @@ paths:
               type: string
         - name: fromDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
           required: false
           style: form
           schema:
@@ -530,6 +571,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -539,12 +581,14 @@ paths:
               type: string
         - name: isPlainSearch
           in: query
+          description: 'true if Plain search is enabled, otherwise false'
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit 
           required: false
           style: form
           schema:
@@ -552,6 +596,7 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: pipeDelimited
           schema:
@@ -561,12 +606,14 @@ paths:
               type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of citizen"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -574,6 +621,7 @@ paths:
             format: int32
         - name: serviceCode
           in: query
+          description: Allows search for service type - comma separated list
           required: false
           style: pipeDelimited
           schema:
@@ -583,12 +631,14 @@ paths:
               type: string
         - name: serviceRequestId
           in: query
+          description: Search by serviceRequestId of the complaint
           required: false
           style: form
           schema:
             type: string
         - name: slaDeltaMaxLimit
           in: query
+          description: Maximum SLA Delta Limit
           required: false
           style: form
           schema:
@@ -596,6 +646,7 @@ paths:
             format: int64
         - name: slaDeltaMinLimit
           in: query
+          description: Minimum SLA Delta Limit
           required: false
           style: form
           schema:
@@ -603,6 +654,7 @@ paths:
             format: int64
         - name: sortBy
           in: query
+          description: parameter for sorting
           required: false
           style: form
           schema:
@@ -613,6 +665,7 @@ paths:
               - serviceRequestId
         - name: sortOrder
           in: query
+          description: order of sorting
           required: false
           style: form
           schema:
@@ -622,12 +675,14 @@ paths:
               - DESC
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: "List of tenant ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -637,6 +692,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
           required: false
           style: form
           schema:
@@ -644,6 +700,7 @@ paths:
             format: int64
         - name: userIds
           in: query
+          description: "UserId of the user calling"
           required: false
           style: pipeDelimited
           schema:
@@ -680,12 +737,14 @@ paths:
       parameters:
         - name: accountId
           in: query
+          description: "Initiator User UUID" 
           required: false
           style: form
           schema:
             type: string
         - name: applicationStatus
           in: query
+          description: Search by list of Application Status
           required: false
           style: pipeDelimited
           schema:
@@ -695,6 +754,7 @@ paths:
               type: string
         - name: fromDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
           required: false
           style: form
           schema:
@@ -702,6 +762,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -711,12 +772,14 @@ paths:
               type: string
         - name: isPlainSearch
           in: query
+          description: 'true if Plain search is enabled, otherwise false'
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit 
           required: false
           style: form
           schema:
@@ -724,6 +787,7 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: pipeDelimited
           schema:
@@ -733,12 +797,14 @@ paths:
               type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of citizen"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -746,6 +812,7 @@ paths:
             format: int32
         - name: serviceCode
           in: query
+          description: Allows search for service type - comma separated list
           required: false
           style: pipeDelimited
           schema:
@@ -755,12 +822,14 @@ paths:
               type: string
         - name: serviceRequestId
           in: query
+          description: Search by serviceRequestId of the complaint
           required: false
           style: form
           schema:
             type: string
         - name: slaDeltaMaxLimit
           in: query
+          description: Maximum SLA Delta Limit
           required: false
           style: form
           schema:
@@ -768,6 +837,7 @@ paths:
             format: int64
         - name: slaDeltaMinLimit
           in: query
+          description: Minimum SLA Delta Limit
           required: false
           style: form
           schema:
@@ -775,6 +845,7 @@ paths:
             format: int64
         - name: sortBy
           in: query
+          description: parameter for sorting
           required: false
           style: form
           schema:
@@ -785,6 +856,7 @@ paths:
               - serviceRequestId
         - name: sortOrder
           in: query
+          description: order of sorting
           required: false
           style: form
           schema:
@@ -794,12 +866,14 @@ paths:
               - DESC
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: "List of tenant ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -809,6 +883,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
           required: false
           style: form
           schema:
@@ -816,6 +891,7 @@ paths:
             format: int64
         - name: userIds
           in: query
+          description: "UserId of the user calling"
           required: false
           style: pipeDelimited
           schema:

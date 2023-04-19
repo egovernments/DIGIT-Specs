@@ -20,23 +20,30 @@ paths:
   /v1/noc/_create:
     post:
       tags:
-        - noc-controller
-      summary: create
+        - Noc Apply
+      summary: Apply for an NOC.
+      description: Citizen or Employee, can apply for new build plan approval
       operationId: createUsingPOST
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NocRequest'
+      
+      
       responses:
         '200':
           description: OK
+        '202':
+          description: Application submitted successfully
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/NocResponse'
         '201':
           description: Created
+        '400':
+          description: Failed to process the application  
         '401':
           description: Unauthorized
         '403':
@@ -72,9 +79,11 @@ paths:
         required: true
   /v1/noc/_search:
     post:
+      summary: Get the list of application by passing the diffrent search criteria.
+      description: |
+        Get the properties list based on the input parameters.
       tags:
-        - noc-controller
-      summary: search
+        - Noc Apply
       operationId: searchUsingPOST
       parameters:
         - name: accountId
@@ -87,6 +96,7 @@ paths:
               type: string
         - name: applicationNo
           in: query
+          description: application numbers
           required: false
           style: form
           schema:
@@ -114,18 +124,21 @@ paths:
             type: string
         - name: nocNo
           in: query
+          description: approval number
           required: false
           style: form
           schema:
             type: string
         - name: nocType
           in: query
+          description: approval type
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -133,6 +146,7 @@ paths:
             format: int32
         - name: ownerIds
           in: query
+          description: Id credential for Owners
           required: false
           style: pipeDelimited
           schema:
@@ -141,18 +155,21 @@ paths:
               type: string
         - name: source
           in: query
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
           required: false
           style: form
           schema:
             type: string
         - name: sourceRefId
           in: query
+          description: 'Source reference Id'
           required: false
           style: form
           schema:
             type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: pipeDelimited
           schema:
@@ -161,6 +178,7 @@ paths:
               type: string
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: true
           style: form
           schema:
@@ -179,6 +197,8 @@ paths:
                 $ref: '#/components/schemas/NocResponse'
         '201':
           description: Created
+        '400':
+          description: Invalid input    
         '401':
           description: Unauthorized
         '403':
@@ -348,25 +368,35 @@ components:
       properties:
         action:
           type: string
+          description: "Action on the application in certain"
         apiId:
           type: string
+          description: "unique API ID"
         authToken:
           type: string
+          description: "//session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token"
         correlationId:
           type: string
+          description: "RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation."
         did:
           type: string
+          description: "Device ID from which the API is called"
         key:
           type: string
+          description: "API key (API key provided to the caller in case of server to server communication)"
         msgId:
           type: string
+          description: "message id of the request"
         ts:
           type: integer
           format: int64
+          description: time in epoch
         userInfo:
           $ref: '#/components/schemas/User'
         ver:
           type: string
+          description: "API version - for HTTP based request this will be same as\
+            \ used in path"
    RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
@@ -379,60 +409,75 @@ components:
       properties:
         apiId:
           type: string
+          description: "unique API ID"
         msgId:
           type: string
+          description: "message id of the request"
         resMsgId:
           type: string
+          description: "unique response message id (UUID) - will usually be the correlation id from the server"
         status:
           type: string
+          description: current application status in the system records
         ts:
           type: integer
           format: int64
+          description: time in epoch
         ver:
           type: string
+          description: "API version - for HTTP based request this will be same as\
+            \ used in path"
    Role:
       title: Role
       type: object
       properties:
         code:
+          description: "Unique code of the role"
           type: string
         id:
+          description: "List of system generated ids of applications."
           type: integer
           format: int64
         name:
           type: string
+          description: name of user
         tenantId:
           type: string
+          description: "Unique id for a tenant."
    User:
       title: User
       type: object
       properties:
         emailId:
           type: string
+          description: Email address of the user
         id:
+          description: The unique id an user.
           type: integer
           format: int64
         mobileNumber:
           type: string
+          description: Mobile number ofuser the user
         name:
           type: string
+          description: The full name of the user.
         roles:
           type: array
+          description: List of roles that are attached to the user.
           items:
             $ref: '#/components/schemas/Role'
         tenantId:
           type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
         type:
           type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
         userName:
           type: string
+          description: The unique username used for user login.
         uuid:
-          type: string
-   View:
-      title: View
-      type: object
-      properties:
-        contentType:
+          description: "System Generated User id of the authenticated user."
           type: string
    Workflow:
       title: Workflow

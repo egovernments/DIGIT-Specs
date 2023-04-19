@@ -18,7 +18,8 @@ paths:
     post:
       tags:
         - Assessment 
-      summary: create
+      summary: Create Assessment
+      description: Creates assessment record
       operationId: createUsingPOST
       requestBody:
         content:
@@ -27,13 +28,15 @@ paths:
               $ref: '#/components/schemas/AssessmentRequest'
       responses:
         '200':
-          description: OK
+          description: Assessment(s) created successfully 
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/AssessmentResponse'
         '201':
           description: Created
+        400:
+          description: Assesment(s) creation failed
         '401':
           description: Unauthorized
         '403':
@@ -44,11 +47,13 @@ paths:
     post:
       tags:
         - Assessment
-      summary: plainsearch
+      summary: Plainsearch for assessment
+      description: plainsearch for assessment
       operationId: plainsearchUsingPOST
       parameters:
         - name: assessmentNumbers
           in: query
+          description: assesment number
           required: false
           style: pipeDelimited
           schema:
@@ -58,12 +63,14 @@ paths:
               type: string
         - name: financialYear
           in: query
+          description: financial year of the assessment
           required: false
           style: form
           schema:
             type: string
         - name: ids
           in: query
+          description: "List of system generated ids of assessments."
           required: false
           style: pipeDelimited
           schema:
@@ -73,6 +80,7 @@ paths:
               type: string
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -80,6 +88,7 @@ paths:
             format: int64
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -87,6 +96,7 @@ paths:
             format: int64
         - name: propertyIds
           in: query
+          description: List of PropertyIds to search.
           required: false
           style: pipeDelimited
           schema:
@@ -96,6 +106,7 @@ paths:
               type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: form
           schema:
@@ -108,6 +119,7 @@ paths:
               - REJECTED
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: true
           style: form
           schema:
@@ -119,13 +131,15 @@ paths:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Assessment(s) plain search successfull.
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/AssessmentResponse'
         '201':
           description: Created
+        400:
+          description: Assesment(s) plain search failed  
         '401':
           description: Unauthorized
         '403':
@@ -136,11 +150,13 @@ paths:
     post:
       tags:
         - Assessment
-      summary: search
+      summary: Search Assessment
+      description: search for assessment
       operationId: searchUsingPOST
       parameters:
         - name: assessmentNumbers
           in: query
+          description: assesment number
           required: false
           style: pipeDelimited
           schema:
@@ -150,12 +166,14 @@ paths:
               type: string
         - name: financialYear
           in: query
+          description: financial year of the assessment
           required: false
           style: form
           schema:
             type: string
         - name: ids
           in: query
+          description: "List of system generated ids of assessments."
           required: false
           style: pipeDelimited
           schema:
@@ -165,6 +183,7 @@ paths:
               type: string
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -172,6 +191,7 @@ paths:
             format: int64
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -179,6 +199,7 @@ paths:
             format: int64
         - name: propertyIds
           in: query
+          description: List of PropertyIds to search.
           required: false
           style: pipeDelimited
           schema:
@@ -188,6 +209,7 @@ paths:
               type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: form
           schema:
@@ -200,6 +222,7 @@ paths:
               - REJECTED
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: true
           style: form
           schema:
@@ -211,13 +234,15 @@ paths:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Assessment(s) search successfull.
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/AssessmentResponse'
         '201':
           description: Created
+        400:
+          description: Assesment(s) search failed
         '401':
           description: Unauthorized
         '403':
@@ -228,7 +253,8 @@ paths:
     post:
       tags:
         - Assessment
-      summary: update
+      description: Updates Assessment 
+      summary: Update Assessment(s) 
       operationId: updateUsingPOST
       requestBody:
         content:
@@ -237,13 +263,15 @@ paths:
               $ref: '#/components/schemas/AssessmentRequest'
       responses:
         '200':
-          description: OK
+          description: Assessments(s) Update successfull. 
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/AssessmentResponse'
         '201':
           description: Created
+        400:  
+          description: Assesment(s) Update failed
         '401':
           description: Unauthorized
         '403':
@@ -254,7 +282,8 @@ paths:
     post:
       tags:
         - Property
-      summary: _addAlternateNumber
+      summary: For adding alternate number to property application
+      description: this apoi is used for adding alternate number to property application
       operationId: _addAlternateNumberUsingPOST
       requestBody:
         content:
@@ -280,9 +309,11 @@ paths:
     post:
       tags:
         - Property
-      summary: create
+      summary: Creates new property.
+      description: Creates new property with basic information related to land and owner information. Can be integrated with other modules like Water and Sewerage or Trade License to act as base entity against which water connection or trade license can be issued
       operationId: createUsingPOST_1
       requestBody:
+        description: Details for the new property + RequestHeader meta data.
         content:
           application/json:
             schema:
@@ -295,7 +326,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/PropertyResponse'
         '201':
-          description: Created
+          description: Property created sucessfully
+        400:
+          description: Property(s) creation failed
         '401':
           description: Unauthorized
         '403':
@@ -304,13 +337,16 @@ paths:
           description: Not Found
   /property/_encryptOldData:
     post:
+      summary: Encrypt old data
+      description: >
+        This api encrypts old data.
       tags:
         - Property
-      summary: encryptOldData
       operationId: encryptOldDataUsingPOST
       parameters:
         - name: acknowledgementIds
           in: query
+          description: Acknowledgement id
           required: false
           style: pipeDelimited
           schema:
@@ -320,12 +356,14 @@ paths:
               type: string
         - name: audit
           in: query
+          description: Audit number
           required: false
           style: form
           schema:
             type: boolean
         - name: creationReason
           in: query
+          description: Reason of creation
           required: false
           style: pipeDelimited
           schema:
@@ -335,12 +373,14 @@ paths:
               type: string
         - name: doorNo
           in: query
+          description: door number
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Fetches properties with created time after fromDate.
           required: false
           style: form
           schema:
@@ -348,36 +388,42 @@ paths:
             format: int64
         - name: isCitizen
           in: query
+          description: 'true if user is citizen'
           required: false
           style: form
           schema:
             type: boolean
         - name: isInboxSearch
           in: query
+          description: 'true if inbox search is implemented'
           required: false
           style: form
           schema:
             type: boolean
         - name: isRequestForCount
           in: query
+          description: 'true if request for count'
           required: false
           style: form
           schema:
             type: boolean
         - name: isRequestForOldDataEncryption
           in: query
+          description: 'true if request for old data encryption'
           required: false
           style: form
           schema:
             type: boolean
         - name: isSearchInternal
           in: query
+          description: 'true if search is internal'
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -385,24 +431,28 @@ paths:
             format: int64
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: MobileNumber of owner whose property is to be searched.
           required: false
           style: form
           schema:
             type: string
         - name: name
           in: query
+          description: Name of owner whose property is to be searched.  
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -410,12 +460,14 @@ paths:
             format: int64
         - name: oldPropertyId
           in: query
+          description: oldPropertyId to search.
           required: false
           style: form
           schema:
             type: string
         - name: oldpropertyids
           in: query
+          description: List of oldPropertyIds to search..
           required: false
           style: pipeDelimited
           schema:
@@ -425,6 +477,7 @@ paths:
               type: string
         - name: ownerIds
           in: query
+          description: List of system generated ids of owners.
           required: false
           style: pipeDelimited
           schema:
@@ -434,6 +487,7 @@ paths:
               type: string
         - name: propertyIds
           in: query
+          description: List of PropertyIds to search.
           required: false
           style: pipeDelimited
           schema:
@@ -443,6 +497,7 @@ paths:
               type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: pipeDelimited
           schema:
@@ -458,12 +513,14 @@ paths:
               - REJECTED
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: List of tenant ids
           required: false
           style: pipeDelimited
           schema:
@@ -473,6 +530,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Fetches properties with created time till toDate.
           required: false
           style: form
           schema:
@@ -480,6 +538,7 @@ paths:
             format: int64
         - name: uuids
           in: query
+          description: "System Generated User id of the authenticated user."
           required: false
           style: pipeDelimited
           schema:
@@ -488,19 +547,22 @@ paths:
             items:
               type: string
       requestBody:
+        description: RequestHeader meta data.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/PropertyResponse'
         '201':
           description: Created
+        400:
+          description: Invalid input.
         '401':
           description: Unauthorized
         '403':
@@ -509,19 +571,22 @@ paths:
           description: Not Found
   /property/_migration:
     post:
+      description: This api migrates property.
       tags:
         - Property
-      summary: propertyMigration
+      summary: Migrates Property
       operationId: propertyMigrationUsingPOST
       parameters:
         - name: accountId
           in: query
+          description: "Initiator User UUID"
           required: false
           style: form
           schema:
             type: string
         - name: addressids
           in: query
+          description: "Id generated by system for address details"
           required: false
           style: pipeDelimited
           schema:
@@ -531,6 +596,7 @@ paths:
               type: string
         - name: asOnDate
           in: query
+          description: date on the day of migration
           required: false
           style: form
           schema:
@@ -538,6 +604,7 @@ paths:
             format: int64
         - name: documentids
           in: query
+          description: Information detail for documents
           required: false
           style: pipeDelimited
           schema:
@@ -547,18 +614,21 @@ paths:
               type: string
         - name: doorNo
           in: query
+          description: door number
           required: false
           style: form
           schema:
             type: string
         - name: financialYear
           in: query
+          description: financial year for the registered property
           required: false
           style: form
           schema:
             type: string
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -568,6 +638,7 @@ paths:
               type: string
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -575,24 +646,28 @@ paths:
             format: int64
         - name: locality
           in: query
+          description: locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of property owners"
           required: false
           style: form
           schema:
             type: string
         - name: name
           in: query
+          description: "name of property owners"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -600,6 +675,7 @@ paths:
             format: int64
         - name: oldpropertyids
           in: query
+          description: List of oldPropertyIds to search..
           required: false
           style: pipeDelimited
           schema:
@@ -609,6 +685,7 @@ paths:
               type: string
         - name: ownerids
           in: query
+          description: List of system generated ids of owners.
           required: false
           style: pipeDelimited
           schema:
@@ -618,6 +695,7 @@ paths:
               type: string
         - name: propertyDetailStatus
           in: query
+          description: Current status of property details
           required: false
           style: form
           schema:
@@ -630,6 +708,7 @@ paths:
               - REJECTED
         - name: propertyDetailids
           in: query
+          description: Id credential for property details
           required: false
           style: pipeDelimited
           schema:
@@ -639,12 +718,14 @@ paths:
               type: string
         - name: propertyId
           in: query
+          description: PropertyId to search.
           required: false
           style: form
           schema:
             type: string
         - name: statuses
           in: query
+          description: statuses for request
           required: false
           style: pipeDelimited
           schema:
@@ -656,12 +737,14 @@ paths:
               - INACTIVE
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: false
           style: form
           schema:
             type: string
         - name: unitids
           in: query
+          description: Unique unit ids.
           required: false
           style: pipeDelimited
           schema:
@@ -671,18 +754,20 @@ paths:
               type: string
         - name: userName
           in: query
+          description: "Unique user name of the authenticated user"
           required: false
           style: form
           schema:
             type: string
       requestBody:
+        description: RequestHeader meta data.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             '*/*':
               schema:
@@ -697,13 +782,16 @@ paths:
           description: Not Found
   /property/_plainsearch:
     post:
+      summary: Get the list of properties via plainsearch defined in the system.
+      description: >
+        Get the properties list based on the input parameters.
       tags:
         - Property
-      summary: plainsearch
       operationId: plainsearchUsingPOST_1
       parameters:
         - name: acknowledgementIds
           in: query
+          description: Acknowledgement id
           required: false
           style: pipeDelimited
           schema:
@@ -713,12 +801,14 @@ paths:
               type: string
         - name: audit
           in: query
+          description: Audit number
           required: false
           style: form
           schema:
             type: boolean
         - name: creationReason
           in: query
+          description: Reason of creation
           required: false
           style: pipeDelimited
           schema:
@@ -728,12 +818,14 @@ paths:
               type: string
         - name: doorNo
           in: query
+          description: door number
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Fetches properties with created time after fromDate.
           required: false
           style: form
           schema:
@@ -741,36 +833,42 @@ paths:
             format: int64
         - name: isCitizen
           in: query
+          description: 'true if user is citizen'
           required: false
           style: form
           schema:
             type: boolean
         - name: isInboxSearch
           in: query
+          description: 'true if inbox search is implemented'
           required: false
           style: form
           schema:
             type: boolean
         - name: isRequestForCount
           in: query
+          description: 'true if request for count'
           required: false
           style: form
           schema:
             type: boolean
         - name: isRequestForOldDataEncryption
           in: query
+          description: 'true if request for old data encryption'
           required: false
           style: form
           schema:
             type: boolean
         - name: isSearchInternal
           in: query
+          description: 'true if search is internal'
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -778,24 +876,28 @@ paths:
             format: int64
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: MobileNumber of owner whose property is to be searched.
           required: false
           style: form
           schema:
             type: string
         - name: name
           in: query
+          description: Name of owner whose property is to be searched.  
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -803,12 +905,14 @@ paths:
             format: int64
         - name: oldPropertyId
           in: query
+          description: oldPropertyId to search.
           required: false
           style: form
           schema:
             type: string
         - name: oldpropertyids
           in: query
+          description: List of oldPropertyIds to search..
           required: false
           style: pipeDelimited
           schema:
@@ -818,6 +922,7 @@ paths:
               type: string
         - name: ownerIds
           in: query
+          description: List of system generated ids of owners.
           required: false
           style: pipeDelimited
           schema:
@@ -827,6 +932,7 @@ paths:
               type: string
         - name: propertyIds
           in: query
+          description: List of PropertyIds to search.
           required: false
           style: pipeDelimited
           schema:
@@ -836,6 +942,7 @@ paths:
               type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: pipeDelimited
           schema:
@@ -851,12 +958,14 @@ paths:
               - REJECTED
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: List of tenant ids
           required: false
           style: pipeDelimited
           schema:
@@ -866,6 +975,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Fetches properties with created time till toDate.
           required: false
           style: form
           schema:
@@ -873,6 +983,7 @@ paths:
             format: int64
         - name: uuids
           in: query
+          description: "System Generated User id of the authenticated user."
           required: false
           style: pipeDelimited
           schema:
@@ -881,19 +992,22 @@ paths:
             items:
               type: string
       requestBody:
+        description: RequestHeader meta data.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/PropertyResponse'
         '201':
           description: Created
+        400:
+          description: Invalid input.  
         '401':
           description: Unauthorized
         '403':
@@ -902,13 +1016,16 @@ paths:
           description: Not Found
   /property/_search:
     post:
+      summary: Get the list of properties defined in the system.
+      description: >
+        Get the properties list based on the input parameters.
       tags:
         - Property
-      summary: search
       operationId: searchUsingPOST_1
       parameters:
         - name: acknowledgementIds
           in: query
+          description: Acknowledgement id
           required: false
           style: pipeDelimited
           schema:
@@ -918,12 +1035,14 @@ paths:
               type: string
         - name: audit
           in: query
+          description: Audit number
           required: false
           style: form
           schema:
             type: boolean
         - name: creationReason
           in: query
+          description: Reason of creation
           required: false
           style: pipeDelimited
           schema:
@@ -933,12 +1052,14 @@ paths:
               type: string
         - name: doorNo
           in: query
+          description: door number
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Fetches properties with created time after fromDate.
           required: false
           style: form
           schema:
@@ -946,36 +1067,42 @@ paths:
             format: int64
         - name: isCitizen
           in: query
+          description: 'true if user is citizen'
           required: false
           style: form
           schema:
             type: boolean
         - name: isInboxSearch
           in: query
+          description: 'true if inbox search is implemented'
           required: false
           style: form
           schema:
             type: boolean
         - name: isRequestForCount
           in: query
+          description: 'true if request for count'
           required: false
           style: form
           schema:
             type: boolean
         - name: isRequestForOldDataEncryption
           in: query
+          description: 'true if request for old data encryption'
           required: false
           style: form
           schema:
             type: boolean
         - name: isSearchInternal
           in: query
+          description: 'true if search is internal'
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -983,24 +1110,28 @@ paths:
             format: int64
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: MobileNumber of owner whose property is to be searched.
           required: false
           style: form
           schema:
             type: string
         - name: name
           in: query
+          description: Name of owner whose property is to be searched.  
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -1008,12 +1139,14 @@ paths:
             format: int64
         - name: oldPropertyId
           in: query
+          description: oldPropertyId to search.
           required: false
           style: form
           schema:
             type: string
         - name: oldpropertyids
           in: query
+          description: List of oldPropertyIds to search..
           required: false
           style: pipeDelimited
           schema:
@@ -1023,6 +1156,7 @@ paths:
               type: string
         - name: ownerIds
           in: query
+          description: List of system generated ids of owners.
           required: false
           style: pipeDelimited
           schema:
@@ -1032,6 +1166,7 @@ paths:
               type: string
         - name: propertyIds
           in: query
+          description: List of PropertyIds to search.
           required: false
           style: pipeDelimited
           schema:
@@ -1041,6 +1176,7 @@ paths:
               type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: pipeDelimited
           schema:
@@ -1056,12 +1192,14 @@ paths:
               - REJECTED
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: List of tenant ids
           required: false
           style: pipeDelimited
           schema:
@@ -1071,6 +1209,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Fetches properties with created time till toDate.
           required: false
           style: form
           schema:
@@ -1078,6 +1217,7 @@ paths:
             format: int64
         - name: uuids
           in: query
+          description: "System Generated User id of the authenticated user."
           required: false
           style: pipeDelimited
           schema:
@@ -1086,19 +1226,22 @@ paths:
             items:
               type: string
       requestBody:
+        description: RequestHeader meta data.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/PropertyResponse'
         '201':
           description: Created
+        400:
+          description: Invalid input.  
         '401':
           description: Unauthorized
         '403':
@@ -1109,22 +1252,26 @@ paths:
     post:
       tags:
         - Property
-      summary: update
+      summary: Update existing property.
+      description: Updates a given `Property` with newer details.
       operationId: updateUsingPOST_1
       requestBody:
+        description: Request header for the property Request.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PropertyRequest'
       responses:
         '200':
-          description: OK
+          description: Update Property successful 
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/PropertyResponse'
         '201':
           description: Created
+        400:
+          description: Update Property failed
         '401':
           description: Unauthorized
         '403':
@@ -1135,11 +1282,14 @@ paths:
     post:
       tags:
         - Property
-      summary: fuzzySearch
+      summary: Get fuzzy search for properties defined in the system.
+      description: >
+         fuzzy search for properties defined.
       operationId: fuzzySearchUsingPOST
       parameters:
         - name: acknowledgementIds
           in: query
+          description: Acknowledgement id
           required: false
           style: pipeDelimited
           schema:
@@ -1149,12 +1299,14 @@ paths:
               type: string
         - name: audit
           in: query
+          description: Audit number
           required: false
           style: form
           schema:
             type: boolean
         - name: creationReason
           in: query
+          description: Reason of creation
           required: false
           style: pipeDelimited
           schema:
@@ -1164,12 +1316,14 @@ paths:
               type: string
         - name: doorNo
           in: query
+          description: door number
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Fetches properties with created time after fromDate.
           required: false
           style: form
           schema:
@@ -1177,36 +1331,42 @@ paths:
             format: int64
         - name: isCitizen
           in: query
+          description: 'true if user is citizen'
           required: false
           style: form
           schema:
             type: boolean
         - name: isInboxSearch
           in: query
+          description: 'true if inbox search is implemented'
           required: false
           style: form
           schema:
             type: boolean
         - name: isRequestForCount
           in: query
+          description: 'true if request for count'
           required: false
           style: form
           schema:
             type: boolean
         - name: isRequestForOldDataEncryption
           in: query
+          description: 'true if request for old data encryption'
           required: false
           style: form
           schema:
             type: boolean
         - name: isSearchInternal
           in: query
+          description: 'true if search is internal'
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -1214,24 +1374,28 @@ paths:
             format: int64
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: MobileNumber of owner whose property is to be searched.
           required: false
           style: form
           schema:
             type: string
         - name: name
           in: query
+          description: Name of owner whose property is to be searched.  
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -1239,12 +1403,14 @@ paths:
             format: int64
         - name: oldPropertyId
           in: query
+          description: oldPropertyId to search.
           required: false
           style: form
           schema:
             type: string
         - name: oldpropertyids
           in: query
+          description: List of oldPropertyIds to search..
           required: false
           style: pipeDelimited
           schema:
@@ -1254,6 +1420,7 @@ paths:
               type: string
         - name: ownerIds
           in: query
+          description: List of system generated ids of owners.
           required: false
           style: pipeDelimited
           schema:
@@ -1263,6 +1430,7 @@ paths:
               type: string
         - name: propertyIds
           in: query
+          description: List of PropertyIds to search.
           required: false
           style: pipeDelimited
           schema:
@@ -1272,6 +1440,7 @@ paths:
               type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: pipeDelimited
           schema:
@@ -1287,12 +1456,14 @@ paths:
               - REJECTED
         - name: tenantId
           in: query
+          description: Unique id for a tenant.
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: List of tenant ids
           required: false
           style: pipeDelimited
           schema:
@@ -1302,6 +1473,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Fetches properties with created time till toDate.
           required: false
           style: form
           schema:
@@ -1309,6 +1481,7 @@ paths:
             format: int64
         - name: uuids
           in: query
+          description: "System Generated User id of the authenticated user."
           required: false
           style: pipeDelimited
           schema:
@@ -1317,19 +1490,22 @@ paths:
             items:
               type: string
       requestBody:
+        description: RequestHeader meta data.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/PropertyResponse'
         '201':
           description: Created
+        400:
+          description: Invalid input.  
         '401':
           description: Unauthorized
         '403':
@@ -1343,24 +1519,29 @@ components:
       type: object
       properties:
         action:
+          description: "Action on the application in certain"
           maxLength: 256
           minLength: 0
           type: string
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         currentState:
+          description: Status after action performed
           maxLength: 256
           minLength: 0
           type: string
         nextState:
+          description: The uuid of the resultant state
           maxLength: 256
           minLength: 0
           type: string
         roles:
+          description: Used for search result and create only
           type: array
           items:
             type: string
         tenantId:
+          description: TenantId of the ULB
           maxLength: 256
           minLength: 0
           type: string
@@ -1368,43 +1549,66 @@ components:
           maxLength: 256
           minLength: 0
           type: string
+          description: State Unique Identifier uuid
       description: A Object holds the basic data for a Trade License
     Address:
       title: Address
+      required:
+      - tenantId
+      - locality
       type: object
       properties:
-        additionalDetails:
-          type: object
-        buildingName:
-          type: string
-        city:
-          type: string
-        country:
-          type: string
-        district:
-          type: string
-        doorNo:
-          type: string
-        geoLocation:
-          $ref: '#/components/schemas/GeoLocation'
-        id:
-          type: string
-        landmark:
-          type: string
-        locality:
-          $ref: '#/components/schemas/Locality'
-        pincode:
-          type: string
-        plotNo:
-          type: string
-        region:
-          type: string
-        state:
-          type: string
-        street:
-          type: string
         tenantId:
           type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        doorNo:
+          type: string
+          description: House number or door number.
+        plotNo:
+          type: string
+          description: Plot number of the house.
+        id:
+          type: string
+          description: System generated id for the address
+        landmark:
+          type: string
+          description: additional landmark to help locate the address
+        city:
+          type: string
+          description: City of the address. Can be represented by the tenantid itself
+        district:
+          type: string
+          description: The district in which the property is located
+        region:
+          type: string
+          description: The Region in which the property is located
+        state:
+          type: string
+          description: The State in which the property is located
+        country:
+          type: string
+          description: The country in which the property is located
+        pincode:
+          type: string
+          description: PIN code of the address. Indian pincodes will usually be all numbers.
+        additionDetails:
+          type: string
+          description: more address detail as may be needed
+        buildingName:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Name of the building
+        street:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Street Name
+        locality:
+          $ref: '#/components/schemas/Locality'
+        geoLocation:
+          $ref: '#/components/schemas/GeoLocation'
+      description: Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case.
     AssessmentReq:
       title: AssessmentReq
       required:
@@ -1477,6 +1681,7 @@ components:
           $ref: '#/components/schemas/RequestInfo'
     AssessmentRes:
       title: AssessmentRes
+      description: assessment response
       required:
         - assessmentDate
         - financialYear
@@ -1489,12 +1694,15 @@ components:
         assessmentDate:
           type: integer
           format: int64
+          description: date of assessment
         assessmentNumber:
           type: string
+          description: assessment number
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         channel:
           type: string
+          description: channel
           enum:
             - CFC_COUNTER
             - CITIZEN
@@ -1508,18 +1716,23 @@ components:
             $ref: '#/components/schemas/Document'
         financialYear:
           type: string
+          description: financial year for assessment
         id:
+          description: "List of system generated ids of applications."
           type: string
         propertyId:
+          description: property id
           type: string
         source:
           type: string
+          description: source
           enum:
             - FIELD_SURVEY
             - MOBILEAPP
             - MUNICIPAL_RECORDS
             - WEBAPP
         status:
+          description: current application status in the system records
           type: string
           enum:
             - ACTIVE
@@ -1528,6 +1741,7 @@ components:
             - INWORKFLOW
             - REJECTED
         tenantId:
+          description: "Unique id for a tenant."
           type: string
         unitUsageList:
           type: array
@@ -1551,37 +1765,56 @@ components:
       properties:
         createdBy:
           type: string
+          description: created By
         createdTime:
+          description: time of creation
           type: integer
           format: int64
         lastModifiedBy:
+          description: last modified by
           type: string
         lastModifiedTime:
           type: integer
+          description: time of last modification
           format: int64
     ConstructionDetail:
       title: ConstructionDetail
       type: object
       properties:
-        builtUpArea:
-          type: number
-          format: bigdecimal
+        id:
+          maxLength: 64
+          type: string
+          description: id of the property with which the constructionDetail is associated.
         carpetArea:
           type: number
-          format: bigdecimal
-        constructionDate:
-          type: integer
-          format: int64
-        constructionType:
-          type: string
-        dimensions:
-          type: object
+          description: Total built up area in sq ft(built-up area = carpet area + areas covered by walls)
+        builtUpArea:
+          type: number
+          description: Total built up area in sq ft(built-up area = carpet area + areas covered by walls)
         plinthArea:
           type: number
-          format: bigdecimal
+          description: Area of the extension builtup of the Unit, Like balcony, sitouts.
         superBuiltUpArea:
           type: number
-          format: bigdecimal
+          description: Total built up area in sq ft(built-up area + Common area = Super built-up area)
+        constructionType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Construction type is defined in MDMS ConstructionTypeMaster.
+        constructionDate:
+          type: integer
+          description: The date when the property was constructed
+          format: int64
+        dimensions:
+          type: object
+          description: The dimensions of the plot or building or any unit
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+        additionalDetails:
+          type: object
+          description: The json (array of '#/definitions/Factor')
+      description: Construction/constructionDetail details are captured here. Detail information of the constructionDetail including floor wise usage and area are saved as seperate units .For each financial year construction details may change. constructionDetail object is required for tax calculation
     Document:
       title: Document
       required:
@@ -1593,13 +1826,18 @@ components:
           $ref: '#/components/schemas/AuditDetails'
         documentType:
           type: string
+          description: unique document type code, should be validated with document type master
         documentUid:
           type: string
+          description: The unique id(Pancard Number,Adhar etc.) of the given Document.
         fileStoreId:
           type: string
+          description: File store reference key.
         id:
           type: string
+          description: system id of the Document.
         status:
+          description: current status of application
           type: string
           enum:
             - ACTIVE
@@ -1613,30 +1851,43 @@ components:
       properties:
         latitude:
           type: number
-          format: double
+          description: latitude of the address
         longitude:
           type: number
-          format: double
+          description: longitude of the address
+        additionalDetails:
+          type: object
+          description: Json object to capture any extra information which is not accommodated by model
     Institution:
       title: Institution
       type: object
       properties:
+        id:
+          maxLength: 64
+          type: string
+          description: Unique Identifier of the Institution(UUID).
+        tenantId:
+          maxLength: 256
+          type: string
+          description: tenant id of the Property
+        type:
+          maxLength: 64
+          type: string
+          description: Institution type.
+        designation:
+          maxLength: 64
+          type: string
+          description: Designation of the person creating/updatingentity on behalf of the institution
+        nameOfAuthorizedPerson:
+          maxLength: 256
+          type: string
+          description: Name of the person who is taking action on behalf of institution
         additionalDetails:
           type: object
-        designation:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-        nameOfAuthorizedPerson:
-          type: string
-        tenantId:
-          type: string
-        type:
-          type: string
+          description: Json object to capture any extra information which is not accommodated by model
     JsonNodeReq:
       title: JsonNodeReq
+      description: Json Node request
       type: object
     JsonNodeRes:
       title: JsonNodeRes
@@ -1696,125 +1947,36 @@ components:
           type: boolean
         valueNode:
           type: boolean
-    Link:
-      title: Link
-      type: object
-      properties:
-        href:
-          type: string
-        templated:
-          type: boolean
     Locality:
       title: Locality
       type: object
       properties:
         area:
           type: string
+          description: area of locality
         children:
           type: array
+          description: ''
           items:
             $ref: '#/components/schemas/Locality'
         code:
           type: string
+          description: code of the boundary.
         label:
           type: string
+          description: localized label for the boundry.
         latitude:
           type: string
+          description: latitude of the boundary.
         longitude:
           type: string
+          description: longitude of the boundary.
         materializedPath:
           type: string
+          description: materialized path of the boundary - this would be of the format tenantid.[code] from parentt till teh current boundary
         name:
           type: string
-    ModelAndView:
-      title: ModelAndView
-      type: object
-      properties:
-        empty:
-          type: boolean
-        model:
-          type: object
-        modelMap:
-          type: object
-          additionalProperties:
-            type: object
-        reference:
-          type: boolean
-        status:
-          type: string
-          enum:
-            - ACCEPTED
-            - ALREADY_REPORTED
-            - BAD_GATEWAY
-            - BAD_REQUEST
-            - BANDWIDTH_LIMIT_EXCEEDED
-            - CHECKPOINT
-            - CONFLICT
-            - CONTINUE
-            - CREATED
-            - DESTINATION_LOCKED
-            - EXPECTATION_FAILED
-            - FAILED_DEPENDENCY
-            - FORBIDDEN
-            - FOUND
-            - GATEWAY_TIMEOUT
-            - GONE
-            - HTTP_VERSION_NOT_SUPPORTED
-            - IM_USED
-            - INSUFFICIENT_SPACE_ON_RESOURCE
-            - INSUFFICIENT_STORAGE
-            - INTERNAL_SERVER_ERROR
-            - I_AM_A_TEAPOT
-            - LENGTH_REQUIRED
-            - LOCKED
-            - LOOP_DETECTED
-            - METHOD_FAILURE
-            - METHOD_NOT_ALLOWED
-            - MOVED_PERMANENTLY
-            - MOVED_TEMPORARILY
-            - MULTIPLE_CHOICES
-            - MULTI_STATUS
-            - NETWORK_AUTHENTICATION_REQUIRED
-            - NON_AUTHORITATIVE_INFORMATION
-            - NOT_ACCEPTABLE
-            - NOT_EXTENDED
-            - NOT_FOUND
-            - NOT_IMPLEMENTED
-            - NOT_MODIFIED
-            - NO_CONTENT
-            - OK
-            - PARTIAL_CONTENT
-            - PAYLOAD_TOO_LARGE
-            - PAYMENT_REQUIRED
-            - PERMANENT_REDIRECT
-            - PRECONDITION_FAILED
-            - PRECONDITION_REQUIRED
-            - PROCESSING
-            - PROXY_AUTHENTICATION_REQUIRED
-            - REQUESTED_RANGE_NOT_SATISFIABLE
-            - REQUEST_ENTITY_TOO_LARGE
-            - REQUEST_HEADER_FIELDS_TOO_LARGE
-            - REQUEST_TIMEOUT
-            - REQUEST_URI_TOO_LONG
-            - RESET_CONTENT
-            - SEE_OTHER
-            - SERVICE_UNAVAILABLE
-            - SWITCHING_PROTOCOLS
-            - TEMPORARY_REDIRECT
-            - TOO_EARLY
-            - TOO_MANY_REQUESTS
-            - UNAUTHORIZED
-            - UNAVAILABLE_FOR_LEGAL_REASONS
-            - UNPROCESSABLE_ENTITY
-            - UNSUPPORTED_MEDIA_TYPE
-            - UPGRADE_REQUIRED
-            - URI_TOO_LONG
-            - USE_PROXY
-            - VARIANT_ALSO_NEGOTIATES
-        view:
-          $ref: '#/components/schemas/View'
-        viewName:
-          type: string
+          description: name of the boundary.
     OwnerInfo:
       title: OwnerInfo
       required:
@@ -1823,93 +1985,128 @@ components:
         - ownerType
       type: object
       properties:
+        name:
+          maxLength: 256
+          type: string
+          description: The name of the owner.
+        mobileNumber:
+          maxLength: 256
+          type: string
+          description: MobileNumber of the owner.
+        gender:
+          maxLength: 256
+          type: string
+          description: Gender of the owner.
+        fatherOrHusbandName:
+          maxLength: 256
+          type: string
+          description: Father or Husband name of the owner.
+        correspondenceAddress:
+          maxLength: 1024
+          type: string
+          description: The current address of the owner for correspondence.
+        isPrimaryOwner:
+          type: boolean
+          description: The owner is primary or not
+        ownerShipPercentage:
+          type: number
+          description: Ownership percentage.
+        ownerType:
+          maxLength: 256
+          type: string
+          description: Type of owner, based on this option Exemptions will be applied. This is master data defined in mdms.
+        institutionId:
+          maxLength: 64
+          type: string
+          description: The id of the institution if the owner is the authorized person for one
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+          description: The documents attached by owner for exemption.
+        additionalDetails:
+          type: object
+          description: Json object to capture any extra information which is not accommodated of model
         aadhaarNumber:
+          description: Aadhaar number of the User
           pattern: ^[0-9]{12}$
           type: string
         accountLocked:
           type: boolean
+          description: Is account locked for the user 
         active:
+          
           type: boolean
         altContactNumber:
           maxLength: 50
+          description: Alternate Contact Number of the User
           minLength: 0
           type: string
         alternatemobilenumber:
+          description: Alternate Mobile Number of the User
           maxLength: 50
           minLength: 0
           type: string
         bloodGroup:
+          description: Blood group of the User
           maxLength: 32
           minLength: 0
           type: string
-        correspondenceAddress:
-          type: string
         correspondenceCity:
+          description: Correspondence city of the User
           maxLength: 300
           minLength: 0
           type: string
         correspondencePinCode:
           maxLength: 10
+          description: Correspondence pin code of the User
           minLength: 0
           type: string
         createdBy:
+          
           maxLength: 64
           minLength: 0
           type: string
         createdDate:
+          description: Date of creation
           type: integer
           format: int64
         dob:
+          description: Date of birth of the User
           type: integer
           format: int64
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
         emailId:
+          pattern: ^$|^(?=^.{1,64}$)((([^<>()\[\]\\.,;:\s$*@'"]+(\.[^<>()\[\]\\.,;:\s@'"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))$
           maxLength: 128
           minLength: 0
           type: string
-        fatherOrHusbandName:
-          type: string
-        gender:
-          type: string
         id:
+          description: User id of the authenticated user. Will be deprecated in future
           type: integer
           format: int64
         identificationMark:
+          description: identification mark of user
           maxLength: 300
           minLength: 0
           type: string
-        institutionId:
-          type: string
-        isPrimaryOwner:
-          type: boolean
         lastModifiedBy:
           maxLength: 64
+          
           minLength: 0
           type: string
         lastModifiedDate:
           type: integer
           format: int64
+          description: last modification date
         locale:
           maxLength: 16
           minLength: 0
           type: string
-        mobileNumber:
-          type: string
-        name:
-          maxLength: 100
-          minLength: 0
-          type: string
         ownerInfoUuid:
           type: string
-        ownerShipPercentage:
-          type: number
-          format: double
-        ownerType:
-          type: string
+          description: owner info uuid
         pan:
+          description: user pan details
           maxLength: 10
           minLength: 0
           type: string
@@ -1918,36 +2115,39 @@ components:
           minLength: 0
           type: string
         permanentAddress:
+          description: permanent address of user
           maxLength: 300
           minLength: 0
           type: string
         permanentCity:
+          description: City of the permanent address.
           maxLength: 300
           minLength: 0
           type: string
         permanentPinCode:
           maxLength: 10
           minLength: 0
+          description: Permanent address pincode.
           type: string
         photo:
           maxLength: 36
+          description: Image to be loaded for the photo of the user
           minLength: 0
           type: string
         pwdExpiryDate:
           type: integer
+          description: Date on which the password registered will expire.
           format: int64
-        relationship:
-          type: string
-          enum:
-            - FATHER
-            - HUSBAND
         roles:
           type: array
+          description: List of roles that are attached to the user.
           items:
             $ref: '#/components/schemas/Role'
         salutation:
           type: string
+          description: The salutation of user name. Example- Mr, Miss, Mrs
         signature:
+          description: The signature of user
           maxLength: 36
           minLength: 0
           type: string
@@ -1960,10 +2160,13 @@ components:
             - INWORKFLOW
             - REJECTED
         tenantId:
+          description: "Unique id for a tenant."
           maxLength: 256
           minLength: 0
           type: string
         type:
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
           maxLength: 50
           minLength: 0
           type: string
@@ -1971,9 +2174,11 @@ components:
           maxLength: 64
           minLength: 0
           type: string
+          description: The unique username used for user login.
         uuid:
           maxLength: 64
           minLength: 0
+          description: The unique id used for user login.
           type: string
     PlainAccessRequest:
       title: PlainAccessRequest
@@ -1981,10 +2186,13 @@ components:
       properties:
         plainRequestFields:
           type: array
+          description: plain access request field
           items:
             type: string
+            description: items in plain request
         recordId:
           type: string
+          description: records of the plain request
     ProcessInstance:
       title: ProcessInstance
       required:
@@ -2042,15 +2250,21 @@ components:
       properties:
         AlternateUpdated:
           type: boolean
+          description: alternate updated
         accountId:
           type: string
-        acknowldgementNumber:
+          description: account id
+        acknowledgmentNumber:
           type: string
+          description: acknowledgment number
         additionalDetails:
           $ref: '#/components/schemas/JsonNodeReq'
-        address:
+          description: additional details
+        address:  
+          description: address
           $ref: '#/components/schemas/Address'
         auditDetails:
+          description: audit details
           $ref: '#/components/schemas/AuditDetails'
         channel:
           type: string
@@ -2062,6 +2276,7 @@ components:
             - SYSTEM
         creationReason:
           type: string
+          description: creation reason
           enum:
             - AMALGAMATION
             - BIFURCATION
@@ -2072,36 +2287,46 @@ components:
             - SUBDIVISION
             - UPDATE
         documents:
+          description: documents
           type: array
           items:
             $ref: '#/components/schemas/Document'
         id:
           type: string
+          description: ab
         institution:
           $ref: '#/components/schemas/Institution'
         landArea:
+          description: area acquired by land
           type: number
           format: double
         linkedProperties:
           type: array
+          description: linked properties
           items:
             type: string
         noOfFloors:
+          description: number of floors
           type: integer
           format: int64
         oldPropertyId:
           type: string
+          description: old property id
         owners:
           type: array
           items:
             $ref: '#/components/schemas/OwnerInfo'
         ownershipCategory:
           type: string
+          description: category of ownership
         propertyId:
           type: string
+          description: property id
         propertyType:
           type: string
+          description: property type
         source:
+          description: source
           type: string
           enum:
             - FIELD_SURVEY
@@ -2111,6 +2336,7 @@ components:
             - WS
         status:
           type: string
+          description: status
           enum:
             - ACTIVE
             - CANCELLED
@@ -2119,13 +2345,17 @@ components:
             - REJECTED
         superBuiltUpArea:
           type: number
+          description: super built up area
           format: bigdecimal
         surveyId:
           type: string
+          description: survey id
         tenantId:
           type: string
+          description: tenant id
         units:
           type: array
+          description: units
           items:
             $ref: '#/components/schemas/Unit'
         usageCategory:
@@ -2140,6 +2370,7 @@ components:
           $ref: '#/components/schemas/PropertyReq'
         RequestInfo:
           $ref: '#/components/schemas/RequestInfo'
+      description: Contract class to receive request. Array of Property items  are used in case of create . Where as single Property item is used for update    
     PropertyRes:
       title: PropertyRes
       required:
@@ -2148,15 +2379,21 @@ components:
       properties:
         AlternateUpdated:
           type: boolean
+          description: alternate updated
         accountId:
           type: string
-        acknowldgementNumber:
+          description: account id
+        acknowledgmentNumber:
           type: string
+          description: acknowledgment number
         additionalDetails:
-          $ref: '#/components/schemas/JsonNodeRes'
-        address:
+          $ref: '#/components/schemas/JsonNodeReq'
+          description: additional details
+        address:  
+          description: address
           $ref: '#/components/schemas/Address'
         auditDetails:
+          description: audit details
           $ref: '#/components/schemas/AuditDetails'
         channel:
           type: string
@@ -2168,6 +2405,7 @@ components:
             - SYSTEM
         creationReason:
           type: string
+          description: creation reason
           enum:
             - AMALGAMATION
             - BIFURCATION
@@ -2178,36 +2416,46 @@ components:
             - SUBDIVISION
             - UPDATE
         documents:
+          description: documents
           type: array
           items:
             $ref: '#/components/schemas/Document'
         id:
           type: string
+          description: ab
         institution:
           $ref: '#/components/schemas/Institution'
         landArea:
+          description: area acquired by land
           type: number
           format: double
         linkedProperties:
           type: array
+          description: linked properties
           items:
             type: string
         noOfFloors:
+          description: number of floors
           type: integer
           format: int64
         oldPropertyId:
           type: string
+          description: old property id
         owners:
           type: array
           items:
             $ref: '#/components/schemas/OwnerInfo'
         ownershipCategory:
           type: string
+          description: category of ownership
         propertyId:
           type: string
+          description: property id
         propertyType:
           type: string
+          description: property type
         source:
+          description: source
           type: string
           enum:
             - FIELD_SURVEY
@@ -2217,6 +2465,7 @@ components:
             - WS
         status:
           type: string
+          description: status
           enum:
             - ACTIVE
             - CANCELLED
@@ -2225,13 +2474,17 @@ components:
             - REJECTED
         superBuiltUpArea:
           type: number
+          description: super built up area
           format: bigdecimal
         surveyId:
           type: string
+          description: survey id
         tenantId:
           type: string
+          description: tenant id
         units:
           type: array
+          description: units
           items:
             $ref: '#/components/schemas/Unit'
         usageCategory:
@@ -2241,6 +2494,7 @@ components:
     PropertyResponse:
       title: PropertyResponse
       type: object
+      description: response stored in this object
       properties:
         Properties:
           type: array
@@ -2256,23 +2510,30 @@ components:
       type: object
       properties:
         action:
+          description: API action to be performed like _create, _update, _search (denoting POST, PUT, GET) or _oauth etc
           type: string
         apiId:
           type: string
+          description: unique API ID
         authToken:
+          description: //session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token
           type: string
         correlationId:
           type: string
         did:
+          description: Device ID from which the API is called
           type: string
         key:
+          description: API key (API key provided to the caller in case of server to server communication)
           type: string
         msgId:
+          description: Unique request message id from the caller
           type: string
         plainAccessRequest:
           $ref: '#/components/schemas/PlainAccessRequest'
         ts:
           type: integer
+          description: time in epoch
           format: int64
         userInfo:
           $ref: '#/components/schemas/User'
@@ -2290,34 +2551,44 @@ components:
       properties:
         apiId:
           type: string
+          description: unique API ID
         msgId:
           type: string
+          description: Unique request message id from the caller
         resMsgId:
           type: string
+          description: Unique response message id from the caller
         status:
           type: string
+          description: status of response
         ts:
           type: integer
+          description: time in epoch
           format: int64
         ver:
           type: string
+          description: API version - for HTTP based request this will be same as used in path
     Role:
       title: Role
       type: object
       properties:
         code:
           maxLength: 50
+          description: "Unique code of the role"
           minLength: 0
           type: string
         id:
           type: integer
+          description: "List of system generated ids of applications."
           format: int64
         name:
           maxLength: 128
+          description: name of user role
           minLength: 0
           type: string
         tenantId:
           maxLength: 256
+          description: "Unique id for a tenant."
           minLength: 0
           type: string
     State:
@@ -2332,20 +2603,26 @@ components:
           maxLength: 256
           minLength: 0
           type: string
+          description: current application status in the system records
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         businessServiceId:
           maxLength: 256
           minLength: 0
+          description: Unique id credential for a business service
           type: string
         docUploadRequired:
           type: boolean
+          description: check if the document upload is required
         isStartState:
           type: boolean
+          description: check if there is a start state
         isStateUpdatable:
           type: boolean
+          description: check if state is updatable
         isTerminateState:
           type: boolean
+          description: is terminate state
         sla:
           type: integer
           format: int64
@@ -2354,6 +2631,7 @@ components:
           minLength: 0
           type: string
         tenantId:
+          description: "Unique id for a tenant."
           maxLength: 256
           minLength: 0
           type: string
@@ -2361,41 +2639,43 @@ components:
           maxLength: 256
           minLength: 0
           type: string
+          description: "System Generated User id of the state/authenticated user."  
       description: A Object holds the basic data for a Trade License
     Unit:
       title: Unit
-      required:
-        - constructionDetail
-        - usageCategory
       type: object
       properties:
-        active:
-          type: boolean
-        additionalDetails:
-          type: object
-        arv:
-          type: number
-          format: bigdecimal
-        auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
-        constructionDetail:
-          $ref: '#/components/schemas/ConstructionDetail'
-        floorNo:
-          type: integer
-          format: int32
         id:
           type: string
-        occupancyDate:
-          type: integer
-          format: int64
-        occupancyType:
-          type: string
+          description: Unique Identifier of the Unit(UUID).
         tenantId:
+          maxLength: 256
+          minLength: 2
           type: string
+          description: tenant id of the Property
+        floorNo:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: floor number of the Unit
         unitType:
           type: string
+          description: Unit type is master data.
+          example: Building, Room, Kitchen etc.
         usageCategory:
+          maxLength: 64
+          minLength: 1
           type: string
+          description: This is about the usage of the property like Residential, Non-residential, Mixed(Property witch is gettiong used for Residential, Non-residential purpose)
+        occupancyDate:
+          type: integer
+          description: Date on which unit is occupied.
+          format: int64
+        constructionDetail:
+          $ref: '#/components/schemas/ConstructionDetail'
+        additionalDetails:
+          type: object
+          description: Json object to capture any extra information which is not accommodated by model
     UnitUsage:
       title: UnitUsage
       required:
@@ -2427,15 +2707,19 @@ components:
           maxLength: 300
           minLength: 0
           type: string
+          description: Email address of the user
         id:
           type: integer
+          description: The unique numeric id of an user. To be deprecated in future.
           format: int64
         mobileNumber:
+          description: Mobile number of the user
           maxLength: 150
           minLength: 0
           type: string
         name:
           maxLength: 250
+          description: The full name of the user.
           minLength: 0
           type: string
         roles:
@@ -2444,25 +2728,25 @@ components:
             $ref: '#/components/schemas/Role'
         tenantId:
           maxLength: 256
+          description: Unique Identifier of the tenant to which user primarily belongs
           minLength: 0
           type: string
         type:
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
           maxLength: 50
           minLength: 0
           type: string
         userName:
+          description: The unique username used of the user - this will be used for
+            user login. This needs to be unique within the tenant.
           maxLength: 180
           minLength: 0
           type: string
         uuid:
+          description: uuid of user
           maxLength: 36
           minLength: 0
-          type: string
-    View:
-      title: View
-      type: object
-      properties:
-        contentType:
           type: string
 tags:
 - name: Property

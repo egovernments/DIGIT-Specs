@@ -15,11 +15,13 @@ paths:
     post:
       tags:
         - Property Tax Calculation
-      summary: updateDemand
+      summary: Updates Demand for Property Tax
+      description: This API updates demand for property tax
       operationId: updateDemandUsingPOST
       parameters:
         - name: amountExpected
           in: query
+          description: Expected Amount
           required: false
           style: form
           schema:
@@ -27,24 +29,28 @@ paths:
             format: bigdecimal
         - name: assessmentNumber
           in: query
+          description: Assessment Number
           required: false
           style: form
           schema:
             type: string
         - name: assessmentYear
           in: query
+          description: Assessment Year
           required: false
           style: form
           schema:
             type: string
         - name: billId
           in: query
+          description: Bill Id
           required: false
           style: form
           schema:
             type: string
         - name: consumerCodes
           in: query
+          description: Consumer Codes
           required: true
           style: pipeDelimited
           schema:
@@ -53,6 +59,7 @@ paths:
               type: string
         - name: fromDate
           in: query
+          description: Epoch date, here search will happen as date is greater or equal to given fromDate
           required: false
           style: form
           schema:
@@ -60,18 +67,21 @@ paths:
             format: int64
         - name: propertyId
           in: query
+          description: Property Id
           required: false
           style: form
           schema:
             type: string
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: true
           style: form
           schema:
             type: string
         - name: toDate
           in: query
+          description: Epoch date, here search will happen as date is lesser or equal to given toDate
           required: false
           style: form
           schema:
@@ -84,13 +94,15 @@ paths:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Success response is updated demand.
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/DemandResponse'
         '201':
           description: Created
+        400:
+          description: New update demand request failed
         '401':
           description: Unauthorized
         '403':
@@ -101,7 +113,8 @@ paths:
     post:
       tags:
         - Property Tax Calculation
-      summary: mutationCalculator
+      summary: Calculates mutation Property Tax and generates the respective demands in the system.
+      description: Calculate Mutation Property Tax based on criteria.
       operationId: mutationCalculatorUsingPOST
       requestBody:
         content:
@@ -110,7 +123,7 @@ paths:
               $ref: '#/components/schemas/PropertyRequestV2'
       responses:
         '200':
-          description: OK
+          description: Success response calculated tax with connection number and amount.
           content:
             '*/*':
               schema:
@@ -119,6 +132,8 @@ paths:
                   $ref: '#/components/schemas/Calculation'
         '201':
           description: Created
+        400:
+          description: New mutation calculation request failed
         '401':
           description: Unauthorized
         '403':
@@ -148,7 +163,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CalculationRes'
         400:
-          description: New water connection request failed
+          description: New tax estimation request failed
           content:
             '*/*':
               schema:
@@ -183,7 +198,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CalculationRes'
         400:
-          description: New water connection request failed
+          description: New calculation request failed
           content:
             '*/*':
               schema:
@@ -265,7 +280,8 @@ paths:
     post:
       tags:
         - Property Tax Calculation
-      summary: getTaxEstimation
+      summary: v2 for estimate api 
+      description: Estimates the Property Tax v2 to be paid for given property .
       operationId: getTaxEstimationUsingPOST
       requestBody:
         content:
@@ -274,19 +290,29 @@ paths:
               $ref: '#/components/schemas/AssessmentRequestV2'
       responses:
         '200':
-          description: OK
+          description: Success response is calculated tax.
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/CalculationRes'
         '201':
           description: Created
+        400:
+          description: New tax estimation request failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
+        404:
+          description: tenantId provided was not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
-        '404':
-          description: Not Found    
   /billingslab/_search:
     post:
       tags:
@@ -444,7 +470,17 @@ paths:
               schema:
                 type: object
         '201':
-          description: Created
+          description: Property(s) created sucessfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabRes'
+        400:
+          description: Property(s) creation failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -456,6 +492,7 @@ paths:
       tags:
         - BillingSlab
       summary: Get the list of existing mutation properties
+      description: Get the mutation properties list based on the input parameters.
       operationId: searchMutationUsingPOST
       parameters:
         - name: id
@@ -549,6 +586,7 @@ paths:
       tags:
         - BillingSlab
       summary: Update the list of existing mutation properties
+      description: Updates a given mutation `Property` with newer details.
       operationId: updateMutationUsingPOST
       requestBody:
         content:
@@ -1701,18 +1739,23 @@ components:
           $ref: '#/components/schemas/AuditDetails'
         businessService:
           type: string
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         consumerCode:
           type: string
+          description: Consumer code
         consumerType:
           type: string
+          description: Type of consumer
         demandDetails:
           type: array
           items:
             $ref: '#/components/schemas/DemandDetail'
         id:
           type: string
+          description: "List of system generated ids of applications."
         minimumAmountPayable:
           type: number
+          description: Minimum payable amount
           format: bigdecimal
         payer:
           $ref: '#/components/schemas/UserRes'
@@ -1729,7 +1772,8 @@ components:
           type: integer
           format: int64
         tenantId:
-          type: string      
+          type: string     
+          description: "Unique id for a tenant."
     DemandDetail:
       title: DemandDetail
       required:
@@ -1764,92 +1808,126 @@ components:
       properties:
         code:
           type: string
+          description: "Unique code of the role"
         id:
           type: integer
           format: int64
+          description: "List of system generated ids of applications."
         name:
-          type: string      
+          type: string   
+          description: Name of user 
     UserRes:
       title: UserRes
       type: object
       properties:
         emailId:
           type: string
+          description: "email address of the authenticated user"
         id:
           type: integer
           format: int64
+          description: "List of system generated ids of applications."
         mobileNumber:
           type: string
+          description: "MobileNumber of user"
         name:
           type: string
+          description: "Name of user"
         roles:
           type: array
           items:
             $ref: '#/components/schemas/RoleRes'
         tenantId:
           type: string
+          description: "Unique id for a tenant."
         type:
           type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
         userName:
           type: string
+          description: The unique username used for user login.
         uuid:
           type: string      
+          description: The unique uuid an user.
     AddressV2:
       title: AddressV2
       type: object
       properties:
         additionalDetails:
           type: object
+          description: more address detail as may be needed
         buildingName:
           type: string
+          description: Name of the building
         city:
           type: string
+          description: City of the address. Can be represented by the tenantid itself
         country:
           type: string
+          description: The country in which the property is located
         district:
           type: string
+          description: The district in which the property is located
         doorNo:
           type: string
+          description: House number or door number.
         id:
           type: string
+          description: System generated id for the address
         landmark:
           type: string
+          description: additional landmark to help locate the address
         locality:
           $ref: '#/components/schemas/LocalityV2'
         pincode:
           type: string
+          description: PIN code of the address. Indian pincodes will usually be all numbers.
         plotNo:
           type: string
+          description: Plot number of the house.
         region:
           type: string
+          description: The Region in which the property is located
         state:
           type: string
+          description: The State in which the property is located
         street:
+          maxLength: 64
+          minLength: 2
           type: string
+          description: Street Name
         tenantId:
-          type: string      
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
     LocalityV2:
       title: LocalityV2
       type: object
       properties:
         area:
           type: string
+          description: area of locality
         children:
           type: array
           items:
             $ref: '#/components/schemas/LocalityV2'
         code:
           type: string
+          description: locality code
         label:
           type: string
+          description: locality label
         latitude:
           type: string
+          description: latitude of locality
         longitude:
           type: string
+          description: longitude of locality
         materializedPath:
           type: string
         name:
           type: string
+          description: name of locality
     DocumentV2:
       title: DocumentV2
       required:
@@ -1861,70 +1939,106 @@ components:
           $ref: '#/components/schemas/AuditDetails'
         documentType:
           type: string
+          description: document type
         documentUid:
           type: string
+          description: document unique uuid 
         fileStoreId:
           type: string
+          description: filestore id for document 
         id:
           type: string
+          description: id for document
         status:
           type: string
+          description: status of document
     InstitutionV2:
-      title: InstitutionV2
+      title: Institution
       type: object
       properties:
         additionalDetails:
           type: object
+          description: Json object to capture any extra information which is not accommodated by model
         designation:
+          maxLength: 64
+          minLength: 0
           type: string
+          description: Designation of the person creating/updatingentity on behalf of the institution
         id:
+          maxLength: 64
+          minLength: 0
           type: string
+          description: Unique Identifier of the Institution(UUID).
         name:
+          maxLength: 256
+          minLength: 0
           type: string
+          description: Name of the institution
         nameOfAuthorizedPerson:
+          maxLength: 256
+          minLength: 0
           type: string
+          description: Name of the person who is taking action on behalf of institution
         tenantId:
+          maxLength: 256
+          minLength: 0
           type: string
+          description: tenant id of the Property
         type:
-          type: string      
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Institution type.
+
     PropertyV2:
       title: PropertyV2
       type: object
       properties:
         accountId:
           type: string
+          description: account id of the property user
         acknowldgementNumber:
           type: string
+          description: Acknowldgement number given to citizen on submitting the application for creation or modification of the property.
         additionalDetails:
           type: object
+          description: 'The json (array of ''#/definitions/Factor'')'
         address:
           $ref: '#/components/schemas/AddressV2'
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         channel:
           type: string
+          description: 'Property can be created from different channels Eg. System (properties created by ULB officials), CFC Counter (From citizen faciliation counters) etc. Here we are defining some known channels, there can be more client to client.'
         creationReason:
           type: string
+          description: creation reason
         documents:
           type: array
+          description: 'The documents attached during assessment, modification or any transaction happened on the property.'
           items:
             $ref: '#/components/schemas/DocumentV2'
         id:
           type: string
+          description: Unique Identifier of the Property(UUID).
         institution:
           $ref: '#/components/schemas/InstitutionV2'
         landArea:
           type: number
+          description: Land area of the property in sq ft
           format: double
         linkedProperties:
           type: array
+          description: if there is any property linked to current property.
           items:
             type: string
         noOfFloors:
           type: integer
           format: int64
+          description: number of floors in the property
         oldPropertyId:
           type: string
+          description: 'Old upic no of the Property. ULBs have the existing property in their system/manual records with their identification number, they want to continue the old reference number in this case the same identification number will be captured here.'
         owners:
           type: array
           items:
@@ -1933,12 +2047,16 @@ components:
           type: string
         propertyId:
           type: string
+          description: Unique Identifier of the Property.
         propertyType:
           type: string
+          description: Based on property type charges will change.
         source:
           type: string
+          description: Source of a assessment data. The properties will be created in a system based on the data avaialble in their manual records or during field survey. There can be more from client to client.
         status:
           type: string
+          description: status of the Property
         superBuiltUpArea:
           type: number
           format: bigdecimal
@@ -1946,6 +2064,7 @@ components:
           type: string
         tenantId:
           type: string
+          description: tenant id of the Property
         units:
           type: array
           items:
@@ -1969,11 +2088,14 @@ components:
       properties:
         active:
           type: boolean
+          description: True will be set in cases where only active properties are needed and False will be set when inactive properties are needed and no value will be set when all properties are needed.
         additionalDetails:
           type: object
+          description: 'The json (array of ''#/definitions/Factor'')'
         arv:
           type: number
           format: bigdecimal
+          description: 'Annual rental value(arv), if occupancy type is Tenant.'
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         constructionDetail:
@@ -1981,19 +2103,26 @@ components:
         floorNo:
           type: integer
           format: int32
+          description: floor no for the floor
         id:
           type: string
+          description: Unique Identifier of the Property(UUID).
         occupancyDate:
           type: integer
           format: int64
+          description: Date on which unit is occupied.
         occupancyType:
           type: string
+          description: end date for the unit usage.
         tenantId:
           type: string
+          description: tenant id of the Property
         unitType:
           type: string
+          description: Unit type.
         usageCategory:
           type: string      
+          description: 'This is about the usage of the property like Residential, Non-residential, Mixed(Property witch is gettiong used for Residential, Non-residential purpose)'
     UnitUsage:
       title: UnitUsage
       required:
@@ -2008,17 +2137,23 @@ components:
           $ref: '#/components/schemas/AuditDetails'
         id:
           type: string
+          description: Unique Identifier of the Property(UUID).
         occupancyDate:
           type: integer
           format: int64
+          description: Date on which unit is occupied.
         occupancyType:
           type: string
+          description: end date for the unit usage.
         tenantId:
           type: string
+          description: tenant id of the Property
         unitId:
           type: string
+          description: Unit id credential
         usageCategory:
           type: string
+          description: 'This is about the usage of the property like Residential, Non-residential, Mixed(Property witch is gettiong used for Residential, Non-residential purpose)'
     ConstructionDetail:
       title: ConstructionDetail
       type: object
@@ -2070,27 +2205,37 @@ components:
         fixedAmount:
           type: number
           format: double
+          description: fixed amount for billing
         id:
           type: string
+          description: Unique Identifier of the MutationBillingSlab(UUID).
         maxMarketValue:
           type: number
+          description: Maximum market value
           format: double
         minMarketValue:
           type: number
+          description: Minimum market value
           format: double
         ownerShipCategory:
+          description: name of the OwnerShipCategory
           type: string
         propertySubType:
           type: string
+          description: Sub Type of a property defined in mdms 'PropertySubType' Masetr.
         propertyType:
           type: string
+          description: 'Type of a property like Private, Vacant Land, State Government, Central Government etc.'
         rate:
           type: number
+          description: Exemption rate in percentage.
           format: double
         subOwnerShipCategory:
           type: string
+          description: name of the SubOwnerShipCategory
         tenantId:
           type: string
+          description: Unique ulb identifier
         type:
           type: string
           enum:
@@ -2098,9 +2243,13 @@ components:
             - RATE
         usageCategoryDetail:
           type: string
+          description: Sub category of 'usageCategorySubMinor' defined in 'usageCategoryDetail' master of mdms.
         usageCategoryMajor:
           type: string
+          description: 'This is about the usage of the property like Residential, Non-residential, Mixed(Property witch is gettiong used for Residential, Non-residential purpose)'
         usageCategoryMinor:
           type: string
+          description: Sub category of 'UsageCategoryMajor' defined in 'UsageCategoryMinor' master of mdms.
         usageCategorySubMinor:
           type: string      
+          description: Sub category of 'usageCategoryMinor' defined in 'UsageCategorySubMinor' master of mdms.

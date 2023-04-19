@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: eGov Sewerage System.
   description: | 
-   APIs for W&S module. This provide APIs for create new property, update existing property, search existing property.
+   APIs for Sewerage module. This provide APIs for create new property, update existing property, search existing property.
   contact: 
     name: Egovernments Foundation
     email: contact@egovernments.org
@@ -12,29 +12,39 @@ info:
 servers:
   - url: /
 tags:
-  - name: sewarage-controller
+  - name: Sewerage  
     description: Sewarage Controller
 paths:
   /swc/_create:
     post:
       summary: Apply for new Sewerage connection.
+      description: | 
+        Citizen or employee can apply for new Sewerage connection.
+      x-roles: 'SWC_CEMP,CITIZEN'
       tags:
-        - sewarage-controller
+        - Sewerage
       operationId: createWaterConnectionUsingPOST
       requestBody:
+        description: Details for the new Sewerage Connection + RequestHeader meta data.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SewerageConnectionRequest'
       responses:
         '200':
-          description: OK
+          description: Sewerage connection application is submitted sucessfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SewerageConnectionResponse'
         '201':
           description: Created
+        '400':
+          description: Failed to submit application
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/PT_APPLY_PAY/docs/common/contracts/v1-1-1.yml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -44,18 +54,21 @@ paths:
   /swc/_encryptOldData:
     post:
       tags:
-        - sewarage-controller
-      summary: encryptOldData
+        - Sewerage
+      summary: Encrypt old sewerage connection data
+      description: This api encrypts old sewerage connection data
       operationId: encryptOldDataUsingPOST
       parameters:
         - name: accountId
           in: query
+          description: "Initiator User UUID"
           required: false
           style: form
           schema:
             type: string
         - name: applicationNumber
           in: query
+          description: application number of sewerage application
           required: false
           style: pipeDelimited
           schema:
@@ -65,6 +78,7 @@ paths:
               type: string
         - name: applicationStatus
           in: query
+          description: application status of sewerage application
           required: false
           style: pipeDelimited
           schema:
@@ -74,12 +88,14 @@ paths:
               type: string
         - name: applicationType
           in: query
+          description: application type of sewerage application
           required: false
           style: form
           schema:
             type: string
         - name: assignee
           in: query
+          description: user id of the employee to whom request id need to be assigne.
           required: false
           style: form
           schema:
@@ -95,12 +111,14 @@ paths:
               type: string
         - name: doorNo
           in: query
+          description: House number or door number.
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Fetches properties with created time after fromDate.
           required: false
           style: form
           schema:
@@ -108,6 +126,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -117,36 +136,42 @@ paths:
               type: string
         - name: isCountCall
           in: query
+          description: "True if count call is implemented otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: isFilestoreIdRequire
           in: query
+          description: "True if filestore id is required otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: isInternalCall
           in: query
+          description: "True if internal call is implemented otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: isPropertyDetailsRequired
           in: query
+          description: "True if property details are required otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: isSkipLevelSearch
           in: query
+          description: "True if level search is skipped otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -154,18 +179,21 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: search application by list of Locality (s)
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of owners"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -173,12 +201,14 @@ paths:
             format: int32
         - name: oldConnectionNumber
           in: query
+          description: List of old water connection numbers to search..
           required: false
           style: form
           schema:
             type: string
         - name: ownerIds
           in: query
+          description: search by list of uuid(s) of the owner of the application
           required: false
           style: pipeDelimited
           schema:
@@ -187,18 +217,21 @@ paths:
               type: string
         - name: ownerName
           in: query
+          description: Name of owner 
           required: false
           style: form
           schema:
             type: string
         - name: propertyId
           in: query
+          description: property id
           required: false
           style: form
           schema:
             type: string
         - name: propertyIds
           in: query
+          description: List of PropertyIds to search.
           required: false
           style: pipeDelimited
           schema:
@@ -208,24 +241,28 @@ paths:
               type: string
         - name: searchType
           in: query
+          description: Type of search 
           required: false
           style: form
           schema:
             type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: form
           schema:
             type: string
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: "List of Unique ids for a tenant."
           required: false
           style: pipeDelimited
           schema:
@@ -235,6 +272,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Fetches properties with created time till toDate.
           required: false
           style: form
           schema:
@@ -242,6 +280,7 @@ paths:
             format: int64
         - name: userIds
           in: query
+          description: "UserId of the user calling"
           required: false
           style: pipeDelimited
           schema:
@@ -250,19 +289,22 @@ paths:
             items:
               type: string
       requestBody:
+        description: RequestHeader meta data.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Encryption for Sewerage connection application is sucessfull.
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/SewerageConnectionResponse'
         '201':
           description: Created
+        '400':
+          description: Failed to encrypt old data for application
         '401':
           description: Unauthorized
         '403':
@@ -272,18 +314,21 @@ paths:
   /swc/_plainsearch:
     post:
       tags:
-        - sewarage-controller
-      summary: plainSearch
+        - Sewerage
+      summary: Get the list of exsting Sewerage connections via plain search
+      description: Get the sewerage connections list based on the plain search input parameters.
       operationId: plainSearchUsingPOST
       parameters:
         - name: accountId
           in: query
+          description: "Initiator User UUID"
           required: false
           style: form
           schema:
             type: string
         - name: applicationNumber
           in: query
+          description: application number of sewerage application
           required: false
           style: pipeDelimited
           schema:
@@ -293,6 +338,7 @@ paths:
               type: string
         - name: applicationStatus
           in: query
+          description: application status of sewerage application
           required: false
           style: pipeDelimited
           schema:
@@ -302,12 +348,14 @@ paths:
               type: string
         - name: applicationType
           in: query
+          description: application type of sewerage application
           required: false
           style: form
           schema:
             type: string
         - name: assignee
           in: query
+          description: user id of the employee to whom request id need to be assigne.
           required: false
           style: form
           schema:
@@ -323,12 +371,14 @@ paths:
               type: string
         - name: doorNo
           in: query
+          description: House number or door number.
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Fetches properties with created time after fromDate.
           required: false
           style: form
           schema:
@@ -336,6 +386,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -345,36 +396,42 @@ paths:
               type: string
         - name: isCountCall
           in: query
+          description: "True if count call is implemented otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: isFilestoreIdRequire
           in: query
+          description: "True if filestore id is required otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: isInternalCall
           in: query
+          description: "True if internal call is implemented otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: isPropertyDetailsRequired
           in: query
+          description: "True if property details are required otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: isSkipLevelSearch
           in: query
+          description: "True if level search is skipped otherwise False"
           required: false
           style: form
           schema:
             type: boolean
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -382,18 +439,21 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: search application by list of Locality (s)
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of owners"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -401,12 +461,14 @@ paths:
             format: int32
         - name: oldConnectionNumber
           in: query
+          description: List of old water connection numbers to search..
           required: false
           style: form
           schema:
             type: string
         - name: ownerIds
           in: query
+          description: search by list of uuid(s) of the owner of the application
           required: false
           style: pipeDelimited
           schema:
@@ -415,18 +477,21 @@ paths:
               type: string
         - name: ownerName
           in: query
+          description: Name of owner 
           required: false
           style: form
           schema:
             type: string
         - name: propertyId
           in: query
+          description: property id
           required: false
           style: form
           schema:
             type: string
         - name: propertyIds
           in: query
+          description: List of PropertyIds to search.
           required: false
           style: pipeDelimited
           schema:
@@ -436,24 +501,28 @@ paths:
               type: string
         - name: searchType
           in: query
+          description: Type of search 
           required: false
           style: form
           schema:
             type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: form
           schema:
             type: string
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: "List of Unique ids for a tenant."
           required: false
           style: pipeDelimited
           schema:
@@ -463,6 +532,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Fetches properties with created time till toDate.
           required: false
           style: form
           schema:
@@ -470,6 +540,7 @@ paths:
             format: int64
         - name: userIds
           in: query
+          description: "UserId of the user calling"
           required: false
           style: pipeDelimited
           schema:
@@ -478,19 +549,26 @@ paths:
             items:
               type: string
       requestBody:
+        description: Request of Sewerage connection details.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/SewerageConnectionResponse'
         '201':
           description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/PT_APPLY_PAY/docs/common/contracts/v1-1-1.yml#/components/schemas/ErrorRes'  
         '401':
           description: Unauthorized
         '403':
@@ -500,18 +578,22 @@ paths:
   /swc/_search:
     post:
       tags:
-        - sewarage-controller
-      summary: 	
+        - Sewerage
+      summary: Get the list of exsting Sewerage connections.
+      description: |
+        Get the water connections list based on the input parameters.
       operationId: searchUsingPOST
       parameters:
         - name: accountId
           in: query
+          description: "Initiator User UUID"
           required: false
           style: form
           schema:
             type: string
         - name: applicationNumber
           in: query
+          description: application number of sewerage application
           required: false
           style: pipeDelimited
           schema:
@@ -521,6 +603,7 @@ paths:
               type: string
         - name: applicationStatus
           in: query
+          description: search application by list of application Status(s)
           required: false
           style: pipeDelimited
           schema:
@@ -530,18 +613,21 @@ paths:
               type: string
         - name: applicationType
           in: query
+          description: "type of application"
           required: false
           style: form
           schema:
             type: string
         - name: assignee
           in: query
+          description: user id of the employee to whom request id need to be assigne.
           required: false
           style: form
           schema:
             type: string
         - name: connectionNumber
           in: query
+          description: List of Sewerage connection numbers to search..
           required: false
           style: pipeDelimited
           schema:
@@ -551,12 +637,14 @@ paths:
               type: string
         - name: doorNo
           in: query
+          description: House number or door number.
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Fetches Sewerage Connection with created time after fromDate.
           required: false
           style: form
           schema:
@@ -564,6 +652,7 @@ paths:
             format: int64
         - name: ids
           in: query
+          description: "List of system generated ids of applications."
           required: false
           style: pipeDelimited
           schema:
@@ -573,24 +662,28 @@ paths:
               type: string
         - name: isCountCall
           in: query
+          description: is count call
           required: false
           style: form
           schema:
             type: boolean
         - name: isFilestoreIdRequire
           in: query
+          description: true if filestore id is required otherwise false 
           required: false
           style: form
           schema:
             type: boolean
         - name: isInternalCall
           in: query
+          description: true if internal call is immplemented otherwise false 
           required: false
           style: form
           schema:
             type: boolean
         - name: isPropertyDetailsRequired
           in: query
+          description: true if property details are required otherwise false 
           required: false
           style: form
           schema:
@@ -603,6 +696,7 @@ paths:
             type: boolean
         - name: limit
           in: query
+          description: limit
           required: false
           style: form
           schema:
@@ -610,18 +704,21 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of owner whose Sewerage connection is to be searched"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -629,12 +726,14 @@ paths:
             format: int32
         - name: oldConnectionNumber
           in: query
+          description: List of old Sewerage connection numbers to search..
           required: false
           style: form
           schema:
             type: string
         - name: ownerIds
           in: query
+          description: Id credential for Owners
           required: false
           style: pipeDelimited
           schema:
@@ -643,12 +742,14 @@ paths:
               type: string
         - name: ownerName
           in: query
+          description: Name credential for Owners
           required: false
           style: form
           schema:
             type: string
         - name: propertyId
           in: query
+          description: property id
           required: false
           style: form
           schema:
@@ -656,6 +757,7 @@ paths:
         - name: propertyIds
           in: query
           required: false
+          description: List of PropertyIds to search.
           style: pipeDelimited
           schema:
             uniqueItems: true
@@ -664,24 +766,28 @@ paths:
               type: string
         - name: searchType
           in: query
+          description: type of search being implemented
           required: false
           style: form
           schema:
             type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: form
           schema:
             type: string
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description: "List of Unique id for a tenant."
           required: false
           style: pipeDelimited
           schema:
@@ -691,6 +797,7 @@ paths:
               type: string
         - name: toDate
           in: query
+          description: Fetches Sewerage Connection with created time till toDate.
           required: false
           style: form
           schema:
@@ -698,6 +805,7 @@ paths:
             format: int64
         - name: userIds
           in: query
+          description: "UserId of the user calling"
           required: false
           style: pipeDelimited
           schema:
@@ -712,13 +820,19 @@ paths:
               $ref: '#/components/schemas/RequestInfoWrapper'
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/SewerageConnectionResponse'
         '201':
           description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/PT_APPLY_PAY/docs/common/contracts/v1-1-1.yml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -728,23 +842,31 @@ paths:
   /swc/_update:
     post:
       tags:
-        - sewarage-controller
+        - Sewerage
       summary: Update existing Sewerage connection details.
+      description: Updates a given `sewerage connection` with newer details.
       operationId: updateSewerageConnectionUsingPOST
       requestBody:
+        description: Request of Sewerage connection details.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SewerageConnectionRequest'
       responses:
         '200':
-          description: OK
+          description: Sewerage connection details has been submitted sucessfully with new details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SewerageConnectionResponse'
         '201':
           description: Created
+        '400':
+          description: Update water connection details failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/PT_APPLY_PAY/docs/common/contracts/v1-1-1.yml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -758,28 +880,34 @@ components:
       type: object
       properties:
         action:
+          description: "Action on the application in certain"
           maxLength: 256
           minLength: 0
           type: string
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         currentState:
+          description: Status after action performed
           maxLength: 256
           minLength: 0
           type: string
         nextState:
+          description: The uuid of the resultant state
           maxLength: 256
           minLength: 0
           type: string
         roles:
+          description: Used for search result and create only
           type: array
           items:
             type: string
         tenantId:
+          description: TenantId of the ULB
           maxLength: 256
           minLength: 0
           type: string
         uuid:
+          description: State Unique Identifier uuid
           maxLength: 256
           minLength: 0
           type: string
@@ -790,16 +918,21 @@ components:
       properties:
         createdBy:
           type: string
+          description: username (preferred) or userid of the user that created the object
         createdTime:
+          description: epoch of the time object is created
           type: integer
           format: int64
         lastModifiedBy:
           type: string
+          description: username (preferred) or userid of the user that last modified the object
         lastModifiedTime:
           type: integer
+          description: epoch of the time object is last modified
           format: int64
     Document:
       title: Document
+      description: This object holds list of documents attached during the transaciton for a property
       required:
         - documentType
         - fileStoreId
@@ -809,115 +942,23 @@ components:
           $ref: '#/components/schemas/AuditDetails'
         documentType:
           type: string
+          description: unique document type code, should be validated with document type master
         documentUid:
           type: string
+          description: The unique id(Pancard Number,Adhar etc.) of the given Document.
         fileStoreId:
           type: string
+          description: File store reference key.
         id:
           type: string
+          description: system id of the Document.
         status:
           type: string
+          description: Current status of the document
           enum:
             - ACTIVE
             - INACTIVE
             - INWORKFLOW
-    Link:
-      title: Link
-      type: object
-      properties:
-        href:
-          type: string
-        templated:
-          type: boolean
-    ModelAndView:
-      title: ModelAndView
-      type: object
-      properties:
-        empty:
-          type: boolean
-        model:
-          type: object
-        modelMap:
-          type: object
-          additionalProperties:
-            type: object
-        reference:
-          type: boolean
-        status:
-          type: string
-          enum:
-            - ACCEPTED
-            - ALREADY_REPORTED
-            - BAD_GATEWAY
-            - BAD_REQUEST
-            - BANDWIDTH_LIMIT_EXCEEDED
-            - CHECKPOINT
-            - CONFLICT
-            - CONTINUE
-            - CREATED
-            - DESTINATION_LOCKED
-            - EXPECTATION_FAILED
-            - FAILED_DEPENDENCY
-            - FORBIDDEN
-            - FOUND
-            - GATEWAY_TIMEOUT
-            - GONE
-            - HTTP_VERSION_NOT_SUPPORTED
-            - IM_USED
-            - INSUFFICIENT_SPACE_ON_RESOURCE
-            - INSUFFICIENT_STORAGE
-            - INTERNAL_SERVER_ERROR
-            - I_AM_A_TEAPOT
-            - LENGTH_REQUIRED
-            - LOCKED
-            - LOOP_DETECTED
-            - METHOD_FAILURE
-            - METHOD_NOT_ALLOWED
-            - MOVED_PERMANENTLY
-            - MOVED_TEMPORARILY
-            - MULTIPLE_CHOICES
-            - MULTI_STATUS
-            - NETWORK_AUTHENTICATION_REQUIRED
-            - NON_AUTHORITATIVE_INFORMATION
-            - NOT_ACCEPTABLE
-            - NOT_EXTENDED
-            - NOT_FOUND
-            - NOT_IMPLEMENTED
-            - NOT_MODIFIED
-            - NO_CONTENT
-            - OK
-            - PARTIAL_CONTENT
-            - PAYLOAD_TOO_LARGE
-            - PAYMENT_REQUIRED
-            - PERMANENT_REDIRECT
-            - PRECONDITION_FAILED
-            - PRECONDITION_REQUIRED
-            - PROCESSING
-            - PROXY_AUTHENTICATION_REQUIRED
-            - REQUESTED_RANGE_NOT_SATISFIABLE
-            - REQUEST_ENTITY_TOO_LARGE
-            - REQUEST_HEADER_FIELDS_TOO_LARGE
-            - REQUEST_TIMEOUT
-            - REQUEST_URI_TOO_LONG
-            - RESET_CONTENT
-            - SEE_OTHER
-            - SERVICE_UNAVAILABLE
-            - SWITCHING_PROTOCOLS
-            - TEMPORARY_REDIRECT
-            - TOO_EARLY
-            - TOO_MANY_REQUESTS
-            - UNAUTHORIZED
-            - UNAVAILABLE_FOR_LEGAL_REASONS
-            - UNPROCESSABLE_ENTITY
-            - UNSUPPORTED_MEDIA_TYPE
-            - UPGRADE_REQUIRED
-            - URI_TOO_LONG
-            - USE_PROXY
-            - VARIANT_ALSO_NEGOTIATES
-        view:
-          $ref: '#/components/schemas/View'
-        viewName:
-          type: string
     OwnerInfo:
       title: OwnerInfo
       required:
@@ -928,39 +969,49 @@ components:
       properties:
         aadhaarNumber:
           pattern: ^[0-9]{12}$
+          description: Aadhaar number of the User
           type: string
         accountLocked:
           type: boolean
+          description: Is account locked for the user 
         active:
           type: boolean
         altContactNumber:
           maxLength: 50
           minLength: 0
           type: string
+          description: Alternate Contact Number of the User
         bloodGroup:
           maxLength: 32
           minLength: 0
           type: string
+          description: Blood group of the User
         correspondenceAddress:
+          description: Correspondence address of the User
           type: string
         correspondenceCity:
           maxLength: 300
           minLength: 0
           type: string
+          description: Correspondence city of the User
         correspondencePinCode:
           maxLength: 10
           minLength: 0
           type: string
+          description: Correspondence pin code of the User
         createdBy:
           maxLength: 64
           minLength: 0
           type: string
+          description: username (preferred) or userid of the user that created the object
         createdDate:
           type: integer
           format: int64
+          description: Date of creation
         dob:
           type: integer
           format: int64
+          description: Date of birth of the User
         documents:
           type: array
           items:
@@ -969,85 +1020,111 @@ components:
           maxLength: 128
           minLength: 0
           type: string
+          description: Email address of the user
         fatherOrHusbandName:
           type: string
+          description: Name of user's father or husband.
         gender:
           type: string
+          description: Gender of the user.
         id:
           type: integer
           format: int64
+          description: The unique id an user.
         identificationMark:
           maxLength: 300
           minLength: 0
           type: string
+          description: Any identification mark of the person.
         institutionId:
           type: string
+          description: The id of the institution if the owner is the authorized person for one
         isPrimaryOwner:
           type: boolean
+          description: The owner is primary or not
         lastModifiedBy:
           maxLength: 64
           minLength: 0
           type: string
+          description: username (preferred) or userid of the user that last modified the object
         lastModifiedDate:
           type: integer
           format: int64
+          description: Date when object is last modified
         locale:
           maxLength: 16
           minLength: 0
+          description: Value will be set to "en_IN".
           type: string
         mobileNumber:
           type: string
+          description: Mobile number ofuser the user
         name:
           maxLength: 100
           minLength: 0
           pattern: ^[a-zA-Z0-9 \-'`\.]*$
           type: string
+          description: The full name of the user.
         ownerInfoUuid:
           type: string
+          description: owner info uuid
         ownerShipPercentage:
           type: number
           format: double
+          description: Ownership percentage
         ownerType:
           type: string
+          description: Type of owner, based on this option Exemptions will be applied. This is master data defined in mdms.
         pan:
           maxLength: 10
           minLength: 0
           type: string
+          description: PAN number of the user
         password:
           maxLength: 64
           minLength: 0
           type: string
+          description: Password for user login.
         permanentAddress:
           maxLength: 300
           minLength: 0
           type: string
+          description: Permanent address of the user.
         permanentCity:
           maxLength: 300
           minLength: 0
           type: string
+          description: City of the permanent address.
         permanentPinCode:
           maxLength: 10
           minLength: 0
           type: string
+          description: Permanent address pincode.
         photo:
           maxLength: 36
           minLength: 0
           type: string
+          description: Image to be loaded for the photo of the user
         pwdExpiryDate:
           type: integer
           format: int64
+          description: Date on which the password registered will expire.
         relationship:
           type: string
+          description: "The relationship of gaurdian."
         roles:
           type: array
+          description: List of roles that are attached to the user.
           items:
             $ref: '#/components/schemas/Role'
         salutation:
           type: string
+          description: Salutation for user, Mr, Mrs etc.
         signature:
           maxLength: 36
           minLength: 0
           type: string
+          description: Image to be loaded for the signature of the employee
         status:
           type: string
           enum:
@@ -1055,18 +1132,23 @@ components:
             - INACTIVE
             - INWORKFLOW
         tenantId:
+          description: "Unique id for a tenant."
           maxLength: 256
           minLength: 0
           type: string
         type:
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
           maxLength: 50
           minLength: 0
           type: string
         userName:
+          description: The unique username used for user login.
           maxLength: 64
           minLength: 0
           type: string
         uuid:
+          description: "System Generated User id of the authenticated user."
           maxLength: 64
           minLength: 0
           type: string
@@ -1141,35 +1223,42 @@ components:
           maxLength: 128
           minLength: 0
           type: string
+          description: Action on the application in certain
         assignes:
           type: array
           items:
             $ref: '#/components/schemas/User'
         businessId:
+          description: The application numbers to search
           maxLength: 128
           minLength: 0
           type: string
         businessService:
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
           maxLength: 128
           minLength: 0
           type: string
         comment:
           type: string
+          description: Unique Identifier scrutinized number
         documents:
           type: array
           items:
             $ref: '#/components/schemas/Document'
         id:
+          description: "Unique id credential of application."
           maxLength: 64
           minLength: 0
           type: string
         moduleName:
+          description: "Name of module" 
           maxLength: 64
           minLength: 0
           type: string
         state:
           $ref: '#/components/schemas/State'
         tenantId:
+          description: "Unique id for a tenant."
           maxLength: 128
           minLength: 0
           type: string
@@ -1180,27 +1269,36 @@ components:
       properties:
         action:
           type: string
+          description: "API action to be performed like _create, _update, _search (denoting POST, PUT, GET) or _oauth etc"
         apiId:
           type: string
+          description: "unique API ID"
         authToken:
           type: string
+          description: "//session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token"
         correlationId:
           type: string
+          description: "RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation."
         did:
           type: string
+          description: "Device ID from which the API is called"
         key:
           type: string
+          description: "API key (API key provided to the caller in case of server to server communication)"
         msgId:
           type: string
+          description: "Unique request message id from the caller"
         plainAccessRequest:
           $ref: '#/components/schemas/PlainAccessRequest'
         ts:
           type: integer
           format: int64
+          description: "time in epoch"
         userInfo:
           $ref: '#/components/schemas/User'
         ver:
           type: string
+          description: "API version - for HTTP based request this will be same as used in path"
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
@@ -1212,18 +1310,24 @@ components:
       type: object
       properties:
         apiId:
+          description: "unique API ID"
           type: string
         msgId:
+          description: "Unique request message id from the caller"
           type: string
         resMsgId:
           type: string
+          description: "unique response message id (UUID) - will usually be the correlation id from the server"
         status:
           type: string
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
         ts:
+          description: "time in epoch"
           type: integer
           format: int64
         ver:
           type: string
+          description: "API version - for HTTP based request this will be same as used in path"
     RoadCuttingInfo:
       title: RoadCuttingInfo
       type: object
@@ -1231,14 +1335,18 @@ components:
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         id:
+          description: Unique id credential for road cutting object
           type: string
         roadCuttingArea:
           type: number
+          description: Capture the road cutting area in sqft.
           format: float
         roadType:
           type: string
+          description: It is a master data, defined in MDMS. If road cutting is required to established the connection then we need to capture the details of road type.
         status:
           type: string
+          
           enum:
             - ACTIVE
             - INACTIVE
@@ -1248,17 +1356,21 @@ components:
       type: object
       properties:
         code:
+          description: "Unique code of the role"
           maxLength: 50
           minLength: 0
           type: string
         id:
+          description: "Unique id of the role"
           type: integer
           format: int64
         name:
+          description: "Unique name of the role"
           maxLength: 128
           minLength: 0
           type: string
         tenantId:
+          description: "Unique tenant id of the role"
           maxLength: 256
           minLength: 0
           type: string
@@ -1401,10 +1513,13 @@ components:
           $ref: '#/components/schemas/SewerageConnection'
         disconnectRequest:
           type: boolean
+          description: disconnect request
         isCreateCall:
           type: boolean
+          description: is create call
         isOldDataEncryptionRequest:
           type: boolean
+          description: is old data encryption request
       description: Contract class to receive request. Array of Property items  are used in case of create . Where as single Property item is used for update
     SewerageConnectionResponse:
       title: SewerageConnectionResponse
@@ -1432,20 +1547,26 @@ components:
           maxLength: 256
           minLength: 0
           type: string
+          description: current application status in the system records
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         businessServiceId:
           maxLength: 256
           minLength: 0
+          description: Unique id credential for a business service
           type: string
         docUploadRequired:
           type: boolean
+          description: check if the document upload is required
         isStartState:
           type: boolean
+          description: check if there is a start state
         isStateUpdatable:
           type: boolean
+          description: check if state is updatable
         isTerminateState:
           type: boolean
+          description: is terminate state
         sla:
           type: integer
           format: int64
@@ -1454,6 +1575,7 @@ components:
           minLength: 0
           type: string
         tenantId:
+          description: "Unique id for a tenant."
           maxLength: 256
           minLength: 0
           type: string
@@ -1461,6 +1583,7 @@ components:
           maxLength: 256
           minLength: 0
           type: string
+          description: "System Generated User id of the state/authenticated user."  
       description: A Object holds the basic data for a Trade License
     User:
       title: User
@@ -1470,43 +1593,47 @@ components:
           maxLength: 300
           minLength: 0
           type: string
+          description: "email address of the authenticated user"
         id:
           type: integer
           format: int64
+          description: The unique id an user.
         mobileNumber:
           maxLength: 150
           minLength: 0
           type: string
+          description: Mobile number ofuser the user
         name:
           maxLength: 250
           minLength: 0
           type: string
+          description: The full name of the user.
         roles:
           type: array
+          description: List of roles that are attached to the user.
           items:
             $ref: '#/components/schemas/Role'
         tenantId:
           maxLength: 256
           minLength: 0
           type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
         type:
           maxLength: 50
           minLength: 0
           type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
         userName:
           maxLength: 180
           minLength: 0
           type: string
+          description: The unique username used for user login.
         uuid:
           maxLength: 36
           minLength: 0
           type: string
-    View:
-      title: View
-      type: object
-      properties:
-        contentType:
-          type: string
+          description: "System Generated User id of the authenticated user."  
 
 ####################### Master data schema(MDMS) #######################     
       

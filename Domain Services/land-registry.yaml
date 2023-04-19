@@ -19,24 +19,28 @@ servers:
 paths:
   /v1/land/_create:
     post:
+      description: "Citizen, Employee, Or an Architect can create for new build plan approval"
       tags:
         - "Land Registry"
-      summary: create
+      summary: "Create land detail in land registry"
       operationId: createUsingPOST
       requestBody:
+        description: "Fill Bpa application details and submit the request."
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/LandInfoRequest'
       responses:
         '200':
-          description: OK
+          description: "Reqeuset submitted successfully"
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/LandInfoResponse'
         '201':
           description: Created
+        '400':
+          description: "Failed to process the request"
         '401':
           description: Unauthorized
         '403':
@@ -47,22 +51,27 @@ paths:
     post:
       tags:
         - "Land Registry"
-      summary: update
+      summary: "Update existing application."
+      description: "Updates a given `application` with newer details."
       operationId: updateUsingPOST
       requestBody:
+        description: "Request to update existing application details."
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/LandInfoRequest'
+        required: true    
       responses:
-        '200':
-          description: OK
+        '202':
+          description: "successfully updated"
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/LandInfoResponse'
         '201':
           description: Created
+        '400':
+          description: "Failed to update"
         '401':
           description: Unauthorized
         '403':
@@ -73,11 +82,13 @@ paths:
     post:
       tags:
         - "Land Registry"
-      summary: search
+      summary: "Get the list of land information."
+      description: "Get the list of land information..\n"
       operationId: searchUsingPOST
       parameters:
         - name: ids
           in: query
+          description: "List of system generated ids of BPA applications."
           required: false
           style: pipeDelimited
           schema:
@@ -86,12 +97,14 @@ paths:
               type: string
         - name: landUId
           in: query
+          description: "land identifier."
           required: false
           style: form
           schema:
             type: string
         - name: limit
           in: query
+          description: limit 
           required: false
           style: form
           schema:
@@ -99,18 +112,21 @@ paths:
             format: int32
         - name: locality
           in: query
+          description: name of locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
+          description: "MobileNumber of land owners"
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -118,12 +134,14 @@ paths:
             format: int32
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: true
           style: form
           schema:
             type: string
         - name: userIds
           in: query
+          description: "Unique user id of the authenticated user"
           required: false
           style: pipeDelimited
           schema:
@@ -135,15 +153,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
+        required: true      
       responses:
         '200':
-          description: OK
+          description: "Successful response"
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/LandInfoResponse'
         '201':
           description: Created
+        '400':
+          description: "Invalid input."
         '401':
           description: Unauthorized
         '403':
