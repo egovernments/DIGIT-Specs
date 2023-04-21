@@ -25,6 +25,7 @@ paths:
               - module
               properties:
                 requestInfo:
+                  type: string
                   $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
                 file:
                   type: string
