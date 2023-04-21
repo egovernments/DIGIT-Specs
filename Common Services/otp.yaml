@@ -22,7 +22,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/CreateOTPConfigReq'
+              $ref: '#/components/schemas/OtpRequest'
         required: true
       responses:
         200:
@@ -36,7 +36,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: OTPConfig
   /otp/v1/_validate:
     post:
@@ -50,7 +50,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/CreateOTPConfigReq'
+              $ref: '#/components/schemas/OtpValidateRequest'
         required: true
       responses:
         200:
@@ -64,7 +64,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: OTPConfig
   /otp/v1/_search:
     post:
@@ -78,7 +78,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/CreateOTPConfigReq'
+              $ref: '#/components/schemas/OtpRequest'
         required: true
       responses:
         200:
@@ -92,31 +92,35 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: OTPConfig
 components:
   schemas:
-    Createotp:
+    Otp:
       required:
       - identity
       - tenantId
       type: object
       properties:
         otp:
+          maxLength: 128
           type: string
           description: this is the five digit otp number ,this is mandatory in validate
             end point should pass otp value in  /otp/v1/_validate end point, in other
             end point it is read only
         uuid:
+          maxLength: 36
           type: string
           description: this is otp reference id, this is mandatory in search end point
             (/otp/v1/_search), and in other end point it is read only.
         identity:
+          maxLength: 100
           type: string
           description: identity is  username or mobile number. this is  mandatory
             field in create and validate end point end point is(/otp/v1/_create, and
             /otp/v1/_validat) and optional field in /otp/v1/_search end point
         tenantId:
+          maxLength: 256
           type: string
           description: Unique Identifier of the tenantId to which user primarily belongs
             and it is mandatory field in all the end points shoiuld pass this value
@@ -124,24 +128,31 @@ components:
           type: string
           description: it return true or false  this is optional or read only property
             in all end point,
-    CreateOTPConfigReq:
+    OtpRequest:
+      required:
+      - otp
+      type: object
+      properties:
+        otp:
+          $ref: '#/components/schemas/Otp'
+    OtpValidateRequest:
       required:
       - RequestInfo
       - otp
       type: object
       properties:
         RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         otp:
-          $ref: '#/components/schemas/Createotp'
+          $ref: '#/components/schemas/Otp'      
     OTPConfigRes:
       type: object
       properties:
         ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         otp:
           type: array
           items:
-            $ref: '#/components/schemas/Createotp'
+            $ref: '#/components/schemas/Otp'
 x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml
 x-api-id: org.egov.egov-otp
