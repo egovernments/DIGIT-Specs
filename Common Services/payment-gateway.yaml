@@ -86,28 +86,6 @@ paths:
         style: form
         schema:
           type: string
-      - name: createdTime
-        in: query
-        description: Created time
-        required: false
-        style: form
-        schema:
-          type: integer
-          format: int64
-      - name: limit
-        in: query
-        required: false
-        style: form
-        schema:
-          type: integer
-          format: int32
-      - name: offset
-        in: query
-        required: false
-        style: form
-        schema:
-          type: integer
-          format: int32
       - name: receipt
         in: query
         description: Receipt ID generated for this payment
