@@ -385,6 +385,7 @@ components:
         tenantId:
           type: string
           description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+          example: pb.amritsar
         serviceCode:
           type: integer
           description: Defines service code.
@@ -430,7 +431,9 @@ components:
         tenantId:
           minLength: 50
           type: string
-          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.        
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+          example: pb.amritsar
+          
     ActionResponse:
       type: object
       properties:
@@ -591,5 +594,3 @@ components:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         actionValidation:
           $ref: '#/components/schemas/ActionValidation'
-
-    
