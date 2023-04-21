@@ -159,7 +159,6 @@ paths:
           format: varchar
       - name: ids
         in: query
-        description: unique identifier of trade licence
         style: form
         explode: false
         schema:
@@ -170,7 +169,6 @@ paths:
             format: int64
       - name: businessService
         in: query
-        description: Unique application number for a trade license application.
         schema:
           maxLength: 64
           minLength: 2
@@ -188,7 +186,6 @@ paths:
             format: int64
       - name: assignee
         in: query
-        description: The unique  Old license number for a Trade license.
         schema:
           maxLength: 64
           minLength: 2
@@ -207,7 +204,7 @@ paths:
         required: false
       responses:
         200:
-          description: Trade License(s) Retrived Successfully
+          description: Successful
           content:
             '*/*':
               schema:
@@ -392,7 +389,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/StatusCountReq'
+              $ref: '#/components/schemas/StatusCountRequest'
         required: false
       responses:
         200:
@@ -407,7 +404,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: StatusCountReq       
+      x-codegen-request-body-name: StatusCountRequest      
   /process/escalate/_search:
     post:
       tags:
@@ -700,7 +697,7 @@ paths:
         required: false
       responses:
         200:
-          description: Trade License(s) Retrived Successfully
+          description: Business Services Retrived Successfully
           content:
             '*/*':
               schema:
@@ -813,7 +810,7 @@ paths:
         required: false
       responses:
         200:
-          description: Trade License(s) Retrived Successfully
+          description: Business Service(s) Retrived Successfully
           content:
             '*/*':
               schema:
@@ -863,7 +860,6 @@ components:
           description: document number(eg.Pan number, aadhar number).
         auditDetails:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
-      description: A Object holds the basic data for a Trade License
     ProcessInstance:
       required:
       - action
@@ -954,7 +950,7 @@ components:
           maximum: 5
         auditDetails:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
-    StatusCountReq:
+    StatusCountRequest:
       type: object
       properties:
         RequestInfo:
@@ -981,21 +977,15 @@ components:
           maxLength: 64
           minLength: 2
           type: string
-          description: Unique Identifier of the Trade License (UUID)
+          description: Unique name of business service
         getUri:
           maxLength: 32
           minLength: 2
           type: string
-          description: Unique License Number of the Trade. This is  unique in system
-            for a tenant. This is mandatory but always be generated on the final approval.
-            In Case of Legacy License User will enter the Old License Number.
         postUri:
           maxLength: 32
           minLength: 2
           type: string
-          description: Unique License Number of the Trade. This is  unique in system
-            for a tenant. This is mandatory but always be generated on the final approval.
-            In Case of Legacy License User will enter the Old License Number.
         states:
           type: array
           items:
@@ -1020,14 +1010,10 @@ components:
           maxLength: 64
           minLength: 2
           type: string
-          description: Unique Identifier of the Trade License (UUID)
         state:
           maxLength: 32
           minLength: 2
           type: string
-          description: Unique License Number of the Trade. This is  unique in system
-            for a tenant. This is mandatory but always be generated on the final approval.
-            In Case of Legacy License User will enter the Old License Number.
         applicationStatus:
           type: string
           description: Application status as in module
@@ -1047,7 +1033,6 @@ components:
             $ref: '#/components/schemas/Action'
         auditDetails:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
-      description: A Object holds the basic data for a Trade License
     Action:
       type: object
       properties:
@@ -1081,7 +1066,6 @@ components:
             type: string
         auditDetails:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
-      description: A Object holds the basic data for a Trade License
     ProcessInstanceRequest:
       type: object
       properties:
@@ -1106,9 +1090,6 @@ components:
           description: Used for search result and create only
           items:
             $ref: '#/components/schemas/ProcessIntanceResponse'
-      description: Contract class to send response. Array of TradeLicense items are
-        used in case of search results or response for create, whereas single TradeLicense
-        item is used for update
     ProcessIntanceResponse:
       type: object
       properties:
@@ -1119,9 +1100,6 @@ components:
           description: Used for search result and create only
           items:
             $ref: '#/components/schemas/ProcessInstance'
-      description: Contract class to send response. Array of TradeLicense items are
-        used in case of search results or response for create, whereas single TradeLicense
-        item is used for update
     ProcessInstanceSearchCriteria:
       type: object
       properties:
@@ -1168,90 +1146,21 @@ components:
         moduleName: 
           type: string
           description: Module name to which workflow application belongs
-    ResponseEntity:
-      title: ResponseEntity
+    StatusCountResponseObject:
       type: object
       properties:
-        body:
-          type: object
-        result:
-          type: array
-          items:
-            type: string
-        statusCode:
-          type: string
-          enum:
-            - ACCEPTED
-            - ALREADY_REPORTED
-            - BAD_GATEWAY
-            - BAD_REQUEST
-            - BANDWIDTH_LIMIT_EXCEEDED
-            - CHECKPOINT
-            - CONFLICT
-            - CONTINUE
-            - CREATED
-            - DESTINATION_LOCKED
-            - EXPECTATION_FAILED
-            - FAILED_DEPENDENCY
-            - FORBIDDEN
-            - FOUND
-            - GATEWAY_TIMEOUT
-            - GONE
-            - HTTP_VERSION_NOT_SUPPORTED
-            - IM_USED
-            - INSUFFICIENT_SPACE_ON_RESOURCE
-            - INSUFFICIENT_STORAGE
-            - INTERNAL_SERVER_ERROR
-            - I_AM_A_TEAPOT
-            - LENGTH_REQUIRED
-            - LOCKED
-            - LOOP_DETECTED
-            - METHOD_FAILURE
-            - METHOD_NOT_ALLOWED
-            - MOVED_PERMANENTLY
-            - MOVED_TEMPORARILY
-            - MULTIPLE_CHOICES
-            - MULTI_STATUS
-            - NETWORK_AUTHENTICATION_REQUIRED
-            - NON_AUTHORITATIVE_INFORMATION
-            - NOT_ACCEPTABLE
-            - NOT_EXTENDED
-            - NOT_FOUND
-            - NOT_IMPLEMENTED
-            - NOT_MODIFIED
-            - NO_CONTENT
-            - OK
-            - PARTIAL_CONTENT
-            - PAYLOAD_TOO_LARGE
-            - PAYMENT_REQUIRED
-            - PERMANENT_REDIRECT
-            - PRECONDITION_FAILED
-            - PRECONDITION_REQUIRED
-            - PROCESSING
-            - PROXY_AUTHENTICATION_REQUIRED
-            - REQUESTED_RANGE_NOT_SATISFIABLE
-            - REQUEST_ENTITY_TOO_LARGE
-            - REQUEST_HEADER_FIELDS_TOO_LARGE
-            - REQUEST_TIMEOUT
-            - REQUEST_URI_TOO_LONG
-            - RESET_CONTENT
-            - SEE_OTHER
-            - SERVICE_UNAVAILABLE
-            - SWITCHING_PROTOCOLS
-            - TEMPORARY_REDIRECT
-            - TOO_EARLY
-            - TOO_MANY_REQUESTS
-            - UNAUTHORIZED
-            - UNAVAILABLE_FOR_LEGAL_REASONS
-            - UNPROCESSABLE_ENTITY
-            - UNSUPPORTED_MEDIA_TYPE
-            - UPGRADE_REQUIRED
-            - URI_TOO_LONG
-            - USE_PROXY
-            - VARIANT_ALSO_NEGOTIATES
-        statusCountValue:
+        count:
           type: integer
-          format: int32      
+        applicationStatus:
+          type: string
+        businessService:
+          type: string
+        statusid:
+          type: string
+    ResponseEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/StatusCountResponseObject'
     BusinessServiceRequest:
       type: object
       properties:
@@ -1262,8 +1171,6 @@ components:
           description: Used for search result and create only
           items:
             $ref: '#/components/schemas/BusinessService'
-      description: Contract class to receive request. Array of TradeLicense items
-        are used in case of create, whereas single TradeLicense item is used for update
     BusinessServiceResponse:
       type: object
       properties:
@@ -1274,8 +1181,5 @@ components:
           description: Used for search result and create only
           items:
             $ref: '#/components/schemas/BusinessService'
-      description: Contract class to send response. Array of TradeLicense items are
-        used in case of search results or response for create, whereas single TradeLicense
-        item is used for update
 x-api-id: org.egov.wf.service
 x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml
