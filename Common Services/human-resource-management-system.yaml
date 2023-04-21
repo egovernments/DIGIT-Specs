@@ -658,57 +658,7 @@ components:
       type: object
       properties:
         responseInfo:
-          $ref: '#/components/schemas/ResponseHeader'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         EmployeeCount:
           $ref: '#/components/schemas/EmployeeCount'
       description: Response to the service request
-    ResponseHeader:
-      required:
-      - msgId
-      - resMsgId
-      - status
-      type: object
-      properties:
-        ts:
-          type: integer
-          description: response time in epoch
-          format: int64
-        resMsgId:
-          maxLength: 256
-          type: string
-          description: unique response message id (UUID) - will usually be the correlation
-            id from the server
-        msgId:
-          maxLength: 256
-          type: string
-          description: message id of the request
-        status:
-          type: string
-          description: status of request processing
-          enum:
-          - COMPLETED
-          - ACCEPTED
-          - FAILED
-        signature:
-          type: string
-          description: Hash describing the current ResponseHeader
-        error:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Error'
-        information:
-          type: object
-          properties: {}
-          description: Additional information from API
-        debug:
-          type: object
-          properties: {}
-          description: Debug information when requested
-        additionalInfo:
-          type: object
-          properties: {}
-          description: Any additional information if required e.g. status url (to
-            find out the current status of an asynchronous processing response), additional
-            links to perform special functions like file uploads etc.
-      description: ResponseHeader should be used to carry metadata information about
-        the response from the server. apiId, ver and msgId in ResponseHeader should
-        always correspond to the same values in respective request's RequestHeader.
-    
