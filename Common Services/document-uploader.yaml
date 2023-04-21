@@ -12,8 +12,7 @@ info:
 servers:
   - url: https://dev.digit.org
 tags:
-  - name: document-controller
-    description: Document Controller
+  - name: Document Uploader
 paths:
   "/egov-document-uploader/egov-du/document/_create":
     post:
@@ -136,6 +135,18 @@ paths:
           style: form
           schema:
             type: boolean
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema: 
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema: 
+            type: integer
       requestBody:
         content:
           application/json:
@@ -222,6 +233,18 @@ paths:
           style: form
           schema:
             type: boolean
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema: 
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema: 
+            type: integer
       requestBody:
         content:
           application/json:
@@ -271,7 +294,6 @@ paths:
           description: Not Found
 components:
   schemas:
-    
     DocumentEntity:
       title: DocumentEntity
       required:
@@ -281,7 +303,7 @@ components:
         active:
           type: boolean
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         category:
           type: string
         description:
@@ -317,7 +339,7 @@ components:
           "$ref": "#/components/schemas/DocumentEntity"
         RequestInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo
     DocumentResponse:
       title: DocumentResponse
       type: object
@@ -328,14 +350,14 @@ components:
             "$ref": "#/components/schemas/DocumentEntity"
         ResponseInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
     CountResponse:
       title: CountResponse
       type: object
       properties:
         ResponseInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
         count:
           type: integer
     RequestInfoWrapper:
@@ -344,5 +366,5 @@ components:
       properties:
         RequestInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo
     

@@ -7,9 +7,8 @@ info:
     \ for the Visualization to paint different Graphs. \n"
   version: 1.0.0
 servers:
-- url: https://dev.digit.org/dashboard/[APIEndPoint]
+- url: http://egov-micro-dev.egovernments.org/dashboard/[APIEndPoint]
 paths:
-  
   /getDashboardConfig/{dashboardId}:
     get:
       tags:
@@ -39,195 +38,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /getChartV2:
     post:
       tags:
-      - Dashboard
+      - Order
       summary: Get Chart API will be responding with the Data for each visualization
         based on the Chart ID which has been sent
       description: Based on the Chart ID and the Visualization Type and the Request
         Dates and Filters, the API will aggregate the data and give the data which
         needs to be painted on Visualization Charts
-      parameters:
-      - name: contextPath
-        in: query
-        description: path to Confluence relative to the root directory of the webserver
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: httpMethod
-        in: query
-        description: http method such as GET, PUT, DELETE, POST etc.
-        required: false
-        style: form
-        schema:
-          type: string
-          enum:
-          - DELETE
-          - GET
-          - HEAD
-          - OPTIONS
-          - PATCH
-          - POST
-          - PUT
-          - TRACE
-      - name: locale.ISO3Country
-        in: query
-        description: locale.ISO3Country
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.ISO3Language
-        in: query
-        description: locale.ISO3Language
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.country
-        in: query
-        description: locale.country
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayCountry
-        in: query
-        description: locale.displayCountry
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayLanguage
-        in: query
-        description: locale.displayLanguage
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayName
-        in: query
-        description: locale.displayName
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayScript
-        in: query
-        description: locale.displayScript
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayVariant
-        in: query
-        description: locale.displayVariant
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.extensionKeys
-        in: query
-        description: locale.extensionKeys
-        required: false
-        style: pipeDelimited
-        schema:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-      - name: locale.language
-        in: query
-        description: locale.language
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.script
-        in: query
-        description: locale.script
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.unicodeLocaleAttributes
-        in: query
-        description: locale.unicodeLocaleAttributes
-        required: false
-        style: pipeDelimited
-        schema:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-      - name: locale.unicodeLocaleKeys
-        in: query
-        description: locale.unicodeLocaleKeys
-        required: false
-        style: pipeDelimited
-        schema:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-      - name: locale.variant
-        in: query
-        description: locale.variant
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: nativeRequest
-        in: query
-        description: nativeRequest
-        required: false
-        style: form
-        schema:
-          type: object
-      - name: nativeResponse
-        in: query
-        description: nativeResponse
-        required: false
-        style: form
-        schema:
-          type: object
-      - name: notModified
-        in: query
-        description: notModified
-        required: false
-        style: form
-        schema:
-          type: boolean
-      - name: remoteUser
-        in: query
-        description: remoteUser
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: secure
-        in: query
-        description: secure
-        required: false
-        style: form
-        schema:
-          type: boolean
-      - name: userPrincipal.name
-        in: query
-        description: userPrincipal.name
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: x-user-info
-        in: header
-        description: x-user-info
-        required: false
-        schema:
-          type: string  
       requestBody:
         description: This request object contains the Visualization for which the
           data has to be served.
@@ -248,9 +68,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: order
-  
 components:
   schemas:
     Chart:
@@ -488,4 +307,5 @@ components:
             id from the server
       description: Status Information object will hold the run time status and the
         live response obtained from the server for the respective API Call.
-    
+  
+

@@ -60,10 +60,19 @@ paths:
       responses:
         200:
           description: OK
-          content: {}
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankAccountServiceMapping'
         201:
           description: Created
           content: {}
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'  
         401:
           description: Unauthorized
           content: {}
@@ -88,7 +97,7 @@ paths:
         schema:
           type: string
           format: varchar
-      - name: pageSize
+      - name: limit
         in: query
         description: Number of records returned.
         schema:
@@ -99,7 +108,7 @@ paths:
           exclusiveMinimum: true
           type: integer
           default: 20
-      - name: pageNumber
+      - name: offset
         in: query
         description: Page number
         schema:
@@ -222,12 +231,21 @@ paths:
           type: array
           items:
             type: string
+      - name: businessServices
+        in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
       requestBody:
         description: Parameter to carry Request metadata in the request body
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/RequestInfo'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         required: false
       responses:
         200:
@@ -243,7 +261,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: requestInfo
   /payments/_plainsearch:
     post:
@@ -953,7 +971,7 @@ components:
           items:
             $ref: '#/components/schemas/BankAccountServiceMapping'
         RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     BankAccountServiceMapping:
       title: BankAccountServiceMapping
       required:
@@ -966,6 +984,8 @@ components:
           description: Name of bank
           type: string
         bankAccount:
+          minLength: 8
+          maxLength: 18
           description: Details of bank account
           type: string
         bankBranch:
@@ -986,6 +1006,14 @@ components:
           type: string
           description: The mobileNumber of person who is paying
           format: varchar
+        id:
+          type: string
+          description: Name of the Person who is making payment.
+          readOnly: true
+        tenantId: 
+          type: string
+          description: Unique id of a tenant
+          readOnly: true
         payerName:
           type: string
           description: The owner of the bill
@@ -1058,6 +1086,12 @@ components:
           type: number
           description: The date on which bill is generated
           format: int64
+        amountPaid:
+          type: number
+          description: The total amount to be paid for the bill
+          format: double
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         billDetails:
           type: array
           items:
@@ -1131,10 +1165,18 @@ components:
         cancellationRemarks:
           type: string
           description: Remarks related to cancellation of payment
+        additionalDetails:
+          type: object
+          properties: {}
+          description: Additional fields can be captured in this object as map
         billAccountDetails:
           type: array
           items:
             $ref: '#/components/schemas/BillAccountDetail'
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        callBackForApportioning:
+          type: boolean
     BillAccountDetail:
       type: object
       properties:
@@ -1168,6 +1210,8 @@ components:
           type: object
           properties: {}
           description: Additional fields can be captured in this object as map
+        isActualDemand:
+          type: boolean
         purpose:
           type: string
           description: purpose of the bill account detail.
@@ -1182,12 +1226,15 @@ components:
           - REBATE
           - OTHERS
         auditDetails:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     PaymentRequest:
       type: object
+      required:
+      - requestInfo
+      - Payment
       properties:
         requestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         Payment:
           $ref: '#/components/schemas/Payment'
       description: Payment Request with Request Info.
@@ -1195,7 +1242,7 @@ components:
       type: object
       properties:
         responseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         Payment:
           $ref: '#/components/schemas/Payment'
       description: Receipt Request with Request Info.
@@ -1203,7 +1250,7 @@ components:
       type: object
       properties:
         requestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         Payment:
           $ref: '#/components/schemas/PaymentWorkflow'
       description: Payment Workflow Request with Request Info.
@@ -1327,8 +1374,12 @@ components:
           - CANCELLED
           - DISHONOURED
           - RECONCILED
+        fileStoreId:
+          type: string
+          description: Unique id criteria for filestore
+          format: varchar
         auditDetails:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     PaymentDetail:
       required:
       - billId
@@ -1348,6 +1399,10 @@ components:
           description: The total amount to be paid for the bill corresponding to the
             payment detail
           format: double
+        paymentId:
+          maxLength: 64
+          type: string
+          description: payment Id of the payment detail
         totalAmountPaid:
           type: number
           description: The amount that is being paid
@@ -1356,6 +1411,10 @@ components:
           maxLength: 64
           type: string
           description: Receipt number entered manually for legacy data.
+        manualReceiptDate:
+          type: integer
+          description: The epoch receipt date generated for the payment against the
+            bill
         receiptNumber:
           maxLength: 64
           type: string
@@ -1380,7 +1439,7 @@ components:
           type: integer
           description: Any additional fields can be captured here as a map
         auditDetails:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       description: The payment details of each bill
     PaymentWorkflow:
       required:
@@ -1390,6 +1449,7 @@ components:
       type: object
       properties:
         paymentId:
+          minLength: 1
           type: string
           description: id of the payment on which to take action .
         action:
@@ -1400,6 +1460,7 @@ components:
           - DISHONOUR
           - REMIT
         tenantId:
+          minLength: 1
           type: string
           description: tenantId of the payment
         reason:
@@ -1409,51 +1470,12 @@ components:
           type: integer
           description: Any additional fields can be captured here as a map
       description: Workflow object for payment
-    ResponseInfo:
-      required:
-      - apiId
-      - status
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version
-        ts:
-          type: integer
-          description: response time in epoch
-          format: int64
-        resMsgId:
-          maxLength: 256
-          type: string
-          description: unique response message id (UUID) - will usually be the correlation
-            id from the server
-        msgId:
-          maxLength: 256
-          type: string
-          description: message id of the request
-        status:
-          type: string
-          description: status of request processing - to be enhanced in futuer to
-            include INPROGRESS
-          enum:
-          - SUCCESSFUL
-          - FAILED
-      description: ResponseInfo should be used to carry metadata information about
-        the response from the server. apiId, ver and msgId in ResponseInfo should
-        always correspond to the same values in respective request's RequestInfo.
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"    
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"    
     Remittance:
       title: Remittance
       required:
@@ -1463,7 +1485,7 @@ components:
       type: object
       properties:
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         bankaccount:
           type: string
           description: bank account details
@@ -1572,7 +1594,7 @@ components:
           items:
             "$ref": "#/components/schemas/Remittance"
         RequestInfo:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
     RemittanceResponse:
       title: RemittanceResponse
       type: object
@@ -1582,119 +1604,7 @@ components:
           items:
             "$ref": "#/components/schemas/Remittance"
         ResponseInfo:
-          "$ref": "#/components/schemas/ResponseInfo"          
-    RequestInfo:
-      required:
-      - action
-      - apiId
-      - msgId
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version - for HTTP based request this will be same as used
-            in path
-        ts:
-          type: integer
-          description: time in epoch
-          format: int64
-        action:
-          maxLength: 32
-          type: string
-          description: API action to be performed like _create, _update, _search (denoting
-            POST, PUT, GET) or _oauth etc
-        did:
-          maxLength: 1024
-          type: string
-          description: Device ID from which the API is called
-        key:
-          maxLength: 256
-          type: string
-          description: API key (API key provided to the caller in case of server to
-            server communication)
-        msgId:
-          maxLength: 256
-          type: string
-          description: Unique request message id from the caller
-        requesterId:
-          maxLength: 256
-          type: string
-          description: UserId of the user calling
-        authToken:
-          type: string
-          description: //session/jwt/saml token/oauth token - the usual value that
-            would go into HTTP bearer token
-        userInfo:
-          $ref: '#/components/schemas/UserInfo'
-        correlationId:
-          type: string
-          readOnly: true
-      description: RequestInfo should be used to carry meta information about the
-        requests to the server as described in the fields below. All eGov APIs will
-        use requestinfo as a part of the request body to carry this meta information.
-        Some of this information will be returned back from the server as part of
-        the ResponseInfo in the response body to ensure correlation.
-    UserInfo:
-      required:
-      - primaryrole
-      - tenantId
-      - userName
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        id:
-          type: integer
-          description: User id of the authenticated user. Will be deprecated in future
-          format: int32
-        userName:
-          type: string
-          description: Unique user name of the authenticated user
-        mobile:
-          type: string
-          description: mobile number of the autheticated user
-        email:
-          type: string
-          description: email address of the authenticated user
-        primaryrole:
-          type: array
-          description: List of all the roles for the primary tenant
-          items:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/Role'
-        additionalroles:
-          type: array
-          description: array of additional tenantids authorized for the authenticated
-            user
-          items:
-            $ref: '#/components/schemas/TenantRole'
-      description: This is acting ID token of the authenticated user on the server.
-        Any value provided by the clients will be ignored and actual user based on
-        authtoken will be used on the server.
-    TenantRole:
-      required:
-      - roles
-      - tenantId
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: tenantid for the tenant
-        roles:
-          type: array
-          description: Roles assigned for a particular tenant - array of role codes/names
-          items:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/Role'
-      description: User role carries the tenant related role information for the user.
-        A user can have multiple roles per tenant based on the need of the tenant.
-        A user may also have multiple roles for multiple tenants.    
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo"          
   parameters:
     pageSize:
       name: pageSize

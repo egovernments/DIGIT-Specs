@@ -456,7 +456,7 @@ paths:
         schema:
           type: integer
           format: int64
-      - name: orderBy
+      - name: isOrderBy
         in: query
         required: false
         style: form
@@ -1023,7 +1023,7 @@ components:
           minLength: 0
           type: string
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         currentState:
           maxLength: 256
           minLength: 0
@@ -1071,7 +1071,7 @@ components:
           - OTHERS
           - REMISSION_FOR_PROPERTY_TAX
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         businessService:
           type: string
         consumerCode:
@@ -1115,7 +1115,7 @@ components:
         Amendment:
           "$ref": "#/components/schemas/Amendment"
         RequestInfo:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
     AmendmentUpdate:
       title: AmendmentUpdate
       required:
@@ -1131,7 +1131,7 @@ components:
         amendmentId:
           type: string
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         documents:
           type: array
           items:
@@ -1157,7 +1157,7 @@ components:
         AmendmentUpdate:
           "$ref": "#/components/schemas/AmendmentUpdate"
         RequestInfo:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
     BillDetailV2:
       title: BillDetailV2
       type: object
@@ -1204,7 +1204,7 @@ components:
           type: number
           format: bigdecimal
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         billDetailId:
           type: string
         demandDetailId:
@@ -1249,7 +1249,7 @@ components:
           type: string
           description: Billing system e.g., Property Tax, Water Charges etc.
         payer:
-          $ref: '#/components/schemas/User'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         taxPeriodFrom:
           type: integer
           description: start date from when the tax is applicable.
@@ -1268,7 +1268,7 @@ components:
             for this particular demand expires or invalidates.
           format: int64
         auditDetails:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         additionalDetails:
           type: object
           properties: {}
@@ -1310,7 +1310,7 @@ components:
           properties: {}
           description: field for capturing any additional details.
         auditDetails:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         tenantId:
           maxLength: 128
           minLength: 4
@@ -1339,7 +1339,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         Demand:
           type: array
           items:
@@ -1353,7 +1353,7 @@ components:
           items:
             "$ref": "#/components/schemas/BillV2"
         RequestInfo:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
     JsonNode:
       title: JsonNode
       type: object      
@@ -1364,10 +1364,12 @@ components:
         additionalDetails:
           "$ref": "#/components/schemas/JsonNode"
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         billDate:
           type: integer
           format: int64
+        userId:
+          type: string
         billDetails:
           type: array
           items:
@@ -1426,7 +1428,7 @@ components:
       type: object
       properties:
         requestInfo:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
         updateBillCriteria:
           "$ref": "#/components/schemas/UpdateBillCriteria"        
     UpdateBillCriteria:
@@ -1464,94 +1466,6 @@ components:
           - PAYMENT_CANCELLED
         tenantId:
           type: string      
-    User:
-      required:
-      - active
-      - gender
-      - locale
-      - mobileNumber
-      - name
-      - tenantId
-      - type
-      - userName
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        id:
-          type: integer
-          description: The unique numeric id of an user. To be deprecated in future.
-          format: int64
-        userName:
-          maxLength: 64
-          minLength: 4
-          type: string
-          description: The unique username used of the user - this will be used for
-            user login. This needs to be unique within the tenant.
-        authToken:
-          type: string
-          description: "Authentication token for the user that may be - \n1. Password\
-            \ in case of basic auth\n2. OTP in case of OTP based verification\n3.\
-            \ OAuth auth token for OAuth based auth\n"
-          format: password
-        salutation:
-          maxLength: 5
-          type: string
-          description: The salutation of user name. Example- Mr, Miss, Mrs
-        name:
-          maxLength: 100
-          minLength: 3
-          type: string
-          description: The full name of the user.
-        gender:
-          type: string
-          description: Gender of the user.
-        mobileNumber:
-          maxLength: 10
-          type: string
-          description: Mobile number of the user
-        emailId:
-          maxLength: 128
-          type: string
-          description: Email address of the user
-        aadhaarNumber:
-          maxLength: 12
-          pattern: '[0-9]'
-          type: string
-          description: Aadhaar number of the user
-        active:
-          type: boolean
-          description: True if the user is active and False if the user is inactive.
-        pwdExpiryDate:
-          type: integer
-          description: epoch of time when the current auth token (password/OTP) will
-            expire.
-          format: int64
-          readOnly: true
-        locale:
-          maxLength: 5
-          type: string
-          description: Value will be set to "en_IN".
-        type:
-          maxLength: 20
-          type: string
-          description: System set value internally. For employee value will be always
-            "EMPLOYEE". For citizen value will be "CITIZEN".
-        accountLocked:
-          type: boolean
-          description: Set to True if account is locked after several incorrect password
-            attempt. False if account is not locked.
-          default: false
-        roles:
-          type: array
-          description: List of roles that are attached to the user.
-          items:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/Role'
-        userDetails:
-          $ref: '#/components/schemas/UserDetails'
-        auditDetails:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     ProcessInstance:
       title: ProcessInstance
       required:
@@ -1567,13 +1481,13 @@ components:
           minLength: 0
           type: string
         assigner:
-          "$ref": "#/components/schemas/User"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User"
         assignes:
           type: array
           items:
-            "$ref": "#/components/schemas/User"
+            "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User"
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         businessId:
           maxLength: 128
           minLength: 0
@@ -1620,89 +1534,12 @@ components:
           maxLength: 128
           minLength: 0
           type: string    
-    UserDetails:
-      type: object
-      properties:
-        firstName:
-          maxLength: 32
-          minLength: 1
-          type: string
-          description: The full name of the user.
-        middleName:
-          maxLength: 32
-          minLength: 1
-          type: string
-          description: The full name of the user.
-        lastName:
-          maxLength: 32
-          minLength: 1
-          type: string
-          description: The full name of the user.
-        dob:
-          type: string
-          description: Date of birth of the user in dd/mm/yyyy format.
-          format: date
-        altContactNumber:
-          maxLength: 16
-          type: string
-          description: Alternate contact number of the user
-        fatherName:
-          maxLength: 100
-          type: string
-          description: User's father's name if available
-        husbandName:
-          maxLength: 100
-          type: string
-          description: Name of user's husband - if applicable
-        bloodGroup:
-          maxLength: 3
-          type: string
-          description: Blood group of the user.
-        pan:
-          maxLength: 10
-          type: string
-          description: PAN number of the user
-        permanentAddress:
-          maxLength: 300
-          type: string
-          description: Permanent address of the user.
-        permanentCity:
-          maxLength: 300
-          type: string
-          description: City of the permanent address.
-        permanentPincode:
-          maxLength: 6
-          type: string
-          description: Permanent address pincode.
-        correspondenceCity:
-          maxLength: 50
-          type: string
-          description: City of the correspondence address.
-        correspondencePincode:
-          maxLength: 6
-          type: string
-          description: Permanent address pincode.
-        correspondenceAddress:
-          maxLength: 300
-          type: string
-          description: Correspondence address of the user.
-        signature:
-          type: string
-          description: Image to be loaded for the signature of the employee
-        identificationMark:
-          maxLength: 300
-          type: string
-          description: Any identification mark of the person.
-        photo:
-          type: string
-          description: Image to be loaded for the photo of the user
-      description: Infrequently used details for the user
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"    
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"    
     State:
       title: State
       type: object
@@ -1716,7 +1553,7 @@ components:
           minLength: 0
           type: string
         auditDetails:
-          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         businessServiceId:
           maxLength: 256
           minLength: 0
