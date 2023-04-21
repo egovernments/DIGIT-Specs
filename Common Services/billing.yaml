@@ -148,7 +148,7 @@ paths:
     post:
       description: This api is used to cancel bill
       tags:
-      - bill-controllerv-2
+      - bill-controller-v2
       summary: Cancel bill
       operationId: cancelBillUsingPOST
       requestBody:
@@ -177,7 +177,7 @@ paths:
     post:
       description: Create bill using bill request
       tags:
-      - bill-controllerv-2
+      - bill-controller-v2
       summary: Create bill
       operationId: createUsingPOST_2
       requestBody:
@@ -204,7 +204,7 @@ paths:
     post:
       description: Creates a Bill for collections. By default active bill will be created. Along with tenantId, any one parameter is mandatory. Trigers bill generate internally, Checks whether a demand exists for the given data in db else creates a new one throught the revenue services.
       tags:
-      - bill-controllerv-2
+      - bill-controller-v2
       summary: Fetch bill
       operationId: fetchBillUsingPOST_1
       parameters:
@@ -289,7 +289,7 @@ paths:
   /billing-service/bill/v2/_generate:
     post:
       tags:
-      - bill-controllerv-2
+      - bill-controller-v2
       description: Creates a Bill for collections. By default active bill will be created. Along with tenantId, any one parameter is mandatory. The bill type is AUTO here.
       summary: Generate bill
       operationId: genrateBillUsingPOST_1
@@ -376,7 +376,7 @@ paths:
     post:
       description: 'Returns a Bill along with its list of bill details. By default active and non-cancelled bills will be returned when no value passed for active or cancelled. Along with tenantId, any one parameter is mandatory. By default results will be sorted by bill creation date'
       tags:
-      - bill-controllerv-2
+      - bill-controller-v2
       summary: Search bill
       operationId: searchUsingPOST_2
       parameters:
@@ -1056,7 +1056,9 @@ components:
       type: object
       properties:
         additionalDetails:
-          "$ref": "#/components/schemas/JsonNode"
+          type: object
+          properties: {}
+          description: Additional fields can be captured here
         amendedDemandId:
           type: string
         amendmentId:
@@ -1125,7 +1127,9 @@ components:
       type: object
       properties:
         additionalDetails:
-          "$ref": "#/components/schemas/JsonNode"
+          type: object
+          properties: {}
+          description: Additional fields can be captured here
         amendedDemandId:
           type: string
         amendmentId:
@@ -1354,15 +1358,14 @@ components:
             "$ref": "#/components/schemas/BillV2"
         RequestInfo:
           "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
-    JsonNode:
-      title: JsonNode
-      type: object      
     BillV2:
       title: BillV2
       type: object
       properties:
         additionalDetails:
-          "$ref": "#/components/schemas/JsonNode"
+          type: object
+          properties: {}
+          description: Additional fields can be captured here
         auditDetails:
           "$ref": 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         billDate:
@@ -1442,7 +1445,9 @@ components:
       type: object
       properties:
         additionalDetails:
-          "$ref": "#/components/schemas/JsonNode"
+          type: object
+          properties: {}
+          description: Additional fields can be captured here
         billIds:
           uniqueItems: true
           type: array

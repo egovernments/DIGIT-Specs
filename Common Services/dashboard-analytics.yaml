@@ -7,7 +7,7 @@ info:
     \ for the Visualization to paint different Graphs. \n"
   version: 1.0.0
 servers:
-- url: http://egov-micro-dev.egovernments.org/dashboard/[APIEndPoint]
+- url: https://dev.digit.org/dashboard/[APIEndPoint]
 paths:
   /getDashboardConfig/{dashboardId}:
     get:
@@ -307,5 +307,3 @@ components:
             id from the server
       description: Status Information object will hold the run time status and the
         live response obtained from the server for the respective API Call.
-  
-
