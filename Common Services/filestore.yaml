@@ -25,8 +25,9 @@ paths:
               - module
               properties:
                 requestInfo:
-                  type: string
-                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                  allOf:
+                    - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                    - type: string
                 file:
                   type: string
                   description: The file to upload.
@@ -250,4 +251,3 @@ components:
           type: string
           description: contetnt type of file.
       description: Upload file response data with url and contetnt type of file.
-    
