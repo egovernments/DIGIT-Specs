@@ -101,6 +101,31 @@ paths:
           application/json:
             schema:
               type: object
+            example:
+                {
+                  "service": {
+                  "tenantId": "pb.amritsar",
+                  "serviceCode": "NoStreetlight",
+                  "description": "",
+                  "additionalDetail": {},
+                  "source": "web",
+                  "address": {
+                    "city": "Amritsar",
+                    "district": "Amritsar",
+                    "region": "Amritsar",
+                    "state": "Panjab",
+                    "pincode": "143001",
+                    "locality": {
+                      "code": "SUN04",
+                      "name": "Ajit Nagar"
+                        },
+                    "geoLocation": {}
+                    }
+                  },
+                  "workflow": {
+                    "action": "APPLY"
+                      }
+                }  
         required: true
       responses:
         200:
@@ -109,6 +134,31 @@ paths:
             '*/*':
               schema:
                 type: object
+                example:
+                  {
+                  "service": {
+                  "tenantId": "pb.amritsar",
+                  "serviceCode": "NoStreetlight",
+                  "description": "",
+                  "additionalDetail": {},
+                  "source": "web",
+                  "address": {
+                    "city": "Amritsar",
+                    "district": "Amritsar",
+                    "region": "Amritsar",
+                    "state": "Panjab",
+                    "pincode": "143001",
+                    "locality": {
+                      "code": "SUN04",
+                      "name": "Ajit Nagar"
+                        },
+                    "geoLocation": {}
+                    }
+                  },
+                  "workflow": {
+                    "action": "APPLY"
+                      }
+                }  
         201:
           description: Created
           content: {}
@@ -128,7 +178,7 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         url:
           type: string
           description: url to access the particular file belong to the tag.
@@ -148,7 +198,7 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         url:
           type: string
           description: url to access the particular file belong to the tag.
@@ -168,7 +218,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         batchSize:
           type: integer
           format: int32
@@ -219,7 +269,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         apiDetails:
           $ref: '#/components/schemas/APIDetails'
         jobId:
