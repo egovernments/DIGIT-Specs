@@ -1,8 +1,8 @@
 ---
 openapi: 3.0.3
 info:
-  title: Api Documentation
-  description: Api Documentation
+  title: Document Uploader Service
+  description: API specs for document uploader service
   termsOfService: urn:tos
   contact: {}
   license:
@@ -367,4 +367,3 @@ components:
         RequestInfo:
           $ref: >-
             https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo
-    
