@@ -249,7 +249,7 @@ paths:
       description: Update event 
       tags:
         - Events
-      summary: updatellt
+      summary: update lat
       operationId: updatelltUsingPOST
       requestBody:
         content:
@@ -434,7 +434,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/EventResponse'
+                $ref: '#/components/schemas/NotificationCountResponse'
         '201':
           description: Created
         '400':
@@ -501,6 +501,7 @@ components:
         id:
           type: string
           description: Unique Identifier of the Event (UUID)
+          readOnly: true
         referenceId:
           type: string
           description: Unique Identifier of the Event (UUID)
@@ -611,11 +612,11 @@ components:
       type: object
       required:
         - RequestInfo
-        - Events
+        - events
       properties:
         RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-        Events:
+        events:
           type: array
           description: Array of events to be created in the system.
           items:
@@ -633,6 +634,18 @@ components:
           items:
             $ref: '#/components/schemas/Event'
         totalCount:
+          type: integer
+          
+      description: Contract class to send response. Array of Event items are used
+        in case of search results or response for create and update
+    NotificationCountResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        totalCount:
+          type: integer
+        unreadCount:
           type: integer
           
       description: Contract class to send response. Array of Event items are used
