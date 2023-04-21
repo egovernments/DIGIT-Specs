@@ -29,18 +29,12 @@ paths:
             '*/*':
               schema:
                 type: string
-        201:
-          description: Created
-          content: {}
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-          content: {}
+        400:
+          description: Invalid input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/ErrorRes'
       x-codegen-request-body-name: shortenRequest
   /{id}:  
     get:
@@ -58,22 +52,17 @@ paths:
         200:
           description: user redirected to original url
           content: {}
-        201:
-          description: Created
-          content: {}
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-          content: {}
+        400:
+          description: invalid input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/ErrorRes'
 components:
   schemas:
     ShortenRequest:
       type: object
+      required: [url]
       properties:
         id:
           type: string

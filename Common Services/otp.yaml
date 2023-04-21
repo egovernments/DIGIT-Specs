@@ -30,7 +30,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OTPConfigRes'
+                $ref: '#/components/schemas/OtpResponse'
         400:
           description: Request failed
           content:
@@ -58,7 +58,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OTPConfigRes'
+                $ref: '#/components/schemas/OtpResponse'
         400:
           description: Request failed
           content:
@@ -86,7 +86,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OTPConfigRes'
+                $ref: '#/components/schemas/OtpResponse'
         400:
           description: Request failed
           content:
@@ -145,14 +145,12 @@ components:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         otp:
           $ref: '#/components/schemas/Otp'      
-    OTPConfigRes:
+    OtpResponse:
       type: object
       properties:
         ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         otp:
-          type: array
-          items:
-            $ref: '#/components/schemas/Otp'
+          $ref: '#/components/schemas/Otp'
 x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml
 x-api-id: org.egov.egov-otp
