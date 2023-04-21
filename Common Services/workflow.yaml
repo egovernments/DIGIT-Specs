@@ -63,17 +63,22 @@ paths:
         schema:
           type: string
           format: varchar
-      - name: ids
+      - name: status
         in: query
-        description: unique identifier of Application
+        description: status of Application
         style: form
         explode: false
         schema:
           maxItems: 50
-          type: array
-          items:
-            type: integer
-            format: int64
+          type: string
+      - name: ids
+        in: query
+        description: Unique id of Application
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: string
       - name: businessService
         in: query
         description: Name of the workflow confguration.
@@ -120,6 +125,16 @@ paths:
         description: Starting offset for returning search response
         schema:
           type: integer
+      - name: fromDate
+        in: query
+        description: Number of records to be returned
+        schema:
+          type: integer
+      - name: toDate
+        in: query
+        description: Number of records to be returned
+        schema:
+          type: integer
       requestBody:
         description: Parameter to carry Request metadata in the request body
         content:
@@ -157,18 +172,32 @@ paths:
         schema:
           type: string
           format: varchar
-      - name: ids
+      - name: status
         in: query
+        description: status of Application
         style: form
         explode: false
         schema:
           maxItems: 50
-          type: array
-          items:
-            type: integer
-            format: int64
+          type: string
+      - name: ids
+        in: query
+        description: Unique id of Application
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: string
       - name: businessService
         in: query
+        description: Name of the workflow confguration.
+        schema:
+          maxLength: 64
+          minLength: 2
+          type: string
+      - name: moduleName
+        in: query
+        description: Module name to which workflow application belongs
         schema:
           maxLength: 64
           minLength: 2
@@ -182,10 +211,10 @@ paths:
           maxItems: 50
           type: array
           items:
-            type: integer
-            format: int64
+            type: string
       - name: assignee
         in: query
+        description: The unique  Old license number for a Application.
         schema:
           maxLength: 64
           minLength: 2
@@ -195,6 +224,26 @@ paths:
         description: Boolean flag to return history of the workflow
         schema:
           type: boolean
+      - name: limit
+        in: query
+        description: Number of records to be returned
+        schema:
+          type: integer
+      - name: offset
+        in: query
+        description: Starting offset for returning search response
+        schema:
+          type: integer
+      - name: fromDate
+        in: query
+        description: Number of records to be returned
+        schema:
+          type: integer
+      - name: toDate
+        in: query
+        description: Number of records to be returned
+        schema:
+          type: integer
       requestBody:
         description: Parameter to carry Request metadata in the request body
         content:
@@ -303,7 +352,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ProcessCountResponse'
+                type: integer
         400:
           description: Invalid input.
           content:
@@ -327,17 +376,22 @@ paths:
         schema:
           type: string
           format: varchar
-      - name: ids
+      - name: status
         in: query
-        description: unique identifier of Application
+        description: status of Application
         style: form
         explode: false
         schema:
           maxItems: 50
-          type: array
-          items:
-            type: integer
-            format: int64
+          type: string
+      - name: ids
+        in: query
+        description: Unique id of Application
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: string
       - name: businessService
         in: query
         description: Name of the workflow confguration.
@@ -382,6 +436,16 @@ paths:
       - name: offset
         in: query
         description: Starting offset for returning search response
+        schema:
+          type: integer
+      - name: fromDate
+        in: query
+        description: Number of records to be returned
+        schema:
+          type: integer
+      - name: toDate
+        in: query
+        description: Number of records to be returned
         schema:
           type: integer
       requestBody:
@@ -421,17 +485,22 @@ paths:
         schema:
           type: string
           format: varchar
-      - name: ids
+      - name: status
         in: query
-        description: unique identifier of Application
+        description: status of Application
         style: form
         explode: false
         schema:
           maxItems: 50
-          type: array
-          items:
-            type: integer
-            format: int64
+          type: string
+      - name: ids
+        in: query
+        description: Unique id of Application
+        style: form
+        explode: false
+        schema:
+          maxItems: 50
+          type: string
       - name: businessService
         in: query
         description: Name of the workflow confguration.
@@ -478,6 +547,16 @@ paths:
         description: Starting offset for returning search response
         schema:
           type: integer
+      - name: fromDate
+        in: query
+        description: Number of records to be returned
+        schema:
+          type: integer
+      - name: toDate
+        in: query
+        description: Number of records to be returned
+        schema:
+          type: integer
       requestBody:
         description: Parameter to carry Request metadata in the request body
         content:
@@ -514,66 +593,7 @@ paths:
         required: true
         description: Name of the workflow confguration.
         schema:
-          maxLength: 64
-          minLength: 2
           type: string
-      - name: tenantId
-        in: query
-        description: Unique id for a tenant.
-        required: true
-        schema:
-          type: string
-          format: varchar
-      - name: ids
-        in: query
-        description: unique identifier of Application
-        style: form
-        explode: false
-        schema:
-          maxItems: 50
-          type: array
-          items:
-            type: integer
-            format: int64
-      - name: moduleName
-        in: query
-        description: Module name to which workflow application belongs
-        schema:
-          maxLength: 64
-          minLength: 2
-          type: string
-      - name: businessIds
-        in: query
-        description: The list of businessIds
-        style: form
-        explode: false
-        schema:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-      - name: assignee
-        in: query
-        description: The unique  Old license number for a Application.
-        schema:
-          maxLength: 64
-          minLength: 2
-          type: string
-      - name: history
-        in: query
-        description: Boolean flag to return history of the workflow
-        schema:
-          type: boolean
-      - name: limit
-        in: query
-        description: Number of records to be returned
-        schema:
-          type: integer
-      - name: offset
-        in: query
-        description: Starting offset for returning search response
-        schema:
-          type: integer
       requestBody:
         description: Parameter to carry Request metadata in the request body
         content:
@@ -587,7 +607,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ProcessIntanceResponse'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         400:
           description: Invalid input.
           content:
@@ -886,7 +906,7 @@ components:
           type: string
           description: Business service key.
         businessId:
-          maxLength: 64
+          maxLength: 128
           minLength: 2
           type: string
           description: "Business id is a unique identifier of a task. eg(Propertyid,\
@@ -930,14 +950,19 @@ components:
           readOnly: true
           items:
             type: string
-        sla:
+        stateSla:
           type: integer
           description: Date from when license is valid as epoch.
           format: int64
+        businesssServiceSla:
+          type: integer
+          description: Date from when license is valid as epoch.
+          format: int64  
         currentStatus:
           type: string
           description: Status after action performed
         previousStatus:
+          maxLength: 128
           type: string
           description: Status before action performed
         entity:
@@ -948,6 +973,8 @@ components:
           description: Rating for current process instance
           minimum: 1
           maximum: 5
+        escalated:
+          type: boolean
         auditDetails:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     StatusCountRequest:
@@ -961,31 +988,39 @@ components:
       required:
       - businessService
       - tenantId
+      - business
+      - states
       type: object
       properties:
         tenantId:
-          maxLength: 128
+          maxLength: 256
           minLength: 2
           type: string
           description: Unique Identifier of ULB
         uuid:
-          maxLength: 64
+          maxLength: 256
           minLength: 2
           type: string
           description: Unique Identifier uuid
         businessService:
-          maxLength: 64
+          maxLength: 256
           minLength: 2
           type: string
           description: Unique name of business service
+        business:
+          maxLength: 256
+          type: string
         getUri:
-          maxLength: 32
+          maxLength: 1024
           minLength: 2
           type: string
         postUri:
-          maxLength: 32
+          maxLength: 1024
           minLength: 2
           type: string
+        businessServiceSla:
+          type: integer
+          format: int64
         states:
           type: array
           items:
@@ -997,24 +1032,28 @@ components:
       type: object
       properties:
         uuid:
-          maxLength: 64
+          maxLength: 256
           minLength: 2
           type: string
           description: State Unique Identifier uuid
         tenantId:
-          maxLength: 128
+          maxLength: 256
           minLength: 2
           type: string
           description: Unique Identifier of ULB
         businessServiceId:
-          maxLength: 64
+          maxLength: 256
           minLength: 2
           type: string
+        sla:
+          type: integer
+          format: int64
         state:
-          maxLength: 32
+          maxLength: 256
           minLength: 2
           type: string
         applicationStatus:
+          maxLength: 256
           type: string
           description: Application status as in module
         docUploadRequired:
@@ -1027,6 +1066,9 @@ components:
         isTerminateState:
           type: boolean
           description: Boolean to describe if the state is the last state of workflow
+        isStateUpdatable:
+          type: boolean
+          description: Boolean to describe if the state is updatable for workflow
         actions:
           type: array
           items:
@@ -1035,35 +1077,43 @@ components:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     Action:
       type: object
+      required:
+        - action
+        - nextState
+        - roles
       properties:
         uuid:
-          maxLength: 64
+          maxLength: 256
           minLength: 2
           type: string
           description: State Unique Identifier uuid
         tenantId:
-          maxLength: 128
+          maxLength: 256
           minLength: 2
           type: string
           description: TenantId of the ULB
-        stateId:
-          maxLength: 64
+        currentState:
+          maxLength: 256
           minLength: 2
           type: string
           description: The uuid of the state on which action is to performed
         action:
+          maxLength: 256
           type: string
           description: The action to be performed
-        nextStateId:
-          maxLength: 64
+        nextState:
+          maxLength: 256
           minLength: 2
           type: string
           description: The uuid of the resultant state
         roles:
+          maxLength: 1024
           type: array
           description: Used for search result and create only
           items:
             type: string
+        active: 
+          type: boolean
         auditDetails:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     ProcessInstanceRequest:
@@ -1078,18 +1128,6 @@ components:
             $ref: '#/components/schemas/ProcessInstance'
       description: Contract class to receive request. Array of process instance items
         are used in case of create
-    ProcessCountResponse:
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        Count: 
-          type: integer
-        ProcessInstances:
-          type: array
-          description: Used for search result and create only
-          items:
-            $ref: '#/components/schemas/ProcessIntanceResponse'
     ProcessIntanceResponse:
       type: object
       properties:
@@ -1100,6 +1138,8 @@ components:
           description: Used for search result and create only
           items:
             $ref: '#/components/schemas/ProcessInstance'
+        totalCount: 
+          type: integer
     ProcessInstanceSearchCriteria:
       type: object
       properties:
