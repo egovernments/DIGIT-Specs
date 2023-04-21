@@ -22,17 +22,32 @@ paths:
         description: Unique id for a tenant.
         required: true
         schema:
+          maxLength: 256
           type: string
           format: varchar
+      - name: boundaryIds
+        in: query
+        description: List of boundary ids
+        schema:
+          type: integer
+          format: int64
+      - name: boundaryNum
+        in: query
+        description: List of boundary ids
+        schema:
+          type: integer
+          format: int64        
       - name: boundaryType
         in: query
         description: lable of boundary within the tenant boundary structure
         schema:
+          maxLength: 64
           type: integer
-      - name: hierarchyTypeCode
+      - name: hierarchyType
         in: query
         description: Type Of the BoundaryType Like REVENUE, ADMIN
         schema:
+          maxLength: 128
           type: string
           format: varchar
       - name: codes
@@ -45,13 +60,6 @@ paths:
           items:
             type: string
             format: varchar
-      requestBody:
-        description: Parameter to carry Request metadata in the request body
-        content:
-          '*/*':
-            schema:
-              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-        required: false
       responses:
         200:
           description: Successful Response.
@@ -64,7 +72,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: requestInfo
   /geography/_search:
     post:
@@ -107,7 +115,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: requestInfoWapper
   /tenant/_search:
     post:
@@ -157,7 +165,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: requestInfoWapper
 components:
   schemas:
@@ -253,7 +261,7 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         Boundary:
           type: array
           items:
@@ -262,7 +270,7 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         Geography:
           type: array
           items:
@@ -271,14 +279,14 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         Tenant:
           $ref: '#/components/schemas/Tenant'
     RequestInfoWrapper:
       type: object
       properties:
         RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     Tenant:
       required:
       - code
