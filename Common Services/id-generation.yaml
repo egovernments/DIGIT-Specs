@@ -24,7 +24,7 @@ paths:
   /id/_generate:
     post:
       tags:
-      - Property
+      - IdGeneration Controller
       summary: Create new id.
       description: API to generate new id based on the id formats passed.
       requestBody:
@@ -45,7 +45,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/IDGenErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: idRequests
 components:
   schemas:
@@ -96,14 +96,3 @@ components:
           items:
             $ref: '#/components/schemas/IdResponse'
       description: Contract class to send response.
-    IDGenErrorRes:
-      allOf:
-      - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      - type: object
-        properties:
-          codes:
-            type: string
-            enum:
-            - InvalidIDFormat
-            - IDSeqOverflow
-            - IDSeqNotFound
