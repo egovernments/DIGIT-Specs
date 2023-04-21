@@ -15,10 +15,10 @@ paths:
 
   /billing-service/amendment/_create:
     post:
-      description: create bill amendment 
+      description: Creates amendment for bill.
       tags:
       - amendment-controller
-      summary: create
+      summary: Create Amendment
       operationId: createUsingPOST
       requestBody:
         content:
@@ -27,13 +27,15 @@ paths:
               "$ref": "#/components/schemas/AmendmentRequest"
       responses:
         '200':
-          description: OK
+          description: Created Amendment(s) successfully.
           content:
             "*/*":
               schema:
                 type: object
         '201':
           description: Created
+        '400':
+          description: Invalid Input
         '401':
           description: Unauthorized
         '403':
@@ -42,10 +44,10 @@ paths:
           description: Not Found
   /billing-service/amendment/_search:
     post:
-      description: search bill amendment
+      description: Search bill amendment
       tags:
       - amendment-controller
-      summary: search
+      summary: Search Amendment
       operationId: searchUsingPOST
       parameters:
       - name: amendmentId
@@ -102,7 +104,7 @@ paths:
               "$ref": "#/components/schemas/RequestInfoWrapper"
       responses:
         '200':
-          description: OK
+          description: returns a demand along with its demand details.
           content:
             "*/*":
               schema:
@@ -120,7 +122,7 @@ paths:
       description: update bill amendment
       tags:
       - amendment-controller
-      summary: update
+      summary: Update Amendment
       operationId: updateUsingPOST
       requestBody:
         content:
@@ -144,10 +146,10 @@ paths:
           description: Not Found
   /billing-service/bill/v2/_cancelbill:
     post:
-      description: cancel bill
+      description: This api is used to cancel bill
       tags:
       - bill-controllerv-2
-      summary: cancelBill
+      summary: Cancel bill
       operationId: cancelBillUsingPOST
       requestBody:
         content:
@@ -163,6 +165,8 @@ paths:
                 type: object
         '201':
           description: Created
+        '400':
+          description: Invalid Input
         '401':
           description: Unauthorized
         '403':
@@ -171,10 +175,10 @@ paths:
           description: Not Found
   /billing-service/bill/v2/_create:
     post:
-      description: create bill using bill request
+      description: Create bill using bill request
       tags:
       - bill-controllerv-2
-      summary: create
+      summary: Create bill
       operationId: createUsingPOST_2
       requestBody:
         content:
@@ -198,10 +202,10 @@ paths:
           description: Not Found
   /billing-service/bill/v2/_fetchbill:
     post:
-      description: fetch bill created using bill request
+      description: Creates a Bill for collections. By default active bill will be created. Along with tenantId, any one parameter is mandatory. Trigers bill generate internally, Checks whether a demand exists for the given data in db else creates a new one throught the revenue services.
       tags:
       - bill-controllerv-2
-      summary: fetchBill
+      summary: Fetch bill
       operationId: fetchBillUsingPOST_1
       parameters:
       - name: businessService
@@ -286,7 +290,8 @@ paths:
     post:
       tags:
       - bill-controllerv-2
-      summary: genrateBill
+      description: Creates a Bill for collections. By default active bill will be created. Along with tenantId, any one parameter is mandatory. The bill type is AUTO here.
+      summary: Generate bill
       operationId: genrateBillUsingPOST_1
       parameters:
       - name: businessService
@@ -372,7 +377,7 @@ paths:
       description: 'Returns a Bill along with its list of bill details. By default active and non-cancelled bills will be returned when no value passed for active or cancelled. Along with tenantId, any one parameter is mandatory. By default results will be sorted by bill creation date'
       tags:
       - bill-controllerv-2
-      summary: search
+      summary: Search bill
       operationId: searchUsingPOST_2
       parameters:
       - name: billId
@@ -590,7 +595,8 @@ paths:
     post:
       tags:
       - demand-controller
-      summary: create
+      summary: Create demand
+      description: Creates a demand along with its list of demand details
       operationId: createUsingPOST_3
       requestBody:
         content:
@@ -599,7 +605,7 @@ paths:
               "$ref": "#/components/schemas/DemandRequest"
       responses:
         '200':
-          description: OK
+          description: Created Demand(s) successfully.
           content:
             "*/*":
               schema:
@@ -616,7 +622,8 @@ paths:
     post:
       tags:
       - demand-controller
-      summary: migrate
+      summary: Migrate demand
+      description: This api is used to migrate bill demand 
       operationId: migrateUsingPOST
       parameters:
       - name: batchStart
@@ -659,7 +666,8 @@ paths:
     post:
       tags:
       - demand-controller
-      summary: search
+      summary: Search demand
+      description: Searches the bill demand using the following search criteria 
       operationId: searchUsingPOST_4
       parameters:
       - name: businessService
@@ -805,7 +813,8 @@ paths:
     post:
       tags:
       - demand-controller
-      summary: update
+      summary: Update bill demand 
+      description: Updates the bill demand 
       operationId: updateUsingPOST_1
       requestBody:
         content:
@@ -1014,7 +1023,7 @@ components:
           minLength: 0
           type: string
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         currentState:
           maxLength: 256
           minLength: 0
@@ -1062,7 +1071,7 @@ components:
           - OTHERS
           - REMISSION_FOR_PROPERTY_TAX
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         businessService:
           type: string
         consumerCode:
@@ -1106,7 +1115,7 @@ components:
         Amendment:
           "$ref": "#/components/schemas/Amendment"
         RequestInfo:
-          "$ref": "#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
     AmendmentUpdate:
       title: AmendmentUpdate
       required:
@@ -1122,7 +1131,7 @@ components:
         amendmentId:
           type: string
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         documents:
           type: array
           items:
@@ -1148,7 +1157,67 @@ components:
         AmendmentUpdate:
           "$ref": "#/components/schemas/AmendmentUpdate"
         RequestInfo:
-          "$ref": "#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+    BillDetailV2:
+      title: BillDetailV2
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        amount:
+          type: number
+          format: bigdecimal
+        amountPaid:
+          type: number
+          format: bigdecimal
+        billAccountDetails:
+          type: array
+          items:
+            "$ref": "#/components/schemas/BillAccountDetailV2"
+        billId:
+          type: string
+        demandId:
+          type: string
+        expiryDate:
+          type: integer
+          format: int64
+        fromPeriod:
+          type: integer
+          format: int64
+        id:
+          type: string
+        tenantId:
+          type: string
+        toPeriod:
+          type: integer
+          format: int64        
+    BillAccountDetailV2:
+      title: BillAccountDetailV2
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        adjustedAmount:
+          type: number
+          format: bigdecimal
+        amount:
+          type: number
+          format: bigdecimal
+        auditDetails:
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+        billDetailId:
+          type: string
+        demandDetailId:
+          type: string
+        id:
+          type: string
+        order:
+          type: integer
+          format: int32
+        taxHeadCode:
+          type: string
+        tenantId:
+          type: string      
     Demand:
       required:
       - businessService
@@ -1199,7 +1268,7 @@ components:
             for this particular demand expires or invalidates.
           format: int64
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         additionalDetails:
           type: object
           properties: {}
@@ -1241,7 +1310,7 @@ components:
           properties: {}
           description: field for capturing any additional details.
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         tenantId:
           maxLength: 128
           minLength: 4
@@ -1265,72 +1334,12 @@ components:
         fileStoreId:
           type: string
         id:
-          type: string    
-    BillDetailV2:
-      title: BillDetailV2
-      type: object
-      properties:
-        additionalDetails:
-          type: object
-        amount:
-          type: number
-          format: bigdecimal
-        amountPaid:
-          type: number
-          format: bigdecimal
-        billAccountDetails:
-          type: array
-          items:
-            "$ref": "#/components/schemas/BillAccountDetailV2"
-        billId:
-          type: string
-        demandId:
-          type: string
-        expiryDate:
-          type: integer
-          format: int64
-        fromPeriod:
-          type: integer
-          format: int64
-        id:
-          type: string
-        tenantId:
-          type: string
-        toPeriod:
-          type: integer
-          format: int64        
-    BillAccountDetailV2:
-      title: BillAccountDetailV2
-      type: object
-      properties:
-        additionalDetails:
-          type: object
-        adjustedAmount:
-          type: number
-          format: bigdecimal
-        amount:
-          type: number
-          format: bigdecimal
-        auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
-        billDetailId:
-          type: string
-        demandDetailId:
-          type: string
-        id:
-          type: string
-        order:
-          type: integer
-          format: int32
-        taxHeadCode:
-          type: string
-        tenantId:
-          type: string      
+          type: string          
     DemandRequest:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         Demand:
           type: array
           items:
@@ -1344,7 +1353,7 @@ components:
           items:
             "$ref": "#/components/schemas/BillV2"
         RequestInfo:
-          "$ref": "#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
     JsonNode:
       title: JsonNode
       type: object      
@@ -1355,7 +1364,7 @@ components:
         additionalDetails:
           "$ref": "#/components/schemas/JsonNode"
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         billDate:
           type: integer
           format: int64
@@ -1417,7 +1426,7 @@ components:
       type: object
       properties:
         requestInfo:
-          "$ref": "#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
         updateBillCriteria:
           "$ref": "#/components/schemas/UpdateBillCriteria"        
     UpdateBillCriteria:
@@ -1538,25 +1547,11 @@ components:
           type: array
           description: List of roles that are attached to the user.
           items:
-            $ref: '#/components/schemas/Role'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/Role'
         userDetails:
           $ref: '#/components/schemas/UserDetails'
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
-    Role:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 64
-          type: string
-          description: Unique name of the role
-        description:
-          type: string
-          description: brief description of the role
-      description: |
-        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     ProcessInstance:
       title: ProcessInstance
       required:
@@ -1578,7 +1573,7 @@ components:
           items:
             "$ref": "#/components/schemas/User"
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         businessId:
           maxLength: 128
           minLength: 0
@@ -1702,90 +1697,12 @@ components:
           type: string
           description: Image to be loaded for the photo of the user
       description: Infrequently used details for the user
-    AuditDetails:
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the
-            object
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified
-            the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
-      description: Collection of audit related fields used by most models
-    RequestInfo:
-      required:
-      - action
-      - apiId
-      - msgId
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version - for HTTP based request this will be same as used
-            in path
-        ts:
-          type: integer
-          description: time in epoch
-          format: int64
-        action:
-          maxLength: 32
-          type: string
-          description: API action to be performed like _create, _update, _search (denoting
-            POST, PUT, GET) or _oauth etc
-        did:
-          maxLength: 1024
-          type: string
-          description: Device ID from which the API is called
-        key:
-          maxLength: 256
-          type: string
-          description: API key (API key provided to the caller in case of server to
-            server communication)
-        msgId:
-          maxLength: 256
-          type: string
-          description: Unique request message id from the caller
-        requesterId:
-          maxLength: 256
-          type: string
-          description: UserId of the user calling
-        authToken:
-          type: string
-          description: //session/jwt/saml token/oauth token - the usual value that
-            would go into HTTP bearer token
-        userInfo:
-          $ref: '#/components/schemas/UserInfo'
-        correlationId:
-          type: string
-          readOnly: true
-      description: RequestInfo should be used to carry meta information about the
-        requests to the server as described in the fields below. All eGov APIs will
-        use requestinfo as a part of the request body to carry this meta information.
-        Some of this information will be returned back from the server as part of
-        the ResponseInfo in the response body to ensure correlation.
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          "$ref": "#/components/schemas/RequestInfo"    
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"    
     State:
       title: State
       type: object
@@ -1799,7 +1716,7 @@ components:
           minLength: 0
           type: string
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         businessServiceId:
           maxLength: 256
           minLength: 0
@@ -1827,58 +1744,4 @@ components:
           maxLength: 256
           minLength: 0
           type: string      
-    UserInfo:
-      required:
-      - primaryrole
-      - tenantId
-      - userName
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        id:
-          type: integer
-          description: User id of the authenticated user. Will be deprecated in future
-          format: int32
-        userName:
-          type: string
-          description: Unique user name of the authenticated user
-        mobile:
-          type: string
-          description: mobile number of the autheticated user
-        email:
-          type: string
-          description: email address of the authenticated user
-        primaryrole:
-          type: array
-          description: List of all the roles for the primary tenant
-          items:
-            $ref: '#/components/schemas/Role'
-        additionalroles:
-          type: array
-          description: array of additional tenantids authorized for the authenticated
-            user
-          items:
-            $ref: '#/components/schemas/TenantRole'
-      description: This is acting ID token of the authenticated user on the server.
-        Any value provided by the clients will be ignored and actual user based on
-        authtoken will be used on the server.
-    TenantRole:
-      required:
-      - roles
-      - tenantId
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: tenantid for the tenant
-        roles:
-          type: array
-          description: Roles assigned for a particular tenant - array of role codes/names
-          items:
-            $ref: '#/components/schemas/Role'
-      description: User role carries the tenant related role information for the user.
-        A user can have multiple roles per tenant based on the need of the tenant.
-        A user may also have multiple roles for multiple tenants.
 x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml

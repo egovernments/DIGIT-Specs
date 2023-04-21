@@ -51,7 +51,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /files/url:
     get:
       tags:
@@ -85,7 +85,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /files/tag:
     get:
       tags:
@@ -119,7 +119,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /files/metaData:
     get:
       tags:
@@ -152,7 +152,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /files/id:
     get:
       tags:
@@ -182,7 +182,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
 components:
   schemas:
     FilestoreIdResponse:
@@ -248,98 +248,4 @@ components:
           type: string
           description: contetnt type of file.
       description: Upload file response data with url and contetnt type of file.
-    ErrorRes:
-      required:
-      - ResponseInfo
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
-        Errors:
-          type: array
-          description: Error response array corresponding to Request Object array.
-            In case of single object submission or _search related paths this may
-            be an array of one error element
-          items:
-            $ref: '#/components/schemas/Error'
-      description: All APIs will return ErrorRes in case of failure which will carry
-        ResponseInfo as metadata and Error object as actual representation of error.
-        In case of bulk apis, some apis may chose to return the array of Error objects
-        to indicate individual failure.
-    ResponseInfo:
-      required:
-      - apiId
-      - status
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version
-        ts:
-          type: integer
-          description: response time in epoch
-          format: int64
-        resMsgId:
-          maxLength: 256
-          type: string
-          description: unique response message id (UUID) - will usually be the correlation
-            id from the server
-        msgId:
-          maxLength: 256
-          type: string
-          description: message id of the request
-        status:
-          type: string
-          description: status of request processing - to be enhanced in futuer to
-            include INPROGRESS
-          enum:
-          - SUCCESSFUL
-          - FAILED
-      description: ResponseInfo should be used to carry metadata information about
-        the response from the server. apiId, ver and msgId in ResponseInfo should
-        always correspond to the same values in respective request's RequestInfo.
-    Error:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code will be module specific error label/code to identiffy
-            the error. All modules should also publish the Error codes with their
-            specific localized values in localization service to ensure clients can
-            print locale specific error messages. Example for error code would be
-            User.NotFound to indicate User Not Found by User/Authentication service.
-            All services must declare their possible Error Codes with brief description
-            in the error response section of their API path.
-        message:
-          type: string
-          description: English locale message of the error code. Clients should make
-            a separate call to get the other locale description if configured with
-            the service. Clients may choose to cache these locale specific messages
-            to enhance performance with a reasonable TTL (May be defined by the localization
-            service based on tenant + module combination).
-        description:
-          type: string
-          description: Optional long description of the error to help clients take
-            remedial action. This will not be available as part of localization service.
-        params:
-          type: array
-          description: Some error messages may carry replaceable fields (say $1, $2)
-            to provide more context to the message. E.g. Format related errors may
-            want to indicate the actual field for which the format is invalid. Client's
-            should use the values in the param array to replace those fields.
-          items:
-            type: string
-      description: Error object will be returned as a part of reponse body in conjunction
-        with ResponseInfo as part of ErrorResponse whenever the request processing
-        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
-        be HTTP 400.
+    

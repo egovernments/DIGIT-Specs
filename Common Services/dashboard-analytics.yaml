@@ -39,7 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /getChartV2:
     post:
       tags:
@@ -59,6 +59,7 @@ paths:
           type: string
       - name: httpMethod
         in: query
+        description: http method such as GET, PUT, DELETE, POST etc.
         required: false
         style: form
         schema:
@@ -74,54 +75,63 @@ paths:
           - TRACE
       - name: locale.ISO3Country
         in: query
+        description: locale.ISO3Country
         required: false
         style: form
         schema:
           type: string
       - name: locale.ISO3Language
         in: query
+        description: locale.ISO3Language
         required: false
         style: form
         schema:
           type: string
       - name: locale.country
         in: query
+        description: locale.country
         required: false
         style: form
         schema:
           type: string
       - name: locale.displayCountry
         in: query
+        description: locale.displayCountry
         required: false
         style: form
         schema:
           type: string
       - name: locale.displayLanguage
         in: query
+        description: locale.displayLanguage
         required: false
         style: form
         schema:
           type: string
       - name: locale.displayName
         in: query
+        description: locale.displayName
         required: false
         style: form
         schema:
           type: string
       - name: locale.displayScript
         in: query
+        description: locale.displayScript
         required: false
         style: form
         schema:
           type: string
       - name: locale.displayVariant
         in: query
+        description: locale.displayVariant
         required: false
         style: form
         schema:
           type: string
       - name: locale.extensionKeys
         in: query
+        description: locale.extensionKeys
         required: false
         style: pipeDelimited
         schema:
@@ -131,18 +141,21 @@ paths:
             type: string
       - name: locale.language
         in: query
+        description: locale.language
         required: false
         style: form
         schema:
           type: string
       - name: locale.script
         in: query
+        description: locale.script
         required: false
         style: form
         schema:
           type: string
       - name: locale.unicodeLocaleAttributes
         in: query
+        description: locale.unicodeLocaleAttributes
         required: false
         style: pipeDelimited
         schema:
@@ -152,6 +165,7 @@ paths:
             type: string
       - name: locale.unicodeLocaleKeys
         in: query
+        description: locale.unicodeLocaleKeys
         required: false
         style: pipeDelimited
         schema:
@@ -161,42 +175,49 @@ paths:
             type: string
       - name: locale.variant
         in: query
+        description: locale.variant
         required: false
         style: form
         schema:
           type: string
       - name: nativeRequest
         in: query
+        description: nativeRequest
         required: false
         style: form
         schema:
           type: object
       - name: nativeResponse
         in: query
+        description: nativeResponse
         required: false
         style: form
         schema:
           type: object
       - name: notModified
         in: query
+        description: notModified
         required: false
         style: form
         schema:
           type: boolean
       - name: remoteUser
         in: query
+        description: remoteUser
         required: false
         style: form
         schema:
           type: string
       - name: secure
         in: query
+        description: secure
         required: false
         style: form
         schema:
           type: boolean
       - name: userPrincipal.name
         in: query
+        description: userPrincipal.name
         required: false
         style: form
         schema:
@@ -227,7 +248,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: order
   
 components:
@@ -467,57 +488,4 @@ components:
             id from the server
       description: Status Information object will hold the run time status and the
         live response obtained from the server for the respective API Call.
-    Error:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code will be module specific error label/code to identiffy
-            the error. All modules should also publish the Error codes with their
-            specific localized values in localization service to ensure clients can
-            print locale specific error messages. Example for error code would be
-            User.NotFound to indicate User Not Found by User/Authentication service.
-            All services must declare their possible Error Codes with brief description
-            in the error response section of their API path.
-        message:
-          type: string
-          description: English locale message of the error code. Clients should make
-            a separate call to get the other locale description if configured with
-            the service.
-        description:
-          type: string
-          description: Optional long description of the error to help clients take
-            remedial action. This will not be available as part of localization service.
-        params:
-          type: array
-          description: Some error messages may carry replaceable fields (say $1, $2)
-            to provide more context to the message. E.g. Format related errors may
-            want to indicate the actual field for which the format is invalid. Client's
-            should use the values in the param array to replace those fields.
-          items:
-            type: string
-      description: Error object will be returned as a part of reponse body in conjunction
-        with ResponseInfo as part of ErrorResponse whenever the request processing
-        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
-        be HTTP 400.
-    ErrorRes:
-      required:
-      - statusInfo
-      type: object
-      properties:
-        statusInfo:
-          $ref: '#/components/schemas/StatusInfo'
-        errors:
-          type: array
-          description: Error response array corresponding to Request Object array.
-            In case of single object submission or _search related paths this may
-            be an array of one error element
-          items:
-            $ref: '#/components/schemas/Error'
-      description: All APIs will return ErrorRes in case of failure which will carry
-        ResponseInfo as metadata and Error object as actual representation of error.
-        In case of bulk apis, some apis may chose to return the array of Error objects
-        to indicate individual failure.
+    

@@ -243,7 +243,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: requestInfo
   /payments/_plainsearch:
     post:
@@ -716,7 +716,8 @@ paths:
     post:
       tags:
       - pre-exist-payment-controller
-      summary: update
+      summary: Update pre-exist payments
+      description: Updates pre existing payments in system
       operationId: updateUsingPOST
       responses:
         '200':
@@ -940,26 +941,6 @@ paths:
   
 components:
   schemas:
-    AuditDetails:
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the
-            object
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified
-            the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
-      description: Collection of audit related fields used by most models
     BankAccountServiceMappingReq:
       title: BankAccountServiceMappingReq
       required:
@@ -972,7 +953,7 @@ components:
           items:
             $ref: '#/components/schemas/BankAccountServiceMapping'
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     BankAccountServiceMapping:
       title: BankAccountServiceMapping
       required:
@@ -1201,68 +1182,12 @@ components:
           - REBATE
           - OTHERS
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
-    Error:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code will be module specific error label/code to identiffy
-            the error. All modules should also publish the Error codes with their
-            specific localized values in localization service to ensure clients can
-            print locale specific error messages. Example for error code would be
-            User.NotFound to indicate User Not Found by User/Authentication service.
-            All services must declare their possible Error Codes with brief description
-            in the error response section of their API path.
-        message:
-          type: string
-          description: English locale message of the error code. Clients should make
-            a separate call to get the other locale description if configured with
-            the service. Clients may choose to cache these locale specific messages
-            to enhance performance with a reasonable TTL (May be defined by the localization
-            service based on tenant + module combination).
-        description:
-          type: string
-          description: Optional long description of the error to help clients take
-            remedial action. This will not be available as part of localization service.
-        params:
-          type: array
-          description: Some error messages may carry replaceable fields (say $1, $2)
-            to provide more context to the message. E.g. Format related errors may
-            want to indicate the actual field for which the format is invalid. Client's
-            should use the values in the param array to replace those fields.
-          items:
-            type: string
-      description: Error object will be returned as a part of reponse body in conjunction
-        with ResponseInfo as part of ErrorResponse whenever the request processing
-        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
-        be HTTP 400.      
-    ErrorRes:
-      required:
-      - ResponseInfo
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
-        Errors:
-          type: array
-          description: Error response array corresponding to Request Object array.
-            In case of single object submission or _search related paths this may
-            be an array of one error element
-          items:
-            $ref: '#/components/schemas/Error'
-      description: All APIs will return ErrorRes in case of failure which will carry
-        ResponseInfo as metadata and Error object as actual representation of error.
-        In case of bulk apis, some apis may chose to return the array of Error objects
-        to indicate individual failure.    
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     PaymentRequest:
       type: object
       properties:
         requestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         Payment:
           $ref: '#/components/schemas/Payment'
       description: Payment Request with Request Info.
@@ -1278,7 +1203,7 @@ components:
       type: object
       properties:
         requestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         Payment:
           $ref: '#/components/schemas/PaymentWorkflow'
       description: Payment Workflow Request with Request Info.
@@ -1403,7 +1328,7 @@ components:
           - DISHONOURED
           - RECONCILED
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     PaymentDetail:
       required:
       - billId
@@ -1455,7 +1380,7 @@ components:
           type: integer
           description: Any additional fields can be captured here as a map
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       description: The payment details of each bill
     PaymentWorkflow:
       required:
@@ -1528,7 +1453,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          "$ref": "#/components/schemas/RequestInfo"    
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"    
     Remittance:
       title: Remittance
       required:
@@ -1538,7 +1463,7 @@ components:
       type: object
       properties:
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         bankaccount:
           type: string
           description: bank account details
@@ -1647,7 +1572,7 @@ components:
           items:
             "$ref": "#/components/schemas/Remittance"
         RequestInfo:
-          "$ref": "#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
     RemittanceResponse:
       title: RemittanceResponse
       type: object
@@ -1716,37 +1641,6 @@ components:
         use requestinfo as a part of the request body to carry this meta information.
         Some of this information will be returned back from the server as part of
         the ResponseInfo in the response body to ensure correlation.
-    Role:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 64
-          type: string
-          description: Unique name of the role
-        description:
-          type: string
-          description: brief description of the role
-      description: |
-        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
-    TenantRole:
-      required:
-      - roles
-      - tenantId
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: tenantid for the tenant
-        roles:
-          type: array
-          description: Roles assigned for a particular tenant - array of role codes/names
-          items:
-            $ref: '#/components/schemas/Role'
-      description: User role carries the tenant related role information for the user.
-        A user can have multiple roles per tenant based on the need of the tenant.
-        A user may also have multiple roles for multiple tenants.
     UserInfo:
       required:
       - primaryrole
@@ -1774,7 +1668,7 @@ components:
           type: array
           description: List of all the roles for the primary tenant
           items:
-            $ref: '#/components/schemas/Role'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/Role'
         additionalroles:
           type: array
           description: array of additional tenantids authorized for the authenticated
@@ -1784,8 +1678,23 @@ components:
       description: This is acting ID token of the authenticated user on the server.
         Any value provided by the clients will be ignored and actual user based on
         authtoken will be used on the server.
-   
-    
+    TenantRole:
+      required:
+      - roles
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: tenantid for the tenant
+        roles:
+          type: array
+          description: Roles assigned for a particular tenant - array of role codes/names
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/Role'
+      description: User role carries the tenant related role information for the user.
+        A user can have multiple roles per tenant based on the need of the tenant.
+        A user may also have multiple roles for multiple tenants.    
   parameters:
     pageSize:
       name: pageSize
