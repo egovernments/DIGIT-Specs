@@ -448,8 +448,8 @@ components:
         allowed:
           type: string
           enum:
-          - TRUE
-          - FALSE        
+          - "TRUE"
+          - "FALSE"        
     AuthorizationRequest:
       title: AuthorizationRequest
       required:
