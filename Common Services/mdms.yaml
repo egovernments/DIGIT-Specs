@@ -151,12 +151,13 @@ components:
       properties:
         ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        mdms:
-          type: array
-          description: array of modules
-          items:
-            type: array
-            description: array of masters
-            items:
+        MdmsRes: 
+          type: object
+          properties: 
+            requestedModule: 
               type: object
-              properties: {}
+              properties: 
+                requestedMaster: 
+                  type: array
+                  items: 
+                    type: string
