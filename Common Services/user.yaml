@@ -428,10 +428,8 @@ components:
       properties:
         RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-        Users:
-          type: array
-          items:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+        user:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
     CustomUserDetails:
       type: object
       properties:
