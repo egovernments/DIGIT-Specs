@@ -37,7 +37,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: calculationReq
   /v1/_getbill:
     post:
@@ -65,7 +65,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/RequestInfo'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         required: false
       responses:
         200:
@@ -79,7 +79,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: requestInfo
   /v1/_estimate:
     post:
@@ -116,7 +116,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -158,7 +158,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'  
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -201,7 +201,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -285,7 +285,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -352,7 +352,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/RequestInfo'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         required: false
       responses:
         200:
@@ -366,7 +366,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes_2'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: requestInfo
   /billingslab/_create:
     post:
@@ -393,7 +393,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes_2'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: billingSlab
   /billingslab/_update:
     post:
@@ -420,7 +420,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes_2'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: billingSlab
   /billingslab/{servicename}/_search:
     post:
@@ -448,7 +448,6 @@ paths:
             type: string
         - name: from
           in: query
-          description: 
           required: false
           style: form
           schema:
@@ -530,7 +529,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestInfo'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
       responses:
         '200':
           description: Success response calculated tax amount.
@@ -545,7 +544,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'  
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'  
         '401':
           description: Unauthorized
         '403':
@@ -560,7 +559,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     BillAndCalculations:
       title: BillAndCalculations
       type: object
@@ -596,7 +595,7 @@ components:
           items:
             $ref: '#/components/schemas/Bill'
         ResposneInfo:
-          $ref: '#/components/schemas/ResponseInfo'      
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'      
     CalulationCriteria:
       required:
       - tenantId
@@ -712,7 +711,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         CalulationCriteria:
           type: array
           items:
@@ -721,7 +720,7 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo_2'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         Calculation:
           type: array
           items:
@@ -732,7 +731,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         BillingSlab:
           type: array
           items:
@@ -741,106 +740,11 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         BillingSlab:
           type: array
           items:
             $ref: '#/components/schemas/BillingSlab'
-    ErrorRes:
-      required:
-      - ResponseInfo
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
-        Errors:
-          type: array
-          description: Error response array corresponding to Request Object array.
-            In case of single object submission or _search related paths this may
-            be an array of one error element
-          items:
-            $ref: '#/components/schemas/Error'
-      description: All APIs will return ErrorRes in case of failure which will carry
-        ResponseInfo as metadata and Error object as actual representation of error.
-        In case of bulk apis, some apis may chose to return the array of Error objects
-        to indicate individual failure.
-    ResponseInfo:
-      required:
-      - apiId
-      - status
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version
-        ts:
-          type: integer
-          description: response time in epoch
-          format: int64
-        resMsgId:
-          maxLength: 256
-          type: string
-          description: unique response message id (UUID) - will usually be the correlation
-            id from the server
-        msgId:
-          maxLength: 256
-          type: string
-          description: message id of the request
-        status:
-          type: string
-          description: status of request processing - to be enhanced in futuer to
-            include INPROGRESS
-          enum:
-          - SUCCESSFUL
-          - FAILED
-      description: ResponseInfo should be used to carry metadata information about
-        the response from the server. apiId, ver and msgId in ResponseInfo should
-        always correspond to the same values in respective request's RequestInfo.
-    Error:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code will be module specific error label/code to identiffy
-            the error. All modules should also publish the Error codes with their
-            specific localized values in localization service to ensure clients can
-            print locale specific error messages. Example for error code would be
-            User.NotFound to indicate User Not Found by User/Authentication service.
-            All services must declare their possible Error Codes with brief description
-            in the error response section of their API path.
-        message:
-          type: string
-          description: English locale message of the error code. Clients should make
-            a separate call to get the other locale description if configured with
-            the service. Clients may choose to cache these locale specific messages
-            to enhance performance with a reasonable TTL (May be defined by the localization
-            service based on tenant + module combination).
-        description:
-          type: string
-          description: Optional long description of the error to help clients take
-            remedial action. This will not be available as part of localization service.
-        params:
-          type: array
-          description: Some error messages may carry replaceable fields (say $1, $2)
-            to provide more context to the message. E.g. Format related errors may
-            want to indicate the actual field for which the format is invalid. Client's
-            should use the values in the param array to replace those fields.
-          items:
-            type: string
-      description: Error object will be returned as a part of reponse body in conjunction
-        with ResponseInfo as part of ErrorResponse whenever the request processing
-        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
-        be HTTP 400.
     Bill:
       type: object
       properties:
@@ -885,7 +789,7 @@ components:
           type: string
           description: Unique Identifier of the tenant
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     taxAndPayment:
       type: object
       properties:
@@ -1019,121 +923,6 @@ components:
           - ARREAR
           - CURRENT
           - ADVANCE
-    AuditDetails:
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the
-            object
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified
-            the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
-      description: Collection of audit related fields used by most models
-    ErrorRes_2:
-      required:
-      - ResponseInfo
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo_2'
-        Errors:
-          type: array
-          description: Error response array corresponding to Request Object array.
-            In case of single object submission or _search related paths this may
-            be an array of one error element
-          items:
-            $ref: '#/components/schemas/Error_2'
-      description: All APIs will return ErrorRes in case of failure which will carry
-        ResponseInfo as metadata and Error object as actual representation of error.
-        In case of bulk apis, some apis may chose to return the array of Error objects
-        to indicate individual failure.
-    ResponseInfo_2:
-      required:
-      - apiId
-      - status
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version
-        ts:
-          type: integer
-          description: response time in epoch
-          format: int64
-        resMsgId:
-          maxLength: 256
-          type: string
-          description: unique response message id (UUID) - will usually be the correlation
-            id from the server
-        msgId:
-          maxLength: 256
-          type: string
-          description: message id of the request
-        status:
-          type: string
-          description: status of request processing - to be enhanced in futuer to
-            include INPROGRESS
-          enum:
-          - SUCCESSFUL
-          - FAILED
-      description: ResponseInfo should be used to carry metadata information about
-        the response from the server. apiId, ver and msgId in ResponseInfo should
-        always correspond to the same values in respective request's RequestInfo.
-    Error_2:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code will be module specific error label/code to identiffy
-            the error. All modules should also publish the Error codes with their
-            specific localized values in localization service to ensure clients can
-            print locale specific error messages. Example for error code would be
-            User.NotFound to indicate User Not Found by User/Authentication service.
-            All services must declare their possible Error Codes with brief description
-            in the error response section of their API path.
-        message:
-          type: string
-          description: English locale message of the error code. Clients should make
-            a separate call to get the other locale description if configured with
-            the service. Clients may choose to cache these locale specific messages
-            to enhance performance with a reasonable TTL (May be defined by the localization
-            service based on tenant + module combination).
-        description:
-          type: string
-          description: Optional long description of the error to help clients take
-            remedial action. This will not be available as part of localization service.
-        params:
-          type: array
-          description: Some error messages may carry replaceable fields (say $1, $2)
-            to provide more context to the message. E.g. Format related errors may
-            want to indicate the actual field for which the format is invalid. Client's
-            should use the values in the param array to replace those fields.
-          items:
-            type: string
-      description: Error object will be returned as a part of reponse body in conjunction
-        with ResponseInfo as part of ErrorResponse whenever the request processing
-        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
-        be HTTP 400.
     TradeLicense:
       required:
       - commencementDate
@@ -1244,7 +1033,7 @@ components:
         tradeLicenseDetail:
           $ref: '#/components/schemas/TradeLicenseDetail'
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       description: A Object holds the basic data for a Trade License
     TradeLicenseDetail:
       required:
@@ -1285,7 +1074,7 @@ components:
           - CITIZEN
           - DATAENTRY
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         tradeUnits:
           type: array
           description: Send list of trades here.
@@ -1316,291 +1105,8 @@ components:
           type: string
           description: Json object to store additional details about license
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       description: A Object holds the basic data for a Trade License
-    OwnerInfo:
-      allOf:
-      - $ref: '#/components/schemas/User'
-      - type: object
-        properties:
-          isPrimaryOwner:
-            type: boolean
-            description: The owner is primary or not
-          ownerShipPercentage:
-            type: number
-            description: Ownership percentage.
-            format: double
-          ownerType:
-            maxLength: 256
-            minLength: 4
-            type: string
-            description: Type of owner, based on this option Exemptions will be applied.
-              This is master data defined in mdms.
-          relationship:
-            type: string
-            description: Relationship with owner.
-            enum:
-            - FATHER
-            - HUSBAND
-          documents:
-            type: object
-            description: Document of the owner.
-    User:
-      required:
-      - active
-      - gender
-      - locale
-      - mobileNumber
-      - name
-      - tenantId
-      - type
-      - userName
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The unique id an user.
-          format: int64
-        userName:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: The unique username used for user login.
-        password:
-          maxLength: 64
-          type: string
-          description: Password for user login.
-          format: password
-        salutation:
-          maxLength: 5
-          type: string
-          description: The salutation of user name. Example- Mr, Miss, Mrs
-        name:
-          maxLength: 100
-          minLength: 3
-          type: string
-          description: The full name of the user.
-        gender:
-          type: string
-          description: Gender of the user.
-        mobileNumber:
-          maxLength: 10
-          type: string
-          description: Mobile number ofuser the user
-        emailId:
-          maxLength: 128
-          type: string
-          description: Email address of the user
-        altContactNumber:
-          maxLength: 10
-          type: string
-          description: Alternate contact number of the user
-        pan:
-          maxLength: 10
-          type: string
-          description: PAN number of the user
-        aadhaarNumber:
-          maxLength: 12
-          pattern: '[0-9]'
-          type: string
-          description: Aadhaar number of the user
-        permanentAddress:
-          maxLength: 300
-          type: string
-          description: Permanent address of the user.
-        permanentCity:
-          maxLength: 300
-          type: string
-          description: City of the permanent address.
-        permanentPincode:
-          maxLength: 6
-          type: string
-          description: Permanent address pincode.
-        correspondenceCity:
-          maxLength: 50
-          type: string
-          description: City of the correspondence address.
-        correspondencePincode:
-          maxLength: 6
-          type: string
-          description: Permanent address pincode.
-        correspondenceAddress:
-          maxLength: 300
-          type: string
-          description: Correspondence address of the user.
-        active:
-          type: boolean
-          description: True if the user is active and False if the user is inactive.
-        dob:
-          type: string
-          description: Data of bith of the user in dd/mm/yyyy format.
-          format: date
-        pwdExpiryDate:
-          type: string
-          description: Date on which the password registered will expire.
-          format: date
-          readOnly: true
-        locale:
-          maxLength: 10
-          type: string
-          description: Value will be set to "en_IN".
-        type:
-          maxLength: 20
-          type: string
-          description: System set value internally. For employee value will be always
-            "EMPLOYEE". For citizen value will be "CITIZEN".
-        signature:
-          type: string
-          description: Image to be loaded for the signature of the employee
-        accountLocked:
-          type: boolean
-          description: Set to True if account is locked after several incorrect password
-            attempt. False if account is not locked.
-        roles:
-          type: array
-          description: List of roles that are attached to the user.
-          items:
-            $ref: '#/components/schemas/Role'
-        fatherOrHusbandName:
-          maxLength: 100
-          type: string
-          description: Name of user's father or husband.
-        bloodGroup:
-          maxLength: 3
-          type: string
-          description: Blood group of the user.
-        identificationMark:
-          maxLength: 300
-          type: string
-          description: Any identification mark of the person.
-        photo:
-          type: string
-          description: Image to be loaded for the photo of the user
-        createdBy:
-          type: integer
-          description: Id of the user who created the record.
-          format: int64
-        createdDate:
-          type: string
-          description: Date on which the user master data was added into the system.
-          format: date
-        lastModifiedBy:
-          type: integer
-          description: Id of the user who last modified the record.
-          format: int64
-        lastModifiedDate:
-          type: string
-          description: Date on which the user master data was last modified.
-          format: date
-        otpReference:
-          type: string
-          description: This is the UUID token that we genarate as part of OTP.
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
-    Role:
-      required:
-      - name
-      - tenantId
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Unique identifier of the role.
-          format: int64
-        name:
-          maxLength: 100
-          minLength: 2
-          type: string
-          description: The Name of the Role.
-        code:
-          maxLength: 50
-          minLength: 2
-          type: string
-          description: The Code of the Role.
-        description:
-          maxLength: 256
-          type: string
-          description: The description of the Role.
-        createdBy:
-          type: integer
-          description: Id of the user who created the record.
-          format: int64
-        createdDate:
-          type: string
-          description: Date on which the role master data was added into the system.
-          format: date
-        lastModifiedBy:
-          type: integer
-          description: Id of the user who last modified the record.
-          format: int64
-        lastModifiedDate:
-          type: string
-          description: Date on which the role master data was last modified.
-          format: date
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
-    Address:
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        doorNo:
-          type: string
-          description: House number or door number.
-        latitude:
-          type: number
-          description: latitude of the address
-          format: double
-        longitude:
-          type: number
-          description: longitude of the address
-          format: double
-        addressId:
-          type: string
-          description: System generated id for the address
-          readOnly: true
-        addressNumber:
-          type: string
-          description: House, Door, Building number in the address
-        type:
-          type: string
-          description: Blood group of the user.
-        addressLine1:
-          type: string
-          description: Apartment, Block, Street of the address
-        addressLine2:
-          type: string
-          description: Locality, Area, Zone, Ward of the address
-        landmark:
-          type: string
-          description: additional landmark to help locate the address
-        city:
-          type: string
-          description: City of the address. Can be represented by the tenantid itself
-        pincode:
-          type: string
-          description: PIN code of the address. Indian pincodes will usually be all
-            numbers.
-        detail:
-          type: string
-          description: more address detail as may be needed
-        buildingName:
-          maxLength: 64
-          minLength: 2
-          type: string
-          description: Name of the building
-        street:
-          maxLength: 64
-          minLength: 2
-          type: string
-          description: Street Name
-        locality:
-          $ref: '#/components/schemas/Boundary'
-      description: |
-        Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case.
     Boundary:
       required:
       - code
@@ -1661,7 +1167,7 @@ components:
             for a tenant. This is mandatory but always be generated on the final approval.
             In Case of Legacy License User will enter the Old License Number.
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       description: A Object holds the basic data for a Trade License
     Accessory:
       required:
@@ -1693,7 +1199,7 @@ components:
             for a tenant. This is mandatory but always be generated on the final approval.
             In Case of Legacy License User will enter the Old License Number.
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       description: A Object holds the basic data for a Trade License
     Document:
       required:
@@ -1711,9 +1217,6 @@ components:
           maxLength: 64
           minLength: 2
           type: string
-          description: 1.Unique document type code from common master. 2. This is
-            defined under mdms common master. 3. Object defination is defined under
-            'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/DocumentType'
         fileStoreId:
           maxLength: 64
           minLength: 2
@@ -1725,140 +1228,32 @@ components:
           type: string
           description: document number(eg.Pan number, aadhar number).
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       description: A Object holds the basic data for a Trade License
-    RequestInfo:
-      required:
-      - action
-      - apiId
-      - msgId
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version - for HTTP based request this will be same as used
-            in path
-        ts:
-          type: integer
-          description: time in epoch
-          format: int64
-        action:
-          maxLength: 32
-          type: string
-          description: API action to be performed like _create, _update, _search (denoting
-            POST, PUT, GET) or _oauth etc
-        did:
-          maxLength: 1024
-          type: string
-          description: Device ID from which the API is called
-        key:
-          maxLength: 256
-          type: string
-          description: API key (API key provided to the caller in case of server to
-            server communication)
-        msgId:
-          maxLength: 256
-          type: string
-          description: Unique request message id from the caller
-        requesterId:
-          maxLength: 256
-          type: string
-          description: UserId of the user calling
-        authToken:
-          type: string
-          description: //session/jwt/saml token/oauth token - the usual value that
-            would go into HTTP bearer token
-        userInfo:
-          $ref: '#/components/schemas/UserInfo'
-        correlationId:
-          type: string
-          readOnly: true
-      description: RequestInfo should be used to carry meta information about the
-        requests to the server as described in the fields below. All eGov APIs will
-        use requestinfo as a part of the request body to carry this meta information.
-        Some of this information will be returned back from the server as part of
-        the ResponseInfo in the response body to ensure correlation.
-    UserInfo:
-      required:
-      - primaryrole
-      - tenantId
-      - userName
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        uuid:
-          type: string
-          description: System Generated User id of the authenticated user.
-        userName:
-          type: string
-          description: Unique user name of the authenticated user
-        password:
-          type: string
-          description: password of the user.
-        idToken:
-          type: string
-          description: This will be the OTP.
-        mobile:
-          type: string
-          description: mobile number of the autheticated user
-        email:
-          type: string
-          description: email address of the authenticated user
-        primaryrole:
-          type: array
-          description: List of all the roles for the primary tenant
-          items:
-            $ref: '#/components/schemas/Role_2'
-        additionalroles:
-          type: array
-          description: array of additional tenantids authorized for the authenticated
-            user
-          items:
-            $ref: '#/components/schemas/TenantRole'
-      description: This is acting ID token of the authenticated user on the server.
-        Any value provided by the clients will be ignored and actual user based on
-        authtoken will be used on the server.
-    Role_2:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 64
-          type: string
-          description: Unique name of the role
-        code:
-          maxLength: 64
-          type: string
-          description: Unique code of the role
-        description:
-          type: string
-          description: brief description of the role
-      description: |
-        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
-    TenantRole:
-      required:
-      - roles
-      - tenantId
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: tenantid for the tenant
-        roles:
-          type: array
-          description: Roles assigned for a particular tenant - array of role codes/names
-          items:
-            $ref: '#/components/schemas/Role_2'
-      description: User role carries the tenant related role information for the user.
-        A user can have multiple roles per tenant based on the need of the tenant.
-        A user may also have multiple roles for multiple tenants.
+    OwnerInfo:
+      allOf:
+      - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+      - type: object
+        properties:
+          isPrimaryOwner:
+            type: boolean
+            description: The owner is primary or not
+          ownerShipPercentage:
+            type: number
+            description: Ownership percentage.
+            format: double
+          ownerType:
+            maxLength: 256
+            minLength: 4
+            type: string
+            description: Type of owner, based on this option Exemptions will be applied.
+              This is master data defined in mdms.
+          relationship:
+            type: string
+            description: Relationship with owner.
+            enum:
+            - FATHER
+            - HUSBAND
+          documents:
+            type: object
+            description: Document of the owner.
