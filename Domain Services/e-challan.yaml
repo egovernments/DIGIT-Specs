@@ -132,7 +132,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestInfo'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
       responses:
         '200':
           description: OK
@@ -148,130 +148,9 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-  /eChallan/v1/_test:
-    post:
-      description: test api for eChallan
-      tags:
-        - eChallan APIs
-      summary: test
-      operationId: testUsingPOST
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChallanRequest'
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ResponseEntity'
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found        
       
 components:
   schemas:
-    Address:
-      title: Address
-      type: object
-      properties:
-        addressId: 
-          maxLength: 64
-          minLength: 0
-          type: string
-          description: Address Id  
-        addressLine1:
-          type: string
-          description: first address line 
-        addressLine2:
-          maxLength: 256
-          minLength: 0
-          type: string
-          description: second address line 
-        addressNumber:
-          maxLength: 64
-          minLength: 0
-          type: string
-          description: address number
-        buildingName:
-          maxLength: 64
-          minLength: 0
-          description: Name of the building
-          type: string
-        city:
-          maxLength: 64
-          minLength: 0
-          description: City of the address. Can be represented by the tenantid itself
-          type: string
-        country:
-          type: string
-          description: The country in which the property is located
-        detail:
-          maxLength: 64
-          minLength: 0
-          type: string
-        district:
-          type: string
-          description: The district in which the property is located
-        doorNo:
-          maxLength: 64
-          minLength: 0
-          description: House number or door number.
-          type: string
-        id:
-          maxLength: 64
-          minLength: 0
-          description: System generated id for the address
-          type: string
-        landmark:
-          maxLength: 64
-          minLength: 0
-          description: additional landmark to help locate the address
-          type: string
-        latitude:
-          type: number
-          format: double
-        locality:
-          $ref: '#/components/schemas/Boundary'
-        longitude:
-          type: number
-          format: double
-        pincode:
-          maxLength: 64
-          minLength: 0
-          description: PIN code of the address. Indian pincodes will usually be all numbers.
-          type: string
-        plotNo:
-          type: string
-          description: Plot number of the house.
-        region:
-          type: string
-          description: The Region in which the property is located
-        state:
-          type: string
-          description: The State in which the property is located
-        street:
-          maxLength: 64
-          minLength: 0
-          type: string
-          description: Street Name
-        tenantId:
-          maxLength: 64
-          minLength: 0
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        type:
-          maxLength: 64
-          minLength: 0
-          type: string
-      description: 'Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case. '
     Amount:
       title: Amount
       type: object
@@ -285,25 +164,6 @@ components:
         taxHeadCode:
           type: string
           description: Tax head code from tax head master(Tax codes are desfined at business service level so each business service can have diffrent tax head code defined) 
-    AuditDetails:
-      title: AuditDetails
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified the object
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
-      description: Collection of audit related fields used by most models
     Boundary:
       title: Boundary
       required:
@@ -360,7 +220,7 @@ components:
         additionalDetail:
           type: object
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         amount:
           type: array
           items:
@@ -372,7 +232,7 @@ components:
             - CANCELLED
             - PAID
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         businessService:
           type: string
         calculation:
@@ -415,7 +275,7 @@ components:
         Challan:
           $ref: '#/components/schemas/ChallanReq'
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     ChallanRes:
       title: ChallanRes
       type: object
@@ -425,7 +285,7 @@ components:
         additionalDetail:
           type: object
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         amount:
           type: array
           items:
@@ -437,7 +297,7 @@ components:
             - CANCELLED
             - PAID
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         businessService:
           type: string
           description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
@@ -488,46 +348,13 @@ components:
           type: integer
           format: int32
         responseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         totalAmountCollected:
           type: integer
           format: int32
         totalCount:
           type: integer
           format: int32
-    RequestInfo:
-      title: RequestInfo
-      type: object
-      properties:
-        action:
-          type: string
-          description: "Action on the application in certain"
-        apiId:
-          type: string
-        authToken:
-          type: string
-          description: "//session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token"
-        correlationId:
-          type: string
-          description: "RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation."
-        did:
-          type: string
-          description: "Device ID from which the API is called"
-        key:
-          type: string
-          description: "API key (API key provided to the caller in case of server\
-            \ to server communication)"
-        msgId:
-          type: string
-          description: "message id of the request"
-        ts:
-          type: integer
-          format: int64
-          description: time in epoch
-        userInfo:
-          $ref: '#/components/schemas/User'
-        ver:
-          type: string
     ResponseEntity:
       title: ResponseEntity
       type: object
@@ -610,30 +437,6 @@ components:
           type: integer
           format: int32
           description: value of status code to be displayed 
-    ResponseInfo:
-      title: ResponseInfo
-      type: object
-      properties:
-        apiId:
-          description: "unique API ID"
-          type: string
-        msgId:
-          type: string
-          description: "message id of the request"
-        resMsgId:
-          type: string
-          description: "unique response message id (UUID) - will usually be the correlation id from the server"
-        status:
-          type: string
-          description: current application status in the system records
-        ts:
-          type: integer
-          format: int64
-          description: time in epoch
-        ver:
-          description: "API version - for HTTP based request this will be same as\
-            \ used in path"
-          type: string
     RoleReq:
       title: RoleReq
       type: object
@@ -706,38 +509,6 @@ components:
             $ref: '#/components/schemas/RoleRes'
         tenantId:
           type: string
-    User:
-      title: User
-      type: object
-      properties:
-        emailId:
-          type: string
-          description: "email address of the authenticated user"
-        id:
-          type: integer
-          description: "List of system generated ids of applications."
-          format: int64
-        mobileNumber:
-          type: string
-          description: "MobileNumber of land owners"
-        name:
-          type: string
-          description: name of user
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/RoleReq'
-        tenantId:
-          type: string
-          description: "Unique id for a tenant."
-        type:
-          type: string
-        userName:
-          type: string
-          description: "Unique user name of the authenticated user"
-        uuid:
-          type: string
-          description: System Generated User id of the authenticated user.
     UserInfoReq:
       title: UserInfoReq
       description: User info request
@@ -1018,4 +789,3 @@ components:
           type: string
         uuid:
           type: string
-    
