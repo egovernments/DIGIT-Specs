@@ -13,7 +13,7 @@ info:
     name: Egovernments Foundation
     email: contact@egovernments.org
 x-module: BPA
-x-common-path: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml'
+x-common-path: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas'
 paths:
   /migration/_transform:
     post:
@@ -25,7 +25,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServiceResponse'
+              $ref: '#/components/schemas/ServiceResponseV1'
       responses:
         '200':
           description: OK
@@ -43,283 +43,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-  /mock/requests/_create:
-    post:
-      tags:
-        - mock-controller
-      summary: requestsCreatePost
-      operationId: requestsCreatePostUsingPOST_1
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: string
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found        
-  /mock/requests/_search:
-    post:
-      tags:
-        - mock-controller
-      summary: requestsSearchPost
-      operationId: requestsSearchPostUsingPOST
-      parameters:
-        - name: accountId
-          in: query
-          description: "Initiator User UUID" 
-          required: false
-          style: form
-          schema:
-            type: string
-        - name: applicationStatus
-          in: query
-          description: Search by list of Application Status
-          required: false
-          style: pipeDelimited
-          schema:
-            uniqueItems: true
-            type: array
-            items:
-              type: string
-        - name: fromDate
-          in: query
-          description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
-          required: false
-          style: form
-          schema:
-            type: integer
-            format: int64
-        - name: ids
-          in: query
-          description: "List of system generated ids of applications."
-          required: false
-          style: pipeDelimited
-          schema:
-            uniqueItems: true
-            type: array
-            items:
-              type: string
-        - name: isPlainSearch
-          in: query
-          description: 'true if Plain search is enabled, otherwise false'
-          required: false
-          style: form
-          schema:
-            type: boolean
-        - name: limit
-          in: query
-          description: limit 
-          required: false
-          style: form
-          schema:
-            type: integer
-            format: int32
-        - name: locality
-          in: query
-          description: name of locality
-          required: false
-          style: pipeDelimited
-          schema:
-            uniqueItems: true
-            type: array
-            items:
-              type: string
-        - name: mobileNumber
-          in: query
-          description: "MobileNumber of citizen"
-          required: false
-          style: form
-          schema:
-            type: string
-        - name: offset
-          in: query
-          description: offset
-          required: false
-          style: form
-          schema:
-            type: integer
-            format: int32
-        - name: serviceCode
-          in: query
-          description: Allows search for service type - comma separated list
-          required: false
-          style: pipeDelimited
-          schema:
-            uniqueItems: true
-            type: array
-            items:
-              type: string
-        - name: serviceRequestId
-          in: query
-          description: Search by serviceRequestId of the complaint
-          required: false
-          style: form
-          schema:
-            type: string
-        - name: slaDeltaMaxLimit
-          in: query
-          description: Maximum SLA Delta Limit
-          required: false
-          style: form
-          schema:
-            type: integer
-            format: int64
-        - name: slaDeltaMinLimit
-          in: query
-          description: Minimum SLA Delta Limit
-          required: false
-          style: form
-          schema:
-            type: integer
-            format: int64
-        - name: sortBy
-          in: query
-          description: parameter for sorting
-          required: false
-          style: form
-          schema:
-            type: string
-            enum:
-              - applicationStatus
-              - locality
-              - serviceRequestId
-        - name: sortOrder
-          in: query
-          description: order of sorting
-          required: false
-          style: form
-          schema:
-            type: string
-            enum:
-              - ASC
-              - DESC
-        - name: tenantId
-          in: query
-          description: "Unique id for a tenant."
-          required: false
-          style: form
-          schema:
-            type: string
-        - name: tenantIds
-          in: query
-          description: "List of tenant ids of applications."
-          required: false
-          style: pipeDelimited
-          schema:
-            uniqueItems: true
-            type: array
-            items:
-              type: string
-        - name: toDate
-          in: query
-          description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
-          required: false
-          style: form
-          schema:
-            type: integer
-            format: int64
-        - name: userIds
-          in: query
-          description: "UserId of the user calling"
-          required: false
-          style: pipeDelimited
-          schema:
-            uniqueItems: true
-            type: array
-            items:
-              type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RequestInfoWrapper'
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: string
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found        
-  /mock/requests/_test:
-    post:
-      tags:
-        - mock-controller
-      summary: requestsTest
-      operationId: requestsTestUsingPOST
-      parameters:
-        - name: tenantId
-          in: query
-          description: "Unique id for a tenant."
-          required: true
-          style: form
-          schema:
-            type: string
-        - name: uuids
-          in: query
-          description: "System Generated User id of the authenticated user."
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RequestInfoWrapper'
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  type: string
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found        
-  /mock/requests/_update:
-    post:
-      tags:
-        - mock-controller
-      summary: requestsUpdatePost
-      operationId: requestsUpdatePostUsingPOST
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: string
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found        
   /v2/request/_count:
     post:
       tags:
@@ -531,6 +254,12 @@ paths:
                 $ref: '#/components/schemas/ServiceResponse'
         '201':
           description: Created
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -947,58 +676,49 @@ paths:
           description: Not Found        
 components:
   schemas:
-    Address:
-      title: Address
+    ActionHistory:
+      title: ActionHistory
       type: object
       properties:
-        additionDetails:
-          type: object
-        buildingName:
+        actions:
+            $ref: "#/components/schemas/ActionInfo"
+    ActionInfo:
+      title: ActionInfo
+      type: object
+      properties:
+        action:
           type: string
-        city:
+        assignee:
           type: string
-        country:
+        businessKey:
+          maxLength: 64
+          minLength: 2
           type: string
-        district:
+        by:
           type: string
-        doorNo:
+        comments:
+          maxLength: 256
+          minLength: 0
+          pattern: ^[a-zA-Z0-9!@#.,/:; ()&']*$
           type: string
-        geoLocation:
-          $ref: '#/components/schemas/GeoLocation'
-        id:
-          type: string
-        landmark:
-          type: string
-        locality:
-          $ref: '#/components/schemas/Boundary'
-        pincode:
-          type: string
-        plotNo:
-          type: string
-        region:
-          type: string
-        state:
-          type: string
-        street:
+        isInternal:
+          type: boolean
+        media:
+          type: array
+          items:
+            type: string
+        status:
           type: string
         tenantId:
+          maxLength: 50
+          minLength: 2
+          pattern: ^[a-zA-Z.]*$
           type: string
-      description: 'Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case. '
-    AuditDetails:
-      title: AuditDetails
-      type: object
-      properties:
-        createdBy:
+        uuid:
           type: string
-        createdTime:
+        when:
           type: integer
           format: int64
-        lastModifiedBy:
-          type: string
-        lastModifiedTime:
-          type: integer
-          format: int64
-      description: Collection of audit related fields used by most models
     Boundary:
       title: Boundary
       required:
@@ -1026,7 +746,7 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         count:
           type: integer
           format: int32
@@ -1045,92 +765,13 @@ components:
         id:
           type: string
       description: This object holds list of documents attached during the transaciton for a property
-    GeoLocation:
-      title: GeoLocation
-      type: object
-      properties:
-        additionalDetails:
-          type: object
-        latitude:
-          type: number
-          format: double
-        longitude:
-          type: number
-          format: double
-    RequestInfo:
-      title: RequestInfo
-      type: object
-      properties:
-        action:
-          type: string
-        apiId:
-          type: string
-        authToken:
-          type: string
-        correlationId:
-          type: string
-        did:
-          type: string
-        key:
-          type: string
-        msgId:
-          type: string
-        ts:
-          type: integer
-          format: int64
-        userInfo:
-          $ref: '#/components/schemas/User0'
-        ver:
-          type: string
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
-    ResponseInfo:
-      title: ResponseInfo
-      type: object
-      properties:
-        apiId:
-          type: string
-        msgId:
-          type: string
-        resMsgId:
-          type: string
-        status:
-          type: string
-        ts:
-          type: integer
-          format: int64
-        ver:
-          type: string
-    RoleReq:
-      title: RoleReq
-      type: object
-      properties:
-        code:
-          type: string
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        tenantId:
-          type: string
-    RoleRes:
-      title: RoleRes
-      type: object
-      properties:
-        code:
-          type: string
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        tenantId:
-          type: string
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    
     ServiceReq:
       title: ServiceReq
       required:
@@ -1147,13 +788,13 @@ components:
         additionalDetail:
           type: object
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         applicationStatus:
           type: string
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         citizen:
-          $ref: '#/components/schemas/UserReq'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         description:
           type: string
         id:
@@ -1177,7 +818,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         service:
           $ref: '#/components/schemas/ServiceReq'
         workflow:
@@ -1199,13 +840,13 @@ components:
         additionalDetail:
           type: object
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         applicationStatus:
           type: string
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         citizen:
-          $ref: '#/components/schemas/UserRes'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         description:
           type: string
         id:
@@ -1222,6 +863,17 @@ components:
         tenantId:
           type: string
       description: 'Instance of Service request raised for a particular service. As per extension propsed in the Service definition "attributes" carry the input values requried by metadata definition in the structure as described by the corresponding schema.  * Any one of ''address'' or ''(lat and lang)'' or ''addressid'' is mandatory '
+    ServiceResponseV1:
+      title: ServiceResponse
+      type: object
+      properties:
+        actionHistory:
+          $ref: "#/components/schemas/ActionHistory"
+        services:
+          $ref: "#/components/schemas/ServiceRes"
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+      description: Response to the service request
     ServiceResponse:
       title: ServiceResponse
       type: object
@@ -1240,7 +892,7 @@ components:
           type: integer
           format: int32
         responseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
       description: Response to the service request
     ServiceWrapper:
       title: ServiceWrapper
@@ -1250,85 +902,6 @@ components:
           $ref: '#/components/schemas/ServiceRes'
         workflow:
           $ref: '#/components/schemas/Workflow'
-    User0:
-      title: User0
-      type: object
-      properties:
-        emailId:
-          type: string
-        id:
-          type: integer
-          format: int64
-        mobileNumber:
-          type: string
-        name:
-          type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/RoleReq'
-        tenantId:
-          type: string
-        type:
-          type: string
-        userName:
-          type: string
-        uuid:
-          type: string
-    UserReq:
-      title: UserReq
-      type: object
-      properties:
-        active:
-          type: boolean
-        emailId:
-          type: string
-        id:
-          type: integer
-          format: int64
-        mobileNumber:
-          type: string
-        name:
-          type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/RoleReq'
-        tenantId:
-          type: string
-        type:
-          type: string
-        userName:
-          type: string
-        uuid:
-          type: string
-    UserRes:
-      title: UserRes
-      type: object
-      properties:
-        active:
-          type: boolean
-        emailId:
-          type: string
-        id:
-          type: integer
-          format: int64
-        mobileNumber:
-          type: string
-        name:
-          type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/RoleRes'
-        tenantId:
-          type: string
-        type:
-          type: string
-        userName:
-          type: string
-        uuid:
-          type: string
     Workflow:
       title: Workflow
       type: object
