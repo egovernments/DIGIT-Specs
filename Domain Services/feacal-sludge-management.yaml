@@ -12,7 +12,7 @@ info:
     name: Egovernments Foundation
     email: contact@egovernments.org
 x-module: BPA
-x-common-path: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml'
+x-common-path: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml'
 paths:
   /fsm/v1/_search:
     post:
@@ -909,7 +909,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'  
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'  
                 
   /fsm-calculator/v1/billingSlab/_search:
     post:
@@ -1011,7 +1011,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes' 
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes' 
   /fsm-calculator/v1/_estimate:
     post:
       summary: Calcualte the FSM Charge, based on the billingslab . Does not create demand
@@ -1036,7 +1036,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
 components:
   schemas:
     PeriodicApplicationRequest:
@@ -1095,7 +1095,7 @@ components:
         * Any one of 'address' or '(lat and lang)' or 'addressid' is mandatory
       properties:
         vehicleOwner:
-          $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/UserInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         id:
           type: string
           readOnly: true
@@ -1296,7 +1296,7 @@ components:
 
       properties:
         citizen:
-          $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/UserInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         id:
           type: string
           readOnly: true
@@ -1439,7 +1439,7 @@ components:
         cature the pit details
       properties:
         citizen:
-          $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/UserInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         id:
           type: string
           readOnly: true
@@ -1491,7 +1491,7 @@ components:
       description: Request object for FSM
       properties:
         requestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/RequestHeader'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         fsm:
           $ref: '#/components/schemas/FSM'
         workflow:
@@ -1612,7 +1612,7 @@ components:
       description: Request object for Calcuation
       properties:
         requestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/RequestHeader'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         CalulationCriteria:
           $ref: '#/components/schemas/CalulationCriteria'
       required:
