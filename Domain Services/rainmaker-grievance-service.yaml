@@ -12,7 +12,7 @@ info:
     name: info
   version: 1.0.0
 servers:
-- url: https://egov-micro-dev.egovernments.org/rainmaker-pgr/v2
+- url: https://dev.digit.org/rainmaker-pgr
 paths:
   /v2/_migrate:
     post:
@@ -943,4 +943,3 @@ components:
       properties:
         RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'      
-    
