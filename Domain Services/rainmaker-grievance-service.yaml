@@ -268,11 +268,15 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
+                $ref: '#/components/schemas/ServiceResponse'
         '201':
           description: Created
         400:
           description: Response Info + List of errors
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -559,7 +563,7 @@ paths:
               type: string
         - name: tenantId
           in: query
-           description: Unique id for a tenant
+          description: Unique id for a tenant
           required: true
           style: form
           schema:
@@ -605,17 +609,19 @@ paths:
               $ref: '#/components/schemas/ServiceRequest'
       responses:
         '200':
-          description: Service Request updated
+          description: Service Request Updated
           content:
             '*/*':
               schema:
-                type: object
+                $ref: '#/components/schemas/ServiceResponse'
         '201':
           description: Created
-        '400'
-           description: Response Info + List of errors  
-           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-0.yml#/definitions/ErrorRes'
+        400:
+          description: Response Info + List of errors
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -624,19 +630,25 @@ paths:
           description: Not Found
 components:
   schemas:
+    ActionHistory:
+      title: ActionHistory
+      type: object
+      properties:
+        actions:
+            $ref: "#/components/schemas/ActionInfo"
     ActionInfo:
       title: ActionInfo
       type: object
-        properties:
+      properties:
         tenantId:
           type: string
-          description: The unique identifier for Service - this is equivalent to jurisdiction_id in Open311. As the platform intends to be multi tenanted - this is always required
-        minLength: 2
-        maxLength: 50
+          description: The unique identifier for Service - this is equivalent to jurisdiction_id in Open311. As the   platform intends to be multi tenanted - this is always required
+          minLength: 2
+          maxLength: 50
         by:
           type: string
           description: 'who made the Action Citizen/Employee, it''s a combination of userid and role delimited by colon (ex- userid:citizen).'
-        readOnly: true
+          readOnly: true
         isInternal:
           type: string
           description: If employee is making an action with isInteral as true then server will not return that action info to citizen search result.
@@ -670,85 +682,26 @@ components:
         comment:
           type: string
           description: Capture the comments made by Employee/Citizen.
-          uuid:
-            type: string
-            description: Uuid of the employee
-          when:
-            type: integer
-            format: int64
-    Address:
-      title: Address
-      required:
-        - city
-        - mohalla
-      type: object
-      properties:
-        auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
-        city:
-          maxLength: 30
-          minLength: 0
-          pattern: ^[a-zA-Z0-9._]*$
-          type: string
-          description: City of the address. Can be represented by the tenantid itself
-        houseNoAndStreetName:
-          maxLength: 160
-          minLength: 0
-          pattern: '^[a-zA-Z0-9!@#.,/: ()&'']*$'
-          type: string
-          description: House number and street name
-        landmark:
-          maxLength: 160
-          minLength: 0
-          pattern: '^[a-zA-Z0-9!@#.,/: ()&''-]*$'
-          description: additional landmark to help locate the address
-          type: string
-        latitude:
-          type: number
-          format: double
-          description: latitude of the address.
-        locality:
-          maxLength: 100
-          minLength: 0
-          pattern: '^[a-zA-Z0-9!@#.,/: ()&''-]*$'
-          type: string
-        longitude:
-          type: number
-          format: double
-          description: longitude of the address.
-        mohalla:
-          maxLength: 30
-          minLength: 0
-          pattern: ^[a-zA-Z0-9._-]*$
-          type: string
-          description: name of mohalla 
-        tenantId:
-          description: Unique Identifier of the tenant to which user primarily belongs
-          maxLength: 25
-          minLength: 2
-          pattern: ^[a-zA-Z.]*$
-          type: string
         uuid:
           type: string
-          description: "List of system generated ids of applications."
-    AuditDetails:
-      title: AuditDetails
+          description: Uuid of the employee
+    ServiceResponse:
+      title: ServiceResponse
       type: object
       properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified the object
-        lastModifiedTime:
-          type: integer
-          format: int64
-          description: epoch of the time object is last modified
+        actionHistory:
+          type: array
+          items: 
+            $ref: "#/components/schemas/ActionHistory"
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/Service"
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+      description: Response to the service request
+      
+    
     Citizen:
       title: Citizen
       type: object
@@ -797,7 +750,7 @@ components:
           type: array
           description: List of roles that are attached to the user.
           items:
-            $ref: '#/components/schemas/Role0'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Role'
         tenantId:
           type: string
           description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
@@ -824,18 +777,6 @@ components:
           type: object
         name:
           type: string      
-    PlainAccessRequest:
-      title: PlainAccessRequest
-      type: object
-      properties:
-        plainRequestFields:
-          type: array
-          description: plain request fields
-          items:
-            type: string
-        recordId:
-          description: record id
-          type: string      
     ReportRequest:
       title: ReportRequest
       required:
@@ -845,7 +786,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         reportName:
           type: string
           description: Name of the report
@@ -855,68 +796,6 @@ components:
             $ref: '#/components/schemas/ParamValue'
         tenantId:
           type: string 
-          description: "Unique id for a tenant."
-    RequestInfo:
-      title: RequestInfo
-      type: object
-      properties:
-        action:
-          type: string
-        apiId:
-          type: string
-        authToken:
-          type: string
-        correlationId:
-          type: string
-        did:
-          type: string
-        key:
-          type: string
-        msgId:
-          type: string
-        plainAccessRequest:
-          $ref: '#/components/schemas/PlainAccessRequest'
-        ts:
-          type: integer
-          format: int64
-        userInfo:
-          $ref: '#/components/schemas/User'
-        ver:
-          type: string      
-    Role:
-      title: Role
-      type: object
-      properties:
-        code:
-          description: "Unique code of the role"
-          maxLength: 50
-          minLength: 0
-          type: string
-        id:
-          description: "List of system generated ids of roles."
-          type: integer
-          format: int64
-        name:
-          description: 
-          maxLength: 128
-          minLength: 0
-          type: string
-        tenantId:
-          description: "Unique id for a tenant."
-          maxLength: 256
-          minLength: 0
-          type: string
-    Role0:
-      title: Role0
-      type: object
-      properties:
-        code:
-          type: string
-          description: "Unique code of the role"
-        name:
-          type: string
-        tenantId:
-          type: string    
           description: "Unique id for a tenant."
     Service:
       title: Service
@@ -939,7 +818,7 @@ components:
           pattern: '^[a-zA-Z0-9!@#.,/: ()&'']*$'
           type: string
         addressDetail:
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         addressId:
           type: string
           description: The internal address ID used by a tenant master address repository or other addressing system - for eGov it can be boundary id in the boundary service
@@ -947,7 +826,7 @@ components:
           description: This is the json object that will carry the actual input (whereever the metadata requries input). Structure should be same as the schema definition provided in the metadata of the service (schema compliance check to be performed at client/server)
           type: object
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         citizen:
           $ref: '#/components/schemas/Citizen'
         description:
@@ -1048,7 +927,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         actionInfo:
           type: array
           items:
@@ -1057,59 +936,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Service'      
-    User:
-      title: User
-      type: object
-      properties:
-        emailId:
-          maxLength: 300
-          minLength: 0
-          type: string
-          description: Email address of the User
-        id:
-          type: integer
-          description: The unique id an user.
-          format: int64
-        mobileNumber:
-          maxLength: 150
-          minLength: 0
-          type: string
-          description: Mobile number ofuser the user
-        name:
-          description: The full name of the user.
-          maxLength: 250
-          minLength: 0
-          type: string
-        roles:
-          type: array
-          description: List of roles that are attached to the user.
-          items:
-            $ref: '#/components/schemas/Role'
-        tenantId:
-          maxLength: 256
-          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
-          minLength: 0
-          type: string
-        type:
-          maxLength: 50
-          minLength: 0
-          description: System set value internally. For employee value will be always
-            "EMPLOYEE". For citizen value will be "CITIZEN".
-          type: string
-        userName:
-          maxLength: 180
-          minLength: 0
-          type: string
-          description: The unique username used for user login.
-        uuid:
-          maxLength: 36
-          minLength: 0
-          type: string        
-          description: "System Generated User id of the authenticated user."
+   
     RequestInfoWrapper: 
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'      
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'      
     
