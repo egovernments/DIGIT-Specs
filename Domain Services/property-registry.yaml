@@ -36,6 +36,10 @@ paths:
         '201':
           description: Created
         400:
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
           description: Assesment(s) creation failed
         '401':
           description: Unauthorized
@@ -139,6 +143,10 @@ paths:
         '201':
           description: Created
         400:
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
           description: Assesment(s) plain search failed  
         '401':
           description: Unauthorized
@@ -242,6 +250,10 @@ paths:
         '201':
           description: Created
         400:
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
           description: Assesment(s) search failed
         '401':
           description: Unauthorized
@@ -270,7 +282,11 @@ paths:
                 $ref: '#/components/schemas/AssessmentResponse'
         '201':
           description: Created
-        400:  
+        400:
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'  
           description: Assesment(s) Update failed
         '401':
           description: Unauthorized
@@ -278,6 +294,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+          
   /property/_addAlternateNumber:
     post:
       tags:
@@ -299,6 +316,12 @@ paths:
                 $ref: '#/components/schemas/PropertyResponse'
         '201':
           description: Created
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -328,6 +351,10 @@ paths:
         '201':
           description: Property created sucessfully
         400:
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
           description: Property(s) creation failed
         '401':
           description: Unauthorized
@@ -562,7 +589,11 @@ paths:
         '201':
           description: Created
         400:
-          description: Invalid input.
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -774,6 +805,12 @@ paths:
                 type: object
         '201':
           description: Created
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -1007,7 +1044,11 @@ paths:
         '201':
           description: Created
         400:
-          description: Invalid input.  
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -1241,7 +1282,11 @@ paths:
         '201':
           description: Created
         400:
-          description: Invalid input.  
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -1271,6 +1316,10 @@ paths:
         '201':
           description: Created
         400:
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
           description: Update Property failed
         '401':
           description: Unauthorized
@@ -1505,7 +1554,11 @@ paths:
         '201':
           description: Created
         400:
-          description: Invalid input.  
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -1524,7 +1577,7 @@ components:
           minLength: 0
           type: string
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         currentState:
           description: Status after action performed
           maxLength: 256
@@ -1551,65 +1604,7 @@ components:
           type: string
           description: State Unique Identifier uuid
       description: A Object holds the basic data for a Trade License
-    Address:
-      title: Address
-      required:
-      - tenantId
-      - locality
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        doorNo:
-          type: string
-          description: House number or door number.
-        plotNo:
-          type: string
-          description: Plot number of the house.
-        id:
-          type: string
-          description: System generated id for the address
-        landmark:
-          type: string
-          description: additional landmark to help locate the address
-        city:
-          type: string
-          description: City of the address. Can be represented by the tenantid itself
-        district:
-          type: string
-          description: The district in which the property is located
-        region:
-          type: string
-          description: The Region in which the property is located
-        state:
-          type: string
-          description: The State in which the property is located
-        country:
-          type: string
-          description: The country in which the property is located
-        pincode:
-          type: string
-          description: PIN code of the address. Indian pincodes will usually be all numbers.
-        additionDetails:
-          type: string
-          description: more address detail as may be needed
-        buildingName:
-          maxLength: 64
-          minLength: 2
-          type: string
-          description: Name of the building
-        street:
-          maxLength: 64
-          minLength: 2
-          type: string
-          description: Street Name
-        locality:
-          $ref: '#/components/schemas/Locality'
-        geoLocation:
-          $ref: '#/components/schemas/GeoLocation'
-      description: Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case.
-    AssessmentReq:
+    Assessment:
       title: AssessmentReq
       required:
         - assessmentDate
@@ -1626,7 +1621,7 @@ components:
         assessmentNumber:
           type: string
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         channel:
           type: string
           enum:
@@ -1676,79 +1671,9 @@ components:
       type: object
       properties:
         Assessment:
-          $ref: '#/components/schemas/AssessmentReq'
+          $ref: '#/components/schemas/Assessment'
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
-    AssessmentRes:
-      title: AssessmentRes
-      description: assessment response
-      required:
-        - assessmentDate
-        - financialYear
-        - propertyId
-        - tenantId
-      type: object
-      properties:
-        additionalDetails:
-          $ref: '#/components/schemas/JsonNodeRes'
-        assessmentDate:
-          type: integer
-          format: int64
-          description: date of assessment
-        assessmentNumber:
-          type: string
-          description: assessment number
-        auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
-        channel:
-          type: string
-          description: channel
-          enum:
-            - CFC_COUNTER
-            - CITIZEN
-            - DATA_ENTRY
-            - MIGRATION
-            - SYSTEM
-        documents:
-          uniqueItems: true
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
-        financialYear:
-          type: string
-          description: financial year for assessment
-        id:
-          description: "List of system generated ids of applications."
-          type: string
-        propertyId:
-          description: property id
-          type: string
-        source:
-          type: string
-          description: source
-          enum:
-            - FIELD_SURVEY
-            - MOBILEAPP
-            - MUNICIPAL_RECORDS
-            - WEBAPP
-        status:
-          description: current application status in the system records
-          type: string
-          enum:
-            - ACTIVE
-            - CANCELLED
-            - INACTIVE
-            - INWORKFLOW
-            - REJECTED
-        tenantId:
-          description: "Unique id for a tenant."
-          type: string
-        unitUsageList:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnitUsage'
-        workflow:
-          $ref: '#/components/schemas/ProcessInstance'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     AssessmentResponse:
       title: AssessmentResponse
       type: object
@@ -1756,27 +1681,9 @@ components:
         Assessments:
           type: array
           items:
-            $ref: '#/components/schemas/AssessmentRes'
+            $ref: '#/components/schemas/Assessment'
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
-    AuditDetails:
-      title: AuditDetails
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: created By
-        createdTime:
-          description: time of creation
-          type: integer
-          format: int64
-        lastModifiedBy:
-          description: last modified by
-          type: string
-        lastModifiedTime:
-          type: integer
-          description: time of last modification
-          format: int64
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
     ConstructionDetail:
       title: ConstructionDetail
       type: object
@@ -1810,7 +1717,7 @@ components:
           type: object
           description: The dimensions of the plot or building or any unit
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         additionalDetails:
           type: object
           description: The json (array of '#/definitions/Factor')
@@ -1823,7 +1730,7 @@ components:
       type: object
       properties:
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         documentType:
           type: string
           description: unique document type code, should be validated with document type master
@@ -1845,19 +1752,6 @@ components:
             - INACTIVE
             - INWORKFLOW
             - REJECTED
-    GeoLocation:
-      title: GeoLocation
-      type: object
-      properties:
-        latitude:
-          type: number
-          description: latitude of the address
-        longitude:
-          type: number
-          description: longitude of the address
-        additionalDetails:
-          type: object
-          description: Json object to capture any extra information which is not accommodated by model
     Institution:
       title: Institution
       type: object
@@ -1889,64 +1783,6 @@ components:
       title: JsonNodeReq
       description: Json Node request
       type: object
-    JsonNodeRes:
-      title: JsonNodeRes
-      type: object
-      properties:
-        array:
-          type: boolean
-        bigDecimal:
-          type: boolean
-        bigInteger:
-          type: boolean
-        binary:
-          type: boolean
-        boolean:
-          type: boolean
-        containerNode:
-          type: boolean
-        double:
-          type: boolean
-        empty:
-          type: boolean
-        float:
-          type: boolean
-        floatingPointNumber:
-          type: boolean
-        int:
-          type: boolean
-        integralNumber:
-          type: boolean
-        long:
-          type: boolean
-        missingNode:
-          type: boolean
-        nodeType:
-          type: string
-          enum:
-            - ARRAY
-            - BINARY
-            - BOOLEAN
-            - MISSING
-            - 'NULL'
-            - NUMBER
-            - OBJECT
-            - POJO
-            - STRING
-        'null':
-          type: boolean
-        number:
-          type: boolean
-        object:
-          type: boolean
-        pojo:
-          type: boolean
-        short:
-          type: boolean
-        textual:
-          type: boolean
-        valueNode:
-          type: boolean
     Locality:
       title: Locality
       type: object
@@ -2142,7 +1978,7 @@ components:
           type: array
           description: List of roles that are attached to the user.
           items:
-            $ref: '#/components/schemas/Role'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Role'
         salutation:
           type: string
           description: The salutation of user name. Example- Mr, Miss, Mrs
@@ -2180,19 +2016,6 @@ components:
           minLength: 0
           description: The unique id used for user login.
           type: string
-    PlainAccessRequest:
-      title: PlainAccessRequest
-      type: object
-      properties:
-        plainRequestFields:
-          type: array
-          description: plain access request field
-          items:
-            type: string
-            description: items in plain request
-        recordId:
-          type: string
-          description: records of the plain request
     ProcessInstance:
       title: ProcessInstance
       required:
@@ -2262,10 +2085,10 @@ components:
           description: additional details
         address:  
           description: address
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         auditDetails:
           description: audit details
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         channel:
           type: string
           enum:
@@ -2369,7 +2192,7 @@ components:
         Property:
           $ref: '#/components/schemas/PropertyReq'
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
       description: Contract class to receive request. Array of Property items  are used in case of create . Where as single Property item is used for update    
     PropertyRes:
       title: PropertyRes
@@ -2391,10 +2214,10 @@ components:
           description: additional details
         address:  
           description: address
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         auditDetails:
           description: audit details
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         channel:
           type: string
           enum:
@@ -2501,96 +2324,16 @@ components:
           items:
             $ref: '#/components/schemas/PropertyRes'
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         count:
           type: integer
           format: int32
-    RequestInfo:
-      title: RequestInfo
-      type: object
-      properties:
-        action:
-          description: API action to be performed like _create, _update, _search (denoting POST, PUT, GET) or _oauth etc
-          type: string
-        apiId:
-          type: string
-          description: unique API ID
-        authToken:
-          description: //session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token
-          type: string
-        correlationId:
-          type: string
-        did:
-          description: Device ID from which the API is called
-          type: string
-        key:
-          description: API key (API key provided to the caller in case of server to server communication)
-          type: string
-        msgId:
-          description: Unique request message id from the caller
-          type: string
-        plainAccessRequest:
-          $ref: '#/components/schemas/PlainAccessRequest'
-        ts:
-          type: integer
-          description: time in epoch
-          format: int64
-        userInfo:
-          $ref: '#/components/schemas/User'
-        ver:
-          type: string
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
-    ResponseInfo:
-      title: ResponseInfo
-      type: object
-      properties:
-        apiId:
-          type: string
-          description: unique API ID
-        msgId:
-          type: string
-          description: Unique request message id from the caller
-        resMsgId:
-          type: string
-          description: Unique response message id from the caller
-        status:
-          type: string
-          description: status of response
-        ts:
-          type: integer
-          description: time in epoch
-          format: int64
-        ver:
-          type: string
-          description: API version - for HTTP based request this will be same as used in path
-    Role:
-      title: Role
-      type: object
-      properties:
-        code:
-          maxLength: 50
-          description: "Unique code of the role"
-          minLength: 0
-          type: string
-        id:
-          type: integer
-          description: "List of system generated ids of applications."
-          format: int64
-        name:
-          maxLength: 128
-          description: name of user role
-          minLength: 0
-          type: string
-        tenantId:
-          maxLength: 256
-          description: "Unique id for a tenant."
-          minLength: 0
-          type: string
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     State:
       title: State
       type: object
@@ -2605,7 +2348,7 @@ components:
           type: string
           description: current application status in the system records
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         businessServiceId:
           maxLength: 256
           minLength: 0
@@ -2685,7 +2428,7 @@ components:
       type: object
       properties:
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         id:
           type: string
         occupancyDate:
@@ -2698,55 +2441,6 @@ components:
         unitId:
           type: string
         usageCategory:
-          type: string
-    User:
-      title: User
-      type: object
-      properties:
-        emailId:
-          maxLength: 300
-          minLength: 0
-          type: string
-          description: Email address of the user
-        id:
-          type: integer
-          description: The unique numeric id of an user. To be deprecated in future.
-          format: int64
-        mobileNumber:
-          description: Mobile number of the user
-          maxLength: 150
-          minLength: 0
-          type: string
-        name:
-          maxLength: 250
-          description: The full name of the user.
-          minLength: 0
-          type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-        tenantId:
-          maxLength: 256
-          description: Unique Identifier of the tenant to which user primarily belongs
-          minLength: 0
-          type: string
-        type:
-          description: System set value internally. For employee value will be always
-            "EMPLOYEE". For citizen value will be "CITIZEN".
-          maxLength: 50
-          minLength: 0
-          type: string
-        userName:
-          description: The unique username used of the user - this will be used for
-            user login. This needs to be unique within the tenant.
-          maxLength: 180
-          minLength: 0
-          type: string
-        uuid:
-          description: uuid of user
-          maxLength: 36
-          minLength: 0
           type: string
 tags:
 - name: Property
