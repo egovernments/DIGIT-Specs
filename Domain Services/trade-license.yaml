@@ -1017,7 +1017,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/PT_APPLY_PAY/docs/common/contracts/v1-1-1.yml#/components/schemas/ErrorRes
+                $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/PT_APPLY_PAY/docs/common/contracts/v1-1-1.yml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
@@ -1466,7 +1466,7 @@ components:
           maxLength: 20
           type: string
           description: System set value internally. For employee value will be always
-            "EMPLOYEE". For citizen value will be "CITIZEN".
+            EMPLOYEE. For citizen value will be CITIZEN.
         signature:
           type: string
           description: Image to be loaded for the signature of the employee
@@ -1791,7 +1791,7 @@ components:
         adhocPenaltyReason:
           maxLength: 1024
           minLength: 0
-          type: string]
+          type: string
           description: Reason for adhoc penalty
         applicationDocuments:
           type: array
@@ -2249,7 +2249,7 @@ components:
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
         id: 
-          description: "System generated ids of applications
+          description: "System generated ids of applications"
           maxLength: 64
           minLength: 0
           type: string
@@ -2357,6 +2357,6 @@ components:
         items:
           pattern: '[-+](licenseNumber|tradeTitle|ownerName)'
           type: string
-        default: '["+licenseNumber"]'
+        default: '[+](licenseNumber)'
 x-api-id: org.egov.tl.services
 x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml
