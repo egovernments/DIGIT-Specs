@@ -8,11 +8,7 @@ info:
     email: contact@egovernments.org
   version: '1.0.0'
 servers:
-- url: https://virtserver.swaggerhub.com/egovernmets-faundation/PT-2.0/1.0.0
-  description: SwaggerHub API Auto Mocking
-  variables: {}
-- url: https://egov-micro-dev.egovernments.org
-  variables: {}
+- url: https://dev.digit.org
 paths:
   /assessment/_create:
     post:
@@ -1614,7 +1610,7 @@ components:
       type: object
       properties:
         additionalDetails:
-          $ref: '#/components/schemas/JsonNodeReq'
+          type: object
         assessmentDate:
           type: integer
           format: int64
@@ -1779,10 +1775,6 @@ components:
         additionalDetails:
           type: object
           description: Json object to capture any extra information which is not accommodated by model
-    JsonNodeReq:
-      title: JsonNodeReq
-      description: Json Node request
-      type: object
     Locality:
       title: Locality
       type: object
@@ -2081,7 +2073,7 @@ components:
           type: string
           description: acknowledgment number
         additionalDetails:
-          $ref: '#/components/schemas/JsonNodeReq'
+          type: object
           description: additional details
         address:  
           description: address
@@ -2210,7 +2202,7 @@ components:
           type: string
           description: acknowledgment number
         additionalDetails:
-          $ref: '#/components/schemas/JsonNodeReq'
+          type: object
           description: additional details
         address:  
           description: address
