@@ -102,6 +102,119 @@ components:
           description: List of all the roles
           items:
             $ref: '#/components/schemas/Role'
+        salutation:
+          type: string
+          description: Salutation of the authenticated user
+        name:
+          type: string
+          description: Name of the authenticated user
+        gender:
+          type: string
+          description: Gender of the authenticated user
+        alternateMobileNumber:
+          type: string
+          description: Alternate mobile number of the authenticated user
+        altContactNumber:
+          type: string
+          description: Alternate Contact number of the authenticated user
+        pan:
+          type: string
+          description: Pan details of the authenticated user
+        aadhaarNumber:
+          type: string
+          description: Aadhaar number of the authenticated user
+        permanentAddress:
+          maxLength: 300
+          type: string
+          description: Permanent address of the user.
+        permanentCity:
+          maxLength: 300
+          type: string
+          description: City of the permanent address.
+        permanentPincode:
+          maxLength: 6
+          type: string
+        correspondenceCity:
+          maxLength: 50
+          type: string
+          description: City of the correspondence address.
+        correspondencePincode:
+          maxLength: 6
+          type: string
+          description: Permanent address pincode.
+        correspondenceAddress:
+          maxLength: 300
+          type: string
+          description: Correspondence address of the user.
+        active:
+          type: boolean
+          description: True if the user is active and False if the user is inactive.
+        locale:
+          maxLength: 10
+          type: string
+          description: Value will be set to "en_IN".
+        type:
+          maxLength: 20
+          type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
+        accountLocked:
+          type: boolean
+          description: Set to True if account is locked after several incorrect password
+        accountLockedDate:
+          type: integer
+          format: int64
+          description: Date when account is locked after several incorrect password
+        fatherOrHusbandName:
+          maxLength: 100
+          type: string
+          description: Name of user's father or husband.
+        relationship:
+          maxLength: 20
+          type: string
+          description: Relationship of user with the guardian. "FATHER, MOTHER, HUSBAND OR OTHER"
+        signature:
+          type: string
+          description: Image to be loaded for the signature of the employee
+        bloodGroup:
+          maxLength: 3
+          type: string
+          description: Blood group of the user.
+        photo:
+          type: string
+          description: Image to be loaded for the photo of the user
+        identificationMark:
+          type: string
+          description: Any identification mark of user.
+        createdBy:
+          type: integer
+          description: Id of the user who created the record.
+          format: int64
+        password:
+          type: "string"
+          description: "password of the user."
+        otpReference:
+          type: string
+          description: This is the UUID token that we genarate as part of OTP.
+        lastModifiedBy:
+          type: integer
+          description: Id of the user who last modified the record.
+          format: int64  
+        createdDate:
+          type: string
+          description: Date on which the user master data was added into the system.
+          format: date
+        lastModifiedDate:
+          type: string
+          description: Date on which the user master data was last modified.
+          format: date
+        dob:
+          type: integer
+          format: int64
+          description: Date of birth of the User
+        pwdExpiryDate:
+          type: integer
+          format: int64
       description: This is acting ID token of the authenticated user on the server.
         Any value provided by the clients will be ignored and actual user based on
         authtoken will be used on the server.
