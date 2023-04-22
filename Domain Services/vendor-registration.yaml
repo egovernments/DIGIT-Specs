@@ -61,8 +61,11 @@ paths:
         Gets the list of Vendor for a particular ULB based on plain search criteria.
       operationId: plainsearchUsingPOST
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/parameters/tenantId'
-          required: true
+        - name: tenantId
+          in: query
+          description: search with tenantId of the business entity
+          schema:
+            type: string
         - name: name
           in: query
           description: search with name of the business entity
@@ -99,7 +102,7 @@ paths:
             type: array
             items:
               type: string
-        - name : offset
+        - name: offset
           in: query
           description: offset for the pagination results
           schema:
@@ -205,8 +208,11 @@ paths:
       description: |
         Gets the list of Vendor for a particular ULB based on search criteria.
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/parameters/tenantId'
-          required: true
+        - name: tenantId
+          in: query
+          description: search with tenantId of the business entity
+          schema:
+            type: string
         - name: name
           in: query
           description: search with name of the business entity
@@ -243,7 +249,7 @@ paths:
             type: array
             items:
               type: string
-        - name : offset
+        - name: offset
           in: query
           description: offset for the pagination results
           schema:
@@ -590,107 +596,6 @@ paths:
           description: Not Found        
 components:
   schemas:
-    Address:
-      title: Address
-      required:
-        - locality
-      type: object
-      properties:
-        addressId: 
-          maxLength: 64
-          minLength: 0
-          type: string
-          description: Address Id  
-        addressLine1:
-          type: string
-          description: first address line 
-        addressLine2:
-          maxLength: 256
-          minLength: 0
-          type: string
-          description: second address line 
-        addressNumber:
-          maxLength: 64
-          minLength: 0
-          type: string
-          description: address number
-        additionDetails:
-          type: string
-          description: more address detail as may be needed
-        auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
-        buildingName:
-          maxLength: 64
-          minLength: 2
-          type: string
-          description: Name of the building
-        city:
-          type: string
-          description: City of the address. Can be represented by the tenantid itself
-        country:
-          type: string
-          description: The country in which the property is located
-        district:
-          type: string
-          description: The district in which the property is located
-        doorNo:
-          type: string
-          description: House number or door number.
-        geoLocation:
-          $ref: '#/components/schemas/GeoLocation'
-        id:
-          type: string
-          description: System generated id for the address
-          readOnly: true
-        landmark:
-          type: string
-          description: additional landmark to help locate the address
-        locality:
-          $ref: '#/components/schemas/Boundary'
-        pincode:
-          type: string
-          
-        plotNo:
-          type: string
-          description: Plot number of the house.
-        region:
-          type: string
-          description: The Region in which the property is located
-        state:
-          type: string
-          description: The State in which the property is located
-        street:
-          maxLength: 64
-          minLength: 2
-          type: string
-          description: Street Name
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        type:
-          maxLength: 64
-          minLength: 0
-          type: string
-      description: 'Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case. '
-    AuditDetails:
-      title: AuditDetails
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified the object
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
-      description: Collection of audit related fields used by most models
     Boundary:
       title: Boundary
       required:
@@ -728,7 +633,7 @@ components:
         additionalDetails:
           type: object
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         description:
           type: string
         id:
@@ -743,7 +648,7 @@ components:
           minLength: 0
           type: string
         owner:
-          $ref: '#/components/schemas/User'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         ownerId:
           description: "Owner id of the driver"
           maxLength: 64
@@ -773,7 +678,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         driver:
           $ref: '#/components/schemas/Driver'
     DriverResponse:
@@ -785,328 +690,17 @@ components:
           items:
             $ref: '#/components/schemas/Driver'
         responseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         totalCount:
           type: integer
           format: int32
           description: Total count
-    GeoLocation:
-      title: GeoLocation
-      type: object
-      properties:
-        additionalDetails:
-          type: object
-          description: Additional details to be added
-        id:
-          type: string
-          description: "System generated unique ids for applications."
-        latitude:
-          type: number
-          format: double
-          description: latitude of the address
-        longitude:
-          type: number
-          format: double
-          description: longitude of the address
-    PlainAccessRequest:
-      title: PlainAccessRequest
-      type: object
-      properties:
-        plainRequestFields:
-          type: array
-          description: Plain request fields
-          items:
-            type: string
-        recordId:
-          description: Record id for request
-          type: string
-    RequestInfo:
-      title: RequestInfo
-      type: object
-      properties:
-        action:
-          type: string
-          description: "Action on the application in certain"
-        apiId:
-          description: unique API ID
-          type: string
-        authToken:
-          description: "//session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token"
-          type: string
-        correlationId:
-          type: string
-          description: "RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation."
-        did:
-          type: string
-          description: "Device ID from which the API is called"
-        key:
-          description: "API key (API key provided to the caller in case of server to server communication)"
-          type: string
-        msgId:
-          description: "message id of the request"
-          type: string
-        ts:
-          description: time in epoch
-          type: integer
-          format: int64
-        plainAccessRequest:
-          $ref: '#/components/schemas/PlainAccessRequest'
-        userInfo:
-          $ref: '#/components/schemas/User0'
-        ver:
-          description: "API version - for HTTP based request this will be same as used in path"
-          type: string
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
-    ResponseInfo:
-      title: ResponseInfo
-      type: object
-      properties:
-        apiId:
-          description: unique API ID
-          type: string
-        msgId:
-          description: "message id of the request"
-          type: string
-        resMsgId:
-          description: "unique response message id (UUID) - will usually be the correlation id from the server"
-          type: string
-        status:
-          description: current application status in the system records
-          type: string
-        ts: 
-          description: time in epoch
-          type: integer
-          format: int64
-        ver:
-          description: "API version - for HTTP based request this will be same as used in path"
-          type: string        
-
-    Role:
-      title: Role
-      type: object
-      properties:
-        code:
-          description: "Unique code of the role"
-          maxLength: 50
-          minLength: 0
-          type: string
-        id:
-          description: "Unique id of the role"
-          type: integer
-          format: int64
-        name:
-          description: "Unique name of the role"
-          maxLength: 128
-          minLength: 0
-          type: string
-        tenantId:
-          description: "Unique tenant id of the tenant"
-          maxLength: 256
-          minLength: 0
-          type: string
-    User:
-      required:
-      - active
-      - gender
-      - locale
-      - mobileNumber
-      - name
-      - tenantId
-      - type
-      - userName
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The unique id an user.
-          format: int64
-        userName:
-          maxLength: 64
-          minLength: 1
-          type: string
-          description: The unique username used for user login.
-        password:
-          maxLength: 64
-          type: string
-          description: Password for user login.
-          format: password
-        salutation:
-          maxLength: 5
-          type: string
-        name:
-          maxLength: 100
-          minLength: 3
-          type: string
-          description: The full name of the user.
-        gender:
-          type: string
-          description: Gender of the user.
-        mobileNumber:
-          maxLength: 10
-          type: string
-          description: Mobile number of the user
-        emailId:
-          maxLength: 128
-          type: string
-          description: Email address of the user
-        altContactNumber:
-          maxLength: 10
-          type: string
-          description: Alternate contact number of the user
-        pan:
-          maxLength: 10
-          type: string
-          description: PAN number of the user
-        aadhaarNumber:
-          maxLength: 12
-          pattern: '[0-9]'
-          type: string
-          description: Aadhaar number of the user
-        permanentAddress:
-          maxLength: 300
-          type: string
-          description: Permanent address of the user.
-        permanentCity:
-          maxLength: 300
-          type: string
-          description: City of the permanent address.
-        permanentPincode:
-          maxLength: 6
-          type: string
-        correspondenceCity:
-          maxLength: 50
-          type: string
-          description: City of the correspondence address.
-        correspondencePincode:
-          maxLength: 6
-          type: string
-          description: Permanent address pincode.
-        correspondenceAddress:
-          maxLength: 300
-          type: string
-          description: Correspondence address of the user.
-        active:
-          type: boolean
-          description: True if the user is active and False if the user is inactive.
-        dob:
-          type: string
-          description: Data of bith of the user in dd/mm/yyyy format.
-          format: date
-        pwdExpiryDate:
-          type: string
-          description: Date on which the password registered will expire.
-          format: date
-          readOnly: true
-        locale:
-          maxLength: 10
-          type: string
-          description: Value will be set to "en_IN".
-        type:
-          maxLength: 20
-          type: string
-          description: System set value internally. For employee value will be always
-            "EMPLOYEE". For citizen value will be "CITIZEN".
-        signature:
-          type: string
-          description: Image to be loaded for the signature of the employee
-        accountLocked:
-          type: boolean
-          description: Set to True if account is locked after several incorrect password
-            attempt. False if account is not locked.
-        roles:
-          type: array
-          description: List of roles that are attached to the user.
-          items:
-            $ref: '#/components/schemas/Role'
-        fatherOrHusbandName:
-          maxLength: 100
-          type: string
-          description: Name of user's father or husband.
-        bloodGroup:
-          maxLength: 3
-          type: string
-          description: Blood group of the user.
-        identificationMark:
-          maxLength: 300
-          type: string
-          description: Any identification mark of the person.
-        photo:
-          type: string
-          description: Image to be loaded for the photo of the user
-        createdBy:
-          type: integer
-          description: Id of the user who created the record.
-          format: int64
-        createdDate:
-          type: string
-          description: Date on which the user master data was added into the system.
-          format: date
-        lastModifiedBy:
-          type: integer
-          description: Id of the user who last modified the record.
-          format: int64
-        lastModifiedDate:
-          type: string
-          description: Date on which the user master data was last modified.
-          format: date
-        otpReference:
-          type: string
-          description: This is the UUID token that we genarate as part of OTP.
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
-    User0:
-      title: User0
-      type: object
-      properties:
-        emailId:
-          description: "email address of the authenticated user"
-          maxLength: 300
-          minLength: 0
-          type: string
-        id:
-          description: "List of system generated ids of applications."
-          type: integer
-          format: int64
-        mobileNumber:
-          description: "MobileNumber of User"
-          maxLength: 150
-          minLength: 0
-          type: string
-        name:
-          description: "Name of User"
-          maxLength: 250
-          minLength: 0
-          type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-        tenantId:
-          maxLength: 256
-          minLength: 0
-          type: string
-          description: "Unique id for a tenant."
-        type:
-          description: Type of User
-          maxLength: 50
-          minLength: 0
-          type: string
-        userName:
-          description: "Unique user name of the authenticated user"
-          maxLength: 180
-          minLength: 0
-          type: string
-        uuid:
-          description: "System Generated User id of the authenticated user."  
-          maxLength: 36
-          minLength: 0
-          type: string
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     Vehicle:
       type: object
       description: |
@@ -1196,13 +790,12 @@ components:
            - ACTIVE
            - INACTIVE
         auditDetails:
-          $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       required:
         - tenantId
         - registrationNumber
         - model
         - type
-
     Vendor:
       title: Vendor
       type: object
@@ -1210,14 +803,14 @@ components:
         additionalDetails:
           type: object
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
         agencyType:
           description: Type of agency
           maxLength: 128
           minLength: 0
           type: string
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         description:
           type: string
         drivers:
@@ -1233,7 +826,7 @@ components:
           minLength: 0
           type: string
         owner:
-          $ref: '#/components/schemas/User'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         ownerId:
           description: Unique Owner id credential 
           maxLength: 64
@@ -1269,7 +862,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         vendor:
           $ref: '#/components/schemas/Vendor'
     VendorResponse:
@@ -1278,7 +871,7 @@ components:
       type: object
       properties:
         responseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         totalCount:
           type: integer
           format: int32
