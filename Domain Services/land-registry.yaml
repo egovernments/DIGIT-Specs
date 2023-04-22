@@ -11,11 +11,7 @@ info:
     email: "contact@egovernments.org"
   version: "1.0.0"
 servers:
-- url: "https://virtserver.swaggerhub.com/egov-foundation/BPA/1.0.0"
-  description: "SwaggerHub API Auto Mocking"
-- url: "https://virtserver.swaggerhub.com/egovernmets-faoundat/PT-2.0/1.0.0"
-  description: "SwaggerHub API Auto Mocking"
-- url: "https://egov-micro-dev.egovernments.org"
+- url: "https://dev.digit.org"
 paths:
   /v1/land/_create:
     post:

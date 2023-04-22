@@ -11,7 +11,7 @@ info:
     email: "contact@egovernments.org"
   version: "1.0.0"
 servers:
-- url: "https://egov-micro-dev.egovernments.org"
+- url: "https://dev.digit.org"
 paths:
   /v1/bpa/_create:
     post:
