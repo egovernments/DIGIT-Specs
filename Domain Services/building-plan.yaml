@@ -807,7 +807,7 @@ components:
             \ Non-residential, Mixed(Property witch is gettiong used for Residential,\
             \ Non-residential purpose)"
         occupancyType:
-          $ref: "#/components/schemas/OccupancyType2"
+          $ref: "#/components/schemas/OccupancyType"
         occupancyDate:
           type: "integer"
           description: "Date on which unit is occupied."
@@ -818,8 +818,8 @@ components:
           type: "object"
           description: "Json object to capture any extra information which is not\
             \ accommodated by model"
-    OccupancyType2:
-      title: "OccupancyType2"
+    OccupancyType:
+      title: "OccupancyType"
       type: "string"
       description: "Value denoting if the unit is rented or occupied by owner"
       enum:
