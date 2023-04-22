@@ -822,7 +822,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -958,7 +958,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1094,7 +1094,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1134,7 +1134,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1174,7 +1174,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1214,7 +1214,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1254,7 +1254,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1394,7 +1394,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1534,7 +1534,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1674,7 +1674,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1814,7 +1814,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -1954,7 +1954,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
@@ -2094,7 +2094,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
         401:
           description: Unauthorized
           content: {}
