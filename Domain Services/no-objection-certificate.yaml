@@ -207,30 +207,10 @@ paths:
           description: Not Found
   
 servers:
-# Added by API Auto Mocking Plugin
-  - url: 'https://egov-micro-dev.egovernments.org'
+  - url: 'https://dev.digit.org'
 components:
   schemas:
   
-   AuditDetails:
-      title: AuditDetails
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified the object
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
-      description: Collection of audit related fields used by most models
    Document:
       title: Document
       type: object
@@ -287,7 +267,7 @@ components:
             - PROVISIONAL
             - RENEW
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         documents:
           type: array
           description: The documents attached by owner for exemption.
@@ -346,7 +326,7 @@ components:
         Noc:
           $ref: '#/components/schemas/Noc'
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
       description: A object to bind the metadata contract and main application contract
    NocResponse:
       title: NocResponse
@@ -357,128 +337,17 @@ components:
           items:
             $ref: '#/components/schemas/Noc'
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         count:
           type: integer
           format: int32
       description: Contains the ResponseMetadate and the main application contract
-   RequestInfo:
-      title: RequestInfo
-      type: object
-      properties:
-        action:
-          type: string
-          description: "Action on the application in certain"
-        apiId:
-          type: string
-          description: "unique API ID"
-        authToken:
-          type: string
-          description: "//session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token"
-        correlationId:
-          type: string
-          description: "RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation."
-        did:
-          type: string
-          description: "Device ID from which the API is called"
-        key:
-          type: string
-          description: "API key (API key provided to the caller in case of server to server communication)"
-        msgId:
-          type: string
-          description: "message id of the request"
-        ts:
-          type: integer
-          format: int64
-          description: time in epoch
-        userInfo:
-          $ref: '#/components/schemas/User'
-        ver:
-          type: string
-          description: "API version - for HTTP based request this will be same as\
-            \ used in path"
    RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
-   ResponseInfo:
-      title: ResponseInfo
-      type: object
-      properties:
-        apiId:
-          type: string
-          description: "unique API ID"
-        msgId:
-          type: string
-          description: "message id of the request"
-        resMsgId:
-          type: string
-          description: "unique response message id (UUID) - will usually be the correlation id from the server"
-        status:
-          type: string
-          description: current application status in the system records
-        ts:
-          type: integer
-          format: int64
-          description: time in epoch
-        ver:
-          type: string
-          description: "API version - for HTTP based request this will be same as\
-            \ used in path"
-   Role:
-      title: Role
-      type: object
-      properties:
-        code:
-          description: "Unique code of the role"
-          type: string
-        id:
-          description: "List of system generated ids of applications."
-          type: integer
-          format: int64
-        name:
-          type: string
-          description: name of user
-        tenantId:
-          type: string
-          description: "Unique id for a tenant."
-   User:
-      title: User
-      type: object
-      properties:
-        emailId:
-          type: string
-          description: Email address of the user
-        id:
-          description: The unique id an user.
-          type: integer
-          format: int64
-        mobileNumber:
-          type: string
-          description: Mobile number ofuser the user
-        name:
-          type: string
-          description: The full name of the user.
-        roles:
-          type: array
-          description: List of roles that are attached to the user.
-          items:
-            $ref: '#/components/schemas/Role'
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
-        type:
-          type: string
-          description: System set value internally. For employee value will be always
-            "EMPLOYEE". For citizen value will be "CITIZEN".
-        userName:
-          type: string
-          description: The unique username used for user login.
-        uuid:
-          description: "System Generated User id of the authenticated user."
-          type: string
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
    Workflow:
       title: Workflow
       type: object
