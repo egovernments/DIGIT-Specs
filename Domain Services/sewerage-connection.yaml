@@ -8,7 +8,7 @@ info:
     name: Egovernments Foundation
     email: contact@egovernments.org
   x-module: SWC
-  x-common-path: 'https://raw.githubusercontent.com/egovernments/egov-services/PT_APPLY_PAY/docs/common/contracts/v1-1-1.yml'    
+  x-common-path: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml'    
 servers:
   - url: /
 tags:
@@ -338,7 +338,7 @@ paths:
               type: string
         - name: applicationStatus
           in: query
-          description: application status of sewerage application
+          description: search application by list of application Status(s)
           required: false
           style: pipeDelimited
           schema:
@@ -348,7 +348,7 @@ paths:
               type: string
         - name: applicationType
           in: query
-          description: application type of sewerage application
+          description: "type of application"
           required: false
           style: form
           schema:
@@ -362,6 +362,7 @@ paths:
             type: string
         - name: connectionNumber
           in: query
+          description: List of Sewerage connection numbers to search..
           required: false
           style: pipeDelimited
           schema:
@@ -378,7 +379,7 @@ paths:
             type: string
         - name: fromDate
           in: query
-          description: Fetches properties with created time after fromDate.
+          description: Fetches Sewerage Connection with created time after fromDate.
           required: false
           style: form
           schema:
@@ -396,35 +397,34 @@ paths:
               type: string
         - name: isCountCall
           in: query
-          description: "True if count call is implemented otherwise False"
+          description: is count call
           required: false
           style: form
           schema:
             type: boolean
         - name: isFilestoreIdRequire
           in: query
-          description: "True if filestore id is required otherwise False"
+          description: true if filestore id is required otherwise false 
           required: false
           style: form
           schema:
             type: boolean
         - name: isInternalCall
           in: query
-          description: "True if internal call is implemented otherwise False"
+          description: true if internal call is immplemented otherwise false 
           required: false
           style: form
           schema:
             type: boolean
         - name: isPropertyDetailsRequired
           in: query
-          description: "True if property details are required otherwise False"
+          description: true if property details are required otherwise false 
           required: false
           style: form
           schema:
             type: boolean
         - name: isSkipLevelSearch
           in: query
-          description: "True if level search is skipped otherwise False"
           required: false
           style: form
           schema:
@@ -439,14 +439,14 @@ paths:
             format: int32
         - name: locality
           in: query
-          description: search application by list of Locality (s)
+          description: name of locality
           required: false
           style: form
           schema:
             type: string
         - name: mobileNumber
           in: query
-          description: "MobileNumber of owners"
+          description: "MobileNumber of owner whose Sewerage connection is to be searched"
           required: false
           style: form
           schema:
@@ -461,14 +461,14 @@ paths:
             format: int32
         - name: oldConnectionNumber
           in: query
-          description: List of old water connection numbers to search..
+          description: List of old Sewerage connection numbers to search..
           required: false
           style: form
           schema:
             type: string
         - name: ownerIds
           in: query
-          description: search by list of uuid(s) of the owner of the application
+          description: Id credential for Owners
           required: false
           style: pipeDelimited
           schema:
@@ -477,7 +477,7 @@ paths:
               type: string
         - name: ownerName
           in: query
-          description: Name of owner 
+          description: Name credential for Owners
           required: false
           style: form
           schema:
@@ -491,8 +491,8 @@ paths:
             type: string
         - name: propertyIds
           in: query
-          description: List of PropertyIds to search.
           required: false
+          description: List of PropertyIds to search.
           style: pipeDelimited
           schema:
             uniqueItems: true
@@ -501,7 +501,7 @@ paths:
               type: string
         - name: searchType
           in: query
-          description: Type of search 
+          description: type of search being implemented
           required: false
           style: form
           schema:
@@ -522,7 +522,7 @@ paths:
             type: string
         - name: tenantIds
           in: query
-          description: "List of Unique ids for a tenant."
+          description: "List of Unique id for a tenant."
           required: false
           style: pipeDelimited
           schema:
@@ -532,7 +532,7 @@ paths:
               type: string
         - name: toDate
           in: query
-          description: Fetches properties with created time till toDate.
+          description: Fetches Sewerage Connection with created time till toDate.
           required: false
           style: form
           schema:
@@ -885,7 +885,7 @@ components:
           minLength: 0
           type: string
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         currentState:
           description: Status after action performed
           maxLength: 256
@@ -912,24 +912,6 @@ components:
           minLength: 0
           type: string
       description: A Object holds the basic data for a Trade License
-    AuditDetails:
-      title: AuditDetails
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the object
-        createdTime:
-          description: epoch of the time object is created
-          type: integer
-          format: int64
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified the object
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
     Document:
       title: Document
       description: This object holds list of documents attached during the transaciton for a property
@@ -939,7 +921,7 @@ components:
       type: object
       properties:
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         documentType:
           type: string
           description: unique document type code, should be validated with document type master
@@ -1116,7 +1098,7 @@ components:
           type: array
           description: List of roles that are attached to the user.
           items:
-            $ref: '#/components/schemas/Role'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Role'
         salutation:
           type: string
           description: Salutation for user, Mr, Mrs etc.
@@ -1152,16 +1134,6 @@ components:
           maxLength: 64
           minLength: 0
           type: string
-    PlainAccessRequest:
-      title: PlainAccessRequest
-      type: object
-      properties:
-        plainRequestFields:
-          type: array
-          items:
-            type: string
-        recordId:
-          type: string
     PlumberInfo:
       title: PlumberInfo
       type: object
@@ -1170,7 +1142,7 @@ components:
           type: object
           description: Json object to capture any extra information which is not accommodated of model
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         correspondenceAddress:
           maxLength: 1024
           minLength: 0
@@ -1227,7 +1199,7 @@ components:
         assignes:
           type: array
           items:
-            $ref: '#/components/schemas/User'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
         businessId:
           description: The application numbers to search
           maxLength: 128
@@ -1263,77 +1235,18 @@ components:
           minLength: 0
           type: string
       description: A Object holds the basic data for a Trade License
-    RequestInfo:
-      title: RequestInfo
-      type: object
-      properties:
-        action:
-          type: string
-          description: "API action to be performed like _create, _update, _search (denoting POST, PUT, GET) or _oauth etc"
-        apiId:
-          type: string
-          description: "unique API ID"
-        authToken:
-          type: string
-          description: "//session/jwt/saml token/oauth token - the usual value that would go into HTTP bearer token"
-        correlationId:
-          type: string
-          description: "RequestInfo should be used to carry meta information about the requests to the server as described in the fields below. All eGov APIs will use requestinfo as a part of the request body to carry this meta information. Some of this information will be returned back from the server as part of the ResponseInfo in the response body to ensure correlation."
-        did:
-          type: string
-          description: "Device ID from which the API is called"
-        key:
-          type: string
-          description: "API key (API key provided to the caller in case of server to server communication)"
-        msgId:
-          type: string
-          description: "Unique request message id from the caller"
-        plainAccessRequest:
-          $ref: '#/components/schemas/PlainAccessRequest'
-        ts:
-          type: integer
-          format: int64
-          description: "time in epoch"
-        userInfo:
-          $ref: '#/components/schemas/User'
-        ver:
-          type: string
-          description: "API version - for HTTP based request this will be same as used in path"
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
-    ResponseInfo:
-      title: ResponseInfo
-      type: object
-      properties:
-        apiId:
-          description: "unique API ID"
-          type: string
-        msgId:
-          description: "Unique request message id from the caller"
-          type: string
-        resMsgId:
-          type: string
-          description: "unique response message id (UUID) - will usually be the correlation id from the server"
-        status:
-          type: string
-          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
-        ts:
-          description: "time in epoch"
-          type: integer
-          format: int64
-        ver:
-          type: string
-          description: "API version - for HTTP based request this will be same as used in path"
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     RoadCuttingInfo:
       title: RoadCuttingInfo
       type: object
       properties:
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         id:
           description: Unique id credential for road cutting object
           type: string
@@ -1351,29 +1264,6 @@ components:
             - ACTIVE
             - INACTIVE
             - INWORKFLOW
-    Role:
-      title: Role
-      type: object
-      properties:
-        code:
-          description: "Unique code of the role"
-          maxLength: 50
-          minLength: 0
-          type: string
-        id:
-          description: "Unique id of the role"
-          type: integer
-          format: int64
-        name:
-          description: "Unique name of the role"
-          maxLength: 128
-          minLength: 0
-          type: string
-        tenantId:
-          description: "Unique tenant id of the role"
-          maxLength: 256
-          minLength: 0
-          type: string
     SewerageConnection:
       title: SewerageConnection
       required:
@@ -1396,7 +1286,7 @@ components:
           type: string
           readOnly: true
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         channel:
           type: string
           readOnly: true
@@ -1508,7 +1398,7 @@ components:
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         SewerageConnection:
           $ref: '#/components/schemas/SewerageConnection'
         disconnectRequest:
@@ -1526,7 +1416,7 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         SewerageConnections:
           type: array
           items:
@@ -1549,7 +1439,7 @@ components:
           type: string
           description: current application status in the system records
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         businessServiceId:
           maxLength: 256
           minLength: 0
@@ -1585,82 +1475,3 @@ components:
           type: string
           description: "System Generated User id of the state/authenticated user."  
       description: A Object holds the basic data for a Trade License
-    User:
-      title: User
-      type: object
-      properties:
-        emailId:
-          maxLength: 300
-          minLength: 0
-          type: string
-          description: "email address of the authenticated user"
-        id:
-          type: integer
-          format: int64
-          description: The unique id an user.
-        mobileNumber:
-          maxLength: 150
-          minLength: 0
-          type: string
-          description: Mobile number ofuser the user
-        name:
-          maxLength: 250
-          minLength: 0
-          type: string
-          description: The full name of the user.
-        roles:
-          type: array
-          description: List of roles that are attached to the user.
-          items:
-            $ref: '#/components/schemas/Role'
-        tenantId:
-          maxLength: 256
-          minLength: 0
-          type: string
-          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
-        type:
-          maxLength: 50
-          minLength: 0
-          type: string
-          description: System set value internally. For employee value will be always
-            "EMPLOYEE". For citizen value will be "CITIZEN".
-        userName:
-          maxLength: 180
-          minLength: 0
-          type: string
-          description: The unique username used for user login.
-        uuid:
-          maxLength: 36
-          minLength: 0
-          type: string
-          description: "System Generated User id of the authenticated user."  
-
-####################### Master data schema(MDMS) #######################     
-      
-    ConnectionCategory:
-      type: object
-      properties:
-        code:
-          type: string
-          description: code of the connection category
-          maxLength: 64
-          minLength: 2
-        active:
-          type: boolean
-          description: describes Whether propertyType is Active or not.
-      required:
-        - code
-        
-    ConnectionType:
-      type: object
-      properties:
-        code:
-          type: string
-          description: code of the connection type
-          maxLength: 64
-          minLength: 2
-        active:
-          type: boolean
-          description: Whether UsageCategoryMajor is Active or not.
-      required:
-        - code
