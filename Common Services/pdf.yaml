@@ -45,8 +45,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/PDFResponse'
         400:
-          description: Incorrect request
-          content: {}
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         404:
           description: PDF with search parameters was not found
           content: {}
@@ -86,8 +89,11 @@ paths:
           description: PDF created and returned in binary
           content: {}
         400:
-          description: If correct request not sent
-          content: {}
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         500:
           description: Error occurred at server
           content: {}
@@ -137,8 +143,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/PDFResponse'
         400:
-          description: Incorrect request
-          content: {}
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         404:
           description: PDF with search parameters was not found
           content: {}
