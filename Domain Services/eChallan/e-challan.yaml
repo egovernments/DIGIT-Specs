@@ -140,8 +140,12 @@ paths:
             '*/*':
               schema:
                 type: object
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
         '401':
           description: Unauthorized
         '403':
