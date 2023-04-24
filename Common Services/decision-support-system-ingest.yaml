@@ -4,8 +4,7 @@ info:
   description: APIs for DSS Ingest consist of 5 APIs.
   version: 1.0.0
 servers:
-- url: https://egov-micro-dev.egovernments.org/dashboard-ingest/ingest/[APIEndPoint]
-- url: http://egov-micro-dev.egovernments.org/dashboard-ingest/ingest/[APIEndPoint]
+- url: https://dev.digit.org/dashboard-ingest/ingest/[APIEndPoint]
 paths:
   /save:
     post:
@@ -28,7 +27,10 @@ paths:
           content: {}
         400:
           description: Invalid input.
-          content: {}
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
       x-codegen-request-body-name: body
   /upload:
     post:
@@ -51,7 +53,10 @@ paths:
           content: {}
         400:
           description: Invalid input.
-          content: {}
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
   /migrate/{indexName}/{version}:
     post:
       summary: This api is used for scroll search
@@ -73,6 +78,12 @@ paths:
         201:
           description: create
           content: {}
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
   /pause/{consumerId}:
     get:
       summary: This API use to pause a active kafka consumer
@@ -92,7 +103,10 @@ paths:
                 $ref: '#/components/schemas/Response'
         400:
           description: Invalid input.
-          content: {}
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
   /resume/{consumerId}:
     get:
       summary: This API is to resume a paused kafka consumer
@@ -112,7 +126,10 @@ paths:
                 $ref: '#/components/schemas/Response'
         400:
           description: Invalid input.
-          content: {}
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
 components:
   schemas:
     Response:
