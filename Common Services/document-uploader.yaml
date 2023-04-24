@@ -33,8 +33,12 @@ paths:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/DocumentResponse"
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -61,8 +65,12 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -159,8 +167,12 @@ paths:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/DocumentResponse"
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -257,8 +269,12 @@ paths:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/CountResponse"
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -284,8 +300,12 @@ paths:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/DocumentResponse"
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
