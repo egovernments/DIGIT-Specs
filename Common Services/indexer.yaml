@@ -38,6 +38,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/LegacyIndexResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         401:
           description: Unauthorized
           content: {}
@@ -70,6 +76,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ReindexResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         401:
           description: Unauthorized
           content: {}
@@ -159,9 +171,12 @@ paths:
                     "action": "APPLY"
                       }
                 }  
-        201:
-          description: Created
-          content: {}
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         401:
           description: Unauthorized
           content: {}
