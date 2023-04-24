@@ -31,9 +31,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
-        '201':
-          description: Created
+                "$ref": "#/components/schemas/AmendmentResponse"
         '400':
           description: Invalid Input
         '401':
@@ -108,7 +106,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
+                "$ref" : "#/components/schemas/AmendmentResponse"
         '201':
           description: Created
         '401':
@@ -135,7 +133,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
+                "$ref": "#/components/schemas/AmendmentResponse"
         '201':
           description: Created
         '401':
@@ -191,7 +189,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
+                "$ref": "#/components/schemas/BillResponseV2"
         '201':
           description: Created
         '401':
@@ -277,93 +275,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  /billing-service/bill/v2/_generate:
-    post:
-      tags:
-      - bill-controller-v2
-      description: Creates a Bill for collections. By default active bill will be created. Along with tenantId, any one parameter is mandatory. The bill type is AUTO here.
-      summary: Generate bill
-      operationId: genrateBillUsingPOST_1
-      parameters:
-      - name: businessService
-        in: query
-        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
-        required: true
-        style: form
-        schema:
-          maximum: 256
-          minimum: 0
-          maxLength: 256
-          minLength: 0
-          type: string
-      - name: consumerCode
-        in: query
-        description: Unique identification provided by business details.
-        required: false
-        style: pipeDelimited
-        schema:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-      - name: demandId
-        in: query
-        description: Id(s) of the Demand(s) to be returned
-        required: false
-        style: form
-        schema:
-          maximum: 64
-          minimum: 0
-          maxLength: 64
-          minLength: 0
-          type: string
-      - name: email
-        in: query
-        description: Email Id of Primary owner of business detail.
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: mobileNumber
-        in: query
-        description: Mobile Number of Primary owner of business detail.
-        required: false
-        style: form
-        schema:
-          pattern: "^[0-9]{10}$"
-          type: string
-      - name: tenantId
-        in: query
-        description: unique identifier of tenant
-        required: true
-        style: form
-        schema:
-          maximum: 256
-          minimum: 0
-          maxLength: 256
-          minLength: 0
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/RequestInfoWrapper"
-      responses:
-        '200':
-          description: OK
-          content:
-            "*/*":
-              schema:
-                type: object
+                "$ref": "#/components/schemas/BillResponseV2"
         '201':
           description: Created
         '401':
@@ -530,7 +442,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
+                "$ref": "#/components/schemas/BillResponseV2"
         '201':
           description: Created
         '401':
@@ -609,7 +521,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
+                "$ref": "#/components/schemas/DemandResponse"
         '201':
           description: Created
         '401':
@@ -800,7 +712,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
+                "$ref": "#/components/schemas/DemandResponse"
         '201':
           description: Created
         '401':
@@ -827,7 +739,7 @@ paths:
           content:
             "*/*":
               schema:
-                type: object
+                "$ref" : "#/components/schemas/DemandResponse"
         '201':
           description: Created
         '401':
@@ -1118,6 +1030,16 @@ components:
           "$ref": "#/components/schemas/Amendment"
         RequestInfo:
           "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+    AmendmentResponse:
+      type: object
+      properties:
+        Amendments:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Amendment"
+        ResponseInfo:
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo"
+          
     AmendmentUpdate:
       title: AmendmentUpdate
       required:
@@ -1222,6 +1144,31 @@ components:
           type: string
         tenantId:
           type: string      
+    CollectedReceipt:
+      type: object
+      properties:
+        businessService:
+          type: string
+        consumerCode:
+          type: string
+        receiptNumber:
+          type: string
+        receiptAmount:
+          type: number
+          format: double
+        receiptDate:
+          type: number
+          format: long
+        status:
+          type: string
+          enum:
+          - CREATED
+          - CANCELLED
+          - INSTRUMENT_BOUNCED
+        auditDetail:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        tenantId:
+          type: string
     Demand:
       required:
       - businessService
@@ -1348,6 +1295,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Demand'
+    DemandResponse:
+      title: DemandResponse
+      type: object
+      properties:
+        Demands:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Demand"
+        CollectedReceipt:
+          type: array
+          items:
+            "$ref": "#/components/schemas/CollectedReceipt"
+        ResponseInfo:
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo"      
     BillRequestV2:
       title: BillRequestV2
       type: object
@@ -1358,6 +1319,16 @@ components:
             "$ref": "#/components/schemas/BillV2"
         RequestInfo:
           "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+    BillResponseV2:
+      title: BillRequestV2
+      type: object
+      properties:
+        Bills:
+          type: array
+          items:
+            "$ref": "#/components/schemas/BillV2"
+        ResponseInfo:
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo"      
     BillV2:
       title: BillV2
       type: object
