@@ -101,8 +101,12 @@ paths:
                 $ref: '#/components/schemas/DemandResponse'
         '201':
           description: Created
-        400:
-          description: New update demand request failed
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -132,8 +136,12 @@ paths:
                   $ref: '#/components/schemas/Calculation'
         '201':
           description: Created
-        400:
-          description: New mutation calculation request failed
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -297,13 +305,13 @@ paths:
                 $ref: '#/components/schemas/CalculationRes'
         '201':
           description: Created
-        400:
+        '400':
           description: New tax estimation request failed
           content:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-        404:
+        '404':
           description: tenantId provided was not found
           content:
             '*/*':
@@ -475,7 +483,7 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/BillingSlabRes'
-        400:
+        '400':
           description: Property(s) creation failed
           content:
             '*/*':
@@ -573,8 +581,12 @@ paths:
             '*/*':
               schema:
                 type: object
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -600,8 +612,12 @@ paths:
             '*/*':
               schema:
                 type: object
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
