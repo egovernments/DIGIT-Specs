@@ -171,12 +171,12 @@ components:
           type: number
           format: int64
           example: 1683003761000
-        netPayableAmount:
+        totalAmount:
           description: Net payable amount of the bill 
           type: number
           format: BigDecimal
           example: 500
-        netPaidAmount:
+        totalPaidAmount:
           description: Net paid amount for a bill
           type: number
           format: BigDecimal
@@ -357,7 +357,7 @@ components:
     BillRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         bill:
@@ -410,7 +410,7 @@ components:
     BillSearchRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         billCriteria:
@@ -448,7 +448,7 @@ components:
     PaymentSearchRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         paymentCriteria:
@@ -458,7 +458,7 @@ components:
     PaymentRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         payment:
