@@ -445,6 +445,36 @@ components:
       
       required: 
         - tenantId
+    PaymentSearchRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: >-
+                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
+        paymentCriteria:
+          $ref: '#/components/schemas/PaymentCriteria'
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'   
+    PaymentRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: >-
+                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
+        payment:
+          $ref: '#/components/schemas/Payment'
+    PaymentResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: >-
+                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
     Payment:
       type: object
       properties:
@@ -485,37 +515,6 @@ components:
         - netPaidAmount
         - netPayableAmount
         - bills
-        - status
-    PaymentSearchRequest:
-      type: object
-      properties:
-        requestInfo:
-          $ref: >-
-                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
-        paymentCriteria:
-          $ref: '#/components/schemas/PaymentCriteria'
-        pagination:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'   
-    PaymentRequest:
-      type: object
-      properties:
-        requestInfo:
-          $ref: >-
-                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
-        payment:
-          $ref: '#/components/schemas/Payment'
-    PaymentResponse:
-      type: object
-      properties:
-        responseInfo:
-          $ref: >-
-                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
-        payments:
-          type: array
-          items:
-            $ref: '#/components/schemas/Payment'
-        pagination:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
     PaymentBill:
       description: A Object which holds the info about the expense details
       type: object
@@ -535,11 +534,11 @@ components:
           maxLength: 64
         status:
           $ref: '#/components/schemas/PaymentStatus'
-        billAmount:
+        totalAmount:
           description: Net paid amount for a bill
           type: number
           format: BigDecimal
-        paidAmount:
+        totalPaidAmount:
           description: Net paid amount for a bill
           type: number
           format: BigDecimal
@@ -547,15 +546,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PaymentBillDetail'
-        additionalDetails:
-          description: Any additional details that need to be captured
-          type: object
         auditDetails:
           $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
       required:
         - billId
-        - billAmount
-        - paidAmount
+        - totalAmount
+        - totalPaidAmount
         - billDetails
     PaymentBillDetail:
       description: Bill details of the individual payees
@@ -585,14 +581,12 @@ components:
           description: Bill line items
           items:
             $ref: '#/components/schemas/PaymentLineItem'
-        additionalDetails:
-          description: Any additional details that need to be captured
-          type: object
         auditDetails:
           $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
       required:
         - billDetailId
-        - netLineItemAmount
+        - totalPaidAmount
+        - totalAmount
         - payableLineItems
     PaymentLineItem:
       description: Line items are the amount breakups for net amounts 
@@ -625,7 +619,6 @@ components:
         - tenantId
         - lineItemid
         - paidAmount
-        - status
     PaymentStatus:
       description: enum value for the payment status 
       type: string
