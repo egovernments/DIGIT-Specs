@@ -368,7 +368,7 @@ components:
     BillResponse:
       type: object
       properties:
-        responseInfo:
+        ResponseInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
         bill:
@@ -466,7 +466,7 @@ components:
     PaymentResponse:
       type: object
       properties:
-        responseInfo:
+        ResponseInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
         payments:
