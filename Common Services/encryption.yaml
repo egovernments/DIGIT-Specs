@@ -8,7 +8,6 @@ info:
     email: contact@egovernments.org
 
 paths:
-
   /crypto/v1/_encrypt:
     post:
       summary: Encrypts the given input value/s OR values of the object.
@@ -70,11 +69,16 @@ paths:
                         }
                     }
                   ]
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
 
 
       tags:
         - Crypto
-
   /crypto/v1/_decrypt:
     post:
       summary: Decrypts the given input value/s OR values of the object.
@@ -122,12 +126,16 @@ paths:
                       }
                   }
                 ]
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
 
 
       tags:
         - Crypto
-        
-        
   /crypto/v1/_sign:
     post:
       tags:
@@ -146,7 +154,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SignResponse'
-                
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
   /crypto/v1/_verify:
     post:
       tags:
@@ -165,7 +178,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VerifyResponse'
-
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
   /crypto/v1/_rotatekey:
     post:
       tags:
@@ -184,7 +202,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RotateKeyResponse'
-  
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
   /crypto/v1/_rotateallkeys:
     post:
       tags:
@@ -203,21 +226,27 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/RotateKeyResponse'
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '404':
           description: Not Found
-
 components:
   schemas:
-
     EncReqObject:
       type: object
       description: EncrReqObject contains data to be encrypted and meta-data required to perform the encryption.
+      required: 
+        - tenantId
+        - type
+        - value
       properties:
         tenantId:
           type: string
@@ -240,9 +269,6 @@ components:
           value: {
             "key": "secret"
           }
-
-
-
     EncryptionRequest:
       type: object
       description: An encryption request can contain multiple EncReqObject. This will help to encrypt bulk requests which may have different tenant-id and/or method ( AES / RSA ).
@@ -263,10 +289,12 @@ components:
               }
             ]
         }
-    
     SignRequest:
       type: object
       description: A Sign request containing tenant id and the string value to be signed.
+      required:
+      - tenantId
+      - value
       properties:
         tenantId:
           type: string
@@ -279,7 +307,6 @@ components:
           "tenantId": "pb.amritsar",
           "value": "claim"
         }
-    
     SignResponse:
       type: object
       description: Response to sign api containing the actual value and its corresponding signature.
@@ -295,10 +322,12 @@ components:
           "value": "claim",
           "signature": "436958|JLXQk7KP0y1nU3YHKLe0aq7EJp1iPEfNcIrbsgBh2u2U9aLCYfr8tVWGPud7JNQ5uiKJ1gTMFgzGU4XfTwUZDENHQ6mpFOhxH+LVVggj9QmDZk629ce2X7ju4aHuX6WDBx9/bxHstE8r5F47sP7f6ryY52HDQ5D5/8b7SX3WkkE="
         }
-    
     VerifyRequest:
       type: object
       description: A Verify request containing the value and its corresponding signature.
+      required:
+        - value
+        - signature
       properties:
         value:
           type: string
@@ -311,7 +340,6 @@ components:
           "value": "claim",
           "signature": "436958|JLXQk7KP0y1nU3YHKLe0aq7EJp1iPEfNcIrbsgBh2u2U9aLCYfr8tVWGPud7JNQ5uiKJ1gTMFgzGU4XfTwUZDENHQ6mpFOhxH+LVVggj9QmDZk629ce2X7ju4aHuX6WDBx9/bxHstE8r5F47sP7f6ryY52HDQ5D5/8b7SX3WkkE="
         }
-    
     VerifyResponse:
       type: object
       description: Response to the verify api containing if the signature was correct for the input claim
@@ -323,10 +351,11 @@ components:
         {
           "verified": true
         }
-    
     RotateKeyRequest:
       type: object
       description: A request to rotate key for a given tenant
+      required:
+        - tenantId
       properties:
         tenantId:
           type: string
@@ -335,7 +364,6 @@ components:
         {
           "tenantId": "pb.amritsar"
         }
-    
     RotateKeyResponse:
       type: object
       description: An acknowledgement if the key rotation request was successful.
