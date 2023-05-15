@@ -1,8 +1,8 @@
 ---
 openapi: 3.0.3
 info:
-  title: Api Documentation
-  description: Api Documentation
+  title: Document Uploader Service
+  description: API specs for document uploader service
   termsOfService: urn:tos
   contact: {}
   license:
@@ -12,14 +12,14 @@ info:
 servers:
   - url: https://dev.digit.org
 tags:
-  - name: document-controller
-    description: Document Controller
+  - name: Document Uploader
 paths:
   "/egov-document-uploader/egov-du/document/_create":
     post:
       tags:
-        - document-controller
-      summary: create
+        - Document Uploader
+      summary: Create document
+      description: Creates document and returns response
       operationId: createUsingPOST
       requestBody:
         content:
@@ -28,13 +28,17 @@ paths:
               "$ref": "#/components/schemas/DocumentRequest"
       responses:
         '200':
-          description: OK
+          description: Document(s) created successfully
           content:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/DocumentResponse"
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -44,8 +48,9 @@ paths:
   "/egov-document-uploader/egov-du/document/_delete":
     post:
       tags:
-        - document-controller
-      summary: delete
+        - Document Uploader
+      summary: Delete document and returns response
+      description: deletes document 
       operationId: deleteUsingPOST
       requestBody:
         content:
@@ -54,14 +59,18 @@ paths:
               "$ref": "#/components/schemas/DocumentRequest"
       responses:
         '200':
-          description: OK
+          description: Document(s) deleted successfully
           content:
             "*/*":
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -71,30 +80,35 @@ paths:
   "/egov-document-uploader/egov-du/document/_search":
     post:
       tags:
-        - document-controller
-      summary: search
+        - Document Uploader
+      summary: Search Document
+      description: Searches document(s) using search criteria 
       operationId: searchUsingPOST
       parameters:
         - name: category
           in: query
+          description: category of document
           required: false
           style: form
           schema:
             type: string
         - name: name
           in: query
+          description: name on document
           required: false
           style: form
           schema:
             type: string
         - name: postedBy
           in: query
+          description: name of entity who posted the document
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description:  List of Unique ids for tenant
           required: false
           style: pipeDelimited
           schema:
@@ -103,28 +117,44 @@ paths:
               type: string
         - name: uuid
           in: query
+          description: "System Generated User id of the authenticated user."
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
           required: false
           style: form
           schema:
             type: integer
         - name: toDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
           required: false
           style: form
           schema:
             type: integer
         - name: viewDeletedDocuments
           in: query
+          description: view deleted documents
           required: false
           style: form
           schema:
             type: boolean
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema: 
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema: 
+            type: integer
       requestBody:
         content:
           application/json:
@@ -132,13 +162,17 @@ paths:
               "$ref": "#/components/schemas/RequestInfoWrapper"
       responses:
         '200':
-          description: OK
+          description: Search successful
           content:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/DocumentResponse"
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -148,30 +182,35 @@ paths:
   "/egov-document-uploader/egov-du/document/_count":
     post:
       tags:
-        - document-controller
-      summary: count
+        - Document Uploader
+      summary: Count Document
+      description: Counts document(s) using search criteria 
       operationId: countUsingPOST
       parameters:
         - name: category
           in: query
+          description: category of document
           required: false
           style: form
           schema:
             type: string
         - name: name
           in: query
+          description: name on document
           required: false
           style: form
           schema:
             type: string
         - name: postedBy
           in: query
+          description: name of entity who posted the document
           required: false
           style: form
           schema:
             type: string
         - name: tenantIds
           in: query
+          description:  List of Unique ids for tenant
           required: false
           style: pipeDelimited
           schema:
@@ -180,28 +219,44 @@ paths:
               type: string
         - name: uuid
           in: query
+          description: "System Generated User id of the authenticated user."
           required: false
           style: form
           schema:
             type: string
         - name: fromDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
           required: false
           style: form
           schema:
             type: integer
         - name: toDate
           in: query
+          description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
           required: false
           style: form
           schema:
             type: integer
         - name: viewDeletedDocuments
           in: query
+          description: view deleted documents
           required: false
           style: form
           schema:
             type: boolean
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema: 
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema: 
+            type: integer
       requestBody:
         content:
           application/json:
@@ -209,13 +264,17 @@ paths:
               "$ref": "#/components/schemas/RequestInfoWrapper"
       responses:
         '200':
-          description: OK
+          description: Count successful
           content:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/CountResponse"
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -225,8 +284,9 @@ paths:
   "/egov-document-uploader/egov-du/document/_update":
     post:
       tags:
-        - document-controller
-      summary: update
+        - Document Uploader
+      summary: Update Document
+      description: Updates document(s) 
       operationId: updateUsingPOST
       requestBody:
         content:
@@ -235,13 +295,17 @@ paths:
               "$ref": "#/components/schemas/DocumentRequest"
       responses:
         '200':
-          description: OK
+          description: Document update successful
           content:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/DocumentResponse"
-        '201':
-          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
         '401':
           description: Unauthorized
         '403':
@@ -250,20 +314,6 @@ paths:
           description: Not Found
 components:
   schemas:
-    AuditDetails:
-      title: AuditDetails
-      type: object
-      properties:
-        createdBy:
-          type: string
-        createdTime:
-          type: integer
-          format: int64
-        lastModifiedBy:
-          type: string
-        lastModifiedTime:
-          type: integer
-          format: int64
     DocumentEntity:
       title: DocumentEntity
       required:
@@ -273,7 +323,7 @@ components:
         active:
           type: boolean
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         category:
           type: string
         description:
@@ -309,7 +359,7 @@ components:
           "$ref": "#/components/schemas/DocumentEntity"
         RequestInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo
     DocumentResponse:
       title: DocumentResponse
       type: object
@@ -320,35 +370,20 @@ components:
             "$ref": "#/components/schemas/DocumentEntity"
         ResponseInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
     CountResponse:
       title: CountResponse
       type: object
       properties:
         ResponseInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
         count:
           type: integer
-    Link:
-      title: Link
-      type: object
-      properties:
-        href: 
-          type: string
-        templated: 
-          type: boolean
-  
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-    Role:
-      $ref: >-
-        https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/Role
-    User:
-      $ref: >-
-        https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/UserInfo
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo

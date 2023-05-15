@@ -1,0 +1,1712 @@
+openapi: 3.0.1
+info:
+  title: Property Tax Calculation APIs
+  description: |
+    APIs available for Property
+      - Calculate Property Tax.
+  contact:
+    name: eGovernments Foundation
+    email: ghanshyam.rawat@egovernments.org
+  version: 2.0.0
+servers:
+- url: /pt-calculator-v2/
+paths:
+  /propertytax/_updatedemand:
+    post:
+      tags:
+        - Property Tax Calculation
+      summary: Updates Demand for Property Tax
+      description: This API updates demand for property tax
+      operationId: updateDemandUsingPOST
+      parameters:
+        - name: amountExpected
+          in: query
+          description: Expected Amount
+          required: false
+          style: form
+          schema:
+            type: number
+            format: bigdecimal
+        - name: assessmentNumber
+          in: query
+          description: Assessment Number
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: assessmentYear
+          in: query
+          description: Assessment Year
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: billId
+          in: query
+          description: Bill Id
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: consumerCodes
+          in: query
+          description: Consumer Codes
+          required: true
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          description: Epoch date, here search will happen as date is greater or equal to given fromDate
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: propertyId
+          in: query
+          description: Property Id
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tenantId
+          in: query
+          description: "Unique id for a tenant."
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: toDate
+          in: query
+          description: Epoch date, here search will happen as date is lesser or equal to given toDate
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Success response is updated demand.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DemandResponse'
+        '201':
+          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /propertytax/mutation/_calculate:
+    post:
+      tags:
+        - Property Tax Calculation
+      summary: Calculates mutation Property Tax and generates the respective demands in the system.
+      description: Calculate Mutation Property Tax based on criteria.
+      operationId: mutationCalculatorUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyRequestV2'
+      responses:
+        '200':
+          description: Success response calculated tax with connection number and amount.
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Calculation'
+        '201':
+          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /propertytax/_estimate:
+    post:
+      tags:
+      - Property Tax Calculation
+      summary: Generates estimated Property tax that will be incured once this particular
+        property is added in to the system (note- only one property should be sent
+        to the api for estimation, anything more than one will be ignored.)
+      description: Estimates the Property Tax to be paid for given property .
+      requestBody:
+        description: required parameters have to be populated
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/CalculationReq'
+        required: true
+      responses:
+        200:
+          description: Success response is calculated tax.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        400:
+          description: New tax estimation request failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        404:
+          description: tenantId provided was not found
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: calculationReq
+  /propertytax/_calculate:
+    post:
+      tags:
+      - Property Tax Calculation
+      summary: Calculates Property tax and generates the respective demands in the
+        system.
+      description: Calculate Property Tax based on criteria.
+      requestBody:
+        description: required parameters have to be populated
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/CalculationReq'
+        required: true
+      responses:
+        200:
+          description: Success response calculated tax with connection number and
+            amount.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        400:
+          description: New calculation request failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        404:
+          description: tenantId provided was not found
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: calculationReq
+  /propertytax/_getbill:
+    post:
+      tags:
+      - Property Tax Bill
+      summary: Updates demand with time based penalty if applicable and Generates
+        bill for the given criteria.
+      description: Generates bill for payment.
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: propertyId
+        in: query
+        description: Primary key of Property object.
+        required: true
+        schema:
+          type: string
+      - name: assessmentNumber
+        in: query
+        description: Unique id of the assessment.
+        required: true
+        schema:
+          type: string
+      - name: assessmentYear
+        in: query
+        description: Year for which the property is being assessed, assessment year
+          should be given in yyyy-yy format (2013-14).
+        schema:
+          type: string
+      - name: billId
+        in: query
+        description: Primary key of bill object.
+        schema:
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Success response calculated tax with connection number and
+            amount.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        400:
+          description: New water connection request failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        404:
+          description: tenantId provided was not found
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /propertytax/v2/_estimate:
+    post:
+      tags:
+        - Property Tax Calculation
+      summary: v2 for estimate api 
+      description: Estimates the Property Tax v2 to be paid for given property .
+      operationId: getTaxEstimationUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentRequestV2'
+      responses:
+        '200':
+          description: Success response is calculated tax.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        '201':
+          description: Created
+        '400':
+          description: New tax estimation request failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '404':
+          description: tenantId provided was not found
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /billingslab/_search:
+    post:
+      tags:
+      - BillingSlab
+      summary: Get the list of properties defined in the system.
+      description: |
+        Get the properties list based on the input parameters.
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: active
+        in: query
+        description: True will be set in cases where only active properties are needed
+          and False will be set when inactive properties are needed and no value will
+          be set when all properties are needed.
+        allowEmptyValue: true
+        schema:
+          type: boolean
+          format: varchar
+      - name: propertyId
+        in: query
+        description: Primary key of Property object.
+        schema:
+          type: string
+          format: varchar
+      - name: assessmentNumber
+        in: query
+        description: The unique reference number for a property.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: true
+          maxLength: 128
+          minLength: 4
+          type: string
+      - name: oldAssessmentNumber
+        in: query
+        description: The unique old assessment no for a Property.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: true
+          maxLength: 128
+          minLength: 4
+          type: string
+      - name: locality
+        in: query
+        description: Locality boundary where the property is located.
+        schema:
+          type: integer
+          format: int64
+      - name: acknowldgementNumber
+        in: query
+        description: The acknowldgement number no for a property.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: true
+          maxLength: 64
+          minLength: 1
+          type: string
+      requestBody:
+        description: Parameter to carry Request metadata in the request body
+        content:
+          '*/*':
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        required: false
+      responses:
+        200:
+          description: Successful response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabRes'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /billingslab/_create:
+    post:
+      tags:
+      - BillingSlab
+      summary: Create new properties.
+      description: API to create new properties.
+      requestBody:
+        description: Details for the new property + RequestInfo meta data.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BillingSlabReq'
+        required: true
+      responses:
+        201:
+          description: Property(s) created sucessfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabRes'
+        400:
+          description: Property(s) creation failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: billingSlab
+  /billingslab/_update:
+    post:
+      tags:
+      - BillingSlab
+      summary: Update existing properties.
+      description: Updates a given `Property` with newer details.
+      requestBody:
+        description: Request header for the property Request.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BillingSlab'
+        required: true
+      responses:
+        200:
+          description: Update Property(s) successful
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlab'
+        400:
+          description: Update Property(s) failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: property
+  /billingslab/mutation/_create:
+    post:
+      tags:
+        - BillingSlab
+      summary: create new mutation properties
+      operationId: mutationCreateUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MutationBillingSlabReq'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '201':
+          description: Property(s) created sucessfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabRes'
+        '400':
+          description: Property(s) creation failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /billingslab/mutation/_search:
+    post:
+      tags:
+        - BillingSlab
+      summary: Get the list of existing mutation properties
+      description: Get the mutation properties list based on the input parameters.
+      operationId: searchMutationUsingPOST
+      parameters:
+        - name: id
+          in: query
+          required: false
+          style: pipeDelimited
+          description: Unique Identifier(UUID) of the land for internal reference.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: marketValue
+          in: query
+          required: false
+          style: form
+          description: market value of the item
+          schema:
+            type: number
+            format: double
+        - name: ownerShipCategory
+          in: query
+          required: false
+          style: form
+          description: one of different categories of legal ownership
+          schema:
+            type: string
+        - name: propertySubType
+          in: query
+          required: false
+          style: form
+          description: defined by the type of ownership, which can be determined by the legal description or how the property is deeded
+          schema:
+            type: string
+        - name: propertyType
+          in: query
+          required: false
+          style: form
+          description: value for dwelling configuration of the property
+          schema:
+            type: string
+        - name: subOwnerShipCategory
+          in: query
+          required: false
+          style: form
+          description: subOwnerShipCategory of product
+          schema:
+            type: string
+        - name: tenantId
+          in: query
+          required: true
+          style: form
+          description: Unique ULB identifier.
+          schema:
+            type: string
+        - name: usageCategoryMajor
+          in: query
+          required: false
+          style: form
+          description: category of product usage
+          schema:
+            type: string
+        - name: usageCategoryMinor
+          in: query
+          required: false
+          style: form
+          description: usageCategoryMinor
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /billingslab/mutation/_update:
+    post:
+      tags:
+        - BillingSlab
+      summary: Update the list of existing mutation properties
+      description: Updates a given mutation `Property` with newer details.
+      operationId: updateMutationUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MutationBillingSlabReq'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found    
+components:
+  schemas:
+    CalulationCriteria:
+      required:
+      - tenantId
+      type: object
+      properties:
+        property:
+          $ref: '#/components/schemas/Property'
+        assesmentNumber:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: assessment number 
+        assesmentYear:
+          maxLength: 64
+          minLength: 2
+          type: string
+        oldAssesmentNumber: 
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: previous assessment number
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+          description: Unique ULB Identifier
+    Calculation:
+      type: object
+      properties:
+        connectionNumber:
+          type: string
+        totalAmount:
+          type: number
+          description: Total payable tax amount.
+          format: double
+        penalty:
+          type: number
+          description: Penality if applicable
+          format: double
+        exemption:
+          type: number
+          description: Penality amount if applicable.
+          format: double
+        rebate:
+          type: number
+          description: Rebate amount if applicable.
+          format: double
+        fromDate:
+          type: integer
+          description: date from which the calculation is recorded
+          format: int64
+        toDate:
+          type: integer
+          format: int64
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+          description: Unique ULB identifier
+    BillingSlab:
+      required:
+      - tenantId
+      type: object
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 4
+          type: string
+          description: Unique ulb identifier
+        id:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: unique identifier of the billing slab uuid
+        propertyType:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Based on property type charges will change.
+        propertySubType:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Based on property type charges will change.
+        usageCategoryMajor:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        usageCategoryMinor:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        usageCategorySubMinor:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        usageCategoryDetail:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        OwnerShipCategory:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        SubOwnerShipCategory:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        fromFloor:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        toFloor:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        area:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        fromPlotSize:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        toPlotSize:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Floor Number.
+        unitRate:
+          type: number
+          description: Floor Number.
+          format: double
+    CalculationReq:
+      required:
+      - RequestInfo
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        CalulationCriteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalulationCriteria'
+    CalculationRes:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        Calculation:
+          type: array
+          items:
+            $ref: '#/components/schemas/Calculation'
+    BillingSlabReq:
+      required:
+      - RequestInfo
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        BillingSlab:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillingSlab'
+    BillingSlabRes:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        BillingSlab:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillingSlab'
+    Property:
+      allOf:
+      - $ref: '#/components/schemas/PropertyInfo'
+      - required:
+        - propertyDetail
+        type: object
+        properties:
+          creationReason:
+            maxLength: 256
+            minLength: 1
+            type: string
+            description: New property comes into system either property is newly constructed
+              or existing property got sub divided. Here the reason for creation will
+              be captured.
+            enum:
+            - NEWPROPERTY
+            - SUBDIVISION
+          occupancyDate:
+            type: integer
+            description: Property is constructed but the tax will be applicable only
+              from the occupation date (time in epoch). System capture that date here.
+            format: int64
+          propertyDetail:
+            type: array
+            items:
+              $ref: '#/components/schemas/PropertyDetail'
+        description: A Object holds the basic data for a property
+    PropertyInfo:
+      required:
+      - address
+      type: object
+      properties:
+        propertyId:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Unique Identifier of the Property.
+          readOnly: true
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+          description: tenant id of the Property
+        acknowldgementNumber:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Acknowldgement number given to citizen on submitting the application
+            for creation or modification of the property.
+          readOnly: true
+        oldPropertyId:
+          maxLength: 256
+          minLength: 1
+          type: string
+          description: Old upic no of the Property. ULBs have the existing property
+            in their system/manual records with their identification number, they
+            want to continue the old reference number in this case the same identification
+            number will be captured here.
+        status:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: status of the Property
+          enum:
+          - ACTIVE
+          - INACTIVE
+        address:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
+      description: This is lightweight property object that can be used as reference
+        by definitions needing property linking. Actual Property Object extends this
+        to include more elaborate attributes of the property.
+    AssessmentRequestV2:
+      title: AssessmentRequestV2
+      type: object
+      properties:
+        Assessment:
+          $ref: '#/components/schemas/AssessmentV2'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    AssessmentV2:
+      title: AssessmentV2
+      required:
+        - assessmentDate
+        - financialYear
+        - propertyId
+        - source
+        - tenantId
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        assessmentDate:
+          type: integer
+          format: int64
+        assessmentNumber:
+          type: string
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        channel:
+          type: string
+        documentV2s:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentV2'
+        financialYear:
+          type: string
+        id:
+          type: string
+        propertyId:
+          type: string
+        source:
+          type: string
+          enum:
+            - FIELD_SURVEY
+            - MOBILEAPP
+            - MUNICIPAL_RECORDS
+            - WEBAPP
+        status:
+          type: string
+        tenantId:
+          type: string
+        unitUsageList:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnitUsage'      
+    Boundary:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        code:
+          type: string
+          description: code of the boundary.
+        name:
+          type: string
+          description: name of the boundary.
+        label:
+          type: string
+          description: localized label for the boundry.
+        latitude:
+          type: string
+          description: latitude of the boundary.
+        longitude:
+          type: string
+          description: longitude of the boundary.
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        materializedPath:
+          type: string
+          description: materialized path of the boundary - this would be of the format
+            tenantid.[code] from parentt till teh current boundary
+          readOnly: true
+    PropertyDetail:
+      type: object
+      properties:
+        financialYear:
+          type: string
+          description: Latest tax paid year.
+        assessmentNumber:
+          maxLength: 256
+          minLength: 2
+          type: string
+          description: unique assesment number for each financial year.
+          readOnly: true
+        assessmentDate:
+          type: integer
+          description: There will be work flow to create a new property in a system.
+            The assessment date is the final approval and UPIC no generation date.
+          format: int64
+        propertyType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Type of a property like Private, Vacant Land, State Government,
+            Central Government etc.
+        propertySubType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Sub Type of a property defined in mdms 'PropertySubType' Masetr.
+        usageCategoryMajor:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: This is about the usage of the property like Residential, Non-residential,
+            Mixed(Property witch is gettiong used for Residential, Non-residential
+            purpose)
+        owners:
+          type: array
+          description: Property owners, these will be citizen users in system.
+          items:
+            $ref: '#/components/schemas/OwnerInfo'
+        source:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Source of a assessment data. The properties will be created
+            in a system based on the data avaialble in their manual records or during
+            field survey. There can be more from client to client.
+          enum:
+          - MUNICIPAL_RECORDS
+          - FIELD_SURVEY
+        noOfFloors:
+          type: integer
+          description: no of floors in the property
+          format: int64
+        landArea:
+          type: number
+          description: Land area of the property in sq ft
+          format: float
+        buildUpArea:
+          type: number
+          description: Total built up area in sq ft
+          format: float
+        units:
+          type: array
+          description: List of Units in the property. E.g. A property might have 2
+            units in ground floor and 1 ion first floor. Unit can be Room, floor or
+            any bounded area with a defined usage.
+          items:
+            $ref: '#/components/schemas/Unit'
+        documents:
+          type: array
+          description: The documents attached during assessment, modification or any
+            transaction happened on the property.
+          items:
+            $ref: '#/components/schemas/Document'
+        additionalDetails:
+          type: string
+          description: The json (array of '#/definitions/Factor')
+        channel:
+          maxLength: 64
+          minLength: 4
+          type: string
+          description: Property can be created from different channels Eg. System
+            (properties created by ULB officials), CFC Counter (From citizen faciliation
+            counters) etc. Here we are defining some known channels, there can be
+            more client to client.
+          enum:
+          - SYSTEM
+          - CFC_COUNTER
+          - CITIZEN
+          - DATA_ENTRY
+          - MIGRATION
+      description: Financial year wise property details will be capture here. For
+        each financial year property details may change.
+    OwnerInfo:
+      allOf:
+      - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+      - type: object
+        properties:
+          isPrimaryOwner:
+            type: boolean
+            description: The owner is primary or not
+          ownerShipPercentage:
+            type: number
+            description: Ownership percentage.
+            format: double
+          ownerType:
+            maxLength: 256
+            minLength: 4
+            type: string
+            description: Type of owner, based on this option Exemptions will be applied.
+              This is master data defined in mdms.
+    Unit:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique Identifier of the Property(UUID).
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+          description: tenant id of the Property
+        floorNo:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: floor no for the floor
+        unitType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Unit type.
+        unitArea:
+          type: number
+          description: Area of the defined Unit.
+          format: float
+        usageCategoryMajor:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: This is about the usage of the property like Residential, Non-residential,
+            Mixed(Property witch is gettiong used for Residential, Non-residential
+            purpose)
+        usageCategoryMinor:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Sub category of 'UsageCategoryMajor' defined in 'UsageCategoryMinor'
+            master of mdms.
+        usageCategorySubMinor:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Sub category of 'usageCategoryMinor' defined in 'UsageCategorySubMinor'
+            master of mdms.
+        usageCategoryDetail:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Sub category of 'usageCategorySubMinor' defined in 'usageCategoryDetail'
+            master of mdms.
+        occupancyType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: end date for the unit usage.
+          enum:
+          - Owner
+          - Tenant
+        occupancyDate:
+          type: number
+          description: Date on which unit is occupied.
+          format: int64
+        constructionType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Construction type is defined in MDMS ConstructionTypeMaster.
+        constructionSubType:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: Construction Sub type is defined in MDMS 'ConstructionSubType'
+            master, this is sub category of constructionType.
+        arv:
+          type: number
+          description: Annual rental value(arv), if occupancy type is Tenant.
+          format: double
+    Document:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: unique id of the Document.
+          format: int64
+        documentType:
+          type: string
+          description: unique document type code, should be validated with document
+            type master
+        fileStore:
+          type: string
+          description: File store reference key.
+      description: This object holds list of documents attached during the transaciton
+        for a property
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'    
+    DemandResponse:
+      title: DemandResponse
+      type: object
+      properties:
+        Demands:
+          type: array
+          items:
+            $ref: '#/components/schemas/Demand'
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'    
+    Demand:
+      title: Demand
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        businessService:
+          type: string
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+        consumerCode:
+          type: string
+          description: Consumer code
+        consumerType:
+          type: string
+          description: Type of consumer
+        demandDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/DemandDetail'
+        id:
+          type: string
+          description: "List of system generated ids of applications."
+        minimumAmountPayable:
+          type: number
+          description: Minimum payable amount
+          format: bigdecimal
+        payer:
+          $ref: '#/components/schemas/UserRes'
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - ADJUSTED
+            - CANCELLED
+        taxPeriodFrom:
+          type: integer
+          format: int64
+        taxPeriodTo:
+          type: integer
+          format: int64
+        tenantId:
+          type: string     
+          description: "Unique id for a tenant."
+    DemandDetail:
+      title: DemandDetail
+      required:
+        - collectionAmount
+        - taxAmount
+        - taxHeadMasterCode
+      type: object
+      properties:
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        collectionAmount:
+          type: number
+          format: bigdecimal
+        demandId:
+          type: string
+          description: Unique id for demand
+        id:
+          type: string
+          description: Unique Identifier(UUID) of the Demand application for internal reference.
+        taxAmount:
+          type: number
+          description: amount of tax collected
+          format: bigdecimal
+        taxHeadMasterCode:
+          type: string
+        tenantId:
+          type: string      
+          description: tenant id of the Demand
+    RoleRes:
+      title: RoleRes
+      type: object
+      properties:
+        code:
+          type: string
+          description: "Unique code of the role"
+        id:
+          type: integer
+          format: int64
+          description: "List of system generated ids of applications."
+        name:
+          type: string   
+          description: Name of user 
+    UserRes:
+      title: UserRes
+      type: object
+      properties:
+        emailId:
+          type: string
+          description: "email address of the authenticated user"
+        id:
+          type: integer
+          format: int64
+          description: "List of system generated ids of applications."
+        mobileNumber:
+          type: string
+          description: "MobileNumber of user"
+        name:
+          type: string
+          description: "Name of user"
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRes'
+        tenantId:
+          type: string
+          description: "Unique id for a tenant."
+        type:
+          type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
+        userName:
+          type: string
+          description: The unique username used for user login.
+        uuid:
+          type: string      
+          description: The unique uuid an user.
+    AddressV2:
+      title: AddressV2
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+          description: more address detail as may be needed
+        buildingName:
+          type: string
+          description: Name of the building
+        city:
+          type: string
+          description: City of the address. Can be represented by the tenantid itself
+        country:
+          type: string
+          description: The country in which the property is located
+        district:
+          type: string
+          description: The district in which the property is located
+        doorNo:
+          type: string
+          description: House number or door number.
+        id:
+          type: string
+          description: System generated id for the address
+        landmark:
+          type: string
+          description: additional landmark to help locate the address
+        locality:
+          $ref: '#/components/schemas/LocalityV2'
+        pincode:
+          type: string
+          description: PIN code of the address. Indian pincodes will usually be all numbers.
+        plotNo:
+          type: string
+          description: Plot number of the house.
+        region:
+          type: string
+          description: The Region in which the property is located
+        state:
+          type: string
+          description: The State in which the property is located
+        street:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Street Name
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+    LocalityV2:
+      title: LocalityV2
+      type: object
+      properties:
+        area:
+          type: string
+          description: area of locality
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalityV2'
+        code:
+          type: string
+          description: locality code
+        label:
+          type: string
+          description: locality label
+        latitude:
+          type: string
+          description: latitude of locality
+        longitude:
+          type: string
+          description: longitude of locality
+        materializedPath:
+          type: string
+        name:
+          type: string
+          description: name of locality
+    DocumentV2:
+      title: DocumentV2
+      required:
+        - documentType
+        - fileStoreId
+      type: object
+      properties:
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        documentType:
+          type: string
+          description: document type
+        documentUid:
+          type: string
+          description: document unique uuid 
+        fileStoreId:
+          type: string
+          description: filestore id for document 
+        id:
+          type: string
+          description: id for document
+        status:
+          type: string
+          description: status of document
+    InstitutionV2:
+      title: Institution
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+          description: Json object to capture any extra information which is not accommodated by model
+        designation:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Designation of the person creating/updatingentity on behalf of the institution
+        id:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Unique Identifier of the Institution(UUID).
+        name:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: Name of the institution
+        nameOfAuthorizedPerson:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: Name of the person who is taking action on behalf of institution
+        tenantId:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: tenant id of the Property
+        type:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Institution type.
+
+    PropertyV2:
+      title: PropertyV2
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: account id of the property user
+        acknowldgementNumber:
+          type: string
+          description: Acknowldgement number given to citizen on submitting the application for creation or modification of the property.
+        additionalDetails:
+          type: object
+          description: 'The json (array of ''#/definitions/Factor'')'
+        address:
+          $ref: '#/components/schemas/AddressV2'
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        channel:
+          type: string
+          description: 'Property can be created from different channels Eg. System (properties created by ULB officials), CFC Counter (From citizen faciliation counters) etc. Here we are defining some known channels, there can be more client to client.'
+        creationReason:
+          type: string
+          description: creation reason
+        documents:
+          type: array
+          description: 'The documents attached during assessment, modification or any transaction happened on the property.'
+          items:
+            $ref: '#/components/schemas/DocumentV2'
+        id:
+          type: string
+          description: Unique Identifier of the Property(UUID).
+        institution:
+          $ref: '#/components/schemas/InstitutionV2'
+        landArea:
+          type: number
+          description: Land area of the property in sq ft
+          format: double
+        linkedProperties:
+          type: array
+          description: if there is any property linked to current property.
+          items:
+            type: string
+        noOfFloors:
+          type: integer
+          format: int64
+          description: number of floors in the property
+        oldPropertyId:
+          type: string
+          description: 'Old upic no of the Property. ULBs have the existing property in their system/manual records with their identification number, they want to continue the old reference number in this case the same identification number will be captured here.'
+        owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/OwnerInfo'
+        ownershipCategory:
+          type: string
+        propertyId:
+          type: string
+          description: Unique Identifier of the Property.
+        propertyType:
+          type: string
+          description: Based on property type charges will change.
+        source:
+          type: string
+          description: Source of a assessment data. The properties will be created in a system based on the data avaialble in their manual records or during field survey. There can be more from client to client.
+        status:
+          type: string
+          description: status of the Property
+        superBuiltUpArea:
+          type: number
+          format: bigdecimal
+        surveyId:
+          type: string
+        tenantId:
+          type: string
+          description: tenant id of the Property
+        units:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnitV2'
+        usageCategory:
+          type: string      
+    PropertyRequestV2:
+      title: PropertyRequestV2
+      type: object
+      properties:
+        Property:
+          $ref: '#/components/schemas/PropertyV2'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'      
+    UnitV2:
+      title: UnitV2
+      required:
+        - constructionDetail
+        - usageCategory
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: True will be set in cases where only active properties are needed and False will be set when inactive properties are needed and no value will be set when all properties are needed.
+        additionalDetails:
+          type: object
+          description: 'The json (array of ''#/definitions/Factor'')'
+        arv:
+          type: number
+          format: bigdecimal
+          description: 'Annual rental value(arv), if occupancy type is Tenant.'
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        constructionDetail:
+          $ref: '#/components/schemas/ConstructionDetail'
+        floorNo:
+          type: integer
+          format: int32
+          description: floor no for the floor
+        id:
+          type: string
+          description: Unique Identifier of the Property(UUID).
+        occupancyDate:
+          type: integer
+          format: int64
+          description: Date on which unit is occupied.
+        occupancyType:
+          type: string
+          description: end date for the unit usage.
+        tenantId:
+          type: string
+          description: tenant id of the Property
+        unitType:
+          type: string
+          description: Unit type.
+        usageCategory:
+          type: string      
+          description: 'This is about the usage of the property like Residential, Non-residential, Mixed(Property witch is gettiong used for Residential, Non-residential purpose)'
+    UnitUsage:
+      title: UnitUsage
+      required:
+        - id
+        - occupancyDate
+        - occupancyType
+        - tenantId
+        - unitId
+      type: object
+      properties:
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        id:
+          type: string
+          description: Unique Identifier of the Property(UUID).
+        occupancyDate:
+          type: integer
+          format: int64
+          description: Date on which unit is occupied.
+        occupancyType:
+          type: string
+          description: end date for the unit usage.
+        tenantId:
+          type: string
+          description: tenant id of the Property
+        unitId:
+          type: string
+          description: Unit id credential
+        usageCategory:
+          type: string
+          description: 'This is about the usage of the property like Residential, Non-residential, Mixed(Property witch is gettiong used for Residential, Non-residential purpose)'
+    ConstructionDetail:
+      title: ConstructionDetail
+      type: object
+      properties:
+        builtUpArea:
+          type: number
+          description: area of a premise measured from the external perimeter wall surfaces
+          format: bigdecimal
+        carpetArea:
+          type: number
+          description: the net usable floor area of an apartment
+          format: bigdecimal
+        constructionDate:
+          type: integer
+          description: date of construction
+          format: int64
+        constructionType:
+          type: string
+          description: type of construction
+        dimensions:
+          type: object
+          description: dimensions for the construction 
+        plinthArea:
+          type: number
+          description: the space covered by the floor of the property
+          format: bigdecimal
+        superBuiltUpArea:
+          type: number
+          description: the saleable area, which includes the carpet area, along with the terrace, balconies, areas occupied by walls, and areas occupied by common/shared construction
+          format: bigdecimal      
+    MutationBillingSlabReq:
+      title: MutationBillingSlabReq
+      type: object
+      properties:
+        MutationBillingSlab:
+          type: array
+          items:
+            $ref: '#/components/schemas/MutationBillingSlab'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'      
+    MutationBillingSlab:
+      title: MutationBillingSlab
+      required:
+        - fixedAmount
+        - rate
+        - tenantId
+      type: object
+      properties:
+        fixedAmount:
+          type: number
+          format: double
+          description: fixed amount for billing
+        id:
+          type: string
+          description: Unique Identifier of the MutationBillingSlab(UUID).
+        maxMarketValue:
+          type: number
+          description: Maximum market value
+          format: double
+        minMarketValue:
+          type: number
+          description: Minimum market value
+          format: double
+        ownerShipCategory:
+          description: name of the OwnerShipCategory
+          type: string
+        propertySubType:
+          type: string
+          description: Sub Type of a property defined in mdms 'PropertySubType' Masetr.
+        propertyType:
+          type: string
+          description: 'Type of a property like Private, Vacant Land, State Government, Central Government etc.'
+        rate:
+          type: number
+          description: Exemption rate in percentage.
+          format: double
+        subOwnerShipCategory:
+          type: string
+          description: name of the SubOwnerShipCategory
+        tenantId:
+          type: string
+          description: Unique ulb identifier
+        type:
+          type: string
+          enum:
+            - FLAT
+            - RATE
+        usageCategoryDetail:
+          type: string
+          description: Sub category of 'usageCategorySubMinor' defined in 'usageCategoryDetail' master of mdms.
+        usageCategoryMajor:
+          type: string
+          description: 'This is about the usage of the property like Residential, Non-residential, Mixed(Property witch is gettiong used for Residential, Non-residential purpose)'
+        usageCategoryMinor:
+          type: string
+          description: Sub category of 'UsageCategoryMajor' defined in 'UsageCategoryMinor' master of mdms.
+        usageCategorySubMinor:
+          type: string      
+          description: Sub category of 'usageCategoryMinor' defined in 'UsageCategorySubMinor' master of mdms.

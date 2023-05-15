@@ -1,0 +1,1713 @@
+openapi: 3.0.0
+info:
+  version: 1.1.0
+  title: Apply for FSM 
+  description: |
+    ### API specs for FSM ###
+    * Citizen / Employee can Apply for desludging service
+    * Update the details of the existing application
+    * serarch the application based on criteria
+    * Citizen / Employee can take the actions on the perticular applicationbased on the wf configuration
+  contact:
+    name: Egovernments Foundation
+    email: contact@egovernments.org
+x-module: BPA
+x-common-path: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml'
+paths:
+  /fsm/v1/_search:
+    post:
+      summary: Get application details based on below criteria
+      description: |
+        Gets the list of fsm application for a particular ULB based on search criteria.
+      parameters:
+        - name: tenantId
+          in: query
+          schema:
+            type: string
+        - name: ids
+          in: query
+          description: Search by list of UUID
+          schema:
+            type: array
+            items:
+              type: string
+              maxItems: 10
+        - name: applicationStatus
+          in: query
+          description: search application by list of application Status(s)
+          schema:
+            type: array
+            items:
+              type: string
+        - name: locality
+          in: query
+          description: search application by list of Locality (s)
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ownerIds
+          in: query
+          description: search by list of uuid(s) of the owner of the application
+          schema:
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          description: search by the created date faling between the fromdate and today
+          schema:
+            type: integer
+        - name: toDate
+          in: query
+          description: search by the created date faling between the fromdate and today
+          schema:
+            type: integer
+        - name: applicationNos
+          in: query
+          description: search application by list of applicationNo(s)
+          schema: 
+            type: array
+            items:
+              type: string
+        - name: applicationType
+          in: query
+          description: search application by list of applicationNo(s)
+          schema: 
+            type: string
+        - name: oldApplicationNos
+          in: query
+          description: search application by list of old applicationNo(s)
+          schema: 
+            type: array
+            items:
+              type: string      
+        - name: mobileNumber
+          in: query
+          description: Search applicationb by mobileNumber of the Owner of the application
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: offset for the pagination results
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit for the pagination results
+          schema:
+           type: integer
+        - name: sortOrder
+          in: query
+          description: sort the search results in Ascending or descending order
+          schema:
+           type: string
+           enum:
+            - ASC
+            - DESC
+        - name: sortBy
+          in: query
+          description: sort the search results by fields
+          schema:
+           type: string
+           enum: 
+            - applicationStatus
+            - applicationNumber
+            - propertyUsage
+            - vehicle
+            - locality
+            - createdTime
+      responses:
+        '202':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FSMResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      tags:
+        - FSM
+  /fsm/v1/_audit:
+    post:
+      summary: Get the application audit log for every change in the response. Provides a record for each set of change
+      parameters: 
+        - name: tenantId
+          in: query
+          schema:
+            type: string
+        - name: applicationNo
+          in: query
+          description: search for audit log based on the application no of FSM
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: search for audit log based on the unique id of the application
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FSMAuditResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      tags:
+        - FSM
+        
+  /fsm/v1/_create:
+    post:
+      summary: Apply for desludging 
+      description: Apply for desludging 
+      tags:
+        - FSM
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FSMRequest'
+        description: Request schema.
+        required: true
+      responses:
+        '202':
+          description: Application submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FSMResponse'
+        '400':
+          description: Failed to process the application
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /fsm/v1/_update:
+    post:
+      summary: Update service requests
+      description: Updates service request
+      tags:
+        - FSM
+      responses:
+        '202':
+          description: Application submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FSMResponse'
+        '400':
+          description: Failed to process the application
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FSMRequest'
+        description: Request schema.
+        required: true
+  /fsm/v1/_plainsearch:
+    post:
+      tags:
+        - FSM
+      summary: plainsearch
+      operationId: plainsearchUsingPOST
+      parameters:
+        - name: tenantId
+          in: query
+          schema:
+            type: string
+        - name: ids
+          in: query
+          description: Search by list of UUID
+          schema:
+            type: array
+            items:
+              type: string
+              maxItems: 10
+        - name: applicationStatus
+          in: query
+          description: search application by list of application Status(s)
+          schema:
+            type: array
+            items:
+              type: string
+        - name: locality
+          in: query
+          description: search application by list of Locality (s)
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ownerIds
+          in: query
+          description: search by list of uuid(s) of the owner of the application
+          schema:
+            type: array
+            items:
+              type: string
+        - name: fromDate
+          in: query
+          description: search by the created date faling between the fromdate and today
+          schema:
+            type: integer
+        - name: toDate
+          in: query
+          description: search by the created date faling between the fromdate and today
+          schema:
+            type: integer
+        - name: applicationNos
+          in: query
+          description: search application by list of applicationNo(s)
+          schema: 
+            type: array
+            items:
+              type: string
+        - name: applicationType
+          in: query
+          description: search application by list of applicationNo(s)
+          schema: 
+            type: string
+        - name: oldApplicationNos
+          in: query
+          description: search application by list of old applicationNo(s)
+          schema: 
+            type: array
+            items:
+              type: string      
+        - name: mobileNumber
+          in: query
+          description: Search applicationb by mobileNumber of the Owner of the application
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: offset for the pagination results
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit for the pagination results
+          schema:
+           type: integer
+        - name: sortOrder
+          in: query
+          description: sort the search results in Ascending or descending order
+          schema:
+           type: string
+           enum:
+            - ASC
+            - DESC
+        - name: sortBy
+          in: query
+          description: sort the search results by fields
+          schema:
+           type: string
+           enum: 
+            - applicationStatus
+            - applicationNumber
+            - propertyUsage
+            - vehicle
+            - locality
+            - createdTime
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FSMResponse'
+        '201':
+          description: Created
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not 
+          
+  /fsm/v1/_createperiodicapplications:
+    post:
+      tags:
+        - FSM
+      summary: createPeriodicApplications
+      operationId: createPeriodicApplicationsUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PeriodicApplicationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PeriodicApplicationResponse'
+        '400':
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /fsm/v1/_getapplicationsforperiodic:
+    post:
+      tags:
+        - FSM
+      summary: getFSMApplicationsForPeriodicServices
+      operationId: getFSMApplicationsForPeriodicServicesUsingPOST
+      parameters:
+        - name: tenantId
+          in: query
+          description: tenantId
+          required: true
+          style: form
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PeriodicApplicationResponse'
+        '201':
+          description: Created
+        '400':
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  
+  /fsm/v1/_schedular:
+    post:
+      tags:
+        - FSM
+      summary: schedulePeriodicApplications
+      operationId: schedulePeriodicApplicationsUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found    
+  
+  /fsm-calculator/v1/_advancebalancecalculate:
+    post:
+      tags:
+        - FSM-Calculator
+      summary: advanceBalanceCalculate
+      operationId: advanceBalanceCalculateUsingPOST
+      parameters:
+        - name: action
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: apiId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: authToken
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: correlationId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: did
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: msgId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: plainAccessRequest.plainRequestFields
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: plainAccessRequest.recordId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: ts
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userInfo.emailId
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 300
+            minimum: 0
+            maxLength: 300
+            minLength: 0
+            type: string
+        - name: userInfo.id
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userInfo.mobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 150
+            minimum: 0
+            maxLength: 150
+            minLength: 0
+            type: string
+        - name: userInfo.name
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 250
+            minimum: 0
+            maxLength: 250
+            minLength: 0
+            type: string
+        - name: userInfo.roles[0].code
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 50
+            minimum: 0
+            maxLength: 50
+            minLength: 0
+            type: string
+        - name: userInfo.roles[0].id
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userInfo.roles[0].name
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 128
+            minimum: 0
+            maxLength: 128
+            minLength: 0
+            type: string
+        - name: userInfo.roles[0].tenantId
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 256
+            minimum: 0
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: userInfo.tenantId
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 256
+            minimum: 0
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: userInfo.type
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 50
+            minimum: 0
+            maxLength: 50
+            minLength: 0
+            type: string
+        - name: userInfo.userName
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 180
+            minimum: 0
+            maxLength: 180
+            minLength: 0
+            type: string
+        - name: userInfo.uuid
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 36
+            minimum: 0
+            maxLength: 36
+            minLength: 0
+            type: string
+        - name: ver
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdvanceAmountResponse'
+        '400':
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found    
+  /fsm-calculator/v1/_cancellationfee:
+    post:
+      tags:
+        - FSM-Calculator
+      summary: cancellationFee
+      operationId: cancellationFeeUsingPOST
+      parameters:
+        - name: action
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: apiId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: authToken
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: correlationId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: did
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: msgId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: plainAccessRequest.plainRequestFields
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: plainAccessRequest.recordId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: ts
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userInfo.emailId
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 300
+            minimum: 0
+            maxLength: 300
+            minLength: 0
+            type: string
+        - name: userInfo.id
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userInfo.mobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 150
+            minimum: 0
+            maxLength: 150
+            minLength: 0
+            type: string
+        - name: userInfo.name
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 250
+            minimum: 0
+            maxLength: 250
+            minLength: 0
+            type: string
+        - name: userInfo.roles[0].code
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 50
+            minimum: 0
+            maxLength: 50
+            minLength: 0
+            type: string
+        - name: userInfo.roles[0].id
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: userInfo.roles[0].name
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 128
+            minimum: 0
+            maxLength: 128
+            minLength: 0
+            type: string
+        - name: userInfo.roles[0].tenantId
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 256
+            minimum: 0
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: userInfo.tenantId
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 256
+            minimum: 0
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: userInfo.type
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 50
+            minimum: 0
+            maxLength: 50
+            minLength: 0
+            type: string
+        - name: userInfo.userName
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 180
+            minimum: 0
+            maxLength: 180
+            minLength: 0
+            type: string
+        - name: userInfo.uuid
+          in: query
+          required: false
+          style: form
+          schema:
+            maximum: 36
+            minimum: 0
+            maxLength: 36
+            minLength: 0
+            type: string
+        - name: ver
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CancellationAmountResponse'
+        '400':
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found      
+  /fsm-calculator/v1/billingSlab/_create:
+    post:
+      summary: Create Billing Slab record for the combination of propertyusage, slum ,tancapcity
+      tags: 
+        - FSM-Calculator
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillingSlabRequest'
+        description: Reuqest Schema for BillingSlab
+        required: true
+      responses:
+        '202':
+          description: BillingSlab created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabResponse'
+        '400':
+          description: Failed to process the BillingSlab
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas'
+  
+  /fsm-calculator/v1/billingSlab/_update:
+    post:
+      summary: update Billing Slab record for the combination of propertyusage, slum ,tancapcity
+      tags: 
+        - FSM-Calculator
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillingSlabRequest'
+        description: Reuqest Schema for BillingSlab
+        required: true
+      responses:
+        '202':
+          description: BillingSlab updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabResponse'
+        '400':
+          description: Failed to process the BillingSlab
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'  
+                
+  /fsm-calculator/v1/billingSlab/_search:
+    post:
+      summary: Get the BillingSlab based on the search criteria
+      tags: 
+        - FSM-Calculator
+      parameters: 
+        - name: tenantId
+          in: query
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: offset for the pagination results
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit for the pagination results
+          schema:
+           type: integer
+        - name: sortOrder
+          in: query
+          description: sort the search results in Ascending or descending order
+          schema:
+           type: string
+           enum:
+            - ASC
+            - DESC
+        - name: sortBy
+          in: query
+          description: sort the search results by fields
+          schema:
+           type: string
+           enum: 
+            - id
+            - propertyType
+            - capacity
+        - name: ids
+          in: query
+          description: serch by ids of the billingslab
+          schema:
+            type: array
+            items:
+              type: string
+        - name: propertyType
+          in: query
+          description: search by propertyType
+          schema:
+            type: string
+        - name: capacity
+          in: query
+          description: search by capacity
+          schema:
+            type: number
+            format: double
+        - name: slum
+          in: query
+          description: search by slum yes or no
+          schema:
+            type: string
+            enum:
+              - YES
+              - NO
+      responses:
+        '202':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BillingSlabResponse'
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /fsm-calculator/v1/_calculate:
+    post:
+      summary: Calcualte the FSM Charges and generate Demand for the same, based on the billingslab 
+      tags: 
+        - FSM-Calculator
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationReq'
+        description: Reuqest Schema calculate api
+        required: true
+      responses:
+        '202':
+          description: calculated  successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        '400':
+          description: Failed to process the calcuation
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes' 
+  /fsm-calculator/v1/_estimate:
+    post:
+      summary: Calcualte the FSM Charge, based on the billingslab . Does not create demand
+      tags: 
+        - FSM-Calculator
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationReq'
+        description: Reuqest Schema estimate api
+        required: true
+      responses:
+        '202':
+          description: estimate calculated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculationRes'
+        '400':
+          description: Failed to process the estimate
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+components:
+  schemas:
+    PeriodicApplicationRequest:
+      title: PeriodicApplicationRequest
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        applicationNoList:
+          type: array
+          items:
+            type: string
+        tenantId:
+          type: string
+    PeriodicApplicationResponse:
+      title: PeriodicApplicationResponse
+      type: object
+      properties:
+        applicationNoList:
+          type: array
+          items:
+            type: string
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+    Workflow:
+      type: object
+      description: 'BPA application object to capture the details of land, land owners, and address of the land.'
+      properties:
+        action:
+          type: string
+          description: Action on the application in certain
+          minLength: 1
+          maxLength: 64
+        assignes:
+          type: array
+          items:
+            type: string
+        comments:
+          type: string
+          description: Unique Identifier scrutinized number
+          minLength: 1
+          maxLength: 64
+        rating:
+          type: integer
+          description: Rating for the application
+        varificationDocuments:
+          description: Attach the workflow varification documents.
+          type: array
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/Document'
+    Vehicle:
+      type: object
+      description: |
+        Instance of Service request raised for a particular service. As per extension propsed in the Service definition "attributes" carry the input values requried by metadata definition in the structure as described by the corresponding schema.
+
+        * Any one of 'address' or '(lat and lang)' or 'addressid' is mandatory
+      properties:
+        vehicleOwner:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+        id:
+          type: string
+          readOnly: true
+          description: The server generated unique ID(UUID).
+          minLength: 2
+          maxLength: 64
+        tenantId:
+          type: string
+          description: Unique identifier of the tenant.
+          minLength: 2
+          maxLength: 64
+        registrationNumber: 
+          type: string
+          description: Unique Vehicle registration number.
+          minLength: 2
+          maxLength: 128
+        model:
+          type: string
+          description: Vehicle model number(this the master data defined in MDMS).
+          minLength: 2
+          maxLength: 256
+        type:
+          type: string
+          description: Vehicle Type master, defined in MDMS. 
+          minLength: 2
+          maxLength: 64
+        tankCapicity:
+          type: integer
+          format: int64
+          description: Tank capacity in liters. 
+          minLength: 2
+          maxLength: 64
+        suctionType:
+          type: string
+          description: This is the mdms master data. 
+          minLength: 2
+          maxLength: 64
+        pollutionCertiValidTill:
+          type: integer
+          format: int64
+          description: Pollution certificate valid till for vehicle(epoc date). 
+          minLength: 2
+          maxLength: 64
+        InsuranceCertValidTill:
+          type: integer
+          format: int64
+          description: Vehicle insurance valid till(epoc date). 
+          minLength: 2
+          maxLength: 64
+        fitnessValidTill:
+          type: integer
+          format: int64
+          description: Vehicle fitness valid till(epoc date). 
+          minLength: 2
+          maxLength: 64
+        roadTaxPaidTill:
+          type: integer
+          format: int64
+          description: Road tax paid for the Vehicle. 
+          minLength: 2
+          maxLength: 64
+        gpsEnabled:
+          type: boolean
+          description: Whether Vehicle equipped with GPS device. 
+        additionalDetail:
+          type: object
+          description: This is the json object that will carry the actual input (whereever the metadata requries input). Structure should be same as the schema definition provided in the metadata of the service (schema compliance check to be performed at client/server)
+        source:
+          type: string
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
+          minLength: 2
+          maxLength: 64
+          example: whatsapp, ivr etc
+        status:
+          type: string
+          description: Inactive records will be consider as soft deleted 
+          enum:
+           - ACTIVE
+           - INACTIVE
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+      required:
+        - tenantId
+        - registrationNumber
+        - model
+        - type
+    Driver:
+      title: Driver
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        description:
+          type: string
+        id:
+          description: "List of system generated id of applications."
+          type: string
+        licenseNumber:
+          description: "License number of the driver"
+          type: string
+        name:
+          description: "Name of the driver"
+          maxLength: 128
+          minLength: 0
+          type: string
+        owner:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+        ownerId:
+          description: "Owner id of the driver"
+          maxLength: 64
+          minLength: 0
+          type: string
+        status:
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
+          type: string
+          enum:
+            - ACTIVE
+            - DISABLED
+            - INACTIVE
+        tenantId:
+          description: "Unique id for a tenant."
+          maxLength: 64
+          minLength: 0
+          type: string
+        vendorDriverStatus:
+          type: string
+          description: Vendor driver status
+          enum:
+            - ACTIVE
+            - DISABLED
+            - INACTIVE    
+    Vendor:
+      title: Vendor
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        address:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
+        agencyType:
+          description: Type of agency
+          maxLength: 128
+          minLength: 0
+          type: string
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        description:
+          type: string
+        drivers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Driver'
+        id:
+          type: string
+          description: Unique id credential for Vendor
+        name: 
+          description: Name of the Vendor
+          maxLength: 128
+          minLength: 0
+          type: string
+        owner:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+        ownerId:
+          description: Unique Owner id credential 
+          maxLength: 64
+          minLength: 0
+          type: string
+        paymentPreference:
+          description: Payment preference for the vendor
+          maxLength: 128
+          minLength: 0
+          type: string
+        source:
+          description: source
+          type: string
+        status:
+          description: current application status in the system records
+          type: string
+          enum:
+            - ACTIVE
+            - DISABLED
+            - INACTIVE
+        tenantId:
+          description: "Unique id for a tenant."
+          maxLength: 64
+          minLength: 0
+          type: string
+        vehicles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'        
+    FSM:
+      type: object
+      description: |
+        Request schema of FSM application. 
+
+      properties:
+        citizen:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+        id:
+          type: string
+          readOnly: true
+          description: The server generated unique ID(UUID).
+          minLength: 2
+          maxLength: 64
+        tenantId:
+          type: string
+          description: Unique identifier of the tenant.
+          minLength: 2
+          maxLength: 64
+        applicationNo:
+          type: string
+          readOnly: true
+          description: The unique formatted id for application no.
+          minLength: 2
+          maxLength: 128
+        description:
+          type: string
+          description: Additional information or description of the application
+          minLength: 2
+          maxLength: 256
+        accountId:
+          type: string
+          description: Applier(CItizen) unique id(UUID) from user service. 
+          minLength: 2
+          maxLength: 64
+        additionalDetail:
+          type: object
+          description: This is the json object that will carry the actual input (whereever the metadata requries input). Structure should be same as the schema definition provided in the metadata of the service (schema compliance check to be performed at client/server)
+        applicationStatus:
+          type: string
+          description: The current status of the service request.
+          readOnly: true
+        source:
+          type: string
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
+          minLength: 2
+          maxLength: 64
+          example: whatsapp, ivr etc
+        sanitationtype:
+          type: string
+          description: This is the master data defined in MDMS
+          minLength: 2
+          maxLength: 64
+        vehicleType:
+          type: string
+          description: This is the master data defined in MDMS
+          minLength: 2
+          maxLength: 64
+        vehicleCapacity:
+          type: string
+          description: This is the master data defined in MDMS
+          minLength: 2
+          maxLength: 64
+        paymentPreference:
+          type: string
+          description: This is the master data defined in MDMS
+          minLength: 2
+          maxLength: 64
+        propertyUsage:
+          type: string
+          description: This is the master data defined in MDMS
+          minLength: 2
+          maxLength: 64
+        noOfTrips:
+          type: integer
+          description: Total no of trips reqired for desludging the PIT
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+        vehicleId:
+          type: string
+          description: Unique Id of the vehicle which got assigned to the perticular application
+          minLength: 2
+          maxLength: 64
+        dsoId:
+          type: string
+          description: Unique Id of the DSO assigned to the application
+          minLength: 2
+          maxLength: 64
+        dso:
+          $ref: '#/components/schemas/Vendor'
+        possibleServiceDate:
+          type: integer
+          description: possible service date populated while assigning vehicle
+          format: date
+        wasteCollected:
+          type: number
+          format: double
+          description: waster collected at the application site
+        pitDetail:
+          $ref: '#/components/schemas/PitDetail'
+        address:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        completedOn:
+          type: integer
+          format: int64
+        advanceAmount:
+          type: number
+          format: double
+        applicationType:
+          type: string
+          description: Unique Id of the DSO assigned to the application
+          minLength: 2
+          maxLength: 64
+        oldApplicationNo:
+          type: string
+          description: Unique Id of the DSO assigned to the application
+          minLength: 2
+          maxLength: 64
+      required:
+        - tenantId
+        - propertyUsage
+    AdvanceAmountResponse:
+      title: AdvanceAmountResponse
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        advanceAmount:
+          type: number
+          format: bigdecimal
+    CancellationAmountResponse:
+      title: CancellationAmountResponse
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        cancellationAmount:
+          type: number
+          format: bigdecimal
+    PitDetail:
+      type: object
+      description: |
+        cature the pit details
+      properties:
+        citizen:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+        id:
+          type: string
+          readOnly: true
+          description: The server generated unique ID(UUID).
+          minLength: 2
+          maxLength: 64
+        height:
+          type: number
+          format: double
+          description: Hight of the PIT in meter
+          minLength: 2
+          maxLength: 64
+        length:
+          type: number
+          format: double
+          description: Length of the PIT in meter
+          minLength: 2
+          maxLength: 128
+        width:
+          type: number
+          format: double
+          description: Width of the PIT in meter
+          minLength: 2
+          maxLength: 128
+        diameter:
+          type: number
+          format: double
+          description: diameter  of the PIT in meter
+          minLength: 2
+          maxLength: 128          
+        distanceFromRoad:
+          type: number
+          format: double
+          description: Distance of the PIT from road in meter
+          minLength: 2
+          maxLength: 128
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+      required:
+        - width
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    FSMRequest:
+      type: object
+      description: Request object for FSM
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        fsm:
+          $ref: '#/components/schemas/FSM'
+        workflow:
+          $ref: '#/components/schemas/Workflow'
+      required:
+        - requestInfo
+        - fsm
+    FSMResponse:
+      type: object
+      description: Response of the FSM
+      properties:
+        responseInfo:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
+        fsm:
+          $ref: '#/components/schemas/FSM'
+        workflow:
+          $ref: '#/components/schemas/Workflow'
+        totalCount:
+          type: string
+          description: totalcount of records available in the system satifyig the search criteria
+      required:
+        - responseInfo
+        - totalCount
+        - fsm
+    FSMAuditResponse:
+      type: object
+      description: Response of the FSM Audit search
+      properties:
+        responseInfo:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
+        fsmAudit:
+          $ref: '#/components/schemas/FSMAudit'
+      required:
+        - responseInfo
+        - fsmAudit   
+    FSMAudit:
+      type: object
+      description: >
+        Representation of FSM Audit
+      properties:
+        who:
+          type: string
+          description: uuid of the user who changed the data of FSM object 
+        when:
+          type: integer
+          format: date
+          description: timestamp of the time change occured
+        what:
+          type: object
+          description: key value pair of the changed key and the changed value
+    BillingSlab:
+      type: object
+      description: Representation of billing slab
+      properties:
+        id:
+          type: string
+          description: unique identifier of the billing slab
+        tenantId:
+          type: string
+          description: id of the tenant i.e city
+        capacityFrom:
+          type: number
+          format: double
+          description: billing slab apply for the tankCapacity form 
+        capacityTo:
+          type: number
+          format: double
+          description: billing slab apply for the tankCapacity till
+        propertyType:
+          type: string
+          description: billing slab propertyType
+        slum:
+          type: string
+          description: billing slab applies for slum
+          enum: 
+            - YES
+            - NO
+        price:
+          type: number
+          format: double
+          description: price of the billing slab
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+    BillingSlabRequest:
+      type: object
+      description: Request object for BillingSlab
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        fsm:
+          $ref: '#/components/schemas/BillingSlab'
+      required:
+        - requestInfo
+        - billingSlab
+    BillingSlabResponse:
+      type: object
+      description: Response of the BillingSlab 
+      properties:
+        responseInfo:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
+        billingSlab:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillingSlab'
+      required:
+        - responseInfo
+        - billingSlab            
+    CalculationReq:
+      type: object
+      description: Request object for Calcuation
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        CalulationCriteria:
+          $ref: '#/components/schemas/CalulationCriteria'
+      required:
+        - requestInfo
+        - CalulationCriteria
+    CalculationRes:
+      type: object
+      description: Response of the BillingSlab 
+      properties:
+        responseInfo:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
+        Calculations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Calculation'
+      required:
+        - responseInfo
+        - Calculations   
+    CalulationCriteria:
+      type: object
+      description: Calculation Criteria to calcaulte and generate Demand
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        feeType:
+          type: string
+          description: type of fee to be calcaulted and generrate demand, As of now it is only one
+          enum: 
+            - APPLICATION_FEE
+        fsm:
+          $ref: '#/components/schemas/FSM'
+        applicationNo:
+          type: string
+          description: Application number of the FSM application
+    Calculation:
+      type: object
+      description: ist of calculations 
+      properties:
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which user primarily belongs
+        feeType:
+          type: string
+          description: type of fee to be calcaulted and generrate demand, As of now it is only one
+          enum: 
+            - APPLICATION_FEE
+        fsm:
+          $ref: '#/components/schemas/FSM'
+        applicationNumber:
+          type: string
+          description: Application number of the FSM application
+        taxHeadEstimates:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxHeadEstimate'
+    TaxHeadEstimate:
+      type: object
+      description: Estimate object for each taxHead
+      properties:
+        taxHeadCode:
+          type: string
+        estimateAmount:
+          type: number
+          format: bigdecimal
+        category:
+          type: string
+          enum:
+            - TAX
+            - FEE
+            - REBATE
+            - ADVANCE_COLLECTION
+            - PENALTY
+            - FINES
+            - CHARGES
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/phanikiran-wtt-egov/FSM/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/WalkingTreeDev/eGov-FSM/1.0.0
