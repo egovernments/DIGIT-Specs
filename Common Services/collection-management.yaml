@@ -12,9 +12,10 @@ servers:
 paths:
   /bankAccountServiceMapping/_create:
     post:
+      description: creates service mapping for bank account
       tags:
       - bank-account-service-mapping-controller
-      summary: create
+      summary: Creates service mapping for bank account
       operationId: createUsingPOST
       requestBody:
         content:
@@ -23,7 +24,7 @@ paths:
               "$ref": "#/components/schemas/BankAccountServiceMappingReq"
       responses:
         '200':
-          description: OK
+          description: Created Successfully 
           content:
             "*/*":
               schema:
@@ -38,27 +39,40 @@ paths:
           description: Not Found
   /bankAccountServiceMapping/_search:
     post:
+      description: Searches the service mapping for bank account
       tags:
       - bank-account-service-mapping-controller
-      summary: search
+      summary: Searches the service mapping for bank account
       operationId: searchUsingPOST
       parameters:
       - name: bankAccount
         in: query
+        description: Bank account details 
         schema: {}
       - name: businessDetails
         in: query
+        description: Details of business
         schema: {}
       - name: tenantId
         in: query
+        description: Unique id for a tenant.
         schema: {}
       responses:
         200:
           description: OK
-          content: {}
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BankAccountServiceMapping'
         201:
           description: Created
           content: {}
+        400:
+          description: Invalid Input
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'  
         401:
           description: Unauthorized
           content: {}
@@ -83,7 +97,7 @@ paths:
         schema:
           type: string
           format: varchar
-      - name: pageSize
+      - name: limit
         in: query
         description: Number of records returned.
         schema:
@@ -94,7 +108,7 @@ paths:
           exclusiveMinimum: true
           type: integer
           default: 20
-      - name: pageNumber
+      - name: offset
         in: query
         description: Page number
         schema:
@@ -217,12 +231,21 @@ paths:
           type: array
           items:
             type: string
+      - name: businessServices
+        in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
       requestBody:
         description: Parameter to carry Request metadata in the request body
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/RequestInfo'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         required: false
       responses:
         200:
@@ -238,7 +261,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: requestInfo
   /payments/_plainsearch:
     post:
@@ -249,6 +272,7 @@ paths:
       parameters:
       - name: billIds
         in: query
+        description: List of bill ids to search receipts.Business details code is mandatory for searching with this criteria.
         required: false
         style: pipeDelimited
         schema:
@@ -258,6 +282,7 @@ paths:
             type: string
       - name: businessServices
         in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         required: false
         style: pipeDelimited
         schema:
@@ -268,6 +293,7 @@ paths:
       - name: consumerCodes
         in: query
         required: false
+        description: Consumer Code.
         style: pipeDelimited
         schema:
           uniqueItems: true
@@ -276,6 +302,7 @@ paths:
             type: string
       - name: fromDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate.
         required: false
         style: form
         schema:
@@ -284,6 +311,7 @@ paths:
       - name: ids
         in: query
         required: false
+        description: Payment Ids.
         style: pipeDelimited
         schema:
           uniqueItems: true
@@ -292,6 +320,7 @@ paths:
             type: string
       - name: instrumentStatus
         in: query
+        description: Search based on the status of the instrument.
         required: false
         style: pipeDelimited
         schema:
@@ -314,12 +343,14 @@ paths:
           format: int32
       - name: mobileNumber
         in: query
+        description: Unique tansaction number for multiple receipts created in one transaction.
         required: false
         style: form
         schema:
           type: string
       - name: offset
         in: query
+        description: offset
         required: false
         style: form
         schema:
@@ -327,6 +358,7 @@ paths:
           format: int32
       - name: payerIds
         in: query
+        description: The ids of the payer
         required: false
         style: pipeDelimited
         schema:
@@ -335,6 +367,7 @@ paths:
             type: string
       - name: paymentModes
         in: query
+        description: The mode of the payment
         required: false
         style: pipeDelimited
         schema:
@@ -344,6 +377,7 @@ paths:
             type: string
       - name: receiptNumbers
         in: query
+        description: List of receipt numbers.
         required: false
         style: pipeDelimited
         schema:
@@ -353,6 +387,7 @@ paths:
             type: string
       - name: status
         in: query
+        description: Search based on the status of the Payment.
         required: false
         style: pipeDelimited
         schema:
@@ -362,12 +397,14 @@ paths:
             type: string
       - name: tenantId
         in: query
+        description: "Unique id for a tenant."
         required: false
         style: form
         schema:
           type: string
       - name: tenantIds
         in: query
+        description: "List of unique ids for a tenant."
         required: false
         style: pipeDelimited
         schema:
@@ -377,6 +414,7 @@ paths:
             type: string
       - name: toDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
         required: false
         style: form
         schema:
@@ -384,6 +422,7 @@ paths:
           format: int64
       - name: transactionNumber
         in: query
+        description: Unique tansaction number for multiple receipts created in one transaction.
         required: false
         style: form
         schema:
@@ -395,7 +434,7 @@ paths:
               "$ref": "#/components/schemas/RequestInfoWrapper"
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             "*/*":
               schema:
@@ -466,13 +505,15 @@ paths:
       x-codegen-request-body-name: PaymentRequest
   /payments/{moduleName}/_search:
     post:
+      description: Searches the payment for a particular module based on search criteria
       tags:
       - Payment
-      summary: search
+      summary: Searches the payment for a particular module based on search criteria
       operationId: searchUsingPOST_2
       parameters:
       - name: billIds
         in: query
+        description: Id for a particular bill
         required: false
         style: pipeDelimited
         schema:
@@ -482,6 +523,7 @@ paths:
             type: string
       - name: businessServices
         in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
         required: false
         style: pipeDelimited
         schema:
@@ -491,6 +533,7 @@ paths:
             type: string
       - name: consumerCodes
         in: query
+        description: Consumer Code 
         required: false
         style: pipeDelimited
         schema:
@@ -500,6 +543,7 @@ paths:
             type: string
       - name: fromDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
         required: false
         style: form
         schema:
@@ -507,6 +551,7 @@ paths:
           format: int64
       - name: ids
         in: query
+        description: "List of system generated ids of applications."
         required: false
         style: pipeDelimited
         schema:
@@ -516,6 +561,7 @@ paths:
             type: string
       - name: instrumentStatus
         in: query
+        description: Search based on the status of the instrument.
         required: false
         style: pipeDelimited
         schema:
@@ -538,12 +584,14 @@ paths:
           format: int32
       - name: mobileNumber
         in: query
+        description: Unique tansaction number for multiple receipts created in one transaction.
         required: false
         style: form
         schema:
           type: string
       - name: offset
         in: query
+        description: offset
         required: false
         style: form
         schema:
@@ -551,6 +599,7 @@ paths:
           format: int32
       - name: payerIds
         in: query
+        description: The ids of the payer
         required: false
         style: pipeDelimited
         schema:
@@ -559,6 +608,7 @@ paths:
             type: string
       - name: paymentModes
         in: query
+        description: The mode of the payment
         required: false
         style: pipeDelimited
         schema:
@@ -568,6 +618,7 @@ paths:
             type: string
       - name: receiptNumbers
         in: query
+        description: List of receipt numbers.
         required: false
         style: pipeDelimited
         schema:
@@ -577,6 +628,7 @@ paths:
             type: string
       - name: status
         in: query
+        description: Search based on the status of the Payment.
         required: false
         style: pipeDelimited
         schema:
@@ -586,12 +638,14 @@ paths:
             type: string
       - name: tenantId
         in: query
+        description: Unique id for a tenant.
         required: false
         style: form
         schema:
           type: string
       - name: tenantIds
         in: query
+        description: List of unique ids for a tenant.
         required: false
         style: pipeDelimited
         schema:
@@ -601,6 +655,7 @@ paths:
             type: string
       - name: toDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
         required: false
         style: form
         schema:
@@ -608,6 +663,7 @@ paths:
           format: int64
       - name: transactionNumber
         in: query
+        description: Unique tansaction number for multiple receipts created in one transaction.
         required: false
         style: form
         schema:
@@ -641,9 +697,10 @@ paths:
           description: Not Found        
   /payments/{moduleName}/_workflow:
     post:
+      description: Payment workflow on a particular module
       tags:
       - Payment
-      summary: workflow
+      summary: Payment workflow on a particular module
       operationId: workflowUsingPOST
       parameters:
       - name: moduleName
@@ -677,7 +734,8 @@ paths:
     post:
       tags:
       - pre-exist-payment-controller
-      summary: update
+      summary: Update pre-exist payments
+      description: Updates pre existing payments in system
       operationId: updateUsingPOST
       responses:
         '200':
@@ -692,9 +750,10 @@ paths:
           description: Not Found        
   /remittances/_create:
     post:
+      description: Creates the payment remittance
       tags:
       - remittance-controller
-      summary: create
+      summary: Creates the payment remittance
       operationId: createUsingPOST_2
       requestBody:
         content:
@@ -718,19 +777,22 @@ paths:
           description: Not Found
   /remittances/_search:
     post:
+      description: Searches the payment remmitance based on a search criteria
       tags:
       - remittance-controller
-      summary: search
+      summary: Searches the payment remmitance based on a search criteria
       operationId: searchUsingPOST_3
       parameters:
       - name: bankaccount
         in: query
+        description: Bank account details
         required: false
         style: form
         schema:
           type: string
       - name: fromDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is greater or equal to given fromDate
         required: false
         style: form
         schema:
@@ -738,18 +800,21 @@ paths:
           format: int64
       - name: function
         in: query
+        description: function
         required: false
         style: form
         schema:
           type: string
       - name: fund
         in: query
+        description: fund
         required: false
         style: form
         schema:
           type: string
       - name: ids
         in: query
+        description: "List of system generated ids of applications."
         required: false
         style: pipeDelimited
         schema:
@@ -765,6 +830,7 @@ paths:
           format: int32
       - name: offset
         in: query
+        description: offset
         required: false
         style: form
         schema:
@@ -772,6 +838,7 @@ paths:
           format: int32
       - name: pageSize
         in: query
+        description: Size of page
         required: false
         style: form
         schema:
@@ -779,12 +846,14 @@ paths:
           format: int32
       - name: reasonForDelay
         in: query
+        description: Reason behind delay 
         required: false
         style: form
         schema:
           type: string
       - name: referenceNumbers
         in: query
+        description: Reference number
         required: false
         style: pipeDelimited
         schema:
@@ -793,36 +862,42 @@ paths:
             type: string
       - name: remarks
         in: query
+        description: remarks if any
         required: false
         style: form
         schema:
           type: string
       - name: sortBy
         in: query
+        description: Sorting parameter
         required: false
         style: form
         schema:
           type: string
       - name: sortOrder
         in: query
+        description: Order of sorting
         required: false
         style: form
         schema:
           type: string
       - name: status
         in: query
+        description: status of application
         required: false
         style: form
         schema:
           type: string
       - name: tenantId
         in: query
+        description: "Unique id for a tenant."
         required: true
         style: form
         schema:
           type: string
       - name: toDate
         in: query
+        description: Transaction date, here search will happen as Transaction date is lesser or equal to given toDate.
         required: false
         style: form
         schema:
@@ -856,9 +931,10 @@ paths:
           description: Not Found
   /remittances/_update:
     post:
+      description: Updates the payment remittance
       tags:
       - remittance-controller
-      summary: update
+      summary: Updates the payment remittance
       operationId: updateUsingPOST_1
       requestBody:
         content:
@@ -883,26 +959,6 @@ paths:
   
 components:
   schemas:
-    AuditDetails:
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the
-            object
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified
-            the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
-      description: Collection of audit related fields used by most models
     BankAccountServiceMappingReq:
       title: BankAccountServiceMappingReq
       required:
@@ -915,7 +971,7 @@ components:
           items:
             $ref: '#/components/schemas/BankAccountServiceMapping'
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
     BankAccountServiceMapping:
       title: BankAccountServiceMapping
       required:
@@ -925,14 +981,20 @@ components:
       type: object
       properties:
         bank:
+          description: Name of bank
           type: string
         bankAccount:
+          minLength: 8
+          maxLength: 18
+          description: Details of bank account
           type: string
         bankBranch:
+          description: Branch name of bank 
           type: string
         businessDetails:
           type: string
         tenantId:
+          description: "Unique id for a tenant."
           type: string      
     Bill:
       type: object
@@ -944,6 +1006,14 @@ components:
           type: string
           description: The mobileNumber of person who is paying
           format: varchar
+        id:
+          type: string
+          description: Name of the Person who is making payment.
+          readOnly: true
+        tenantId: 
+          type: string
+          description: Unique id of a tenant
+          readOnly: true
         payerName:
           type: string
           description: The owner of the bill
@@ -1016,6 +1086,12 @@ components:
           type: number
           description: The date on which bill is generated
           format: int64
+        amountPaid:
+          type: number
+          description: The total amount to be paid for the bill
+          format: double
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         billDetails:
           type: array
           items:
@@ -1089,10 +1165,18 @@ components:
         cancellationRemarks:
           type: string
           description: Remarks related to cancellation of payment
+        additionalDetails:
+          type: object
+          properties: {}
+          description: Additional fields can be captured in this object as map
         billAccountDetails:
           type: array
           items:
             $ref: '#/components/schemas/BillAccountDetail'
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        callBackForApportioning:
+          type: boolean
     BillAccountDetail:
       type: object
       properties:
@@ -1126,6 +1210,8 @@ components:
           type: object
           properties: {}
           description: Additional fields can be captured in this object as map
+        isActualDemand:
+          type: boolean
         purpose:
           type: string
           description: purpose of the bill account detail.
@@ -1140,68 +1226,15 @@ components:
           - REBATE
           - OTHERS
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
-    Error:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code will be module specific error label/code to identiffy
-            the error. All modules should also publish the Error codes with their
-            specific localized values in localization service to ensure clients can
-            print locale specific error messages. Example for error code would be
-            User.NotFound to indicate User Not Found by User/Authentication service.
-            All services must declare their possible Error Codes with brief description
-            in the error response section of their API path.
-        message:
-          type: string
-          description: English locale message of the error code. Clients should make
-            a separate call to get the other locale description if configured with
-            the service. Clients may choose to cache these locale specific messages
-            to enhance performance with a reasonable TTL (May be defined by the localization
-            service based on tenant + module combination).
-        description:
-          type: string
-          description: Optional long description of the error to help clients take
-            remedial action. This will not be available as part of localization service.
-        params:
-          type: array
-          description: Some error messages may carry replaceable fields (say $1, $2)
-            to provide more context to the message. E.g. Format related errors may
-            want to indicate the actual field for which the format is invalid. Client's
-            should use the values in the param array to replace those fields.
-          items:
-            type: string
-      description: Error object will be returned as a part of reponse body in conjunction
-        with ResponseInfo as part of ErrorResponse whenever the request processing
-        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
-        be HTTP 400.      
-    ErrorRes:
-      required:
-      - ResponseInfo
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
-        Errors:
-          type: array
-          description: Error response array corresponding to Request Object array.
-            In case of single object submission or _search related paths this may
-            be an array of one error element
-          items:
-            $ref: '#/components/schemas/Error'
-      description: All APIs will return ErrorRes in case of failure which will carry
-        ResponseInfo as metadata and Error object as actual representation of error.
-        In case of bulk apis, some apis may chose to return the array of Error objects
-        to indicate individual failure.    
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     PaymentRequest:
       type: object
+      required:
+      - requestInfo
+      - Payment
       properties:
         requestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         Payment:
           $ref: '#/components/schemas/Payment'
       description: Payment Request with Request Info.
@@ -1209,7 +1242,7 @@ components:
       type: object
       properties:
         responseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         Payment:
           $ref: '#/components/schemas/Payment'
       description: Receipt Request with Request Info.
@@ -1217,7 +1250,7 @@ components:
       type: object
       properties:
         requestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         Payment:
           $ref: '#/components/schemas/PaymentWorkflow'
       description: Payment Workflow Request with Request Info.
@@ -1341,8 +1374,12 @@ components:
           - CANCELLED
           - DISHONOURED
           - RECONCILED
+        fileStoreId:
+          type: string
+          description: Unique id criteria for filestore
+          format: varchar
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
     PaymentDetail:
       required:
       - billId
@@ -1362,6 +1399,10 @@ components:
           description: The total amount to be paid for the bill corresponding to the
             payment detail
           format: double
+        paymentId:
+          maxLength: 64
+          type: string
+          description: payment Id of the payment detail
         totalAmountPaid:
           type: number
           description: The amount that is being paid
@@ -1370,6 +1411,10 @@ components:
           maxLength: 64
           type: string
           description: Receipt number entered manually for legacy data.
+        manualReceiptDate:
+          type: integer
+          description: The epoch receipt date generated for the payment against the
+            bill
         receiptNumber:
           maxLength: 64
           type: string
@@ -1394,7 +1439,7 @@ components:
           type: integer
           description: Any additional fields can be captured here as a map
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
       description: The payment details of each bill
     PaymentWorkflow:
       required:
@@ -1404,6 +1449,7 @@ components:
       type: object
       properties:
         paymentId:
+          minLength: 1
           type: string
           description: id of the payment on which to take action .
         action:
@@ -1414,6 +1460,7 @@ components:
           - DISHONOUR
           - REMIT
         tenantId:
+          minLength: 1
           type: string
           description: tenantId of the payment
         reason:
@@ -1423,51 +1470,12 @@ components:
           type: integer
           description: Any additional fields can be captured here as a map
       description: Workflow object for payment
-    ResponseInfo:
-      required:
-      - apiId
-      - status
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version
-        ts:
-          type: integer
-          description: response time in epoch
-          format: int64
-        resMsgId:
-          maxLength: 256
-          type: string
-          description: unique response message id (UUID) - will usually be the correlation
-            id from the server
-        msgId:
-          maxLength: 256
-          type: string
-          description: message id of the request
-        status:
-          type: string
-          description: status of request processing - to be enhanced in futuer to
-            include INPROGRESS
-          enum:
-          - SUCCESSFUL
-          - FAILED
-      description: ResponseInfo should be used to carry metadata information about
-        the response from the server. apiId, ver and msgId in ResponseInfo should
-        always correspond to the same values in respective request's RequestInfo.
     RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          "$ref": "#/components/schemas/RequestInfo"    
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"    
     Remittance:
       title: Remittance
       required:
@@ -1477,9 +1485,10 @@ components:
       type: object
       properties:
         auditDetails:
-          "$ref": "#/components/schemas/AuditDetails"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
         bankaccount:
           type: string
+          description: bank account details
         function:
           type: string
         fund:
@@ -1524,17 +1533,22 @@ components:
       properties:
         chartOfAccount:
           type: string
+          description: Account chart
         creditAmount:
           type: number
+          description: Credit amount
           format: bigdecimal
         debitAmount:
           type: number
+          description: Debit amount
           format: bigdecimal
         id:
+          description: Unique system generated id
           type: string
         remittance:
           type: string
         tenantId:
+          description: "Unique id for a tenant."
           type: string
     RemittanceInstrument:
       title: RemittanceInstrument
@@ -1542,7 +1556,8 @@ components:
       - instrument
       type: object
       properties:
-        id:
+        id: 
+          description: "List of system generated ids of applications."
           type: string
         instrument:
           type: string
@@ -1551,6 +1566,7 @@ components:
         remittance:
           type: string
         tenantId:
+          description: Unique id of tenant
           type: string
     RemittanceReceipt:
       title: RemittanceReceipt
@@ -1558,8 +1574,10 @@ components:
       properties:
         id:
           type: string
+          description: Unique system generated id
         receipt:
           type: string
+          description:  Receipt ID generated for this payment
         remittance:
           type: string
         tenantId:
@@ -1576,7 +1594,7 @@ components:
           items:
             "$ref": "#/components/schemas/Remittance"
         RequestInfo:
-          "$ref": "#/components/schemas/RequestInfo"
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
     RemittanceResponse:
       title: RemittanceResponse
       type: object
@@ -1586,135 +1604,7 @@ components:
           items:
             "$ref": "#/components/schemas/Remittance"
         ResponseInfo:
-          "$ref": "#/components/schemas/ResponseInfo"          
-    RequestInfo:
-      required:
-      - action
-      - apiId
-      - msgId
-      - ts
-      - ver
-      type: object
-      properties:
-        apiId:
-          maxLength: 128
-          type: string
-          description: unique API ID
-        ver:
-          maxLength: 32
-          type: string
-          description: API version - for HTTP based request this will be same as used
-            in path
-        ts:
-          type: integer
-          description: time in epoch
-          format: int64
-        action:
-          maxLength: 32
-          type: string
-          description: API action to be performed like _create, _update, _search (denoting
-            POST, PUT, GET) or _oauth etc
-        did:
-          maxLength: 1024
-          type: string
-          description: Device ID from which the API is called
-        key:
-          maxLength: 256
-          type: string
-          description: API key (API key provided to the caller in case of server to
-            server communication)
-        msgId:
-          maxLength: 256
-          type: string
-          description: Unique request message id from the caller
-        requesterId:
-          maxLength: 256
-          type: string
-          description: UserId of the user calling
-        authToken:
-          type: string
-          description: //session/jwt/saml token/oauth token - the usual value that
-            would go into HTTP bearer token
-        userInfo:
-          $ref: '#/components/schemas/UserInfo'
-        correlationId:
-          type: string
-          readOnly: true
-      description: RequestInfo should be used to carry meta information about the
-        requests to the server as described in the fields below. All eGov APIs will
-        use requestinfo as a part of the request body to carry this meta information.
-        Some of this information will be returned back from the server as part of
-        the ResponseInfo in the response body to ensure correlation.
-    Role:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 64
-          type: string
-          description: Unique name of the role
-        description:
-          type: string
-          description: brief description of the role
-      description: |
-        minimal representation of the Roles in the system to be carried along in UserInfo with RequestInfo meta data. Actual authorization service to extend this to have more role related attributes
-    TenantRole:
-      required:
-      - roles
-      - tenantId
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: tenantid for the tenant
-        roles:
-          type: array
-          description: Roles assigned for a particular tenant - array of role codes/names
-          items:
-            $ref: '#/components/schemas/Role'
-      description: User role carries the tenant related role information for the user.
-        A user can have multiple roles per tenant based on the need of the tenant.
-        A user may also have multiple roles for multiple tenants.
-    UserInfo:
-      required:
-      - primaryrole
-      - tenantId
-      - userName
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: Unique Identifier of the tenant to which user primarily belongs
-        id:
-          type: integer
-          description: User id of the authenticated user. Will be deprecated in future
-          format: int32
-        userName:
-          type: string
-          description: Unique user name of the authenticated user
-        mobile:
-          type: string
-          description: mobile number of the autheticated user
-        email:
-          type: string
-          description: email address of the authenticated user
-        primaryrole:
-          type: array
-          description: List of all the roles for the primary tenant
-          items:
-            $ref: '#/components/schemas/Role'
-        additionalroles:
-          type: array
-          description: array of additional tenantids authorized for the authenticated
-            user
-          items:
-            $ref: '#/components/schemas/TenantRole'
-      description: This is acting ID token of the authenticated user on the server.
-        Any value provided by the clients will be ignored and actual user based on
-        authtoken will be used on the server.
-   
-    
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo"          
   parameters:
     pageSize:
       name: pageSize

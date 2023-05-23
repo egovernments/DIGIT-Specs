@@ -1,0 +1,378 @@
+openapi: 3.0.1
+info:
+  title: Location Service
+  contact:
+    name: eGov
+    email: info@egovernments.org
+  version: 1.1.0
+servers:
+- url: /location/v11
+paths:
+  /boundarys/_search:
+    post:
+      tags:
+      - Boundary
+      summary: It Will provide the List of boundaries based on search criteria Like
+        "Srikakulam  Municipality","Zone-1","Zone-2" etc.
+      description: |
+        Provides a list of boundaries based on TenantId And List of Boundary id's And List Of codes And BoundaryType And HierarchyType
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          maxLength: 256
+          type: string
+          format: varchar
+      - name: boundaryIds
+        in: query
+        description: List of boundary ids
+        schema:
+          type: integer
+          format: int64
+      - name: boundaryNum
+        in: query
+        description: List of boundary ids
+        schema:
+          type: integer
+          format: int64        
+      - name: boundaryType
+        in: query
+        description: lable of boundary within the tenant boundary structure
+        schema:
+          maxLength: 64
+          type: integer
+      - name: hierarchyType
+        in: query
+        description: Type Of the BoundaryType Like REVENUE, ADMIN
+        schema:
+          maxLength: 128
+          type: string
+          format: varchar
+      - name: codes
+        in: query
+        description: Unique List of boundary codes.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            format: varchar
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BoundaryResponse'
+        400:
+          description: Tenantid was not provided or General service error
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfo
+  /geography/_search:
+    post:
+      deprecated: true
+      tags:
+      - Geography
+      summary: Handles all requests related to Geographical boundaries by providing
+        appropriate GeoJson and other associated data
+      description: |
+        Handles all requests related to Geographical boundaries by providing appropriate GeoJson and other associated data based on tenantId or lat/long etc
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: filter
+        in: query
+        description: JSON path filter string for filtering the output
+        schema:
+          type: string
+      requestBody:
+        description: JSON path filter string for filtering the output
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+        required: false
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GeographicalResponse'
+        400:
+          description: Invalid tenant Id provided
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfoWapper
+  /tenant/_search:
+    post:
+      deprecated: true
+      tags:
+      - Tenant
+      summary: 'Resolves a given latitude / longitude to the corresponding tenant
+        Id '
+      description: |
+        Tries to resolve a given lat, long to a corresponding tenant, provided there exists a mapping between the reverse geocoded city to tenant.
+      parameters:
+      - name: tenantId
+        in: query
+        description: Unique id for a tenant.
+        required: true
+        schema:
+          type: string
+          format: varchar
+      - name: lat
+        in: query
+        description: Latitude
+        required: true
+        schema:
+          type: number
+      - name: lng
+        in: query
+        description: Longitude
+        required: true
+        schema:
+          type: number
+      requestBody:
+        description: JSON path filter string for filtering the output
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+        required: false
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TenantResponse'
+        400:
+          description: Unable to resolve tenant
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+      x-codegen-request-body-name: requestInfoWapper
+components:
+  schemas:
+    HierarchyType:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id for the HierarchyType.
+        code:
+          type: string
+          description: Unique Code for HierarchyType.
+        name:
+          type: string
+          description: HierarchyType Name.
+          format: varchar
+        label:
+          type: string
+          description: label in localization service
+          format: varchar
+    Boundary:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        code:
+          type: string
+          description: code of the boundary.
+        name:
+          type: string
+          description: name of the boundary.
+        label:
+          type: string
+          description: localized label for the boundry.
+        latitude:
+          type: string
+          description: latitude of the boundary.
+        longitude:
+          type: string
+          description: longitude of the boundary.
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        materializedPath:
+          type: string
+          description: materialized path of the boundary - this would be of the format
+            tenantid.[code] from parentt till teh current boundary
+          readOnly: true
+    Geography:
+      required:
+      - division
+      - geoJson
+      - name
+      - tenantId
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the Geography.
+        division:
+          type: string
+          description: Geographical division such as State, District, City.
+        geoJson:
+          type: object
+          properties: {}
+          description: Json Node object containing geoJson of the requested tenant
+        geoJsonChildren:
+          type: object
+          properties: {}
+          description: Json Node object containing geoJson of the requested tenant's
+            children
+        tenantId:
+          type: string
+          description: Tenant Id whose geographical data is requested.
+    TenantBoundary:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Unique id of the boundary tenant.
+        hierarchyType:
+          $ref: '#/components/schemas/HierarchyType'
+        boundary:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+    BoundaryResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        Boundary:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantBoundary'
+    GeographicalResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        Geography:
+          type: array
+          items:
+            $ref: '#/components/schemas/Geography'
+    TenantResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        Tenant:
+          $ref: '#/components/schemas/Tenant'
+    RequestInfoWrapper:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    Tenant:
+      required:
+      - code
+      - imageId
+      - logoId
+      - name
+      - type
+      type: object
+      properties:
+        code:
+          type: string
+          description: "Unique code of the role"
+        name:
+          maxLength: 256
+          type: string
+          description: The tenant name
+        description:
+          type: string
+        imageId:
+          type: string
+          description: Unique id credential for image
+        logoId:
+          type: string
+          description: Unique id credential for logo
+        domainUrl:
+          type: string
+          description: Domain url 
+        type:
+          type: string
+          enum:
+          - CITY
+        address:
+          maxLength: 300
+          type: string
+          description: Address of the tenant
+        contactNumber:
+          maxLength: 16
+          type: string
+          description: Contact number of the tenant
+        helpLineNumber:
+          maxLength: 16
+          type: string
+          description: Help line number of the tenant
+        twitterUrl:
+          maxLength: 100
+          type: string
+          description: Twitter URL of the tenant
+        facebookUrl:
+          maxLength: 100
+          type: string
+          description: Facebook URL of the tenant
+        emailId:
+          maxLength: 100
+          type: string
+          description: Email address of the tenant
+        city:
+          $ref: '#/components/schemas/City'
+    City:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the city
+        localName:
+          type: string
+        districtCode:
+          type: string
+          description: code of district
+        districtName:
+          type: string
+          description: name of district
+        regionName:
+          type: string
+          description: name of region
+        longitude:
+          type: number
+          description: longitude value
+        latitude:
+          type: number
+          description: latitude value
+        shapeFilePath:
+          maxLength: 100
+          type: string
+          description: Path in which tenant wise shape files are saved
+        captcha:
+          maxLength: 100
+          type: string
+          description: Captcha to distinguish human from machine input
+x-api-id: org.egov.boundary
