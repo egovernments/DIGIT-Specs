@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: Organisation Service
-  description: Organisation service and registry
+  description: Organisation service and registry. The spec has two components. The org services APIs are meant to house business logic such as Workflows and/or other validations. The organisation APIs provide access to the pure registry without any of the add-on services. Those who want to use the pure registry can do so without needing workflow and other services. 
 paths:
   /org-services/v1/_create:
     post:
