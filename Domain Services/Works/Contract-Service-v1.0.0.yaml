@@ -95,6 +95,11 @@ components:
           readOnly: true
           minLength: 1
           maxLength: 64
+        supplementaryNumber:
+          type: string
+          description: Formatted revision number. Empty in the case of an original contract. 
+          minLength: 1
+          maxLength: 64
         tenantId:
           type: string
           description: Tenant Identifier
@@ -107,6 +112,7 @@ components:
           enum:
             - ACTIVE
             - INACTIVE
+            - ARCHIVED
         wfStatus:
           type: string
           description: The status of the contract derived from Workflow
