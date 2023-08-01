@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.1.0
+  version: 1.0.0
   title: Contracts Service
   description: Functionality of a Works contract
 
@@ -89,7 +89,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ContractServiceResponse'
+                $ref: '#/components/schemas/ContractResponse'
         '400':
           description: Invalid input.
           content:
@@ -112,7 +112,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ContractServiceResponse'
+                $ref: '#/components/schemas/ContractResponse'
         '400':
           description: Invalid input.
           content:
@@ -135,7 +135,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ContractServiceResponse'
+                $ref: '#/components/schemas/ContractResponse'
         '400':
           description: Bad Request.
           content:
@@ -390,17 +390,3 @@ components:
           $ref: '#/components/schemas/Contract'
         workflow:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Workflow'
-    
-    ContractServiceResponse:
-      type: object
-      properties:
-        responseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/ResponseInfo'
-        contracts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Contract'
-        workflow:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Workflow'
-        pagination:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
