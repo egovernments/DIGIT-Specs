@@ -350,11 +350,17 @@ components:
       type: object
       description: >-
         Entity captures dimension being measured, unit of measurement and
-        associated value.
+        associated value. Measures can be defined in master in which case a code will be used to identify the measure. Master data can also define units of measurements. In case code is not present, then a name is mandatory along with uom, uomValue.
       properties:
         code:
           type: string
           description: Measurement dimension code derived from master. L or B or H
+          example: length, isDeduction, numItems
+          minLength: 2
+          maxLength: 256
+        name:
+          type: string
+          description: Measurement dimension name
           example: length, isDeduction, numItems
           minLength: 2
           maxLength: 256
@@ -383,9 +389,12 @@ components:
             Any additional information that needs to be attached to the
             estimate. For attachments, fileStoreIds will also be stored here.
       required:
-        - label
         - value
         - uom
+      oneOf:
+        - required:
+            - code
+            - name
     
     MeasurementExtended:
       type: object
