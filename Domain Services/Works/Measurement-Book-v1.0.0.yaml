@@ -2,10 +2,8 @@ openapi: 3.0.3
 info:
   title: Measurement Book APIs
   description: >
-    APIs to create, modify and search measurement books. Measurement books
-    contain a list of measurements against some baselines or reference values.
-    Measurements can aid in assessing progress with respect to the baseline or
-    reference values. There are two kinds of measurements - Abstract and Detailed. An abstract measurement records a value for a measurement. A detailed measurement records a value as well as the the parameters and associated measurements used to derive the value. An abstract measurement can have detailed measurements.
+    APIs to create, modify and search measurements for an entity identified through the referenceId. Measurements can aid in assessing progress with respect to the baseline or
+      reference values. What is to be measured and units of measurements to be defined in the service that uses the measurement service. Values captured in the measurement service are assumed to have the same units of measurement as the source service. Example: If the Works estimate service has defined a line item in cu.m, then a measurement of that line item is assumed to be in cu.m. 
   version: 1.0.0
   contact:
     name: eGov Foundation
@@ -17,63 +15,11 @@ externalDocs:
   description: DIGIT Works Platform
   url: https://works.digit.org
 tags:
-  - name: MeasurementBook
-    description: Endpoints for the measurement book registry
   - name: Measurement
-    description: Endpoints for adding measurements to a measurement book
+    description: APIs for creating and editing measurements
   - name: Measurement Services
-    description: APIs to create measurements along with Workflow and other business services on top of the registry.
+    description: APIs for creating and editing measurements with Workflow enabled.
 paths:
-  /measurementbook/v1/_create:
-    post:
-      summary: /mbook/v1/_create
-      description: Create a measurement book
-      tags:
-        - MeasurementBook
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MBRequest'
-      responses:
-        '202':
-          description: Accepted create measurement book request.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/MBResponse'
-        '400':
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: >-
-                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /measurementbook/v1/_update:
-    post:
-      summary: /mbook/v1/_update
-      description: Update values in a measurement book
-      tags:
-        - MeasurementBook
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MBRequest'
-      responses:
-        '200':
-          description: Accepted update measurement book request.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/MBResponse'
-        '400':
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: >-
-                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
   /measurement/v1/_create:
     post:
       summary: /measurement/v1/_create
@@ -124,7 +70,6 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  
   /measurementservice/v1/_create:
     post:
       summary: /measurementservice/v1/_create
@@ -178,70 +123,9 @@ paths:
                 
 components:
   schemas:
-    MeasurementBook:
+    Measurement:
       type: object
-      description: >-
-        The mBook models a physical measurement book. An mBook is created with a
-        list of items it is supposed to measure.
-      properties:
-        id:
-          type: string
-          description: Unique uuid for this measurement book
-          format: uuid
-          minLength: 2
-          maxLength: 64
-          readOnly: true
-        mBookNumber:
-          type: string
-          description: Formatted number for the measurement book
-          example: MB/2023-24/001
-          minLength: 2
-          maxLength: 64
-        referenceId:
-          type: string
-          description: >-
-            Reference to the entity this measurement book is related to.
-            Example: contract number or id
-          example: WO/2023-24/123
-          minLength: 2
-          maxLength: 64
-        referenceUri:
-          type: string
-          description: Base path of entity or service related to this MB
-          example: /contracts/
-        fromPeriod:
-          description: From date of validity period.Eg. validity of contract period.
-          type: number
-          format: timestamp
-        toPeriod:
-          description: To date of validity period.
-          type: number
-          format: timestamp
-        isActive:
-          type: boolean
-        measurables:
-          type: array
-          description: >-
-            List of items with reference values against which measurements will
-            be made. These can be master data defined per measurement type or point to ids in some other service. In the case of a health report, these are the item codes for BP, sugar, cholesterol etc..
-          example: contractLineItemIds
-          items:
-            type: string
-        auditDetails:
-          $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
-        additionalDetails:
-          type: object
-          description: >-
-            Any additional information that needs to be attached to the object.
-            For attachments, fileStoreIds will also be stored here. 
-      required:
-        - id
-        - measurables
-    
-    AbstractMeasurement:
-      type: object
-      description: This defines an abstract level of measurement without detailed parameters. Captures only a value with a unit of measurement without the exact dimensions used to arrive at said quantity. An abstract measurement can be derived from detailed measurements using some formula.
+      description: This defines a measurement with or without detailed measures.
       properties:
         id:
           type: string
@@ -254,56 +138,28 @@ components:
         measurementNumber:
           type: string
           description: Formatted number for this entry
-        measurementType:
-          type: string
-          description: The type of measurement. This will be a code from a namespaced master.
-          example: Works, TQM, Health
-        referenceId:
-          type: string
-          example: FSTP plant ID, Contract line item ID
-          description: The related entity for this measurement. Depends on implementation.
           minLength: 2
           maxLength: 64
-        targetId:
+          readOnly: true
+        physicalRefNumber:
           type: string
-          description: >-
-            References the measurable item for which this measurement is being
-            made.
-          example: measurableItemId, contractlineitemid
-        fromDate:
+          description: Reference to a real world mBook or file or docket. Optional attribute.
+          minLength: 2
+          maxLength: 100
+        referenceId:
+          type: string
+          example: Contract number
+          description: The entity to which this measurement belongs or is related to
+          minLength: 2
+          maxLength: 64
+        entryDate:
           type: number
+          description: Date (in epoch time) when measurement was taken if different from the system created time
           format: timestamp
-        toDate:
-          type: number
-          format: timestamp
-        value:
-          type: number
-          description: >-
-            Related to measures - if available - using a formula. Else can be
-            entered directly.
-        uom:
-          type: string
-          description: Unit of measurement for the value.
-        uomValue:
-          type: string
-          description: In case UOM is in multiples
-          example: 10kg
-        detailedMeasurements:
+        measures:
           type: array
           items:
-            $ref: '#/components/schemas/DetailedMeasurement'
-        comments:
-          type: string
-          description: Any observational comments made during measurement
-        location:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Address'
-        documents:
-          description: >-
-            Reference to documents related to the organisation that have been
-            attached via file upload
-          type: array
-          items:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Document'
+            $ref: '#/components/schemas/Measure'
         isActive:
           type: boolean
           description: Flag used to soft delete entries
@@ -317,69 +173,67 @@ components:
             Any additional information that needs to be attached to the
             estimate. For attachments, fileStoreIds will also be stored here.
       required:
-        - id
-        - value
-        - targetId
-        - uom
-        - uomValue
+        - referenceId
+        - entryDate
      
-    DetailedMeasurement:
-      type: object
-      properties:
-        allOf:
-          $ref: '#/components/schemas/AbstractMeasurement'
-        parentMeasurementId:
-          type: string
-          description: If this measurement is a child of another measurement
-        measures:
-          type: array
-          description: Parameters used to measure this item. This can be defined per measurementType in masters.
-          example: isDeduction, L, B, H, numItems etc..
-          items:
-            $ref: '#/components/schemas/Measure'
-          minItems: 1
-      required:
-        - id
-        - targetId
-        - measures
-        - uom
-        - uomValue
-        - value
-    
     Measure:
       type: object
       description: >-
-        Entity captures dimension being measured, unit of measurement and
-        associated value. Measures can be defined in master in which case a code will be used to identify the measure. Master data can also define units of measurements. In case code is not present, then a name is mandatory along with uom, uomValue.
+        Entity captures dimensions for a work item measurement
       properties:
-        code:
+        referenceId:
           type: string
-          description: Measurement dimension code derived from master. L or B or H
-          example: length, isDeduction, numItems
-          minLength: 2
-          maxLength: 256
-        name:
-          type: string
-          description: Measurement dimension name
-          example: length, isDeduction, numItems
-          minLength: 2
-          maxLength: 256
-        value:
-          type: number
-          description: Value of the measure. Related to the uom.
-          example: 10
-        uom:
-          type: string
-          description: Unit of measurement master data.
-          example: Nos, Kilogram, Meter, SquareMeter, CubicMeter, Celcius, ppm.
+          description: The measurement ID against which these measures are captured
+          example: measurementId
           minLength: 2
           maxLength: 64
-        uomValue:
+        targetId:
+          type: string
+          description: The item which is being measured. 
+          example: contractlineitemid
+          minLength: 2
+          maxLength: 64
+        length:
           type: number
-          description: Base qty for unit of measurement. Can be 1 or multiple
-          example: 10kg, 1tonne
+          description: Measured length if applicable 
+          example: 200
+          default: 1
+        breadth:
+          type: number
+          description: Measured breadth if applicable 
+          example: 200
+          default: 1
+        height:
+          type: number
+          description: Measured height if applicable
+          example: 200
+          default: 1
+        numItems:
+          type: number
+          description: Number of items with same dimensions
+          default: 1
+        currentValue:
+          type: number
+          description: Derived from LBHQ as L*B*H*Q or can be entered directly without LBHQ measurements. 
+        cumulativeValue:
+          type: number
+          description: Sum of all measurements so far for a given targetId
         isActive:
           type: boolean
+          description: Flag for soft deletion
+        comments:
+          type: string
+          description: Any observational comments made during measurement
+          minLength: 2
+          maxLength: 256
+        documents:
+          description: >-
+            Reference to documents related to the organisation that have been
+            attached via file upload
+          type: array
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Document'
+          minItems: 1
         auditDetails:
           $ref: >-
             https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
@@ -389,42 +243,17 @@ components:
             Any additional information that needs to be attached to the
             estimate. For attachments, fileStoreIds will also be stored here.
       required:
-        - value
-        - uom
-      oneOf:
-        - required:
-            - code
-            - name
-    
-    MeasurementExtended:
+        - targetId
+        - currentValue
+      
+    MeasurementService:
       type: object
       properties:
         allOf:
-          $ref: '#/components/schemas/DetailedMeasurement'
+          $ref: '#/components/schemas/Measurement'
         workflow:
             $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Workflow'
-    MBRequest:
-      type: object
-      description: Encapsulates a measurement book request
-      properties:
-        requestInfo:
-          $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
-        mBooks:
-          type: array
-          items:
-            $ref: '#/components/schemas/MeasurementBook'
-    MBResponse:
-      type: object
-      description: Encapsulates a MB response
-      properties:
-        responseInfo:
-          $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
-        mBooks:
-          type: array
-          items:
-            $ref: '#/components/schemas/MeasurementBook'
+  
     MeasurementRequest:
       type: object
       description: Encapsulates a measurement entry request
@@ -432,17 +261,10 @@ components:
         requestInfo:
           $ref: >-
             https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
-        measurementType:
-          type: string
-          enum:
-            - ABSTRACT
-            - DETAILED
         measurements:
           type: array
           items:
-            oneOf:
-              - $ref: '#/components/schemas/AbstractMeasurement'
-              - $ref: '#/components/schemas/DetailedMeasurement'
+            $ref: '#/components/schemas/Measurement'
           minItems: 1
     MeasurementResponse:
       type: object
@@ -454,7 +276,7 @@ components:
         measurements:
           type: array
           items:
-            $ref: '#/components/schemas/DetailedMeasurement'
+            $ref: '#/components/schemas/Measurement'
     MeasurementServiceRequest:
       type: object
       description: Encapsulates a measurement book service request. Takes a singleton along with workflow.
@@ -465,7 +287,7 @@ components:
         measurements:
           type: array
           items:
-            $ref: '#/components/schemas/MeasurementExtended'
+            $ref: '#/components/schemas/MeasurementService'
     
     MeasurementServiceResponse:
       type: object
@@ -477,4 +299,4 @@ components:
         measurements:
           type: array
           items:
-            $ref: '#/components/schemas/MeasurementExtended'
+            $ref: '#/components/schemas/MeasurementService'
