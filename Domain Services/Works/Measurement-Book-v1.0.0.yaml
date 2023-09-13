@@ -70,6 +70,34 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+  
+  /measurements/v1/_search:
+    post:
+      summary: /measurement/v1/_search
+      description: Search values in a measurement book
+      tags:
+        - Measurement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MeasurementSearchRequest'
+      responses:
+        '200':
+          description: Accepted update measurement book request.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MeasurementResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+
+  
   /measurementservice/v1/_create:
     post:
       summary: /measurementservice/v1/_create
@@ -95,6 +123,32 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+  /measurementservice/v1/_search:
+    post:
+      summary: /measurementservice/v1/_search
+      description: Search values in a measurement book
+      tags:
+        - Measurement Services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MeasurementSearchRequest'
+      responses:
+        '200':
+          description: Accepted update measurement book request.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MeasurementServiceResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+  
   /measurementservice/v1/_update:
     post:
       summary: /measurementservice/v1/_update
@@ -120,7 +174,7 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-                
+         
 components:
   schemas:
     Measurement:
@@ -289,6 +343,32 @@ components:
           items:
             $ref: '#/components/schemas/MeasurementService'
     
+    MeasurementCriteria:
+      type: object
+      properties:
+        referenceId:
+          type: array
+          items:
+            type: string
+        measurementNumber:
+          type: string
+        ids:
+          type: array
+          items: 
+            type: string
+        
+    MeasurementSearchRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
+        criteria:
+          $ref: '#/components/schemas/MeasurementCriteria'
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+  
+
     MeasurementServiceResponse:
       type: object
       description: Encapsulates a measurement service response. Returns an array of measurements with workflow.
