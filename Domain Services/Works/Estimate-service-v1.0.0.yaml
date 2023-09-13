@@ -410,7 +410,7 @@ components:
       properties:
         requestInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/RequestHeader
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         estimate:
           $ref: '#/components/schemas/Estimate'
         workflow:
@@ -441,7 +441,7 @@ components:
       properties:
         responseInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/RequestHeader
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         estimates:
           type: array
           items:
@@ -454,7 +454,7 @@ components:
       properties:
         requestInfo:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/RequestHeader
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
     save-estimate:
       allOf:
         - $ref: '#/components/schemas/EstimateRequest'
