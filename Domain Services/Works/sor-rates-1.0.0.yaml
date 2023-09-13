@@ -198,13 +198,13 @@ components:
           type: string
           description: 'The unique formatted identifier or code of the SOR'
           example: 'LD-00001'
-          minLength: 2
+          minLength: 4
           maxLength: 64
           readOnly: true
         sorType:
           type: string
-          description: 'The SOR type code from master data. Namespaced master that can contain the subtype also'
-          example: Material, Works, Labour
+          description: 'The SOR type code from master data with subtype saperated with special symbol'
+          example: Material, Works:Earth Work, Labour
           minLength: 1
           maxLength: 64
           readOnly: true
@@ -268,11 +268,13 @@ components:
         code:
           type: string
           description: 'SOR code or head code'
+          example: "MR"
           maxLength:  128
           minLength: 2
         description:
           type: string
           description: 'Description of head details'
+          example: "Material Basic Rate"
           minLength: 2
           maxLength: 256
         isActive:
@@ -334,8 +336,6 @@ components:
           items:
             type: string
         sorType:
-          type: string
-        sorSubType:
           type: string
         sorVariant:
           type: string
