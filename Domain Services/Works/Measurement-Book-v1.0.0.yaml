@@ -235,6 +235,14 @@ components:
       description: >-
         Entity captures dimensions for a work item measurement
       properties:
+        id:
+          type: string
+          description: Unique identifier of the measurement
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+          readOnly: true
         referenceId:
           type: string
           description: The measurement ID against which these measures are captured
