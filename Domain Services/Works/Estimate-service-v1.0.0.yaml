@@ -343,18 +343,27 @@ components:
           format: uuid
           example: 251c51eb-e970-4e01-a99a-70136c47a934
           readOnly: true
-        referenctId: 
+          minLength: 2
+          maxLength: 64
+        referenceId: 
           type: string
           description: Estimate details ID against which these measurement sheet are captured
           format: uuid
           example: 251c51eb-e970-4e01-a99a-70136c47a934
           readOnly: true
+          minLength: 2
+          maxLength: 200
         description:
           type: string
+          description: Description of the detailed measurement
+          minLength: 2
+          maxLength: 512
         uom:
           type: string
-          description: Unit of measurement master data for non-sor
+          description: Unit of measurement code master data for non-sor
           example: Kilogram, meter, number
+          minLength: 2
+          maxLength: 64
         uomValue:
           type: number
           description: Unit of measurement value. Linked with uom
@@ -367,6 +376,8 @@ components:
           type: number
         numItems:
           type: number
+        totalValue: 
+          type: number
         isDeduction:
           type: boolean
         additionalDetails:
@@ -374,6 +385,12 @@ components:
           description: >-
             Any additional information that needs to be attached to the
             estimate. For attachments, fileStoreIds will also be stored here. 
+        auditDetails:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+   
+      required:
+        - currentValue
         
     AmountDetail:
       type: object
