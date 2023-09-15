@@ -210,6 +210,9 @@ components:
           type: number
           description: Date (in epoch time) when measurement was taken if different from the system created time
           format: timestamp
+        cumulativeValue:
+          type: number
+          description: Sum of all measurements so far for a given targetId
         measures:
           type: array
           items:
@@ -277,9 +280,6 @@ components:
         currentValue:
           type: number
           description: Derived from LBHQ as L*B*H*Q or can be entered directly without LBHQ measurements. 
-        cumulativeValue:
-          type: number
-          description: Sum of all measurements so far for a given targetId
         isActive:
           type: boolean
           description: Flag for soft deletion
