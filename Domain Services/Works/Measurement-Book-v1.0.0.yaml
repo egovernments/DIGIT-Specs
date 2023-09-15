@@ -71,7 +71,7 @@ paths:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
   
-  /measurements/v1/_search:
+  /measurement/v1/_search:
     post:
       summary: /measurement/v1/_search
       description: Search values in a measurement book
@@ -310,9 +310,9 @@ components:
       
     MeasurementService:
       type: object
+      allOf:
+        - $ref: '#/components/schemas/Measurement'
       properties:
-        allOf:
-          $ref: '#/components/schemas/Measurement'
         workflow:
             $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Workflow'
   
