@@ -305,17 +305,20 @@ components:
           example: Kilogram, meter, number
         uomValue:
           type: number
-          description: Unit of measurement value. Linked with uom
+          description: Unit of measurement value for the noOfUnit attribute. Linked with uom
           example: 5
         length:
           type: number
-          description: Length of the item being estimated
+          description: Length of the item being estimated. 
         width:
           type: number
           description: Width of the item being estimated
         height: 
           type: number
           description: Height of the item being estimated
+        quantity:
+          type: number
+          description: Total number of items with the same measurements. This will factor into the calculation.
         isDeduction:
           type: boolean
           description: Whether this is a deduction or an addition
