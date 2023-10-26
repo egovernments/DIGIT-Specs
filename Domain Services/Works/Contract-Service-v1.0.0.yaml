@@ -100,6 +100,15 @@ components:
           description: Formatted revision number. Empty in the case of an original contract. 
           minLength: 1
           maxLength: 64
+        businessService:
+          type: string
+          description: Business service name
+          minLength: 2
+          maxLength: 64
+          example: CONTRACT, REVISION-CONTRACT
+        versionNumber:
+          type: number
+
         tenantId:
           type: string
           description: Tenant Identifier
@@ -183,6 +192,13 @@ components:
           readOnly: true
           minLength: 1
           maxLength: 64
+        lineitemNumber:
+          type: string
+          description: Unique Formated lineitem number
+          readOnly: true
+          minLength: 1
+          maxLength: 64
+          example: CON-LI/2023-24/001
         estimateId:
           type: string
           description: Unique estimate uuid from estimate service
