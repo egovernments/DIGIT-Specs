@@ -108,7 +108,8 @@ components:
           example: CONTRACT, REVISION-CONTRACT
         versionNumber:
           type: number
-
+          description: Current revision number of contract
+          example: 1
         tenantId:
           type: string
           description: Tenant Identifier
@@ -192,13 +193,13 @@ components:
           readOnly: true
           minLength: 1
           maxLength: 64
-        lineitemNumber:
+        contractLineItemRef:
           type: string
-          description: Unique Formated lineitem number
+          description: Lineitem id which will be same when creating and revising the contract, this will used for external services
+          format: uuid
           readOnly: true
           minLength: 1
           maxLength: 64
-          example: CON-LI/2023-24/001
         estimateId:
           type: string
           description: Unique estimate uuid from estimate service
