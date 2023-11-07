@@ -182,6 +182,18 @@ components:
           minLength: 2
           maxLength: 64
           readOnly: true
+        revisionNumber:
+          type: string
+          description: Formatted revision number. Empty in the case of an original estimate. 
+          example: EST/2022-23/010-001
+          minLength: 1
+          maxLength: 64
+        businessService:
+          type: string
+          description: Business service name
+          minLength: 2
+          maxLength: 64
+          example: ESTIMATE, REVISION-ESTIMATE
         projectId:
           type: string
           description: Link the estimate to the project. Project ID is not updatable.
@@ -332,6 +344,12 @@ components:
           enum:
             - ACTIVE
             - INACTIVE
+        prevLineitemId:
+          type: string
+          description: Previous Estimate detail id, This will required for revision 
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          readOnly: true
         additionalDetails:
           type: object
           description: >-
@@ -377,7 +395,7 @@ components:
       type: object
       description: Request for Estimate _create and _update api's
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: >-
             https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         estimate:
@@ -401,14 +419,14 @@ components:
           required:
             - action
       required:
-        - requestInfo
+        - RequestInfo
         - estimate
         - workflow
     EstimateResponse:
       type: object
       description: Response for the Estimate _create, _update and _search api's
       properties:
-        responseInfo:
+        ResponseInfo:
           $ref: >-
             https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         estimates:
@@ -421,7 +439,7 @@ components:
     RequestInfoWrapper:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: >-
             https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
     save-estimate:
