@@ -182,7 +182,7 @@ components:
           minLength: 2
           maxLength: 64
           readOnly: true
-        supplementaryNumber:
+        revisionNumber:
           type: string
           description: Formatted revision number. Empty in the case of an original estimate. 
           example: EST/2022-23/010-001
@@ -344,6 +344,12 @@ components:
           enum:
             - ACTIVE
             - INACTIVE
+        prevLineitemId:
+          type: string
+          description: Previous Estimate detail id, This will required for revision 
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          readOnly: true
         additionalDetails:
           type: object
           description: >-
