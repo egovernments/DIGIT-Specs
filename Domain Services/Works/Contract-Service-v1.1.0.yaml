@@ -5,7 +5,7 @@ info:
   description: Functionality of a Works contract
 
 paths: 
-  /contract/v1/_create:
+  /contract/v1.1/_create:
     post:
       tags:
       - Contract
@@ -28,7 +28,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes'
   
-  /contract/v1/_update:
+  /contract/v1.1/_update:
     post:
       tags:
       - Contract
@@ -51,7 +51,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes'
   
-  /contract/v1/_search:
+  /contract/v1.1/_search:
     post:
       tags:
       - Contract
@@ -59,7 +59,76 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ContractCriteria'
+              $ref: '#/components/schemas/ContractSearchRequest'
+      responses:
+        '200':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ContractResponse'
+        '400':
+          description: Bad Request.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes'
+
+  /contractservices/v1/_create:
+    post:
+      tags:
+      - ContractServices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractServiceRequest'
+      responses:
+        '202':
+          description: Accepted create contract request.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ContractResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes'
+  
+  /contractservices/v1/_update:
+    post:
+      tags:
+      - ContractServices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractServiceRequest'
+      responses:
+        '202':
+          description: Accepted create contract request.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ContractResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes'
+  
+  /contractservices/v1/_search:
+    post:
+      tags:
+      - ContractServices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractSearchRequest'
       responses:
         '200':
           description: Successful response sorted by reverse chrnological order of creation
@@ -95,6 +164,11 @@ components:
           readOnly: true
           minLength: 1
           maxLength: 64
+        supplementaryNumber:
+          type: string
+          description: Formatted revision number. Empty in the case of an original contract. 
+          minLength: 1
+          maxLength: 64
         tenantId:
           type: string
           description: Tenant Identifier
@@ -107,6 +181,7 @@ components:
           enum:
             - ACTIVE
             - INACTIVE
+            - ARCHIVED
         wfStatus:
           type: string
           description: The status of the contract derived from Workflow
@@ -283,9 +358,7 @@ components:
           $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
         contract:
           $ref: '#/components/schemas/Contract'
-        workflow:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Workflow'
-    
+     
     ContractResponse:
       type: object
       properties:
@@ -297,3 +370,23 @@ components:
             $ref: '#/components/schemas/Contract'
         pagination:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+
+    ContractSearchRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
+        contractCriteria:
+          $ref: '#/components/schemas/ContractCriteria'
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+    
+    ContractServiceRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
+        contract:
+          $ref: '#/components/schemas/Contract'
+        workflow:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Workflow'
