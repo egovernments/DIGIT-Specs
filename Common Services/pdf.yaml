@@ -127,7 +127,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/RequestInfo'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         required: false
       responses:
         200:
@@ -152,7 +152,7 @@ components:
       type: object
       properties:
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         message:
           type: string
         filestoreIds:
@@ -182,113 +182,11 @@ components:
         moduleName:
           type: string
           description: modulename defined in pdf config
-    Role:
-      required:
-      - code
-      - id
-      - name
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        code:
-          type: string
-    User:
-      required:
-      - emailId
-      - id
-      - mobileNumber
-      - name
-      - roles
-      - tenantId
-      - type
-      - userName
-      - uuid
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        userName:
-          type: string
-        name:
-          type: string
-        type:
-          type: string
-        mobileNumber:
-          type: string
-        emailId:
-          type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-        tenantId:
-          type: string
-        uuid:
-          type: string
-    ResponseInfo:
-      type: object
-      properties:
-        apiId:
-          type: string
-        ver:
-          type: string
-        ts:
-          type: number
-        resMsgId:
-          type: string
-        msgId:
-          type: string
-        status:
-          type: string
-        correlationId:
-          type: string
-        userInfo:
-          $ref: '#/components/schemas/User'
-    RequestInfo:
-      required:
-      - action
-      - apiId
-      - authToken
-      - correlationId
-      - did
-      - key
-      - msgId
-      - ts
-      - userInfo
-      - ver
-      type: object
-      properties:
-        apiId:
-          type: string
-        ver:
-          type: string
-        ts:
-          type: integer
-          format: int64
-        action:
-          type: string
-        did:
-          type: string
-        key:
-          type: string
-        msgId:
-          type: string
-        authToken:
-          type: string
-        correlationId:
-          type: string
-        userInfo:
-          $ref: '#/components/schemas/User'
     PDFRequest:
       type: object
       properties:
-        ResponseInfo:
-          $ref: '#/components/schemas/RequestInfo'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
         moduleObjectWithName:
           type: object
           properties: {}

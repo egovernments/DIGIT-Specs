@@ -20,23 +20,30 @@ paths:
   /v1/noc/_create:
     post:
       tags:
-        - noc-controller
-      summary: create
+        - Noc Apply
+      summary: Apply for an NOC.
+      description: Citizen or Employee, can apply for new build plan approval
       operationId: createUsingPOST
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NocRequest'
+      
+      
       responses:
         '200':
           description: OK
+        '202':
+          description: Application submitted successfully
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/NocResponse'
         '201':
           description: Created
+        '400':
+          description: Failed to process the application  
         '401':
           description: Unauthorized
         '403':
@@ -72,9 +79,11 @@ paths:
         required: true
   /v1/noc/_search:
     post:
+      summary: Get the list of application by passing the diffrent search criteria.
+      description: |
+        Get the properties list based on the input parameters.
       tags:
-        - noc-controller
-      summary: search
+        - Noc Apply
       operationId: searchUsingPOST
       parameters:
         - name: accountId
@@ -87,6 +96,7 @@ paths:
               type: string
         - name: applicationNo
           in: query
+          description: application numbers
           required: false
           style: form
           schema:
@@ -114,18 +124,21 @@ paths:
             type: string
         - name: nocNo
           in: query
+          description: approval number
           required: false
           style: form
           schema:
             type: string
         - name: nocType
           in: query
+          description: approval type
           required: false
           style: form
           schema:
             type: string
         - name: offset
           in: query
+          description: offset
           required: false
           style: form
           schema:
@@ -133,6 +146,7 @@ paths:
             format: int32
         - name: ownerIds
           in: query
+          description: Id credential for Owners
           required: false
           style: pipeDelimited
           schema:
@@ -141,18 +155,21 @@ paths:
               type: string
         - name: source
           in: query
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
           required: false
           style: form
           schema:
             type: string
         - name: sourceRefId
           in: query
+          description: 'Source reference Id'
           required: false
           style: form
           schema:
             type: string
         - name: status
           in: query
+          description: current application status in the system records
           required: false
           style: pipeDelimited
           schema:
@@ -161,6 +178,7 @@ paths:
               type: string
         - name: tenantId
           in: query
+          description: "Unique id for a tenant."
           required: true
           style: form
           schema:
@@ -179,6 +197,8 @@ paths:
                 $ref: '#/components/schemas/NocResponse'
         '201':
           description: Created
+        '400':
+          description: Invalid input    
         '401':
           description: Unauthorized
         '403':
@@ -187,30 +207,10 @@ paths:
           description: Not Found
   
 servers:
-# Added by API Auto Mocking Plugin
-  - url: 'https://egov-micro-dev.egovernments.org'
+  - url: 'https://dev.digit.org'
 components:
   schemas:
   
-   AuditDetails:
-      title: AuditDetails
-      type: object
-      properties:
-        createdBy:
-          type: string
-          description: username (preferred) or userid of the user that created the object
-        createdTime:
-          type: integer
-          description: epoch of the time object is created
-          format: int64
-        lastModifiedBy:
-          type: string
-          description: username (preferred) or userid of the user that last modified the object
-        lastModifiedTime:
-          type: integer
-          description: epoch of the time object is last modified
-          format: int64
-      description: Collection of audit related fields used by most models
    Document:
       title: Document
       type: object
@@ -267,7 +267,7 @@ components:
             - PROVISIONAL
             - RENEW
         auditDetails:
-          $ref: '#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
         documents:
           type: array
           description: The documents attached by owner for exemption.
@@ -326,7 +326,7 @@ components:
         Noc:
           $ref: '#/components/schemas/Noc'
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
       description: A object to bind the metadata contract and main application contract
    NocResponse:
       title: NocResponse
@@ -337,103 +337,17 @@ components:
           items:
             $ref: '#/components/schemas/Noc'
         ResponseInfo:
-          $ref: '#/components/schemas/ResponseInfo'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
         count:
           type: integer
           format: int32
       description: Contains the ResponseMetadate and the main application contract
-   RequestInfo:
-      title: RequestInfo
-      type: object
-      properties:
-        action:
-          type: string
-        apiId:
-          type: string
-        authToken:
-          type: string
-        correlationId:
-          type: string
-        did:
-          type: string
-        key:
-          type: string
-        msgId:
-          type: string
-        ts:
-          type: integer
-          format: int64
-        userInfo:
-          $ref: '#/components/schemas/User'
-        ver:
-          type: string
    RequestInfoWrapper:
       title: RequestInfoWrapper
       type: object
       properties:
         RequestInfo:
-          $ref: '#/components/schemas/RequestInfo'
-   ResponseInfo:
-      title: ResponseInfo
-      type: object
-      properties:
-        apiId:
-          type: string
-        msgId:
-          type: string
-        resMsgId:
-          type: string
-        status:
-          type: string
-        ts:
-          type: integer
-          format: int64
-        ver:
-          type: string
-   Role:
-      title: Role
-      type: object
-      properties:
-        code:
-          type: string
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        tenantId:
-          type: string
-   User:
-      title: User
-      type: object
-      properties:
-        emailId:
-          type: string
-        id:
-          type: integer
-          format: int64
-        mobileNumber:
-          type: string
-        name:
-          type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-        tenantId:
-          type: string
-        type:
-          type: string
-        userName:
-          type: string
-        uuid:
-          type: string
-   View:
-      title: View
-      type: object
-      properties:
-        contentType:
-          type: string
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
    Workflow:
       title: Workflow
       type: object

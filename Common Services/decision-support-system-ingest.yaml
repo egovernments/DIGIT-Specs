@@ -59,11 +59,13 @@ paths:
       parameters:
       - name: indexName
         in: path
+        description: index name
         required: true
         schema:
           type: string
       - name: version
         in: path
+        description: version
         required: true
         schema:
           type: string
@@ -77,6 +79,7 @@ paths:
       parameters:
       - name: consumerId
         in: path
+        description: unique consumer id 
         required: true
         schema:
           type: string
@@ -96,6 +99,7 @@ paths:
       parameters:
       - name: consumerId
         in: path
+        description: unique consumer id 
         required: true
         schema:
           type: string
