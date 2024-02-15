@@ -276,3 +276,251 @@ paths:
                           uuid:
                             type: "string"
                             example: "3ae47a59-ed1e-489d-b8fb"
+  /hcm-bff/api/_generate:
+    post:
+      summary: "This API endpoint updates the API resources table"
+      description: "This API endpoint updates the API resources table"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                RequestInfo:
+                  type: "object"
+                  properties:
+                    apiId:
+                      type: "string"
+                    authToken:
+                      type: "string"
+                    userInfo:
+                      type: "object"
+                      properties:
+                        id:
+                          type: "integer"
+                        uuid:
+                          type: "string"
+                        userName:
+                          type: "string"
+                        name:
+                          type: "string"
+                        mobileNumber:
+                          type: "string"
+                        emailId:
+                          type: "string"
+                        locale:
+                          type: "string"
+                        type:
+                          type: "string"
+                        roles:
+                          type: "array"
+                          items:
+                            type: "object"
+                            properties:
+                              name:
+                                type: "string"
+                              code:
+                                type: "string"
+                              tenantId:
+                                type: "string"
+                        active:
+                          type: "boolean"
+                        tenantId:
+                          type: "string"
+                        permanentCity:
+                          type: "string"
+                    msgId:
+                      type: "string"
+                    plainAccessRequest:
+                      type: "object"
+      responses:
+        '200':
+          description: "Successful response for update"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  ResponseDetails:
+                    type: "object"
+                    properties:
+                      type:
+                        type: "string"
+                        example: "facility"
+                      status:
+                        type: "string"
+                        example: "Table up to date"
+        '400':
+          description: "Error response for update"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  ResponseInfo:
+                    type: "object"
+                    example: null
+                  Errors:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        code:
+                          type: "string"
+                          example: "GENERATION_ERROR"
+                        message:
+                          type: "string"
+                          example: "Some problem in generation"
+                        description:
+                          type: "string"
+                          example: null
+                        params:
+                          type: "string"
+                          example: null
+  /hcm-bff/api/_download:
+    post:
+      summary: "To Download API resources"
+      description: "This API endpoint fetches the download url for excel file that contains API Resources"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                RequestInfo:
+                  type: "object"
+                  properties:
+                    apiId:
+                      type: "string"
+                    authToken:
+                      type: "string"
+                    userInfo:
+                      type: "object"
+                      properties:
+                        id:
+                          type: "integer"
+                        uuid:
+                          type: "string"
+                        userName:
+                          type: "string"
+                        name:
+                          type: "string"
+                        mobileNumber:
+                          type: "string"
+                        emailId:
+                          type: "string"
+                        locale:
+                          type: "string"
+                        type:
+                          type: "string"
+                        roles:
+                          type: "array"
+                          items:
+                            type: "object"
+                            properties:
+                              name:
+                                type: "string"
+                              code:
+                                type: "string"
+                              tenantId:
+                                type: "string"
+                        active:
+                          type: "boolean"
+                        tenantId:
+                          type: "string"
+                        permanentCity:
+                          type: "string"
+                    msgId:
+                      type: "string"
+                    plainAccessRequest:
+                      type: "object"
+      responses:
+        '200':
+          description: "Successful response for update"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  RequestInfo:
+                    type: "object"
+                    properties:
+                      apiId:
+                        type: "string"
+                        example: "Rainmaker"
+                      authToken:
+                        type: "string"
+                        example: "4647c997-849a-4126-9ee6-b7f0783d35ce"
+                      userInfo:
+                        type: "object"
+                        properties:
+                          id:
+                            type: "integer"
+                            example: 281
+                          uuid:
+                            type: "string"
+                            example: "3ae47a59-ed1e-489d-b8fb-a78e7a167966"
+                          userName:
+                            type: "string"
+                            example: "EMP54"
+                          name:
+                            type: "string"
+                            example: "Jagan"
+                          mobileNumber:
+                            type: "string"
+                            example: "6667776662"
+                          emailId:
+                            type: "string"
+                            example: "xyz@egovernments.org"
+                          locale:
+                            type: "string"
+                            example: "en_US"
+                          type:
+                            type: "string"
+                            example: "EMPLOYEE"
+                          roles:
+                            type: "array"
+                            items:
+                              type: "object"
+                              properties:
+                                name:
+                                  type: "string"
+                                  example: "System Administrator"
+                                code:
+                                  type: "string"
+                                  example: "SYSTEM_ADMINISTRATOR"
+                                tenantId:
+                                  type: "string"
+                                  example: "mz"
+                        active:
+                          type: "boolean"
+                          example: true
+                        tenantId:
+                          type: "string"
+                          example: "mz"
+                        permanentCity:
+                          type: "string"
+                          example: "Amritsar"
+                      msgId:
+                        type: "string"
+                        example: "1707459080569|en_IN"
+                      plainAccessRequest:
+                        type: "object"
+                        example: {}
+                  fileStoreIds:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        fileStoreid:
+                          type: "string"
+                          example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+                        type:
+                          type: "string"
+                          example: "facility"
+                        url:
+                          type: "string"
+                          example: "https://unified-uat-filestore.s3-ap-south-1.amazonaws.com/mz/pgr/February/8/1707393265007mXVKObMAqy.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCURO6LLX5SS6CNF%2F20240209%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240209T091624Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=507dd50aa25be05789aaf0c0f4cdcb1555f59053b299fef5228f218eb67e3218"
+                        additionalDetails:
