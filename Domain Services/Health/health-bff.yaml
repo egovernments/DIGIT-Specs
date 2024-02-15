@@ -97,7 +97,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
+                $ref: '#/components/schemas/BulkGenerateResponse'
         400:
           description: Invalid input.
           content:
@@ -106,100 +106,55 @@ paths:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /hcm-bff/v1/_download:
     post:
-      summary: "To Download API resources"
-      description: "This API endpoint fetches the download url for excel file that contains API Resources"
+      summary: "This API endpoint updates the API resources table"
+      description: "This API endpoint updates the API resources table"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: "object"
+              type: object
               properties:
                 RequestInfo:
-                  type: "object"
-                  properties:
-                    apiId:
-                      type: "string"
-                    authToken:
-                      type: "string"
-                    userInfo:
-                      type: "object"
-                      properties:
-                        id:
-                          type: "integer"
-                        uuid:
-                          type: "string"
-                        userName:
-                          type: "string"
-                        name:
-                          type: "string"
-                        mobileNumber:
-                          type: "string"
-                        emailId:
-                          type: "string"
-                        locale:
-                          type: "string"
-                        type:
-                          type: "string"
-                        roles:
-                          type: "array"
-                          items:
-                            type: "object"
-                            properties:
-                              name:
-                                type: "string"
-                              code:
-                                type: "string"
-                              tenantId:
-                                type: "string"
-                        active:
-                          type: "boolean"
-                        tenantId:
-                          type: "string"
-                        permanentCity:
-                          type: "string"
-                    msgId:
-                      type: "string"
-                    plainAccessRequest:
-                      type: "object"
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      parameters:
+      - name: tenantId
+        in: query
+        description: unique id for a tenant.
+        required: true
+        schema:
+          maxLength: 256
+          type: string
+          format: varchar
+      - name: type
+        in: query
+        description: type of the resource
+        required: true
+        schema:
+          maxLength: 256
+          type: string
+          format: varchar
+      - name: fileStoreId
+        in: query
+        description: unique id of the generated request
+        required: false
+        schema:
+          maxLength: 256
+          type: string
+          format: varchar
       responses:
-        '200':
-          description: "Successful response for update"
+        200:
+          description: Successful Response.
           content:
-            application/json:
+            '*/*':
               schema:
-                type: "object"
-                properties:
-                  RequestInfo:
-                    type: "object"
-                    properties:
-                      apiId:
-                        type: "string"
-                        example: "Rainmaker"
-                      authToken:
-                        type: "string"
-                        example: "4647c997-849a-4126-9ee6-b7f0783d35ce"
-                      msgId:
-                        type: "string"
-                        example: "1707459080569|en_IN"
-                      plainAccessRequest:
-                        type: "object"
-                        example: {}
-                  fileStoreIds:
-                    type: "array"
-                    items:
-                      type: "object"
-                      properties:
-                        fileStoreid:
-                          type: "string"
-                          example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
-                        type:
-                          type: "string"
-                          example: "facility"
-                        url:
-                          type: "string"
-                          example: "https://unified-uat-filestore.s3-ap-south-1.amazonaws.com/mz/pgr/February/8/1707393265007mXVKObMAqy.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCURO6LLX5SS6CNF%2F20240209%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240209T091624Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=507dd50aa25be05789aaf0c0f4cdcb1555f59053b299fef5228f218eb67e3218"
-                        additionalDetails:
+                $ref: '#/components/schemas/BulkDownloadResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
 components:
   schemas:
     BulkResourceCreateRequest:
@@ -214,6 +169,8 @@ components:
       properties:
         type:
           type: "string"
+        tenantId:
+          type: "string"
         fileStoreId:
           type: "string"
     BulkResourceCreateResponse:
@@ -226,12 +183,14 @@ components:
     CreateResponseDetails:
       type: "object"
       properties:
-        status:
-          type: "string"
-          example: "data-accepted"
         id:
           type: "string"
           example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+        tenantId:
+          type: "string"
+        status:
+          type: "string"
+          example: "data-accepted"
         processReferenceNumber:
           type: "string"
           example: "PRO-001-001-001"
@@ -253,6 +212,8 @@ components:
               type: "array"
               items:
                 type: "string"
+            tenantId:
+              type: "string"
             processReferenceNumber:
               type: "string"
             type:
@@ -273,6 +234,8 @@ components:
               id:
                 type: "string"
                 example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+              tenantId:
+                type: "string"
               processReferenceNumber:
                 type: "string"
                 example: "PRO-001-001-001"
@@ -303,6 +266,7 @@ components:
             example:
               - status: "data-accepted"
                 id: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+                tenantId: "pg.citya"
                 processReferenceNumber: "PRO-001-001-001"
                 fileStoreId: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
                 type: "facility"
@@ -314,6 +278,7 @@ components:
                   lastModifiedTime: "1644426612"
               - status: "data-rejected"
                 id: "7cb9e05f-0cb4-4386-b221-1f8a001d4e0c"
+                tenantId: "pg.citya"
                 processReferenceNumber: "PRO-001-001-002"
                 fileStoreId: "5a2e0b15-fd7d-44ee-8ef7-811722a15e6f"
                 type: "service"
@@ -323,8 +288,61 @@ components:
                   lastModifiedBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
                   createdTime: "1644426612"
                   lastModifiedTime: "1644426612"
-    BulkGenerateRequest:
+    BulkGenerateResponse:
       type: object
       properties:
-        RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        GeneratedResource:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+            type:
+              type: "string"
+              example: "facility"
+            tenantId:
+              type: "string"
+              example: "pg.citya"
+    BulkDownloadResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        GeneratedResource:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+            tenantId:
+              type: "string"
+              example: "pg.citya"
+            fileStoreid:
+              type: "string"
+              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+            type:
+              type: "string"
+              example: "facility"
+            url:
+              type: "string"
+              example: "https://unified-uat-filestore.s3-ap-south-1.amazonaws.com/mz/pgr/February/8/1707393265007mXVKObMAqy.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCURO6LLX5SS6CNF%2F20240209%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240209T091624Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=507dd50aa25be05789aaf0c0f4cdcb1555f59053b299fef5228f218eb67e3218"
+            additionalDetails:
+              type: "object"
+              example : {}
+            auditDetails:
+              type: "object"
+              properties:
+                createdBy:
+                  type: "string"
+                  example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                lastModifiedBy:
+                  type: "string"
+                  example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                createdTime:
+                  type: "string"
+                  example: "1644426612"
+                lastModifiedTime:
+                  type: "string"
+                  example: "1644426612"
