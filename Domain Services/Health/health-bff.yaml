@@ -1,6 +1,3 @@
-Here's the converted Swagger 2.0 specification to Swagger 3.0:
-
-```yaml
 openapi: 3.0.0
 info:
   version: "1.0.0"
