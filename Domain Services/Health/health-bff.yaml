@@ -1,0 +1,281 @@
+Here's the converted Swagger 2.0 specification to Swagger 3.0:
+
+```yaml
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "API Documentation"
+servers:
+  - url: "/api/v1"
+paths:
+  /hcm-bff/api/_create:
+    post:
+      summary: "This API endpoint facilitates the creation of API resources"
+      description: "This API endpoint facilitates the creation of API resources"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                RequestInfo:
+                  type: "object"
+                  properties:
+                    apiId:
+                      type: "string"
+                    authToken:
+                      type: "string"
+                    userInfo:
+                      type: "object"
+                      properties:
+                        id:
+                          type: "integer"
+                        uuid:
+                          type: "string"
+                        userName:
+                          type: "string"
+                        name:
+                          type: "string"
+                        mobileNumber:
+                          type: "string"
+                        emailId:
+                          type: "string"
+                        locale:
+                          type: "string"
+                        type:
+                          type: "string"
+                        roles:
+                          type: "array"
+                          items:
+                            type: "object"
+                            properties:
+                              name:
+                                type: "string"
+                              code:
+                                type: "string"
+                              tenantId:
+                                type: "string"
+                        active:
+                          type: "boolean"
+                        tenantId:
+                          type: "string"
+                        permanentCity:
+                          type: "string"
+                    msgId:
+                      type: "string"
+                    plainAccessRequest:
+                      type: "object"
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  RequestInfo:
+                    type: "object"
+                    properties:
+                      apiId:
+                        type: "string"
+                        example: "Rainmaker"
+                      authToken:
+                        type: "string"
+                        example: "4647c997-849a-4126-9ee6-b7f0783d35ce"
+                      userInfo:
+                        type: "object"
+                        properties:
+                          id:
+                            type: "integer"
+                            example: 281
+                          uuid:
+                            type: "string"
+                            example: "3ae47a59-ed1e-489d-b8fb-a78e7a167966"
+                          userName:
+                            type: "string"
+                            example: "EMP54"
+                          name:
+                            type: "string"
+                            example: "Jagan"
+                          mobileNumber:
+                            type: "string"
+                            example: "6667776662"
+                          emailId:
+                            type: "string"
+                            example: "xyz@egovernments.org"
+                          locale:
+                            type: "string"
+                            example: "en_US"
+                          type:
+                            type: "string"
+                            example: "EMPLOYEE"
+                          roles:
+                            type: "array"
+                            items:
+                              type: "object"
+                              properties:
+                                name:
+                                  type: "string"
+                                  example: "System Administrator"
+                                code:
+                                  type: "string"
+                                  example: "SYSTEM_ADMINISTRATOR"
+                                tenantId:
+                                  type: "string"
+                                  example: "mz"
+                          active:
+                            type: "boolean"
+                            example: true
+                          tenantId:
+                            type: "string"
+                            example: "mz"
+                          permanentCity:
+                            type: "string"
+                            example: "Amritsar"
+                      msgId:
+                        type: "string"
+                        example: "1707459080569|en_IN"
+                      plainAccessRequest:
+                        type: "object"
+                        example: {}
+                  ResponseDetails:
+                    type: "object"
+                    properties:
+                      status:
+                        type: "string"
+                        example: "data-accepted"
+                      id:
+                        type: "string"
+                        example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+                      processReferenceNumber:
+                        type: "string"
+                        example: "PRO-001-001-001"
+                      fileStoreId:
+                        type: "string"
+                        example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+                      type:
+                        type: "string"
+                        example: "facility"
+        '400':
+          description: "Error response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  ResponseInfo:
+                    type: "object"
+                    example: null
+                  Errors:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        code:
+                          type: "string"
+                          example: "IDGEN_ERROR"
+                        message:
+                          type: "string"
+                          example: "No ids returned from idgen Service"
+                        description:
+                          type: "string"
+                          example: null
+                        params:
+                          type: "string"
+                          example: null
+  /hcm-bff/api/_search:
+    post:
+      summary: "This API endpoint searches for API resources"
+      description: "This API endpoint searches for API resources"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                RequestInfo:
+                  type: "object"
+                  properties:
+                    apiId:
+                      type: "string"
+                    authToken:
+                      type: "string"
+                    userInfo:
+                      type: "object"
+                      properties:
+                        id:
+                          type: "integer"
+                        uuid:
+                          type: "string"
+                        userName:
+                          type: "string"
+                        name:
+                          type: "string"
+                        mobileNumber:
+                          type: "string"
+                        emailId:
+                          type: "string"
+                        locale:
+                          type: "string"
+                        type:
+                          type: "string"
+                        roles:
+                          type: "array"
+                          items:
+                            type: "object"
+                            properties:
+                              name:
+                                type: "string"
+                              code:
+                                type: "string"
+                              tenantId:
+                                type: "string"
+                        active:
+                          type: "boolean"
+                        tenantId:
+                          type: "string"
+                        permanentCity:
+                          type: "string"
+                    msgId:
+                      type: "string"
+                    plainAccessRequest:
+                      type: "object"
+                SearchCriteria:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "array"
+                      items:
+                        type: "string"
+                    processReferenceNumber:
+                      type: "string"
+                    type:
+                      type: "string"
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  RequestInfo:
+                    type: "object"
+                    properties:
+                      apiId:
+                        type: "string"
+                        example: "Rainmaker"
+                      authToken:
+                        type: "string"
+                        example: "4647c997-849a-4126-9ee6-b7f0783d35ce"
+                      userInfo:
+                        type: "object"
+                        properties:
+                          id:
+                            type: "integer"
+                            example: 281
+                          uuid:
+                            type: "string"
+                            example: "3ae47a59-ed1e-489d-b8fb
