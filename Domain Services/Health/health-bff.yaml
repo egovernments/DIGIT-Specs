@@ -64,99 +64,46 @@ paths:
         content:
           application/json:
             schema:
-              type: "object"
+              type: object
               properties:
                 RequestInfo:
-                  type: "object"
-                  properties:
-                    apiId:
-                      type: "string"
-                    authToken:
-                      type: "string"
-                    userInfo:
-                      type: "object"
-                      properties:
-                        id:
-                          type: "integer"
-                        uuid:
-                          type: "string"
-                        userName:
-                          type: "string"
-                        name:
-                          type: "string"
-                        mobileNumber:
-                          type: "string"
-                        emailId:
-                          type: "string"
-                        locale:
-                          type: "string"
-                        type:
-                          type: "string"
-                        roles:
-                          type: "array"
-                          items:
-                            type: "object"
-                            properties:
-                              name:
-                                type: "string"
-                              code:
-                                type: "string"
-                              tenantId:
-                                type: "string"
-                        active:
-                          type: "boolean"
-                        tenantId:
-                          type: "string"
-                        permanentCity:
-                          type: "string"
-                    msgId:
-                      type: "string"
-                    plainAccessRequest:
-                      type: "object"
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      parameters:
+      - name: tenantId
+        in: query
+        description: unique id for a tenant.
+        required: true
+        schema:
+          maxLength: 256
+          type: string
+          format: varchar
+      - name: type
+        in: query
+        description: type of the resource
+        required: true
+        schema:
+          maxLength: 256
+          type: string
+          format: varchar
+      - name: forceUpdate
+        in: query
+        description: "ForceUpdate parameter"
+        required: false
+        schema:
+          type: boolean
       responses:
-        '200':
-          description: "Successful response for update"
+        200:
+          description: Successful Response.
           content:
-            application/json:
+            '*/*':
               schema:
-                type: "object"
-                properties:
-                  ResponseDetails:
-                    type: "object"
-                    properties:
-                      type:
-                        type: "string"
-                        example: "facility"
-                      status:
-                        type: "string"
-                        example: "Table up to date"
-        '400':
-          description: "Error response for update"
+                $ref: '#/components/schemas/BulkResourceCreateResponse'
+        400:
+          description: Invalid input.
           content:
-            application/json:
+            '*/*':
               schema:
-                type: "object"
-                properties:
-                  ResponseInfo:
-                    type: "object"
-                    example: null
-                  Errors:
-                    type: "array"
-                    items:
-                      type: "object"
-                      properties:
-                        code:
-                          type: "string"
-                          example: "GENERATION_ERROR"
-                        message:
-                          type: "string"
-                          example: "Some problem in generation"
-                        description:
-                          type: "string"
-                          example: null
-                        params:
-                          type: "string"
-                          example: null
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /hcm-bff/v1/_download:
     post:
       summary: "To Download API resources"
@@ -376,3 +323,8 @@ components:
                   lastModifiedBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
                   createdTime: "1644426612"
                   lastModifiedTime: "1644426612"
+    BulkGenerateRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
