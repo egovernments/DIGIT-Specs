@@ -134,7 +134,7 @@ paths:
           maxLength: 256
           type: string
           format: varchar
-      - name: fileStoreId
+      - name: id
         in: query
         description: unique id of the generated request
         required: false
@@ -302,6 +302,9 @@ components:
             type:
               type: "string"
               example: "facility"
+            status:
+              type: "string"
+              example: "generation started"
             tenantId:
               type: "string"
               example: "pg.citya"
@@ -325,6 +328,12 @@ components:
             type:
               type: "string"
               example: "facility"
+            status:
+              type: "string"
+              example: "completed"
+            count:
+              type: "number"
+              example: 100
             url:
               type: "string"
               example: "https://unified-uat-filestore.s3-ap-south-1.amazonaws.com/mz/pgr/February/8/1707393265007mXVKObMAqy.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCURO6LLX5SS6CNF%2F20240209%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240209T091624Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=507dd50aa25be05789aaf0c0f4cdcb1555f59053b299fef5228f218eb67e3218"
