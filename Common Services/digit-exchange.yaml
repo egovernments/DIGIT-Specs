@@ -1,0 +1,230 @@
+openapi: 3.0.3
+info:
+  title: Digit Exchange
+  description: >
+    Exchange service
+
+  version: 1.0.0
+  contact:
+    name: eGov Foundation
+    email: contact@egovernments.org
+  license:
+    name: MIT License
+    url: https://opensource.org/license/mit/
+externalDocs:
+  description: DIGIT Platform
+  url: https://core.digit.org
+servers:
+  - url: /digit-exchange/v1
+paths:
+  /exchange/EXCHANGE_TYPE:
+    post:
+      summary: /digit-exchange/v1/exchange/{EXCHANGE_TYPE}
+      description: Enables exchange of program, on-program, sanction, on-sanction etc
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                            - update
+                message:
+                  type: string
+                  example: "{\"location_code\":\"pg.citya\",\"name\":\"Test 1\",\"start_date\":0,\"end_date\":0,\"client_host_url\":\"https://unified-dev.digit.org\",\"function_code\":\"string\",\"administration_code\":\"string\",\"recipient_segment_code\":\"string\",\"economic_segment_code\":\"string\",\"source_of_fund_code\":\"string\",\"target_segment_code\":\"string\",\"currency_code\":\"string\",\"locale_code\":\"string\",\"status\":{\"status_code\":\"RECEIVED\",\"status_message\":\"string\"}}"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+
+components:
+  schemas:
+    correlation_id:
+      description: |
+        1. correlation_id acknowledged by end txn processing system (i.e receiver) to co-relate all related requests in the context of a business transaction.
+        2. correlation_id uniqueness is ensured by txn processing system (i.e receiver)
+      type: string
+      maxLength: 99
+      example: '9876543210'
+    
+    Ack:
+      type: string
+      description: |
+        1. ACK: If the request is valid (for basic checks) and async callback (i.e webhook) will be invoked by reciever back to the sender.
+        2. NACK: If the request is valid (for basic checks) and there is no futher updates from reciever back to the sender.
+        3. ERR: If the reuqest is invalid and reciver can't process the request. error object holds error code, message.
+      enum:
+        - ACK
+        - NACK
+        - ERR
+    Timestamp:
+      description: |
+        1. All dates and timestamps are represented in epoc timestamp - e.g 1708428280.
+      type: string
+      format: int64
+    Error:
+      description: |
+        Commumication layer Asyn errors that are returned as part of message acknowledgement.
+        1. Messages that are not parsable or message integrity check fails.
+        2. This object may be used across all transport layer protocols (https, sftp, messaging, etc,) to ack the receipt of a message.
+        3. Business context and related validation is NOT in scope of this error object.
+      type: object
+      properties:
+        code:
+          type: string
+          description: Standard error code
+          enum:
+            - err.request.bad
+            - err.request.unauthorized
+            - err.request.forbidden
+            - err.request.not_found
+            - err.request.timeout
+            - err.version.not_supported
+            - err.request.too_many_requests
+            - err.sender_id.invalid
+            - err.sender_uri.invalid
+            - err.receiver_id.invalid
+            - err.signature.missing
+            - err.signature.invalid
+            - err.encryption.invalid
+            - err.service.unavailable
+        message:
+          type: string
+          description: message to describe above error code
+          maxLength: 999
+    MsgHeader:
+      type: object
+      description: Message header
+      properties:
+        message_id:
+          description: |
+            1. Unique message id to communicate between sender and receiver systems to realiable deliver the message over any transport layer i.e https, pub/sub, sftp etc.,
+            2. The scope of message_id end with successful ack of the message by the receiver.
+            3. To realy the message between hops, underlying relying parties may consider to store and forward the message with integirty, ie Signature intact.
+          type: string
+          example: '123'
+        message_ts:
+          $ref: '#/components/schemas/Timestamp'
+        action:
+          description: 'identity payload type in message property.'
+          type: string
+          enum:
+            - create
+            - update
+            - search
+        sender_id:
+          description: |
+            1. sender_id registered with the receiving system or gateway. 
+            2. Used for authorization, encryption, digital sign verfication, etc.,
+          type: string
+          example: program@https://spp.example.org
+        sender_uri:
+          description: |
+            1. sender url to accept callbacks. Applicable only for async communications and if response ack_status is ACK.
+            2. Default uri is assumed to be configred on the gateway as part of sender/receiver onboarding. 
+            3. For SFTP based communications, this shall be set to server/folder details.
+          type: string
+          format: uri
+          example: 'https://spp.example.org/{namespace}/callback/on-create'
+        receiver_id:
+          description: 'receiver id registered with the calling system. Used for authorization, encryption, digital sign verfication, etc., functions.'
+          type: string
+          example: program@https://pymts.example.org
+        is_msg_encrypted:
+          description: Is message encrypted?
+          type: boolean
+          default: false
+      required:
+        - message_id
+        - message_ts
+        - action
+        - sender_id
+        - reciever_id
+    MsgHeaderStatusReasonCode:
+      type: string
+      description: Message header related common status reason codes
+      enum:
+        - rjct.version.invalid
+        - rjct.message_id.duplicate
+        - rjct.message_ts.invalid
+        - rjct.action.invalid
+        - rjct.action.not_supported
+        - rjct.total_count.invalid
+        - rjct.total_count.limit_exceeded
+        - rjct.errors.too_many
+    MsgSignature:
+      type: string
+      description: 'Signature of {header}+{message} body verified using sender''s signing public key'
+      example: 'TgE1hcA2E+YPMdPGz4vveKQpR0x+pgzRTlet52qh63Kekr71vWWScXqaRFtQW64uRFZGBUhHYYZQ2y6LffwnNOOQhhssaThhqVBhXNEwX9i75SNYXi5XSJVDYzSyHrhF20HW6RE9mAVWdc80i7d+FXlh+b/U+fnj+SrZ2s6Xd0WUZvU29LgqeUpyznlWLu1mDdJxNZavsDLWmxjTnknqBjDvwSc35WhFDhXDA2lWmm8YpZ1Y6TBmvvtVS7mAOTnhFy9sdCbrLcfXk5QWIsdzlvPqlkvdwEf30OZ6ewb680Aj3hO2OT5LCv7iLyz7C7srnB9lJT5gXiw+eSnktPXlDA=='
+    TransactionId:
+      description: |
+        1. transaction_id set by txn initiating system (i.e sender) to co-relate all related requests in the context of a business transaction.
+        2. transaction_id should be samme across processing systems/service end points.
+        2. transaction_id uniqueness is ensured by txn initiating system (i.e sender)
+      type: string
+      maxLength: 99
+      example: 0123456789
+
+  responses:
+    HttpErrorResponse:
+      description: HTTP layer error details
+      content:
+        application/json:
+          schema:
+            type: object
+            description: 'HTTP transport layer error codes. Used by components like gateways, LB responding with HTTP status codes 1xx, 2xx, 3xx, 4xx and 5xx'
+            properties:
+              errors:
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: error code
+                    message:
+                      type: string
+                      description: error message
+    Response:
+      description: Acknowledgement of message received after successful validation of message and signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: object
+                properties:
+                  ack_status:
+                    $ref: '#/components/schemas/Ack'
+                  timestamp:
+                    $ref: '#/components/schemas/Timestamp'
+                  error:
+                    $ref: '#/components/schemas/Error'
+                  correlation_id:
+                    $ref: '#/components/schemas/correlation_id'
+                required:
+                  - ack_status
+                  - timestamp
+                  - correlation_id

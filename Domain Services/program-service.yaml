@@ -1,0 +1,1515 @@
+openapi: 3.0.0
+info:
+  title: Program Service
+  description: >
+    Program service
+
+  version: 1.0.0
+  contact:
+    name: eGov Foundation
+    email: contact@egovernments.org
+  license:
+    name: MIT License
+    url: https://opensource.org/license/mit/
+externalDocs:
+  description: DIGIT Platform
+  url: https://core.digit.org
+servers:
+- url: /program-service/v1
+paths:
+  /program/_create:
+    post:
+      summary: Create programs
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/Program'
+                    - $ref: "#/components/schemas/ExchangeCode"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /program/_update:
+    post:
+      summary: Create programs
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/Program'
+                    - $ref: "#/components/schemas/ExchangeCode"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /program/_search:
+    post:
+      summary: Search programs by query
+      description: Enables search of program
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/ProgramSearch'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/schemas/ProgramSearchResponse'
+      security:
+        - Authorization: []
+      deprecated: false
+
+
+  /on-program/_create:
+    post:
+      summary: Update program after create response
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/Program'
+                    - $ref: "#/components/schemas/ExchangeCode"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /on-program/_update:
+    post:
+      summary: Update program after update response
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/Program'
+                    - $ref: "#/components/schemas/ExchangeCode"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /on-sanction/_create:
+    post:
+      summary: Create sanctions in program service
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                message:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/components/schemas/Sanction'
+                      - $ref: "#/components/schemas/ExchangeCode"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /on-sanction/_update:
+    post:
+      summary: /exchange/v1/on-sanction
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                            - update
+                message:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/components/schemas/Sanction'
+                      - $ref: "#/components/schemas/ExchangeCode"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /sanction/_search:
+    post:
+      summary: /exchange/v1/sanction
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/SanctionSearch'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /on-allocation/_create:
+    post:
+      summary: /exchange/v1/on-allocation
+      description: Enables exchange of allocation related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                            - update
+                message:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/components/schemas/Allocation'
+                      - $ref: "#/components/schemas/ExchangeCode"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /on-allocation/_update:
+    post:
+      summary: /exchange/v1/on-allocation
+      description: Enables exchange of allocation related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                            - update
+                message:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/components/schemas/Sanction'
+                      - $ref: "#/components/schemas/ExchangeCode"
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /allocation/_search:
+    post:
+      summary: /exchange/v1/allocation
+      description: Enables exchange of allocation related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/AllocationSearch'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/AllocationSearchResponse'
+
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /disburse/_create:
+    post:
+      summary: /exchange/v1/disburse
+      description: Enables exchange of disburse related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                            - update
+
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/Disburse'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /disburse/_search:
+    post:
+      summary: /exchange/v1/disburse
+      description: Enables exchange of disburse related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/DisburseSearch'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/DisburseSearchResponse'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /on-disburse/_create:
+    post:
+      summary: /exchange/v1/on-disburse
+      description: Enables exchange of disburse related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                            - update
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/Disburse'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+  /on-disburse/_update:
+    post:
+      summary: /exchange/v1/on-disburse
+      description: Enables exchange of disburse related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - update
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/Disburse'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      security:
+        - Authorization: []
+      deprecated: false
+
+components:
+  schemas:
+    cdpi_FinancialAddress:
+      type: string
+      description: |
+        1. Financial address is case insensitive normative represenation of a store of value account represented as id-type:id@provider
+        2. Every payer/payee financial address must resolve to an actual store of value account number for processing the payment instruction
+        3. It is recommended the mapping between id and store of value account details to be held only at final store of value entity and intermediaries can hold 
+        3. Few examples: <br>
+            - token@id-provider e.g token:12345@national-id <br>
+            - uid@pymt-rail e.g uid:12345@national-id <br>
+            - vid@id-provider e.g vid:12345@national-id <br>
+            - mobile@mobile-provider e.g mobile:12345@mobile-pymt <br>
+            - account-id@bank-psp-code e.g account:12345@national-bank <br>
+            - account-no@ifsc-code.ifsc.pymt-rail e.g account:12345@abcd0000001.ifsc.pymt-rail <br>
+            - user-id@psp-code e.g. joeuser@national-bank <br>
+            - token@psp-code e.g token:123456@a123 <br>
+            - code@purpose-code.voucher-provider e.g voucher:12345@food.coupon-network <br>
+      format: '^[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+$'
+      example: 'token:12345@gtbank'
+    DisburseRequest:
+      type: object
+      description: Disbursement request
+      properties:
+        transaction_id:
+          $ref: '#/components/schemas/TransactionId'
+        disbursements:
+          type: array
+          items:
+            type: object
+            description: |
+              1. Describes payment schema that enable transfer from payer to payee accounts. 
+              2. This entity supports immediate and scheduling one time payment request into future. 
+              3. Recurring payments is not part of the scope of this entity.
+            properties:
+              reference_id:
+                $ref: '#/components/schemas/ReferenceId'
+              payer_fa:
+                $ref: '#/components/schemas/cdpi_FinancialAddress'
+              payee_fa:
+                $ref: '#/components/schemas/cdpi_FinancialAddress'
+              amount:
+                $ref: '#/components/schemas/Amount'
+              scheduled_timestamp:
+                allOf:
+                  - description: If not present then immediate disbursement else schedule as per scheduled date-time
+                  - $ref: '#/components/schemas/Timestamp'
+              payer_name:
+                description: Payer account name for easy reference. Usually each scheme may have a seperate holding account.
+                type: string
+                example: Farmer draught relief scheme 2023
+              payee_name:
+                description: Payer name for easy reference. Usually beneficiary name as per scheme registration info
+                type: string
+                example: Joe John
+              note:
+                description: Note to payer/payee to reflect on statements
+                type: string
+                maxLength: 99
+              purpose:
+                $ref: '#/components/schemas/Purpose'
+              instruction:
+                description: 'Additional systems instruction for interfacing systems/platforms to integrate, reconcile'
+                type: string
+                maxLength: 999
+              meta:
+                type: object
+                properties:
+                  allof:
+                    $ref: '#/components/schemas/ExchangeCode'
+              currency_code:
+                $ref: '#/components/schemas/CurrencyCode'
+              locale:
+                $ref: '#/components/schemas/LanguageCode'
+            required:
+              - reference_id
+              - payer_fa
+              - payee_fa
+              - amount
+      required:
+        - transaction_id
+        - disburemsents
+    DisburseResponse:
+      type: object
+      description: Disburse response
+      properties:
+        transaction_id:
+          $ref: '#/components/schemas/TransactionId'
+        disbursements_status:
+          type: array
+          items:
+            type: object
+            description: |
+              1. G2P Disbursement response i.e status of each disburemsent request for reconciliation by sender system
+            properties:
+              reference_id:
+                $ref: '#/components/schemas/ReferenceId'
+              timestamp:
+                description: Disbursement response status datetime in RFC3339 format
+                type: string
+                format: date-time
+                example: '2022-12-04T17:20:07-04:00'
+              status:
+                $ref: '#/components/schemas/RequestStatus'
+              status_reason_code:
+                $ref: '#/components/schemas/DisburseStatusReasonCode'
+              status_reason_message:
+                description: Status reason code message. Helps actionanble messaging for systems/end users
+                type: string
+                maxLength: 999
+              instruction:
+                description: 'Additional systems instruction for interfacing systems/platforms to integrate, reconcile'
+                type: string
+                maxLength: 999
+              amount:
+                $ref: '#/components/schemas/Amount'
+              payer_fa:
+                $ref: '#/components/schemas/cdpi_FinancialAddress'
+              payer_name:
+                description: Payer account name for easy reference. Usually each scheme may have a seperate holding account.
+                type: string
+                example: Farmer draught relief scheme 2023
+              payee_fa:
+                $ref: '#/components/schemas/cdpi_FinancialAddress'
+              payee_name:
+                description: Payer name for easy reference. Usually beneficiary name as per scheme registration info
+                type: string
+                example: Joe John
+              currency_code:
+                $ref: '#/components/schemas/CurrencyCode'
+              locale:
+                $ref: '#/components/schemas/LanguageCode'
+            required:
+              - reference_id
+              - timestamp
+              - status
+      required:
+        - transaction_id
+        - disbursements_status
+    DisburseStatusReasonCode:
+      type: string
+      description: Disbursement status reason codes
+      enum:
+        - rjct.reference_id.invalid
+        - rjct.reference_id.duplicate
+        - rjct.timestamp.invalid
+        - rjct.payer_fa.invalid
+        - rjct.payee_fa.invalid
+        - rjct.amount.invalid
+        - rjct.schedule_ts.invalid
+        - rjct.currency_code.invalid
+    correlation_id:
+      description: |
+        1. correlation_id acknowledged by end txn processing system (i.e receiver) to co-relate all related requests in the context of a business transaction.
+        2. correlation_id uniqueness is ensured by txn processing system (i.e receiver)
+      type: string
+      maxLength: 99
+      example: '9876543210'
+        
+    Ack:
+      type: string
+      description: |
+        1. ACK: If the request is valid (for basic checks) and async callback (i.e webhook) will be invoked by reciever back to the sender.
+        2. NACK: If the request is valid (for basic checks) and there is no futher updates from reciever back to the sender.
+        3. ERR: If the reuqest is invalid and reciver can't process the request. error object holds error code, message.
+      enum:
+        - ACK
+        - NACK
+        - ERR
+    AdditionalInfo:
+      type: object
+      description: Additional JSON property oject to hold custom user defined contextual data
+    Amount:
+      type: string
+      description: Describes amount in decimal value format
+      pattern: '^\d{1,13}\.\d{1,2}$'
+    CurrencyCode:
+      description: <br> 1. Currency code allocated as per ISO 4217 format.<br> 2. Codes for the representation of currencies and funds.
+      type: string
+      pattern: '^[A-Z]{3,3}$'
+      example: SLL
+    Timestamp:
+      description: |
+        1. All dates and timestamps are represented in epoc timestamp - e.g 1708428280.
+      type: string
+      format: int64
+    Error:
+      description: |
+        Commumication layer Asyn errors that are returned as part of message acknowledgement.
+        1. Messages that are not parsable or message integrity check fails.
+        2. This object may be used across all transport layer protocols (https, sftp, messaging, etc,) to ack the receipt of a message.
+        3. Business context and related validation is NOT in scope of this error object.
+      type: object
+      properties:
+        code:
+          type: string
+          description: Standard error code
+          enum:
+            - err.request.bad
+            - err.request.unauthorized
+            - err.request.forbidden
+            - err.request.not_found
+            - err.request.timeout
+            - err.version.not_supported
+            - err.request.too_many_requests
+            - err.sender_id.invalid
+            - err.sender_uri.invalid
+            - err.receiver_id.invalid
+            - err.signature.missing
+            - err.signature.invalid
+            - err.encryption.invalid
+            - err.service.unavailable
+        message:
+          type: string
+          description: message to describe above error code
+          maxLength: 999
+    LanguageCode:
+      type: string
+      description: indicates language code. country codes as per ISO 639.3 standard
+      pattern: '^[a-z]{3,3}$'
+      example: en
+
+    MsgCallbackHeader:
+      type: object
+      description: Message header
+      properties:
+        message_id:
+          description: |
+            1. Unique message id to communicate between sender and receiver systems to realiable deliver the message over any transport layer i.e https, pub/sub, sftp etc.,
+            2. The scope of message_id end with successful ack of the message by the receiver.
+            3. To realy the message between hops, underlying relying parties may consider to store and forward the message with integirty, ie Signature intact.
+          type: string
+          example: '789'
+        message_ts:
+          $ref: '#/components/schemas/Timestamp'
+        status:
+          $ref: '#/components/schemas/RequestStatus'
+        status_reason_code:
+          $ref: '#/components/schemas/MsgHeaderStatusReasonCode'
+        status_reason_message:
+          description: 'Status reascon code message, if any, Helps actionanble messaging for system/end users'
+          type: string
+          maxLength: 999
+        sender_id:
+          description: |
+            1. sender_id registered with the receiving system or gateway. 
+            2. Used for authorization, encryption, digital sign verfication, etc.,
+          type: string
+          example: civilregistry.example.org
+        receiver_id:
+          description: 'receiver id registered with the calling system. Used for authorization, encryption, digital sign verfication, etc., functions.'
+          type: string
+          example: registry.example.org
+      required:
+        - message_id
+        - message_ts
+        - action
+        - status
+    MsgHeader:
+      type: object
+      description: Message header
+      properties:
+        message_id:
+          description: |
+            1. Unique message id to communicate between sender and receiver systems to realiable deliver the message over any transport layer i.e https, pub/sub, sftp etc.,
+            2. The scope of message_id end with successful ack of the message by the receiver.
+            3. To realy the message between hops, underlying relying parties may consider to store and forward the message with integirty, ie Signature intact.
+          type: string
+          example: '123'
+        message_ts:
+          $ref: '#/components/schemas/Timestamp'
+        action:
+          description: 'identity payload type in message property.'
+          type: string
+          enum:
+            - create
+            - update
+            - search
+        sender_id:
+          description: |
+            1. sender_id registered with the receiving system or gateway. 
+            2. Used for authorization, encryption, digital sign verfication, etc.,
+          type: string
+          example: spp.example.org
+        sender_uri:
+          description: |
+            1. sender url to accept callbacks. Applicable only for async communications and if response ack_status is ACK.
+            2. Default uri is assumed to be configred on the gateway as part of sender/receiver onboarding. 
+            3. For SFTP based communications, this shall be set to server/folder details.
+          type: string
+          format: uri
+          example: 'https://spp.example.org/{namespace}/callback/on-search'
+        receiver_id:
+          description: 'receiver id registered with the calling system. Used for authorization, encryption, digital sign verfication, etc., functions.'
+          type: string
+          example: pymts.example.org
+      required:
+        - message_id
+        - message_ts
+        - sender_id
+        - receiver_id
+    MsgHeaderStatusReasonCode:
+      type: string
+      description: Message header related common status reason codes
+      enum:
+        - rjct.version.invalid
+        - rjct.message_id.duplicate
+        - rjct.message_ts.invalid
+        - rjct.action.invalid
+        - rjct.action.not_supported
+        - rjct.total_count.invalid
+        - rjct.total_count.limit_exceeded
+        - rjct.errors.too_many
+    MsgSignature:
+      type: string
+      description: 'Signature of {header}+{message} body verified using sender''s signing public key'
+      example: 'TgE1hcA2E+YPMdPGz4vveKQpR0x+pgzRTlet52qh63Kekr71vWWScXqaRFtQW64uRFZGBUhHYYZQ2y6LffwnNOOQhhssaThhqVBhXNEwX9i75SNYXi5XSJVDYzSyHrhF20HW6RE9mAVWdc80i7d+FXlh+b/U+fnj+SrZ2s6Xd0WUZvU29LgqeUpyznlWLu1mDdJxNZavsDLWmxjTnknqBjDvwSc35WhFDhXDA2lWmm8YpZ1Y6TBmvvtVS7mAOTnhFy9sdCbrLcfXk5QWIsdzlvPqlkvdwEf30OZ6ewb680Aj3hO2OT5LCv7iLyz7C7srnB9lJT5gXiw+eSnktPXlDA=='
+    Pagination:
+      description: 'Pagination definition, count starts with 1'
+      type: object
+      properties:
+        page_size:
+          type: number
+          format: int32
+          example: 2000
+        page_number:
+          type: number
+          format: int32
+          example: 5
+        total_count:
+          type: number
+          format: int32
+          example: 24250
+      required:
+        - page_size
+        - page_number
+        - total_count
+    PaginationRequest:
+      description: 'Pagination definition, count starts with 1'
+      type: object
+      properties:
+        page_size:
+          type: number
+          format: int32
+          example: 2000
+        page_number:
+          type: number
+          format: int32
+          default: 1
+          example: 5
+      required:
+        - page_size
+    Purpose:
+      description: 'Payment disbursement purpose e.g Salary, Farmer Relief 2023, etc.,'
+      type: string
+      maxLength: 99
+      example: Farmer Relief 2023
+    ReferenceId:
+      type: string
+      description: Unique reference_id set by txn initiating system for each request in a batch
+      example: '12345678901234567890'
+    ReferenceIdList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ReferenceId'
+    RequestStatus:
+      type: string
+      description: 'Request (e.g disburse, link, unlink, resolve, issue, search, verify, etc.,) status: <br> 1. rcvd: Received; Request received <br> 2. pdng: Pending; Request initiated <br> 3. succ: Success; Request successful <br> 4. rjct: Rejected; Request rejected'
+      enum:
+        - rcvd
+        - pdng
+        - succ
+        - rjct
+    SearchSort:
+      description: Sorting definition
+      type: object
+      properties:
+        attribute_name:
+          type: string
+          description: |
+            @context: "https://example.org/schema/Attribute" <br>
+            @type: "Attribute" <br>
+
+            **Notes:**
+              1. Attribute names defined as per implementation context.
+              2. Usually a list of **enum** values of all possible attribute names.
+              3. e.g: UIN, YOB, DOB, age, mobile, area-code, pin-code, etc.,
+          example: YOB
+        sort_order:
+          type: string
+          enum:
+            - asc
+            - desc
+    TransactionId:
+      description: |
+        1. transaction_id set by txn initiating system (i.e sender) to co-relate all related requests in the context of a business transaction.
+        2. transaction_id should be samme across processing systems/service end points.
+        2. transaction_id uniqueness is ensured by txn initiating system (i.e sender)
+      type: string
+      maxLength: 99
+      example: 0123456789
+
+    Program:
+      type: object
+      description: |
+        1. Describes payment schema that enable transfer from payer to payee accounts. 
+        2. This entity supports immediate and scheduling one time payment request into future. 
+        3. Recurring payments is not part of the scope of this entity.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+          readOnly: true
+        location_code:
+          type: string
+          description: Unique identifier of the tenant that could be a department/ulb/state
+          minLength: 2
+          maxLength: 64
+          example: pb.jalandhar,dwss
+        program_code:
+          type: string
+          description: Formated program code PROG/{FINANCIAL_YEAR}/{ULB-CODE}/{AUTO_NUMBER}
+          minLength: 2
+          maxLength: 64
+          example: PORG/2023-24/PG.CITYA/00001
+        name:
+          type: string
+          description: 'Name of the program'
+          minLength: 2
+          maxLength: 64
+        parent_id:
+          type: string
+          description: Parent Id of a program
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+        description:
+          type: string
+          description: 'Description of the program'
+          minLength: 2
+          maxLength: 256
+        start_date:
+          type: number
+        end_date:
+          type: number
+        client_host_url:
+          type: string
+          example: "https://unified-dev.digit.org"
+        is_active:
+          type: boolean
+          default: true
+        auditDetails:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+      required:
+        - location_code
+        - name
+        - description
+        - start_date
+
+    ProgramSearch:
+      type: object
+      description: 'Program search criteria'
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            example: 251c51eb-e970-4e01-a99a-70136c47a934
+        parent_id:
+          type: string
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+        name:
+          type: string
+          example: "Mukta"
+        program_code:
+          type: string
+          example: "PG/2023-24/000091"
+        location_code:
+          type: string
+          example: "pg.citya"
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+      required:
+        - location_code
+  
+    ProgramSearchResponse:
+      description: 'Request to update the register has been accepted.'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              header:
+                allOf:
+                  - $ref: '#/components/schemas/MsgHeader'
+                  # - $ref: '#/components/schemas/MsgCallbackHeader'
+              programs:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Program'
+                    - $ref: "#/components/schemas/ExchangeCode"
+          
+    ExchangeCode:
+      type: object
+      description: 'Exchange message content which will be shared with all request'
+      properties:
+        exchange_type:
+          type: string
+          minLength: 2
+          maxLength: 64
+          enum:
+            - program
+            - on-program
+            - sanction
+            - on-sanction
+            - allocation
+            - on-allocation
+            - disburse
+            - on-disburse
+        function_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+        administration_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+        recipient_segment_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+        economic_segment_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+        source_of_fund_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+        target_segment_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+        currency_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+        locale_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+        status:
+          $ref: '#/components/schemas/Status'
+
+    Status:
+      type: object
+      properties:
+        status_code:
+          type: string
+          enum:
+            - RECEIVED
+            - APPROVED
+            - REJECTED
+            - INPROCESS
+            - INITIATED
+            - SUCCESSFUL
+            - FAILED
+            - PARTIAL
+            - CANCELLED
+            - COMPLETED
+            - ERROR
+            - INFO
+        status_message:
+          type: string
+
+    Sanction:
+      type: object
+      description: |
+        1. Describes payment schema that enable transfer from payer to payee accounts.
+        2. This entity supports immediate and scheduling one time payment request into future. 
+        3. Recurring payments is not part of the scope of this entity.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+          readOnly: true
+        location_code:
+          type: string
+          description: Unique identifier of the tenant that could be a department/ulb/state
+          minLength: 2
+          maxLength: 64
+          example: pb.jalandhar,dwss
+        program_code:
+          type: string
+          description: Formated program code PROG/{FINANCIAL_YEAR}/{ULB-CODE}/{AUTO_NUMBER}
+          minLength: 2
+          maxLength: 64
+          example: PORG/2023-24/PG.CITYA/00001
+        sanctioned_amount:
+          type: number
+          example: 10000
+        allocated_amount:
+          type: number
+          readOnly: true
+        available_amount:
+          type: number
+          readOnly: true
+        auditDetails:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+      required:
+        - location_code
+        - program_code
+        - sanctioned_amount
+    
+    SanctionSearch:
+      type: object
+      description: 'Sanction search criteria'
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+        location_code:
+          type: string
+        program_code:
+          type: string
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+      required:
+        - location_code
+  
+    
+    Allocation:
+      type: object
+      description: |
+        1. Describes payment schema that enable transfer from payer to payee accounts.
+        2. This entity supports immediate and scheduling one time payment request into future. 
+        3. Recurring payments is not part of the scope of this entity.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+          readOnly: true
+        location_code:
+          type: string
+          description: Unique identifier of the tenant that could be a department/ulb/state
+          minLength: 2
+          maxLength: 64
+          example: pb.jalandhar,dwss
+        program_code:
+          type: string
+          description: Formated program code PROG/{FINANCIAL_YEAR}/{ULB-CODE}/{AUTO_NUMBER}
+          minLength: 2
+          maxLength: 64
+          example: PORG/2023-24/PG.CITYA/00001
+        sanction_id:
+          type: string
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+        amount:
+          type: number
+        type:
+          type: string
+          default: ALLOCATION
+          enum:
+            - ALLOCATION
+            - DEDUCTION
+        auditDetails:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+      required:
+        - sanction_id
+        - program_code
+        - amount
+        - type
+    
+    AllocationSearch:
+      type: object
+      description: 'Allocation search criteria'
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+        location_code:
+          type: string
+        program_code:
+          type: string
+        sanction_id:
+          type: string
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+      required:
+        - location_code
+
+    Disburse:
+      allOf:
+        - $ref: "#/components/schemas/ExchangeCode"
+      type: object
+      description: 'Exchange message content which will be shared with all request'
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+          readOnly: true
+        location_code:
+          type: string
+          description: Unique identifier of the tenant that could be a department/ulb/state
+          minLength: 2
+          maxLength: 64
+          example: pb.jalandhar,dwss
+        program_code:
+          type: string
+          description: Formated program code PROG/{FINANCIAL_YEAR}/{ULB-CODE}/{AUTO_NUMBER}
+          minLength: 2
+          maxLength: 64
+          example: PORG/2023-24/PG.CITYA/00001
+        target_id:
+          type: string
+        transaction_id:
+          type: string
+          description: Formated transaction code PI/{FINANCIAL_YEAR}/{AUTO_NUMBER}
+          minLength: 2
+          maxLength: 64
+          example: PI/2023-24/00001,BENF/2023-24/00001
+        sanction_id:
+          type: string
+        account_code:
+          type: string
+        net_amount:
+          type: number
+        gross_amount:
+          type: number
+        individual:
+          allOf:
+            - $ref: "#/components/schemas/Individual"
+        disbursements:
+          type: array
+          items:
+            type: object
+            allOf:
+              - $ref: "#/components/schemas/Disburse"
+        auditDetails:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+      required:
+        - target_id
+        - location_code
+        - program_code
+        - individual
+        - account_code
+        - net_amount
+        - gross_amount
+
+    Individual:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        pin:
+          type: string
+        address:
+          type: string
+      required:
+        - name
+        - phone
+        - address
+    DisburseSearch:
+      type: object
+      description: 'Disburse search criteria'
+      properties:
+    
+        ids:
+          type: array
+          items:
+            type: string
+        location_code:
+          type: string
+        program_code:
+          type: string
+        target_id:
+          type: string
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+      required:
+        - location_code
+  responses:
+    HttpErrorResponse:
+      description: HTTP layer error details
+      content:
+        application/json:
+          schema:
+            type: object
+            description: 'HTTP transport layer error codes. Used by components like gateways, LB responding with HTTP status codes 1xx, 2xx, 3xx, 4xx and 5xx'
+            properties:
+              errors:
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: error code
+                    message:
+                      type: string
+                      description: error message
+    Response:
+      description: Acknowledgement of message received after successful validation of message and signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: object
+                properties:
+                  ack_status:
+                    $ref: '#/components/schemas/Ack'
+                  timestamp:
+                    $ref: '#/components/schemas/Timestamp'
+                  error:
+                    $ref: '#/components/schemas/Error'
+                  correlation_id:
+                    $ref: '#/components/schemas/correlation_id'
+                required:
+                  - ack_status
+                  - timestamp
+                  - correlation_id
+                  
+    AllocationSearchResponse:
+      description: 'Request to update the register has been accepted.'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              header:
+                allOf:
+                  - $ref: '#/components/schemas/MsgHeader'
+                  # - $ref: '#/components/schemas/MsgCallbackHeader'
+              allocations:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Allocation'
+                    - $ref: "#/components/schemas/ExchangeCode"
+
+    DisburseSearchResponse:
+      description: 'Request to update the register has been accepted.'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              header:
+                allOf:
+                  - $ref: '#/components/schemas/MsgHeader'
+                  # - $ref: '#/components/schemas/MsgCallbackHeader'
+              disbursements:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Disburse'
+
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+      description: User/System authenticated access token; (jwt bearer) token returned from implementing system's authentication/token api end points. All systems must implement token api.
