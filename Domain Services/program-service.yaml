@@ -54,8 +54,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /program/_update:
@@ -77,8 +75,7 @@ paths:
                     - $ref: '#/components/schemas/MsgHeader'
                     - properties:
                         action:
-                          enum:
-                            - create
+                          example: update
                 message:
                   allOf:
                     - $ref: '#/components/schemas/Program'
@@ -95,8 +92,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /program/_search:
@@ -111,12 +106,14 @@ paths:
             schema:
               type: object
               properties:
-                signature:
-                  $ref: '#/components/schemas/MsgSignature'
+                # signature:
+                #   $ref: '#/components/schemas/MsgSignature'
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
-
+                    - properties:
+                        action:
+                          example: search
                 message:
                   allOf:
                     - $ref: '#/components/schemas/ProgramSearch'
@@ -132,8 +129,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/schemas/ProgramSearchResponse'
-      security:
-        - Authorization: []
       deprecated: false
 
 
@@ -154,6 +149,9 @@ paths:
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
                     # - $ref: '#/components/schemas/MsgCallbackHeader'
                 message:
                   allOf:
@@ -171,8 +169,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /on-program/_update:
@@ -192,6 +188,9 @@ paths:
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
                     # - $ref: '#/components/schemas/MsgCallbackHeader'
                 message:
                   allOf:
@@ -209,8 +208,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /on-sanction/_create:
@@ -230,6 +227,9 @@ paths:
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
                     # - $ref: '#/components/schemas/MsgCallbackHeader'
                 message:
                   type: array
@@ -249,8 +249,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /on-sanction/_update:
@@ -270,12 +268,11 @@ paths:
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
-                    # - $ref: '#/components/schemas/MsgCallbackHeader'
                     - properties:
                         action:
-                          enum:
-                            - create
-                            - update
+                          example: update
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                    
                 message:
                   type: array
                   items:
@@ -294,8 +291,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /sanction/_search:
@@ -315,6 +310,9 @@ paths:
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: search
                 message:
                   allOf:
                     - $ref: '#/components/schemas/SanctionSearch'
@@ -329,9 +327,7 @@ paths:
         '500':
           $ref: '#/components/responses/HttpErrorResponse'
         default:
-          $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
+          $ref: '#/components/responses/SanctionSearchResponse'
       deprecated: false
 
   /on-allocation/_create:
@@ -354,9 +350,7 @@ paths:
                     # - $ref: '#/components/schemas/MsgCallbackHeader'
                     - properties:
                         action:
-                          enum:
-                            - create
-                            - update
+                          example: create
                 message:
                   type: array
                   items:
@@ -375,8 +369,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /on-allocation/_update:
@@ -396,12 +388,11 @@ paths:
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
-                    # - $ref: '#/components/schemas/MsgCallbackHeader'
                     - properties:
                         action:
-                          enum:
-                            - create
-                            - update
+                          example: update
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                    
                 message:
                   type: array
                   items:
@@ -420,8 +411,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /allocation/_search:
@@ -441,6 +430,9 @@ paths:
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: search
                 message:
                   allOf:
                     - $ref: '#/components/schemas/AllocationSearch'
@@ -457,8 +449,6 @@ paths:
         default:
           $ref: '#/components/responses/AllocationSearchResponse'
 
-      security:
-        - Authorization: []
       deprecated: false
 
   /disburse/_create:
@@ -480,9 +470,7 @@ paths:
                     - $ref: '#/components/schemas/MsgHeader'
                     - properties:
                         action:
-                          enum:
-                            - create
-                            - update
+                          example: create
 
                 message:
                   allOf:
@@ -499,8 +487,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /disburse/_search:
@@ -515,11 +501,14 @@ paths:
             schema:
               type: object
               properties:
-                signature:
-                  $ref: '#/components/schemas/MsgSignature'
+                # signature:
+                #   $ref: '#/components/schemas/MsgSignature'
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: search
                 message:
                   allOf:
                     - $ref: '#/components/schemas/DisburseSearch'
@@ -535,8 +524,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/DisburseSearchResponse'
-      security:
-        - Authorization: []
       deprecated: false
 
   /on-disburse/_create:
@@ -556,12 +543,10 @@ paths:
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
-                    # - $ref: '#/components/schemas/MsgCallbackHeader'
                     - properties:
                         action:
-                          enum:
-                            - create
-                            - update
+                          example: create
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
                 message:
                   allOf:
                     - $ref: '#/components/schemas/Disburse'
@@ -577,8 +562,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
   /on-disburse/_update:
@@ -594,15 +577,14 @@ paths:
               type: object
               properties:
                 signature:
-                  $ref: '#/components/schemas/MsgSignature'
+                  - $ref: '#/components/schemas/MsgSignature'
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
                     # - $ref: '#/components/schemas/MsgCallbackHeader'
                     - properties:
                         action:
-                          enum:
-                            - update
+                          example: update
                 message:
                   allOf:
                     - $ref: '#/components/schemas/Disburse'
@@ -618,8 +600,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
 components:
@@ -704,75 +684,6 @@ components:
       required:
         - transaction_id
         - disburemsents
-    DisburseResponse:
-      type: object
-      description: Disburse response
-      properties:
-        transaction_id:
-          $ref: '#/components/schemas/TransactionId'
-        disbursements_status:
-          type: array
-          items:
-            type: object
-            description: |
-              1. G2P Disbursement response i.e status of each disburemsent request for reconciliation by sender system
-            properties:
-              reference_id:
-                $ref: '#/components/schemas/ReferenceId'
-              timestamp:
-                description: Disbursement response status datetime in RFC3339 format
-                type: string
-                format: date-time
-                example: '2022-12-04T17:20:07-04:00'
-              status:
-                $ref: '#/components/schemas/RequestStatus'
-              status_reason_code:
-                $ref: '#/components/schemas/DisburseStatusReasonCode'
-              status_reason_message:
-                description: Status reason code message. Helps actionanble messaging for systems/end users
-                type: string
-                maxLength: 999
-              instruction:
-                description: 'Additional systems instruction for interfacing systems/platforms to integrate, reconcile'
-                type: string
-                maxLength: 999
-              amount:
-                $ref: '#/components/schemas/Amount'
-              payer_fa:
-                $ref: '#/components/schemas/cdpi_FinancialAddress'
-              payer_name:
-                description: Payer account name for easy reference. Usually each scheme may have a seperate holding account.
-                type: string
-                example: Farmer draught relief scheme 2023
-              payee_fa:
-                $ref: '#/components/schemas/cdpi_FinancialAddress'
-              payee_name:
-                description: Payer name for easy reference. Usually beneficiary name as per scheme registration info
-                type: string
-                example: Joe John
-              currency_code:
-                $ref: '#/components/schemas/CurrencyCode'
-              locale:
-                $ref: '#/components/schemas/LanguageCode'
-            required:
-              - reference_id
-              - timestamp
-              - status
-      required:
-        - transaction_id
-        - disbursements_status
-    DisburseStatusReasonCode:
-      type: string
-      description: Disbursement status reason codes
-      enum:
-        - rjct.reference_id.invalid
-        - rjct.reference_id.duplicate
-        - rjct.timestamp.invalid
-        - rjct.payer_fa.invalid
-        - rjct.payee_fa.invalid
-        - rjct.amount.invalid
-        - rjct.schedule_ts.invalid
-        - rjct.currency_code.invalid
     correlation_id:
       description: |
         1. correlation_id acknowledged by end txn processing system (i.e receiver) to co-relate all related requests in the context of a business transaction.
@@ -802,12 +713,13 @@ components:
       description: <br> 1. Currency code allocated as per ISO 4217 format.<br> 2. Codes for the representation of currencies and funds.
       type: string
       pattern: '^[A-Z]{3,3}$'
-      example: SLL
+      example: INR
     Timestamp:
       description: |
         1. All dates and timestamps are represented in epoc timestamp - e.g 1708428280.
       type: string
       format: int64
+      example: 1708428280
     Error:
       description: |
         Commumication layer Asyn errors that are returned as part of message acknowledgement.
@@ -905,7 +817,7 @@ components:
             1. sender_id registered with the receiving system or gateway. 
             2. Used for authorization, encryption, digital sign verfication, etc.,
           type: string
-          example: spp.example.org
+          example: program@https://spp.example.org
         sender_uri:
           description: |
             1. sender url to accept callbacks. Applicable only for async communications and if response ack_status is ACK.
@@ -917,7 +829,7 @@ components:
         receiver_id:
           description: 'receiver id registered with the calling system. Used for authorization, encryption, digital sign verfication, etc., functions.'
           type: string
-          example: pymts.example.org
+          example: program@https://pymts.example.org
       required:
         - message_id
         - message_ts
@@ -1055,6 +967,7 @@ components:
           description: 'Name of the program'
           minLength: 2
           maxLength: 64
+          example: Community Development Initiative
         parent_id:
           type: string
           description: Parent Id of a program
@@ -1067,16 +980,21 @@ components:
           description: 'Description of the program'
           minLength: 2
           maxLength: 256
+          example: "Empowering local communities through sustainable development projects."
         start_date:
           type: number
+          example: 1672531200
         end_date:
           type: number
+          example: 1704067200
         client_host_url:
           type: string
           example: "https://unified-dev.digit.org"
         is_active:
           type: boolean
           default: true
+        status:
+          $ref: '#/components/schemas/Status'
         auditDetails:
           $ref: >-
             https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
@@ -1138,6 +1056,7 @@ components:
           type: string
           minLength: 2
           maxLength: 64
+          readOnly: true
           enum:
             - program
             - on-program
@@ -1151,37 +1070,43 @@ components:
           type: string
           minLength: 2
           maxLength: 64
+          example: FC001
         administration_code:
           type: string
           minLength: 2
           maxLength: 64
+          example: AC002
         recipient_segment_code:
           type: string
           minLength: 2
           maxLength: 64
+          example: RSC003
         economic_segment_code:
           type: string
           minLength: 2
           maxLength: 64
+          example: ESC004
         source_of_fund_code:
           type: string
           minLength: 2
           maxLength: 64
+          example: SFC005
         target_segment_code:
           type: string
           minLength: 2
           maxLength: 64
+          example: TSC006
         currency_code:
           type: string
           minLength: 2
           maxLength: 64
+          example: INR
         locale_code:
           type: string
           minLength: 2
           maxLength: 64
-        status:
-          $ref: '#/components/schemas/Status'
-
+          example: LC007
+        
     Status:
       type: object
       properties:
@@ -1200,6 +1125,7 @@ components:
             - COMPLETED
             - ERROR
             - INFO
+          example: SUCCESSFUL
         status_message:
           type: string
 
@@ -1238,6 +1164,8 @@ components:
         available_amount:
           type: number
           readOnly: true
+        status:
+          $ref: '#/components/schemas/Status'
         auditDetails:
           $ref: >-
             https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
@@ -1488,6 +1416,24 @@ components:
                 items:
                   allOf:
                     - $ref: '#/components/schemas/Allocation'
+                    - $ref: "#/components/schemas/ExchangeCode"
+
+    SanctionSearchResponse:
+      description: 'Sanction Search response with sanction details'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              header:
+                allOf:
+                  - $ref: '#/components/schemas/MsgHeader'
+                  # - $ref: '#/components/schemas/MsgCallbackHeader'
+              sanctions:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Sanction'
                     - $ref: "#/components/schemas/ExchangeCode"
 
     DisburseSearchResponse:

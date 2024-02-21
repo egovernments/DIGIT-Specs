@@ -43,6 +43,7 @@ paths:
                   type: string
                   example: "{\"location_code\":\"pg.citya\",\"name\":\"Test 1\",\"start_date\":0,\"end_date\":0,\"client_host_url\":\"https://unified-dev.digit.org\",\"function_code\":\"string\",\"administration_code\":\"string\",\"recipient_segment_code\":\"string\",\"economic_segment_code\":\"string\",\"source_of_fund_code\":\"string\",\"target_segment_code\":\"string\",\"currency_code\":\"string\",\"locale_code\":\"string\",\"status\":{\"status_code\":\"RECEIVED\",\"status_message\":\"string\"}}"
               required:
+                - signature
                 - header
                 - message
       responses:
