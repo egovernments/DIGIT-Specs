@@ -163,6 +163,66 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /campaign-manager/process/v1/boundary:
+    post:
+      tags:
+      - Process API
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                ResourceDetails:
+                  $ref: '#/components/schemas/BoundaryResourceDetails'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BulkResourceCreateResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /campaign-manager/process/v1/create-campaign:
+    post:
+      tags:
+      - Process API
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                ResourceDetails:
+                  $ref: '#/components/schemas/CampaignResourceDetails'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BulkResourceCreateResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
 components:
   schemas:
     BulkResourceCreateRequest:
@@ -181,6 +241,42 @@ components:
           type: "string"
         fileStoreId:
           type: "string"
+    BoundaryResourceDetails:
+      type: object
+      properties:
+        hierarchyType:
+          type: "string"
+        tenantId:
+          type: "string"
+        fileStoreId:
+          type: "string"
+    CampaignResourceDetails:
+      type: object
+      properties:
+        hierarchyType:
+          type: "string"
+        tenantId:
+          type: "string"
+        campaignName:
+          type: "string"
+        filestoreIds:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              filestoreId:
+                type: "string"
+                example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+              type:
+                type: "string"
+                example: "user"
+              filename:
+                type: "string"
+                example: "user.xlsx"
+        projectType:
+          type: "string"
+        additionalDetails:
+          type: "object"
     BulkResourceCreateResponse:
       type: object
       properties:
