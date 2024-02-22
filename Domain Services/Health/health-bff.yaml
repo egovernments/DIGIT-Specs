@@ -1,15 +1,15 @@
 openapi: 3.0.1
 info:
-  title: Health BFF Service
+  title: Campaign Manager
   description: BFF service APIs - to Bulk create, search and fetch all data in a registry.
   contact:
     name: eGov
     email: info@egovernments.org
   version: 1.0.0
 servers:
-- url: /hcm-bff/v1
+- url: /campaign-manager/v1
 paths:
-  /hcm-bff/v1/_create:
+  /campaign-manager/v1/_create:
     post:
       summary: "This API endpoint used to do a bulk upload of data based on type"
       description: "This API endpoint used to do a bulk upload of data based on type"
@@ -32,7 +32,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /hcm-bff/v1/_search:
+  /campaign-manager/v1/_search:
     post:
       summary: "This API endpoint searches for API resources"
       description: "This API endpoint searches for API resources"
@@ -55,7 +55,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /hcm-bff/v1/_generate:
+  /campaign-manager/v1/_generate:
     post:
       summary: "This API endpoint updates the API resources table"
       description: "This API endpoint updates the API resources table"
@@ -104,7 +104,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /hcm-bff/v1/_download:
+  /campaign-manager/v1/_download:
     post:
       summary: "This API endpoint updates the API resources table"
       description: "This API endpoint updates the API resources table"
