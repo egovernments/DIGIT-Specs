@@ -9,8 +9,10 @@ info:
 servers:
 - url: /campaign-manager/v1
 paths:
-  /campaign-manager/v1/_create:
+  /campaign-manager/data/v1/_create:
     post:
+      tags:
+      - Bulk Data Creation
       summary: "This API endpoint used to do a bulk upload of data based on type"
       description: "This API endpoint used to do a bulk upload of data based on type"
       requestBody:
@@ -32,8 +34,10 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/v1/_search:
+  /campaign-manager/data/v1/_search:
     post:
+      tags:
+      - Bulk Data Creation
       summary: "This API endpoint searches for API resources"
       description: "This API endpoint searches for API resources"
       requestBody:
@@ -55,8 +59,10 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/v1/_generate:
+  /campaign-manager/data/v1/_generate:
     post:
+      tags:
+      - Bulk Data Creation
       summary: "This API endpoint updates the API resources table"
       description: "This API endpoint updates the API resources table"
       requestBody:
@@ -104,8 +110,10 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/v1/_download:
+  /campaign-manager/data/v1/_download:
     post:
+      tags:
+      - Bulk Data Creation
       summary: "This API endpoint updates the API resources table"
       description: "This API endpoint updates the API resources table"
       requestBody:
