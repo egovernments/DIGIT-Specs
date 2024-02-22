@@ -166,7 +166,7 @@ paths:
   /campaign-manager/process/v1/create-boundary:
     post:
       tags:
-      - Process API
+      - Process Boundary
       summary: "This API endpoint used to do a bulk upload of data based on type"
       description: "This API endpoint used to do a bulk upload of data based on type"
       requestBody:
@@ -196,7 +196,7 @@ paths:
   /campaign-manager/process/v1/search-boundary:
     post:
       tags:
-      - Bulk Data Creation
+      - Process Boundary
       summary: "This API endpoint searches for API resources"
       description: "This API endpoint searches for API resources"
       requestBody:
@@ -221,7 +221,7 @@ paths:
   /campaign-manager/process/v1/create-campaign:
     post:
       tags:
-      - Process API
+      - Process Campaign
       summary: "This API endpoint used to do a bulk upload of data based on type"
       description: "This API endpoint used to do a bulk upload of data based on type"
       requestBody:
@@ -251,7 +251,7 @@ paths:
   /campaign-manager/process/v1/search-campaign:
     post:
       tags:
-      - Bulk Data Creation
+      - Process Campaign
       summary: "This API endpoint searches for API resources"
       description: "This API endpoint searches for API resources"
       requestBody:
