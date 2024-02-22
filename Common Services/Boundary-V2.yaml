@@ -1,47 +1,79 @@
 openapi: 3.0.1
 info:
-  title: Location Service
-  description: Location service APIs - to create, search and update boundaries along with APIs for establishing relationships between boundaries. This service supports n-level hierarchical boundary data.
+  title: Campaign Manager
+  description: BFF service APIs - to Bulk create, search and fetch all data in a registry.
   contact:
     name: eGov
     email: info@egovernments.org
-  version: 2.0.0
+  version: 1.0.0
 servers:
-- url: /location/v2
+- url: /campaign-manager/v1
 paths:
-  /boundary/_create:
+  /campaign-manager/data/v1/_create:
     post:
       tags:
-      - Boundary Entities
-      summary: API endpoint to create Boundary.
-      description: |
-        Provides functionality to create boundary data.
+      - Bulk Data Creation
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/BoundaryRequest"
+              "$ref": "#/components/schemas/BulkResourceCreateRequest"
       responses:
         200:
           description: Successful Response.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BoundaryResponse'
+                $ref: '#/components/schemas/BulkResourceCreateResponse'
         400:
           description: Invalid input.
           content:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: requestInfo
-  /boundary/_search:
+  /campaign-manager/data/v1/_search:
     post:
       tags:
-      - Boundary Entities
-      summary: API endpoint to search boundary entities.
-      description: |
-        Provides a list of boundary entities based on the provided search criteria.
+      - Bulk Data Creation
+      summary: "This API endpoint searches for API resources"
+      description: "This API endpoint searches for API resources"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SearchRequest"   
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BulkResourceCreateResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /campaign-manager/data/v1/_generate:
+    post:
+      tags:
+      - Bulk Data Creation
+      summary: "This API endpoint updates the API resources table"
+      description: "This API endpoint updates the API resources table"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
       parameters:
       - name: tenantId
         in: query
@@ -51,142 +83,48 @@ paths:
           maxLength: 256
           type: string
           format: varchar
-      - name: codes
+      - name: type
         in: query
-        description: unique list of boundary codes.
-        style: form
-        explode: false
+        description: type of the resource
         required: true
         schema:
-          type: array
-          items:
-            type: string
-            format: varchar
+          maxLength: 256
+          type: string
+          format: varchar
+      - name: forceUpdate
+        in: query
+        description: "ForceUpdate parameter"
+        required: false
+        schema:
+          type: boolean
       responses:
         200:
           description: Successful Response.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BoundaryResponse'
+                $ref: '#/components/schemas/BulkGenerateResponse'
         400:
           description: Invalid input.
           content:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: requestInfo
-  /boundary/_update:
+  /campaign-manager/data/v1/_download:
     post:
       tags:
-      - Boundary Entities
-      summary: API endpoint to update Boundary.
-      description: |
-        Provides functionality to update boundary data.
+      - Bulk Data Creation
+      summary: "This API endpoint updates the API resources table"
+      description: "This API endpoint updates the API resources table"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/BoundaryRequest"
-      responses:
-        200:
-          description: Successful Response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BoundaryResponse'
-        400:
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: requestInfo
-  /boundary/hierarchy-definition/_create:
-    post:
-      tags:
-      - Hierarchy Definition
-      summary: API endpoint to define hierarchy.
-      description: |
-        Provides functionality to define hierarchy.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/BoundaryTypeHierarchyRequest"
-      responses:
-        200:
-          description: Successful Response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BoundaryTypeHierarchyResponse'
-        400:
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: requestInfo
-  /boundary/hierarchy-definition/_search:
-    post:
-      tags:
-      - Hierarchy Definition
-      summary: API endpoint to search boundary entities.
-      description: |
-        Provides boundary type hierarchy based on the provided search criteria.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/BoundaryTypeHierarchySearchRequest"
-      responses:
-        200:
-          description: Successful Response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BoundaryTypeHierarchyResponse'
-        400:
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: requestInfo
-  /boundary/boundary-relationships/_create:
-    post:
-      tags:
-      - Boundary Relationships
-      summary: API endpoint to create relationships between boundaries.
-      description: |
-        Provides functionality to establish relationships between boundaries.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/BoundaryRelationshipRequest"
-      responses:
-        200:
-          description: Successful Response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BoundaryRelationshipResponse'
-        400:
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: requestInfo
-  /boundary/boundary-relationships/_search:
-    post:
-      tags:
-      - Boundary Relationships
-      summary: API endpoint to search linked boundaries.
-      description: |
-        Provides functionality to search linked boundaries based on the provided search criteria
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
       parameters:
       - name: tenantId
         in: query
@@ -196,316 +134,232 @@ paths:
           maxLength: 256
           type: string
           format: varchar
-      - name: boundaryType
+      - name: type
         in: query
-        description: boundary type within the tenant boundary structure.
+        description: type of the resource
+        required: true
         schema:
-          maxLength: 64
+          maxLength: 256
           type: string
           format: varchar
-      - name: hierarchyType
+      - name: id
         in: query
-        description: Type Of the BoundaryType Like REVENUE, ADMIN
+        description: unique id of the generated request
+        required: false
         schema:
-          maxLength: 128
+          maxLength: 256
           type: string
           format: varchar
-      - name: includeChildren
-        in: query
-        description: boolean flag to inform the service if children need to be part of search.
-        required: false
-        schema:
-          type: boolean
-      - name: includeParents
-        in: query
-        description: boolean flag to inform the service if parents need to be part of search.
-        required: false
-        schema:
-          type: boolean
-      - name: codes
-        in: query
-        description: unique List of boundary codes.
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-            format: varchar
       responses:
         200:
           description: Successful Response.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BoundarySearchResponse'
+                $ref: '#/components/schemas/BulkDownloadResponse'
         400:
           description: Invalid input.
           content:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: requestInfo
-  /boundary/boundary-relationships/_update:
-    post:
-      tags:
-      - Boundary Relationships
-      summary: API endpoint to update relationships between boundaries.
-      description: |
-        Provides functionality to update relationships between boundaries.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/BoundaryRelationshipRequest"
-      responses:
-        200:
-          description: Successful Response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BoundaryRelationshipResponse'
-        400:
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-      x-codegen-request-body-name: requestInfo
 components:
   schemas:
-    HierarchyType:
-      required:
-      - code
+    BulkResourceCreateRequest:
       type: object
       properties:
-        tenantId:
-          type: string
-          description: Unique tenant identifier
-        id:
-          type: string
-          readOnly: true
-          description: UUID
-        code:
-          type: string
-          description: Unique Hierarchy type code
-        active:
-          type: boolean
-          description: Soft delete (true / false)
-    Geometry:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        ResourceDetails:
+          $ref: '#/components/schemas/ResourceDetails'
+    ResourceDetails:
       type: object
       properties:
         type:
-          type: string
-          enum:
-            - Polygon
-            - Point
-        coordinates:
-          type: array
-          items:
-            type: array
-            items:
-              type: array
+          type: "string"
+        tenantId:
+          type: "string"
+        fileStoreId:
+          type: "string"
+    BulkResourceCreateResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        ResponseDetails:
+          $ref: '#/components/schemas/CreateResponseDetails'
+    CreateResponseDetails:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+        tenantId:
+          type: "string"
+        status:
+          type: "string"
+          example: "data-accepted"
+        processReferenceNumber:
+          type: "string"
+          example: "PRO-001-001-001"
+        fileStoreId:
+          type: "string"
+          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+        type:
+          type: "string"
+          example: "facility"
+    SearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        SearchCriteria:
+          type: "object"
+          properties:
+            id:
+              type: "array"
               items:
-                type: number
-    BoundaryType:
-      required:
-      - code
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: unique tenant identifier
-        id:
-          type: string
-          readOnly: true
-          description: UUID
-        code:
-          type: string
-          description: unique code for boundary type.
-        active:
-          type: boolean
-          description: attribute that defines if the given boundary type is active or not.
-    Boundary:
-      required:
-      - code
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-          description: read-only db entity uuid.
-        tenantId:
-          type: string
-          description: Unique tenant identifier.
-        code:
-          type: string
-          description: code of the boundary.
-        geometry:
-          $ref: '#/components/schemas/Geometry'
-        additionalDetails:
-          type: object
-    EnrichedBoundary:
-      required:
-      - code
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-          description: read-only db entity uuid.
-        tenantId:
-          type: string
-          description: Unique tenant identifier.
-        code:
-          type: string
-          description: code of the boundary.
-        boundaryType:
-          type: string
-          description: type of the boundary.
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnrichedBoundary'
-          description: children boundaries of the current boundary
-    BoundaryRelation:
-      required:
-      - code
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-          description: read-only db entity uuid.
-        code:
-          type: string
-          description: Code of the boundary.
-        tenantId:
-          type: string
-          description: Unique tenant identifier.
-        hierarchyType:
-          type: string
-          description: Code of the hierarchy type for which boundary relationship is being created.
-        boundaryType:
-          type: string
-          description: Boundary type from master data.
-        parent:
-          type: string
-          description: Parent boundary code.
-    HierarchyRelation:
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: unique id of the boundary tenant.
-        hierarchyType:
-          type: string
-          description: Hierarchy type from master data
-        boundary:
-          $ref: '#/components/schemas/EnrichedBoundary'
-    BoundaryRelationshipRequest:
-      type: object
-      properties:
-        RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-        BoundaryRelationship:
-          $ref: '#/components/schemas/BoundaryRelation'
-    BoundaryRelationshipResponse:
+                type: "string"
+            tenantId:
+              type: "string"
+            processReferenceNumber:
+              type: "string"
+            type:
+              type: "string"
+    SearchResponse:
       type: object
       properties:
         ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        TenantBoundary:
-          type: array
+        ResponseDetails:
+          type: "array"
           items:
-            $ref: '#/components/schemas/BoundaryRelation'
-    BoundarySearchResponse:
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                example: "data-accepted"
+              id:
+                type: "string"
+                example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+              tenantId:
+                type: "string"
+              processReferenceNumber:
+                type: "string"
+                example: "PRO-001-001-001"
+              fileStoreId:
+                type: "string"
+                example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+              type:
+                type: "string"
+                example: "facility"
+              additionalDetails:
+                type: "object"
+                example: {}
+              auditDetails:
+                type: "object"
+                properties:
+                  createdBy:
+                    type: "string"
+                    example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                  lastModifiedBy:
+                    type: "string"
+                    example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                  createdTime:
+                    type: "string"
+                    example: "1644426612"
+                  lastModifiedTime:
+                    type: "string"
+                    example: "1644426612"
+            example:
+              - status: "data-accepted"
+                id: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+                tenantId: "pg.citya"
+                processReferenceNumber: "PRO-001-001-001"
+                fileStoreId: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+                type: "facility"
+                additionalDetails: {}
+                auditDetails:
+                  createdBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                  lastModifiedBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                  createdTime: "1644426612"
+                  lastModifiedTime: "1644426612"
+              - status: "data-rejected"
+                id: "7cb9e05f-0cb4-4386-b221-1f8a001d4e0c"
+                tenantId: "pg.citya"
+                processReferenceNumber: "PRO-001-001-002"
+                fileStoreId: "5a2e0b15-fd7d-44ee-8ef7-811722a15e6f"
+                type: "service"
+                additionalDetails: {}
+                auditDetails:
+                  createdBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                  lastModifiedBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                  createdTime: "1644426612"
+                  lastModifiedTime: "1644426612"
+    BulkGenerateResponse:
       type: object
       properties:
         ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        TenantBoundary:
-          type: array
-          items:
-            $ref: '#/components/schemas/HierarchyRelation'
-    BoundaryTypeHierarchy:
-      required:
-      - boundaryType, parentBoundaryType
-      type: object
-      properties:
-        boundaryType:
-          type: string
-          description: boundary type code.
-        id:
-          type: string
-          readOnly: true
-          description: UUID
-        parentBoundaryType:
-          type: string
-          description: unique code for parent boundary.
-        active:
-          type: boolean
-          description: attribute that defines if the given boundary hierarchy is active or not
-    BoundaryTypeHierarchyRequest:
-      type: object
-      properties:
-        RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-        BoundaryHierarchy:
-          $ref: '#/components/schemas/BoundaryTypeHierarchyDefinition'
-    BoundaryTypeHierarchyResponse:
-      type: object
-      properties:
-        RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        BoundaryHierarchy:
-          $ref: '#/components/schemas/BoundaryTypeHierarchyDefinition'
-    BoundaryTypeHierarchyDefinition:
-      type: object
-      properties:
-        tenantId:
-          type: string
-          description: unique id of the boundary tenant.
-        hierarchyType:
-          type: string
-          description: Hierarchy type from master data
-        boundaryHierarchy:
-          type: array
-          items:
-            $ref: '#/components/schemas/BoundaryTypeHierarchy'
-    BoundaryRequest:
-      type: object
-      properties:
-        RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-        Boundary:
-          type: array
-          items:
-            $ref: '#/components/schemas/Boundary'
-    BoundaryResponse:
+        GeneratedResource:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+            type:
+              type: "string"
+              example: "facility"
+            status:
+              type: "string"
+              example: "generation started"
+            tenantId:
+              type: "string"
+              example: "pg.citya"
+    BulkDownloadResponse:
       type: object
       properties:
         ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        Boundary:
-          type: array
-          items:
-            $ref: '#/components/schemas/Boundary'
-    BoundaryTypeHierarchySearchCriteria:
-      type: object
-      properties:
-        tenantId:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Unique id for a tenant.
-        hierarchyType:
-          type: string
-          description: Search by hierarchy type.
-    BoundaryTypeHierarchySearchRequest:
-      type: object
-      properties:
-        RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
-        BoundaryTypeHierarchySearchCriteria:
-          $ref: '#/components/schemas/BoundaryTypeHierarchySearchCriteria'
+        GeneratedResource:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+            tenantId:
+              type: "string"
+              example: "pg.citya"
+            fileStoreid:
+              type: "string"
+              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+            type:
+              type: "string"
+              example: "facility"
+            status:
+              type: "string"
+              example: "completed"
+            count:
+              type: "number"
+              example: 100
+            url:
+              type: "string"
+              example: "https://unified-uat-filestore.s3-ap-south-1.amazonaws.com/mz/pgr/February/8/1707393265007mXVKObMAqy.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCURO6LLX5SS6CNF%2F20240209%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240209T091624Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=507dd50aa25be05789aaf0c0f4cdcb1555f59053b299fef5228f218eb67e3218"
+            additionalDetails:
+              type: "object"
+              example : {}
+            auditDetails:
+              type: "object"
+              properties:
+                createdBy:
+                  type: "string"
+                  example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                lastModifiedBy:
+                  type: "string"
+                  example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+                createdTime:
+                  type: "string"
+                  example: "1644426612"
+                lastModifiedTime:
+                  type: "string"
+                  example: "1644426612"
