@@ -52,7 +52,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
+                $ref: '#/components/schemas/SearchResponse'
         400:
           description: Invalid input.
           content:
@@ -346,6 +346,9 @@ components:
               fileStoreId:
                 type: "string"
                 example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+              processedFileStoreId:
+                type: "string"
+                example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
               type:
                 type: "string"
                 example: "facility"
@@ -367,31 +370,6 @@ components:
                   lastModifiedTime:
                     type: "string"
                     example: "1644426612"
-            example:
-              - status: "data-accepted"
-                id: "cf3bd20c-5ac3-4af1-a303-55445049b289"
-                tenantId: "pg.citya"
-                processReferenceNumber: "PRO-001-001-001"
-                fileStoreId: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
-                type: "facility"
-                additionalDetails: {}
-                auditDetails:
-                  createdBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-                  lastModifiedBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-                  createdTime: "1644426612"
-                  lastModifiedTime: "1644426612"
-              - status: "data-rejected"
-                id: "7cb9e05f-0cb4-4386-b221-1f8a001d4e0c"
-                tenantId: "pg.citya"
-                processReferenceNumber: "PRO-001-001-002"
-                fileStoreId: "5a2e0b15-fd7d-44ee-8ef7-811722a15e6f"
-                type: "service"
-                additionalDetails: {}
-                auditDetails:
-                  createdBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-                  lastModifiedBy: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-                  createdTime: "1644426612"
-                  lastModifiedTime: "1644426612"
     BulkGenerateResponse:
       type: object
       properties:
