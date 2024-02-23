@@ -34,31 +34,6 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/data/v1/_validate:
-    post:
-      tags:
-      - Bulk Data Creation
-      summary: "This API endpoint used to do a bulk upload of data based on type"
-      description: "This API endpoint used to do a bulk upload of data based on type"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/BulkResourceCreateRequest"
-      responses:
-        200:
-          description: Successful Response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
-        400:
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /campaign-manager/data/v1/_search:
     post:
       tags:
@@ -87,7 +62,7 @@ paths:
   /campaign-manager/data/v1/_generate:
     post:
       tags:
-      - Bulk Data Creation
+      - Bulk Data retrieval
       summary: "This API endpoint updates the API resources table"
       description: "This API endpoint updates the API resources table"
       requestBody:
@@ -138,7 +113,7 @@ paths:
   /campaign-manager/data/v1/_download:
     post:
       tags:
-      - Bulk Data Creation
+      - Bulk Data retrieval
       summary: "This API endpoint updates the API resources table"
       description: "This API endpoint updates the API resources table"
       requestBody:
@@ -182,61 +157,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/BulkDownloadResponse'
-        400:
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/process/v1/create-boundary:
-    post:
-      tags:
-      - Process Boundary
-      summary: "This API endpoint used to do a bulk upload of data based on type"
-      description: "This API endpoint used to do a bulk upload of data based on type"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                RequestInfo:
-                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-                ResourceDetails:
-                  $ref: '#/components/schemas/BoundaryResourceDetails'
-      responses:
-        200:
-          description: Successful Response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
-        400:
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/process/v1/search-boundary:
-    post:
-      tags:
-      - Process Boundary
-      summary: "This API endpoint searches for API resources"
-      description: "This API endpoint searches for API resources"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/SearchRequest"   
-      responses:
-        200:
-          description: Successful Response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
         400:
           description: Invalid input.
           content:
@@ -316,15 +236,6 @@ components:
           type: "string"
         fileStoreId:
           type: "string"
-    BoundaryResourceDetails:
-      type: object
-      properties:
-        hierarchyType:
-          type: "string"
-        tenantId:
-          type: "string"
-        fileStoreId:
-          type: "string"
     CampaignResourceDetails:
       type: object
       properties:
@@ -334,6 +245,9 @@ components:
           type: "string"
         campaignName:
           type: "string"
+        type:
+          type: "string"
+          example: "boundary||campaign"
         filestoreIds:
           type: "array"
           items:
@@ -350,6 +264,17 @@ components:
                 example: "user.xlsx"
         projectType:
           type: "string"
+        deliveryRules:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              startDate:
+                type: "string"
+              endDate:
+                type: "string"
+              cycle:
+                type: "string"
         additionalDetails:
           type: "object"
     BulkResourceCreateResponse:
@@ -513,9 +438,6 @@ components:
             count:
               type: "number"
               example: 100
-            url:
-              type: "string"
-              example: "https://unified-uat-filestore.s3-ap-south-1.amazonaws.com/mz/pgr/February/8/1707393265007mXVKObMAqy.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCURO6LLX5SS6CNF%2F20240209%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240209T091624Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=507dd50aa25be05789aaf0c0f4cdcb1555f59053b299fef5228f218eb67e3218"
             additionalDetails:
               type: "object"
               example : {}
