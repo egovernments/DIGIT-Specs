@@ -531,14 +531,23 @@ components:
       properties:
         id:
           type: "string"
+          format: uuid
+          description: System generated unique identifier for the entry
+          readOnly: true
         campaignNo:
           type: "string"
+          example: CAM/2022-23/001
+          description: System generated id with custom formatting
+          readOnly: true
         hierarchyType:
           type: "string"
+          example: admin
         tenantId:
           type: "string"
+          example: mz
         campaignName:
           type: "string"
+          example: bednet campaign
         boundaryCode:
           type: "string"
           example: "mz" 
