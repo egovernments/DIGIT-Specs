@@ -635,12 +635,20 @@ components:
             format: timestamp
             example: 1665497225000
             description: Timestamp of the start date in milliseconds
-          total:
-            type: "number"
-            example: 1000
-          target:
-            type: "number"
-            example: 800
+          targets:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                total:
+                  type: "number"
+                  example: 1000
+                target:
+                  type: "number"
+                  example: 800
+                type:
+                  type: "string"
+                  example: "household|individual"
           parentBoundaryCode:
             type: "string"
             example: "mz"
