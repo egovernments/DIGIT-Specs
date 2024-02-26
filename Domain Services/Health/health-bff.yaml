@@ -544,9 +544,15 @@ components:
           example: "mz" 
           description: "root boundary code"
         startDate:
-          type: "string"
+          type: number
+          format: timestamp
+          example: 1665497225000
+          description: Timestamp of the start date in milliseconds
         endDate: 
-          type: "string"
+          type: number
+          format: timestamp
+          example: 1665497225000
+          description: Timestamp of the start date in milliseconds
         projectType:
           type: "string"
         CampaignDetails:
@@ -557,9 +563,15 @@ components:
             type: "object"
             properties:
               startDate:
-                type: "string"
+                type: number
+                format: timestamp
+                example: 1665497225000
+                description: Timestamp of the start date in milliseconds
               endDate:
-                type: "string"
+                type: number
+                format: timestamp
+                example: 1665497225000
+                description: Timestamp of the start date in milliseconds              
               cycle:
                 type: "string"
         additionalDetails:
@@ -576,19 +588,29 @@ components:
             readOnly: true
           boundaryCode:
             type: "string"
+            example: "nampula"
           boundaryType:
             type: "string"
             example: "country|province"
           startDate:
-            type: "string"
+            type: number
+            format: timestamp
+            example: 1665497225000
+            description: Timestamp of the start date in milliseconds
           endDate:
-            type: "string"
+            type: number
+            format: timestamp
+            example: 1665497225000
+            description: Timestamp of the start date in milliseconds
           total:
             type: "number"
+            example: 1000
           target:
             type: "number"
+            example: 800
           parentBoundaryCode:
             type: "string"
+            example: "mz"
           projectId:
              type: "string"
           relationShips:
