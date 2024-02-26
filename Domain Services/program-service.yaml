@@ -17,8 +17,11 @@ externalDocs:
 servers:
 - url: /program-service/v1
 paths:
+  # Program requests -----------------------------------------
   /program/_create:
     post:
+      tags:
+        - Program
       summary: Create programs
       description: Enables exchange of program related messages
       requestBody:
@@ -39,9 +42,7 @@ paths:
                           enum:
                             - create
                 message:
-                  allOf:
-                    - $ref: '#/components/schemas/Program'
-                    - $ref: "#/components/schemas/ExchangeCode"
+                  $ref: '#/components/schemas/ProgramDetails'
               required:
                 - header
                 - message
@@ -58,7 +59,9 @@ paths:
 
   /program/_update:
     post:
-      summary: Create programs
+      tags:
+        - Program
+      summary: Update created programs
       description: Enables exchange of program related messages
       requestBody:
         description: ''
@@ -77,9 +80,7 @@ paths:
                         action:
                           example: update
                 message:
-                  allOf:
-                    - $ref: '#/components/schemas/Program'
-                    - $ref: "#/components/schemas/ExchangeCode"
+                  $ref: '#/components/schemas/ProgramDetails'
               required:
                 - header
                 - message
@@ -96,6 +97,8 @@ paths:
 
   /program/_search:
     post:
+      tags:
+        - Program
       summary: Search programs by query
       description: Enables search of program
       requestBody:
@@ -106,8 +109,8 @@ paths:
             schema:
               type: object
               properties:
-                # signature:
-                #   $ref: '#/components/schemas/MsgSignature'
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
@@ -134,6 +137,8 @@ paths:
 
   /on-program/_create:
     post:
+      tags:
+        - Program
       summary: Update program after create response
       description: Enables exchange of program related messages
       requestBody:
@@ -173,6 +178,8 @@ paths:
 
   /on-program/_update:
     post:
+      tags:
+        - Program
       summary: Update program after update response
       description: Enables exchange of program related messages
       requestBody:
@@ -210,10 +217,131 @@ paths:
           $ref: '#/components/responses/Response'
       deprecated: false
 
-  /on-sanction/_create:
+  
+  # Estimate requests -----------------------------------------
+  /estimate/_create:
     post:
-      summary: Create sanctions in program service
-      description: Enables exchange of program related messages
+      tags:
+        - Estimate
+      summary: Create estimate
+      description: Enables exchange of estimate related messages, and store them.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                message:
+                  $ref: '#/components/schemas/EstimateDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /estimate/_update:
+    post:
+      tags:
+        - Estimate
+      summary: Update created estimate
+      description: Enables to update the existing created estimate
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                message:
+                  $ref: '#/components/schemas/EstimateDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /estimate/_search:
+    post:
+      tags:
+        - Estimate
+      summary: Search estimate by query
+      description: Enables search of esimate and return each fields
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: search
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/EstimateSearch'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/schemas/EstimateSearchResponse'
+      deprecated: false
+
+
+  /on-estimate/_create:
+    post:
+      tags:
+        - Estimate
+      summary: Update estimate after create
+      description: User can update the estimate if already created using on-estimate.
       requestBody:
         description: ''
         required: true
@@ -232,11 +360,7 @@ paths:
                           example: create
                     # - $ref: '#/components/schemas/MsgCallbackHeader'
                 message:
-                  type: array
-                  items:
-                    allOf:
-                      - $ref: '#/components/schemas/Sanction'
-                      - $ref: "#/components/schemas/ExchangeCode"
+                  $ref: '#/components/schemas/EstimateDetails'
               required:
                 - header
                 - message
@@ -251,10 +375,12 @@ paths:
           $ref: '#/components/responses/Response'
       deprecated: false
 
-  /on-sanction/_update:
+  /on-estimate/_update:
     post:
-      summary: /exchange/v1/on-sanction
-      description: Enables exchange of program related messages
+      tags:
+        - Estimate
+      summary: Update estimate after update response
+      description: User can update the estimate if already created using on-estimate.
       requestBody:
         description: ''
         required: true
@@ -272,13 +398,8 @@ paths:
                         action:
                           example: update
                     # - $ref: '#/components/schemas/MsgCallbackHeader'
-                    
                 message:
-                  type: array
-                  items:
-                    allOf:
-                      - $ref: '#/components/schemas/Sanction'
-                      - $ref: "#/components/schemas/ExchangeCode"
+                  $ref: '#/components/schemas/EstimateDetails'
               required:
                 - header
                 - message
@@ -293,10 +414,92 @@ paths:
           $ref: '#/components/responses/Response'
       deprecated: false
 
+  
+  # Sanciton requests
+  /sanction/_create:
+    post:
+      tags:
+        - Sanction
+      summary: Create sanctions in program service
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  $ref: '#/components/schemas/SanctionDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /sanction/_update:
+    post:
+      tags:
+        - Sanction
+      summary: Update sanction details
+      description: Update the sanction details, sanction is immutable only status can be changed.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                    
+                message:
+                  $ref: '#/components/schemas/SanctionDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  
   /sanction/_search:
     post:
-      summary: /exchange/v1/sanction
-      description: Enables exchange of program related messages
+      tags:
+        - Sanction
+      summary: Search Sanction details
+      description: Search sanciton by query and return the response 
       requestBody:
         description: ''
         required: true
@@ -330,10 +533,92 @@ paths:
           $ref: '#/components/responses/SanctionSearchResponse'
       deprecated: false
 
-  /on-allocation/_create:
+  
+
+  /on-sanction/_create:
     post:
-      summary: /exchange/v1/on-allocation
-      description: Enables exchange of allocation related messages
+      tags:
+        - Sanction
+      summary: Create sanctions in program service
+      description: Enables creation of sanctions if not created in the system.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  $ref: '#/components/schemas/SanctionDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /on-sanction/_update:
+    post:
+      tags:
+        - Sanction
+      summary: Update created sanciton details
+      description: Enables to udpate sanction details like status, remaining fields will be immutable
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                message:
+                  $ref: '#/components/schemas/SanctionDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  
+  # Allocation Requests-----------------------------------------
+  /allocation/_create:
+    post:
+      tags:
+        - Allocation
+      summary: Request to create allocation 
+      description: User can request to create an allocation.
       requestBody:
         description: ''
         required: true
@@ -352,11 +637,7 @@ paths:
                         action:
                           example: create
                 message:
-                  type: array
-                  items:
-                    allOf:
-                      - $ref: '#/components/schemas/Allocation'
-                      - $ref: "#/components/schemas/ExchangeCode"
+                  $ref: '#/components/schemas/AllocationDetails'
               required:
                 - header
                 - message
@@ -371,10 +652,12 @@ paths:
           $ref: '#/components/responses/Response'
       deprecated: false
 
-  /on-allocation/_update:
+  /allocation/_update:
     post:
-      summary: /exchange/v1/on-allocation
-      description: Enables exchange of allocation related messages
+      tags:
+        - Allocation
+      summary: Request to update allocation 
+      description: User can request to update in existing create allocation.
       requestBody:
         description: ''
         required: true
@@ -391,14 +674,9 @@ paths:
                     - properties:
                         action:
                           example: update
-                    # - $ref: '#/components/schemas/MsgCallbackHeader'
                     
                 message:
-                  type: array
-                  items:
-                    allOf:
-                      - $ref: '#/components/schemas/Sanction'
-                      - $ref: "#/components/schemas/ExchangeCode"
+                  $ref: '#/components/schemas/AllocationDetails'
               required:
                 - header
                 - message
@@ -415,8 +693,10 @@ paths:
 
   /allocation/_search:
     post:
-      summary: /exchange/v1/allocation
-      description: Enables exchange of allocation related messages
+      tags:
+        - Allocation
+      summary: Search allocation details
+      description: Search allocation by query and return the response
       requestBody:
         description: ''
         required: true
@@ -450,11 +730,94 @@ paths:
           $ref: '#/components/responses/AllocationSearchResponse'
 
       deprecated: false
+    
+  /on-allocation/_create:
+    post:
+      tags:
+        - Allocation
+      summary: Callback after allocation/_create
+      description: Update created allocation if exists or create new
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  $ref: '#/components/schemas/AllocationDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
 
+  /on-allocation/_update:
+    post:
+      tags:
+        - Allocation
+      summary: Request to update allocation 
+      description: Updated status of create disburse request.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                    
+                message:
+                  $ref: '#/components/schemas/AllocationDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  
+  
+  # Disburse Requests-----------------------------------------
   /disburse/_create:
     post:
-      summary: /exchange/v1/disburse
-      description: Enables exchange of disburse related messages
+      tags:
+        - Disburse
+      summary: Initiate payment request
+      description: Create new disbursement request to initiate payment.
       requestBody:
         description: ''
         required: true
@@ -474,7 +837,7 @@ paths:
 
                 message:
                   allOf:
-                    - $ref: '#/components/schemas/Disburse'
+                    - $ref: '#/components/schemas/DisburseDetails'
               required:
                 - header
                 - message
@@ -491,8 +854,10 @@ paths:
 
   /disburse/_search:
     post:
-      summary: /exchange/v1/disburse
-      description: Enables exchange of disburse related messages
+      tags:
+        - Disburse
+      summary: Search created disbursements
+      description: Return disbursements based on query
       requestBody:
         description: ''
         required: true
@@ -528,8 +893,10 @@ paths:
 
   /on-disburse/_create:
     post:
-      summary: /exchange/v1/on-disburse
-      description: Enables exchange of disburse related messages
+      tags:
+        - Disburse
+      summary: Updated status of create disburse request
+      description: Updated status of create disburse request
       requestBody:
         description: ''
         required: true
@@ -546,10 +913,9 @@ paths:
                     - properties:
                         action:
                           example: create
-                    # - $ref: '#/components/schemas/MsgCallbackHeader'
                 message:
                   allOf:
-                    - $ref: '#/components/schemas/Disburse'
+                    - $ref: '#/components/schemas/DisburseDetails'
               required:
                 - header
                 - message
@@ -566,7 +932,9 @@ paths:
 
   /on-disburse/_update:
     post:
-      summary: /exchange/v1/on-disburse
+      tags:
+        - Disburse
+      summary: Updated status of create disburse request
       description: Enables exchange of disburse related messages
       requestBody:
         description: ''
@@ -577,17 +945,16 @@ paths:
               type: object
               properties:
                 signature:
-                  - $ref: '#/components/schemas/MsgSignature'
+                  $ref: '#/components/schemas/MsgSignature'
                 header:
                   allOf:
                     - $ref: '#/components/schemas/MsgHeader'
-                    # - $ref: '#/components/schemas/MsgCallbackHeader'
                     - properties:
                         action:
                           example: update
                 message:
                   allOf:
-                    - $ref: '#/components/schemas/Disburse'
+                    - $ref: '#/components/schemas/DisburseDetails'
               required:
                 - header
                 - message
@@ -604,86 +971,31 @@ paths:
 
 components:
   schemas:
-    cdpi_FinancialAddress:
-      type: string
-      description: |
-        1. Financial address is case insensitive normative represenation of a store of value account represented as id-type:id@provider
-        2. Every payer/payee financial address must resolve to an actual store of value account number for processing the payment instruction
-        3. It is recommended the mapping between id and store of value account details to be held only at final store of value entity and intermediaries can hold 
-        3. Few examples: <br>
-            - token@id-provider e.g token:12345@national-id <br>
-            - uid@pymt-rail e.g uid:12345@national-id <br>
-            - vid@id-provider e.g vid:12345@national-id <br>
-            - mobile@mobile-provider e.g mobile:12345@mobile-pymt <br>
-            - account-id@bank-psp-code e.g account:12345@national-bank <br>
-            - account-no@ifsc-code.ifsc.pymt-rail e.g account:12345@abcd0000001.ifsc.pymt-rail <br>
-            - user-id@psp-code e.g. joeuser@national-bank <br>
-            - token@psp-code e.g token:123456@a123 <br>
-            - code@purpose-code.voucher-provider e.g voucher:12345@food.coupon-network <br>
-      format: '^[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+$'
-      example: 'token:12345@gtbank'
-    DisburseRequest:
-      type: object
-      description: Disbursement request
-      properties:
-        transaction_id:
-          $ref: '#/components/schemas/TransactionId'
-        disbursements:
-          type: array
-          items:
-            type: object
-            description: |
-              1. Describes payment schema that enable transfer from payer to payee accounts. 
-              2. This entity supports immediate and scheduling one time payment request into future. 
-              3. Recurring payments is not part of the scope of this entity.
-            properties:
-              reference_id:
-                $ref: '#/components/schemas/ReferenceId'
-              payer_fa:
-                $ref: '#/components/schemas/cdpi_FinancialAddress'
-              payee_fa:
-                $ref: '#/components/schemas/cdpi_FinancialAddress'
-              amount:
-                $ref: '#/components/schemas/Amount'
-              scheduled_timestamp:
-                allOf:
-                  - description: If not present then immediate disbursement else schedule as per scheduled date-time
-                  - $ref: '#/components/schemas/Timestamp'
-              payer_name:
-                description: Payer account name for easy reference. Usually each scheme may have a seperate holding account.
-                type: string
-                example: Farmer draught relief scheme 2023
-              payee_name:
-                description: Payer name for easy reference. Usually beneficiary name as per scheme registration info
-                type: string
-                example: Joe John
-              note:
-                description: Note to payer/payee to reflect on statements
-                type: string
-                maxLength: 99
-              purpose:
-                $ref: '#/components/schemas/Purpose'
-              instruction:
-                description: 'Additional systems instruction for interfacing systems/platforms to integrate, reconcile'
-                type: string
-                maxLength: 999
-              meta:
-                type: object
-                properties:
-                  allof:
-                    $ref: '#/components/schemas/ExchangeCode'
-              currency_code:
-                $ref: '#/components/schemas/CurrencyCode'
-              locale:
-                $ref: '#/components/schemas/LanguageCode'
-            required:
-              - reference_id
-              - payer_fa
-              - payee_fa
-              - amount
-      required:
-        - transaction_id
-        - disburemsents
+    ProgramDetails:
+      allOf:
+        - $ref: '#/components/schemas/Program'
+        - $ref: '#/components/schemas/ExchangeCode'
+
+    EstimateDetails:
+      allOf:
+        - $ref: '#/components/schemas/Estimate'
+        - $ref: '#/components/schemas/ExchangeCode'
+
+    SanctionDetails:
+      allOf:
+        - $ref: '#/components/schemas/Sanction'
+        - $ref: '#/components/schemas/ExchangeCode'
+
+    AllocationDetails:
+      allOf:
+        - $ref: '#/components/schemas/Allocation'
+        - $ref: '#/components/schemas/ExchangeCode'
+
+    DisburseDetails:
+      allOf:
+        - $ref: '#/components/schemas/Disburse'
+        - $ref: '#/components/schemas/ExchangeCode'
+
     correlation_id:
       description: |
         1. correlation_id acknowledged by end txn processing system (i.e receiver) to co-relate all related requests in the context of a business transaction.
@@ -852,40 +1164,41 @@ components:
       description: 'Signature of {header}+{message} body verified using sender''s signing public key'
       example: 'TgE1hcA2E+YPMdPGz4vveKQpR0x+pgzRTlet52qh63Kekr71vWWScXqaRFtQW64uRFZGBUhHYYZQ2y6LffwnNOOQhhssaThhqVBhXNEwX9i75SNYXi5XSJVDYzSyHrhF20HW6RE9mAVWdc80i7d+FXlh+b/U+fnj+SrZ2s6Xd0WUZvU29LgqeUpyznlWLu1mDdJxNZavsDLWmxjTnknqBjDvwSc35WhFDhXDA2lWmm8YpZ1Y6TBmvvtVS7mAOTnhFy9sdCbrLcfXk5QWIsdzlvPqlkvdwEf30OZ6ewb680Aj3hO2OT5LCv7iLyz7C7srnB9lJT5gXiw+eSnktPXlDA=='
     Pagination:
-      description: 'Pagination definition, count starts with 1'
+      description: Pagination details
       type: object
       properties:
-        page_size:
+        limit:
+          description: >-
+            Limit for total no of records in single search max limit should be
+            defined as envirnment variable
           type: number
-          format: int32
-          example: 2000
-        page_number:
+          default: 10
+          maximum: 100
+          format: double
+        off_set:
+          description: offset or page no
           type: number
-          format: int32
-          example: 5
+          default: 0
+          format: double
         total_count:
+          description: Total count for a perticular criteria
+          readOnly: true
           type: number
-          format: int32
-          example: 24250
-      required:
-        - page_size
-        - page_number
-        - total_count
-    PaginationRequest:
-      description: 'Pagination definition, count starts with 1'
-      type: object
-      properties:
-        page_size:
-          type: number
-          format: int32
-          example: 2000
-        page_number:
-          type: number
-          format: int32
-          default: 1
-          example: 5
-      required:
-        - page_size
+          format: double
+        sort_by:
+          description: result sorting order
+          type: string
+        order:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/Order'
+            - description: Sorting order
+    Order:
+      description: Sorting order
+      type: string
+      enum:
+        - asc
+        - desc
     Purpose:
       description: 'Payment disbursement purpose e.g Salary, Farmer Relief 2023, etc.,'
       type: string
@@ -987,17 +1300,21 @@ components:
         end_date:
           type: number
           example: 1704067200
-        client_host_url:
-          type: string
-          example: "https://unified-dev.digit.org"
-        is_active:
-          type: boolean
-          default: true
+        childrens:
+          type: array
+          items:
+            type: object
         status:
-          $ref: '#/components/schemas/Status'
-        auditDetails:
-          $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+          allOf:
+            - $ref: '#/components/schemas/Status'
+            - properties:
+                status_code:
+                    enum:
+                    - ACTIVE
+                    - INACTIVE
+                    example: ACTIVE
+        audit_details:
+          $ref: "#/components/schemas/AuditDetails"
       required:
         - location_code
         - name
@@ -1026,7 +1343,7 @@ components:
           type: string
           example: "pg.citya"
         pagination:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+          $ref: '#/components/schemas/Pagination'
       required:
         - location_code
   
@@ -1044,10 +1361,107 @@ components:
               programs:
                 type: array
                 items:
-                  allOf:
-                    - $ref: '#/components/schemas/Program'
-                    - $ref: "#/components/schemas/ExchangeCode"
+                  $ref: '#/components/schemas/ProgramDetails'
           
+    Estimate:
+      type: object
+      description: |
+        1. Describes payment schema that enable transfer from payer to payee accounts. 
+        2. This entity supports immediate and scheduling one time payment request into future. 
+        3. Recurring payments is not part of the scope of this entity.
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+          readOnly: true
+        location_code:
+          type: string
+          description: Unique identifier of the tenant that could be a department/ulb/state
+          minLength: 2
+          maxLength: 64
+          example: pb.jalandhar,dwss
+        program_code:
+          type: string
+          description: Formated program code PROG/{FINANCIAL_YEAR}/{ULB-CODE}/{AUTO_NUMBER}
+          minLength: 2
+          maxLength: 64
+          example: PORG/2023-24/PG.CITYA/00001
+        description:
+          type: string
+          description: 'Description of the program'
+          minLength: 2
+          maxLength: 256
+          example: "Empowering local communities through sustainable development projects."
+        net_amount:
+          type: number
+          description: Amount to be paid including deduction amount
+          example: 1000
+        gross_amount:
+          type: number
+          description: Actual amount to be paid without deduction
+          example: 1000
+        childrens:
+          type: array
+          items:
+            type: object
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+            - properties:
+                status_code:
+                    enum:
+                    - INITIATED
+                    - APPROVED
+                    example: INITIATED
+        audit_details:
+          $ref: "#/components/schemas/AuditDetails"
+      required:
+        - location_code
+        - name
+        - description
+        - start_date
+    
+    EstimateSearch:
+      type: object
+      description: 'Program search criteria'
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            example: 251c51eb-e970-4e01-a99a-70136c47a934
+        program_code:
+          type: string
+          example: "PG/2023-24/000091"
+        location_code:
+          type: string
+          example: "pg.citya"
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+        - location_code
+  
+    EstimateSearchResponse:
+      description: 'Request to update the register has been accepted.'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              header:
+                allOf:
+                  - $ref: '#/components/schemas/MsgHeader'
+                  # - $ref: '#/components/schemas/MsgCallbackHeader'
+              programs:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EstimateDetails'
+          
+    
+    
     ExchangeCode:
       type: object
       description: 'Exchange message content which will be shared with all request'
@@ -1058,7 +1472,7 @@ components:
           maxLength: 64
           readOnly: true
           enum:
-            - program
+            - Program
             - on-program
             - sanction
             - on-sanction
@@ -1125,6 +1539,8 @@ components:
             - COMPLETED
             - ERROR
             - INFO
+            - ACTIVE
+            - INACTIVE
           example: SUCCESSFUL
         status_message:
           type: string
@@ -1155,20 +1571,21 @@ components:
           minLength: 2
           maxLength: 64
           example: PORG/2023-24/PG.CITYA/00001
-        sanctioned_amount:
+        net_amount:
           type: number
-          example: 10000
-        allocated_amount:
+        gross_amount:
           type: number
-          readOnly: true
         available_amount:
           type: number
           readOnly: true
+        children:
+          type: array
+          items:
+            type: object
         status:
           $ref: '#/components/schemas/Status'
-        auditDetails:
-          $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+        audit_details:
+          $ref: "#/components/schemas/AuditDetails"
       required:
         - location_code
         - program_code
@@ -1187,7 +1604,7 @@ components:
         program_code:
           type: string
         pagination:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+          $ref: '#/components/schemas/Pagination'
       required:
         - location_code
   
@@ -1224,7 +1641,9 @@ components:
           example: 251c51eb-e970-4e01-a99a-70136c47a934
           minLength: 2
           maxLength: 64
-        amount:
+        net_amount:
+          type: number
+        gross_amount:
           type: number
         type:
           type: string
@@ -1232,13 +1651,20 @@ components:
           enum:
             - ALLOCATION
             - DEDUCTION
-        auditDetails:
-          $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+        children:
+          type: array
+          items:
+            type: object
+        status:
+          $ref: '#/components/schemas/Status'
+        audit_details:
+          $ref: "#/components/schemas/AuditDetails"
       required:
+        - location_code
         - sanction_id
         - program_code
-        - amount
+        - net_amount
+        - gross_amount
         - type
     
     AllocationSearch:
@@ -1256,13 +1682,11 @@ components:
         sanction_id:
           type: string
         pagination:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+          $ref: '#/components/schemas/Pagination'
       required:
         - location_code
 
     Disburse:
-      allOf:
-        - $ref: "#/components/schemas/ExchangeCode"
       type: object
       description: 'Exchange message content which will be shared with all request'
       properties:
@@ -1287,32 +1711,40 @@ components:
           example: PORG/2023-24/PG.CITYA/00001
         target_id:
           type: string
+          description: Refernece id of works payment
+          example: EP/0/2023-24/08/14/000267, 251c51eb-e970-4e01-a99a-70136c47a934
         transaction_id:
           type: string
-          description: Formated transaction code PI/{FINANCIAL_YEAR}/{AUTO_NUMBER}
+          description: Formated transaction code, it will return after transaction is created at another end.
           minLength: 2
           maxLength: 64
           example: PI/2023-24/00001,BENF/2023-24/00001
         sanction_id:
           type: string
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
         account_code:
           type: string
+          description: Account no with ifsc code will be account code, it will be in format ACCOUNT_NO@IFSC_CODE
+          example: 1234567890@SBIN0003491
         net_amount:
           type: number
+          description: Amount to be paid including deduction amount
+          example: 1000
         gross_amount:
           type: number
+          description: Actual amount to be paid without deduction
+          example: 1000
         individual:
           allOf:
             - $ref: "#/components/schemas/Individual"
-        disbursements:
+        childrens:
           type: array
           items:
             type: object
-            allOf:
-              - $ref: "#/components/schemas/Disburse"
-        auditDetails:
-          $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
+        status:
+          $ref: '#/components/schemas/Status'
+        audit_details:
+          $ref: "#/components/schemas/AuditDetails"
       required:
         - target_id
         - location_code
@@ -1355,9 +1787,29 @@ components:
         target_id:
           type: string
         pagination:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+          $ref: '#/components/schemas/Pagination'
       required:
         - location_code
+     
+    AuditDetails:
+      type: object
+      description: Collection of audit related fields used by most models
+      readOnly: true
+      properties:
+        created_by: 
+          type: string
+          description: username (preferred) or userid of the user that created the object
+        last_modified_by: 
+          type: string
+          description: username (preferred) or userid of the user that last modified the object
+        created_time:
+          type: integer
+          format: int64
+          description: epoch of the time object is created
+        last_modified_time:
+          type: integer
+          format: int64
+          description: epoch of the time object is last modified
   responses:
     HttpErrorResponse:
       description: HTTP layer error details
@@ -1451,11 +1903,4 @@ components:
                 type: array
                 items:
                   allOf:
-                    - $ref: '#/components/schemas/Disburse'
-
-  securitySchemes:
-    Authorization:
-      type: http
-      scheme: bearer
-      bearerFormat: jwt
-      description: User/System authenticated access token; (jwt bearer) token returned from implementing system's authentication/token api end points. All systems must implement token api.
+                    - $ref: '#/components/schemas/DisburseDetails'
