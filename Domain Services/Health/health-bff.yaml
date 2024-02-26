@@ -583,6 +583,10 @@ components:
             type: "string"
           endDate:
             type: "string"
+          total:
+            type: "number"
+          target:
+            type: "number"
           parentBoundaryCode:
             type: "string"
           projectId:
