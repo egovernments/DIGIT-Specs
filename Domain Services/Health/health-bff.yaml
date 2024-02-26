@@ -241,7 +241,13 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  Campaign:
+                    $ref: '#/components/schemas/Campaign'
+
         400:
           description: Invalid input.
           content:
@@ -271,7 +277,14 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  Campaigns:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/Campaign'
         400:
           description: Invalid input.
           content:
@@ -294,16 +307,21 @@ paths:
                 RequestInfo:
                   $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
                 Campaigns:
-                  type: "array"
-                  items:
-                    $ref: '#/components/schemas/Campaign'
+                  $ref: '#/components/schemas/Campaign'
       responses:
         200:
           description: Successful Response.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  Campaign:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/Campaign'
         400:
           description: Invalid input.
           content:
