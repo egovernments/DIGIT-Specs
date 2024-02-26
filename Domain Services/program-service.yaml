@@ -131,7 +131,7 @@ paths:
         '500':
           $ref: '#/components/responses/HttpErrorResponse'
         default:
-          $ref: '#/components/schemas/ProgramSearchResponse'
+          $ref: '#/components/responses/ProgramSearchResponse'
       deprecated: false
 
 
@@ -332,7 +332,7 @@ paths:
         '500':
           $ref: '#/components/responses/HttpErrorResponse'
         default:
-          $ref: '#/components/schemas/EstimateSearchResponse'
+          $ref: '#/components/responses/EstimateSearchResponse'
       deprecated: false
 
 
@@ -980,21 +980,33 @@ components:
       allOf:
         - $ref: '#/components/schemas/Estimate'
         - $ref: '#/components/schemas/ExchangeCode'
+        - properties:
+            children:
+              $ref: '#/components/schemas/EstimateDetails'
 
     SanctionDetails:
       allOf:
         - $ref: '#/components/schemas/Sanction'
         - $ref: '#/components/schemas/ExchangeCode'
+        - properties:
+            children:
+              $ref: '#/components/schemas/SanctionDetails'
 
     AllocationDetails:
       allOf:
         - $ref: '#/components/schemas/Allocation'
         - $ref: '#/components/schemas/ExchangeCode'
+        - properties:
+            children:
+              $ref: '#/components/schemas/AllocationDetails'
 
     DisburseDetails:
       allOf:
         - $ref: '#/components/schemas/Disburse'
         - $ref: '#/components/schemas/ExchangeCode'
+        - properties:
+              children:
+                $ref: '#/components/schemas/DisburseDetails'
 
     correlation_id:
       description: |
@@ -1300,7 +1312,7 @@ components:
         end_date:
           type: number
           example: 1704067200
-        childrens:
+        children:
           type: array
           items:
             type: object
@@ -1349,22 +1361,6 @@ components:
       required:
         - location_code
   
-    ProgramSearchResponse:
-      description: 'Request to update the register has been accepted.'
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              header:
-                allOf:
-                  - $ref: '#/components/schemas/MsgHeader'
-                  # - $ref: '#/components/schemas/MsgCallbackHeader'
-              programs:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProgramDetails'
-          
     Estimate:
       type: object
       description: |
@@ -1405,7 +1401,7 @@ components:
           type: number
           description: Actual amount to be paid without deduction
           example: 1000
-        childrens:
+        children:
           type: array
           items:
             type: object
@@ -1448,24 +1444,6 @@ components:
       required:
         - location_code
   
-    EstimateSearchResponse:
-      description: 'Request to update the register has been accepted.'
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              header:
-                allOf:
-                  - $ref: '#/components/schemas/MsgHeader'
-                  # - $ref: '#/components/schemas/MsgCallbackHeader'
-              programs:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EstimateDetails'
-          
-    
-    
     ExchangeCode:
       type: object
       description: 'Exchange message content which will be shared with all request'
@@ -1745,7 +1723,7 @@ components:
         individual:
           allOf:
             - $ref: "#/components/schemas/Individual"
-        childrens:
+        children:
           type: array
           items:
             type: object
@@ -1861,7 +1839,23 @@ components:
                   - ack_status
                   - timestamp
                   - correlation_id
-                  
+    ProgramSearchResponse:
+      description: 'Request to update the register has been accepted.'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              header:
+                allOf:
+                  - $ref: '#/components/schemas/MsgHeader'
+                  # - $ref: '#/components/schemas/MsgCallbackHeader'
+              programs:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProgramDetails'
+          
+     
     AllocationSearchResponse:
       description: 'Request to update the register has been accepted.'
       content:
@@ -1898,6 +1892,22 @@ components:
                     - $ref: '#/components/schemas/Sanction'
                     - $ref: "#/components/schemas/ExchangeCode"
 
+    EstimateSearchResponse:
+      description: 'Request to update the register has been accepted.'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              header:
+                allOf:
+                  - $ref: '#/components/schemas/MsgHeader'
+                  # - $ref: '#/components/schemas/MsgCallbackHeader'
+              programs:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EstimateDetails'
+          
     DisburseSearchResponse:
       description: 'Request to update the register has been accepted.'
       content:
