@@ -246,7 +246,9 @@ paths:
                   ResponseInfo:
                     $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
                   Campaign:
-                    $ref: '#/components/schemas/Campaign'
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/Campaign'
 
         400:
           description: Invalid input.
@@ -281,7 +283,7 @@ paths:
                 properties:
                   ResponseInfo:
                     $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-                  Campaigns:
+                  Campaign:
                     type: "array"
                     items:
                       $ref: '#/components/schemas/Campaign'
