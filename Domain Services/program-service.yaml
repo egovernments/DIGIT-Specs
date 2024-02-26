@@ -1313,6 +1313,8 @@ components:
                     - ACTIVE
                     - INACTIVE
                     example: ACTIVE
+        additional_details: 
+          $ref: "#/components/schemas/AdditionalInfo"
         audit_details:
           $ref: "#/components/schemas/AuditDetails"
       required:
@@ -1416,6 +1418,8 @@ components:
                     - INITIATED
                     - APPROVED
                     example: INITIATED
+        additional_details: 
+          $ref: "#/components/schemas/AdditionalInfo"
         audit_details:
           $ref: "#/components/schemas/AuditDetails"
       required:
@@ -1584,6 +1588,8 @@ components:
             type: object
         status:
           $ref: '#/components/schemas/Status'
+        additional_details: 
+          $ref: "#/components/schemas/AdditionalInfo"
         audit_details:
           $ref: "#/components/schemas/AuditDetails"
       required:
@@ -1657,6 +1663,8 @@ components:
             type: object
         status:
           $ref: '#/components/schemas/Status'
+        additional_details: 
+          $ref: "#/components/schemas/AdditionalInfo"
         audit_details:
           $ref: "#/components/schemas/AuditDetails"
       required:
@@ -1743,6 +1751,8 @@ components:
             type: object
         status:
           $ref: '#/components/schemas/Status'
+        additional_details: 
+          $ref: "#/components/schemas/AdditionalInfo"
         audit_details:
           $ref: "#/components/schemas/AuditDetails"
       required:
