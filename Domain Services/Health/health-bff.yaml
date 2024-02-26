@@ -613,7 +613,7 @@ components:
             example: "mz"
           projectId:
              type: "string"
-          relationShips:
+          resources:
             type: "array"
             items:
               type: "object"
@@ -623,7 +623,7 @@ components:
                   format: uuid
                   description: System generated unique identifier for the entry
                   readOnly: true
-                relationShipId:
+                resourceId:
                   type: "string"
                   format: uuid
                   description: unique id of the relationship entity
