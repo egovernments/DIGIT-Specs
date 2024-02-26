@@ -218,6 +218,98 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /campaign-manager/campaign/v1/create:
+    post:
+      tags:
+      - Campaign
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                Campaign:
+                  $ref: '#/components/schemas/Campaign'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BulkResourceCreateResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /campaign-manager/campaign/v1/update:
+    post:
+      tags:
+      - Campaign
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                Campaign:
+                  $ref: '#/components/schemas/Campaign'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BulkResourceCreateResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /campaign-manager/campaign/v1/search:
+    post:
+      tags:
+      - Campaign
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                Campaigns:
+                  type: "array"
+                  items:
+                    $ref: '#/components/schemas/Campaign'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BulkResourceCreateResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
 components:
   schemas:
     BulkResourceCreateRequest:
@@ -434,3 +526,83 @@ components:
                 lastModifiedTime:
                   type: "string"
                   example: "1644426612"
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: "string"
+        campaignNo:
+          type: "string"
+        hierarchyType:
+          type: "string"
+        tenantId:
+          type: "string"
+        campaignName:
+          type: "string"
+        boundaryCode:
+          type: "string"
+          example: "mz" 
+          description: "root boundary code"
+        startDate:
+          type: "string"
+        endDate: 
+          type: "string"
+        projectType:
+          type: "string"
+        CampaignDetails:
+          $ref: '#/components/schemas/CampaignDetails'
+        deliveryRules:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              startDate:
+                type: "string"
+              endDate:
+                type: "string"
+              cycle:
+                type: "string"
+        additionalDetails:
+          type: "object"
+    CampaignDetails:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          id:
+            type: "string"
+            format: uuid
+            description: System generated unique identifier for the entry
+            readOnly: true
+          boundaryCode:
+            type: "string"
+          boundaryType:
+            type: "string"
+            example: "country|province"
+          startDate:
+            type: "string"
+          endDate:
+            type: "string"
+          parentBoundaryCode:
+            type: "string"
+          projectId:
+             type: "string"
+          relationShips:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                  format: uuid
+                  description: System generated unique identifier for the entry
+                  readOnly: true
+                relationShipId:
+                  type: "string"
+                  format: uuid
+                  description: unique id of the relationship entity
+                active:
+                  type: "boolean"
+                type:
+                  type: "string"
+                  example: "staff|resource|facility"
