@@ -539,6 +539,10 @@ components:
           example: CAM/2022-23/001
           description: System generated id with custom formatting
           readOnly: true
+        referenceId:
+          type: "string"
+          format: uuid
+          description: microplan id or bulk campaign process id
         hierarchyType:
           type: "string"
           example: admin
