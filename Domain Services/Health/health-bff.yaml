@@ -664,10 +664,14 @@ components:
                   format: uuid
                   description: System generated unique identifier for the entry
                   readOnly: true
-                resourceId:
-                  type: "string"
-                  format: uuid
-                  description: unique id of the relationship entity
+                resourceIds:
+                  type: "array"
+                  items:
+                    type: "string"
+                    format: uuid
+                    description: unique id of the relationship entity
+                count:
+                  type: "number"
                 active:
                   type: "boolean"
                 type:
