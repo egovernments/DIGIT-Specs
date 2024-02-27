@@ -354,7 +354,7 @@ components:
         targets:
             type: array
             items:
-              $ref: '#/components/schemas/Target' 
+              $ref: '#/components/schemas/Target'
     Resource:
       type: object
       properties:
@@ -366,7 +366,7 @@ components:
           type: string
           description: Type of resource
           example: STAFF
-        estimatedNo:
+        estimatedNumber:
           type: number
           description: Estimated number of the resources
     PlanCreateRequest:
@@ -403,9 +403,9 @@ components:
         locality:
           type: string
           description: Locality code of plan.
-        campaignId:
+        executionPlanId:
           type: string
-          description: Campaign id to which Plan belongs to.
+          description: Execution plan id containing activities and resource delivery conditions.
     PlanSearchRequest:
       type: object
       properties:
@@ -419,6 +419,7 @@ components:
         id:
           type: string
           description: Unique entity id of the activity
+          readOnly: true
         tenantId:
           type: string
           description: Unique tenant id
@@ -438,6 +439,9 @@ components:
           items:
             type: string
             description: Unique id of the activity which needs to be completed before this activity is executed
+        resourceId:
+          type: string
+          description: Resource which needs to be given as part of the activity
         conditions:
           type: array
           items:
@@ -476,9 +480,3 @@ components:
           type: string
           description: Mathematical expression for the activity to get triggered
           example: '3 <= age <= 11'
-        resourceId:
-          type: string
-          description: Resource which needs to be given as part of the activity
-        quantity:
-          type: number
-          description: Quantity of the resource which needs to be given as part of the activity
