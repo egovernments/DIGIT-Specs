@@ -449,9 +449,17 @@ components:
     Target:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique entity id of the target.
+        taskId:
+          type: string
+          format: uuid
+          description: Id of the task to which this target linked to.
         metric:
           type: string
-          description: Metric for milestone achievement
+          description: Metric for milestone achievement.
           example: "VACCINATION_COVERAGE"
         metricDetail:
           type: object
