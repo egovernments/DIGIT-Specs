@@ -1,0 +1,484 @@
+openapi: 3.0.1
+info:
+  title: HCM Planner Service
+  description: HCM Planner Service APIs - to create, update and search plans.
+  version: 1.0.0
+servers:
+- url: /planner
+paths:
+  /plan/config/_create:
+    post:
+      tags:
+      - Planner Configuration
+      summary: API endpoint to create Plan Configuration.
+      description: |
+        Provides functionality to create plan data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlanConfigurationRequest"
+      responses:
+        202:
+          description: Accepted.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PlanConfigurationResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /plan/config/_search:
+    post:
+      tags:
+      - Planner Configuration
+      summary: API endpoint to search Plan Configurations.
+      description: |
+        Provides functionality to search plan data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlanConfigurationSearchRequest"
+      responses:
+        200:
+          description: Successful response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PlanConfigurationResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /plan/config/_update:
+    post:
+      tags:
+      - Planner Configuration
+      summary: API endpoint to update Plan Configuration.
+      description: |
+        Provides functionality to update plan data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlanConfigurationRequest"
+      responses:
+        202:
+          description: Accepted.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PlanConfigurationResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /plan/_create:
+    post:
+      tags:
+      - Planner Management
+      summary: API endpoint to generate Plans.
+      description: |
+        Provides functionality to create plan data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlanCreateRequest"
+      responses:
+        202:
+          description: Accepted.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PlanSearchResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /plan/_search:
+    post:
+      tags:
+      - Planner Management
+      summary: API endpoint to search generated Plans.
+      description: |
+        Provides functionality to search plan data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlanSearchRequest"
+      responses:
+        200:
+          description: Successful response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PlanSearchResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /plan/_update:
+    post:
+      tags:
+      - Planner Management
+      summary: API endpoint to update estimated Plans.
+      description: |
+        Provides functionality to edit estimated plan data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PlanEditRequest"
+      responses:
+        202:
+          description: Accepted.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PlanSearchResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+components:
+  schemas:
+    PlanConfigurationRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        PlanConfiguration:
+          $ref: '#/components/schemas/PlanConfiguration'
+    PlanConfigurationResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        PlanConfigurationResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlanConfiguration'
+    PlanConfigurationSearchCriteria:
+      type: object
+      properties:
+        tenantId:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Unique id for a tenant.
+        name:
+          type: string
+          description: Name of the planner configuration.
+        executionPlan:
+          type: string
+          description: Campaign id of the planner configuration.
+    PlanConfigurationSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
+        PlanConfigurationSearchCriteria:
+          $ref: '#/components/schemas/PlanConfigurationSearchCriteria'
+    PlanConfiguration:
+      type: object
+      required:
+        - tenantId
+        - name
+        - campaignId
+        - files
+        - assumptions
+        - operations
+        - resourceMapping
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique entity id of the Plan Configuration
+          readOnly: true
+        tenantId:
+          type: string
+          description: Unique tenant identifier.
+        name:
+          type: string
+          description: Name of Plan Configuration
+          minLength: 2
+        executionPlanId:
+          type: string
+          description: Execution plan id containing activities and resource delivery conditions.
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          minItems: 0
+        assumptions:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Assumption'
+          minItems: 0
+        operations:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Operation'
+          minItems: 0
+        resourceMapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceMapping'
+    File:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique Id of the input file
+          readOnly: true
+        filestoreId:
+          type: string
+          description: Filestore Id of the input file
+          maxLength: 32
+          minLength: 1
+        inputFileType:
+          type: string
+          description: The original file type of the Input
+          enum: [Excel, Shapefile, GeoJSON]
+      required:
+        - filestoreId
+        - targetType
+        - inputFileType
+    Assumption:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique Id of the assumption
+          readOnly: true
+        key:
+          type: string
+          description: The Name of the assumption
+          maxLength: 32
+          minLength: 1
+        value:
+          type: number
+          description: The Value of the assumption
+      required:
+        - key
+        - value
+    Operation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique Id of the operation
+          readOnly: true
+        input:
+          type: string
+          description: The input to the operation which is the first operand
+          maxLength: 32
+          minLength: 1
+        operator:
+          type: string
+          description: The operator used in the operation
+          enum: ['+', '-', '/', '*', '%', '**']
+        assumptionValue:
+          type: string
+          description: Assumption value which should be the second operand for operation
+        output:
+          type: string
+          description: Name of the key to which the operational output needs to be mapped to
+          maxLength: 32
+          minLength: 1
+      required:
+        - input
+        - operator
+        - hypothesisValue
+    ResourceMapping:
+      type: object
+      properties:
+        mappedFrom:
+          type: string
+          description: The name of the parameter/column from the input file to be parsed for e.g. population in source file can be under the column name pop which needs to be mapped to system's schema.
+        mappedTo:
+          type: string
+          description: The name of the field in the system to which the parameter/column from the input file will be mapped to.
+    Plan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique entity id of the Plan.
+          readOnly: true
+        tenantId:
+          type: string
+          description: Unique tenant identifier.
+        locality:
+          type: string
+          description: Locality of the Plan.
+          minLength: 2
+        executionPlanId:
+          type: string
+          description: Execution plan id containing activities and resource delivery conditions.
+        planConfigurationId:
+          type: string
+          description: Unique id of the configuration which needs to be referred to for estimating resources.
+        additionalDetails:
+            type: object
+            description: Additional details to capture any additional attributes.
+        activities:
+            type: array
+            items:
+              $ref: '#/components/schemas/Activity'
+        resources:
+            type: array
+            items:
+              $ref: '#/components/schemas/Resource'
+        targets:
+            type: array
+            items:
+              $ref: '#/components/schemas/Target' 
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique entity id of the Resource
+        resourceType:
+          type: string
+          description: Type of resource
+          example: STAFF
+        estimatedNo:
+          type: number
+          description: Estimated number of the resources
+    PlanCreateRequest:
+        type: object
+        properties:
+          RequestInfo:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          Plan:
+            $ref: '#/components/schemas/Plan'
+    PlanEditRequest:
+        type: object
+        properties:
+          RequestInfo:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+          Plan:
+            $ref: '#/components/schemas/Plan'
+    PlanSearchResponse:
+        type: object
+        properties:
+            ResponseInfo:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+            Plan:
+              type: array
+              items:
+                $ref: '#/components/schemas/Plan'
+    PlanSearchCriteria:
+      type: object
+      properties:
+        tenantId:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Unique id for a tenant.
+        locality:
+          type: string
+          description: Locality code of plan.
+        campaignId:
+          type: string
+          description: Campaign id to which Plan belongs to.
+    PlanSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
+        PlanSearchCriteria:
+          $ref: '#/components/schemas/PlanSearchCriteria'
+    Activity:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique entity id of the activity
+        tenantId:
+          type: string
+          description: Unique tenant id
+        description:
+          type: string
+          description: Description of the activity
+        plannedStartDate:
+          type: integer
+          format: int64
+          description: Planned start date of the activity
+        plannedEndDate:
+          type: integer
+          format: int64
+          description: Planned end date of the activity
+        dependencies:
+          type: array
+          items:
+            type: string
+            description: Unique id of the activity which needs to be completed before this activity is executed
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+    Target:
+      type: object
+      properties:
+        metric:
+          type: string
+          description: Metric for milestone achievement
+          example: "VACCINATION_COVERAGE"
+        metricDetail:
+          type: object
+          properties:
+            value:
+              type: number
+              example: 90
+            comparator:
+              type: string
+              example: '>'
+            unit:
+              type: string
+              example: 'PERCENT'
+    Condition:
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Entity on which condition needs to be applied
+          example: 'PERSON'
+        entityProperty:
+          type: string
+          description: Property of the entity on which the condition needs to be applied
+          example: 'age'
+        expression:
+          type: string
+          description: Mathematical expression for the activity to get triggered
+          example: '3 <= age <= 11'
+        resourceId:
+          type: string
+          description: Resource which needs to be given as part of the activity
+        quantity:
+          type: number
+          description: Quantity of the resource which needs to be given as part of the activity
