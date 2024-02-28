@@ -1,15 +1,15 @@
 openapi: 3.0.1
 info:
-  title: HCM Planner Service
-  description: HCM Planner Service APIs - to create, update and search plans.
+  title: Plan Service
+  description: Plan Service APIs - to configure, create, update and search plans.
   version: 1.0.0
 servers:
-- url: /planner
+- url: /plan
 paths:
-  /plan/config/_create:
+  /config/_create:
     post:
       tags:
-      - Planner Configuration
+      - Plan Configuration
       summary: API endpoint to create Plan Configuration.
       description: |
         Provides functionality to create plan data.
@@ -31,10 +31,10 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /plan/config/_search:
+  /config/_search:
     post:
       tags:
-      - Planner Configuration
+      - Plan Configuration
       summary: API endpoint to search Plan Configurations.
       description: |
         Provides functionality to search plan data.
@@ -56,10 +56,10 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /plan/config/_update:
+  /config/_update:
     post:
       tags:
-      - Planner Configuration
+      - Plan Configuration
       summary: API endpoint to update Plan Configuration.
       description: |
         Provides functionality to update plan data.
@@ -81,10 +81,10 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /plan/_create:
+  /_create:
     post:
       tags:
-      - Planner Management
+      - Plan Management
       summary: API endpoint to generate Plans.
       description: |
         Provides functionality to create plan data.
@@ -106,10 +106,10 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /plan/_search:
+  /_search:
     post:
       tags:
-      - Planner Management
+      - Plan Management
       summary: API endpoint to search generated Plans.
       description: |
         Provides functionality to search plan data.
@@ -131,10 +131,10 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /plan/_update:
+  /_update:
     post:
       tags:
-      - Planner Management
+      - Plan Management
       summary: API endpoint to update estimated Plans.
       description: |
         Provides functionality to edit estimated plan data.
