@@ -1,0 +1,961 @@
+openapi: 3.0.0
+info:
+  title: IFIX
+  description: >
+    Create(publish) new fiscal event on iFix
+
+  version: 1.0.0
+  contact:
+    name: eGov Foundation
+    email: contact@egovernments.org
+  license:
+    name: MIT License
+    url: https://opensource.org/license/mit/
+externalDocs:
+  description: DIGIT Platform
+  url: https://core.digit.org
+servers:
+- url: /ifix/v1
+paths:
+  # Program requests -----------------------------------------
+  /program:
+    post:
+      tags:
+        - Events
+      summary: Creates a program
+      description: Create programs in the system
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                message:
+                  $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  
+  /on-program:
+    post:
+      tags:
+        - Events
+      summary: Update program after create response
+      description: Enables exchange of program related messages
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  # Estimate requests -----------------------------------------
+  /estimate:
+    post:
+      tags:
+        - Events
+      summary: Create estimate
+      description: Creates estimate for the program.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          enum:
+                            - create
+                message:
+                  $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /on-estimate:
+    post:
+      tags:
+        - Events
+      summary: Update estimate after create
+      description: User can update the estimate if already created using on-estimate.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                    # - $ref: '#/components/schemas/MsgCallbackHeader'
+                message:
+                  $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  # Sanciton requests
+  /sanction:
+    post:
+      tags:
+        - Events
+      summary: Create sanction request
+      description: Create sanction request in the system, this sanction is linked with program.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /on-sanction:
+    post:
+      tags:
+        - Events
+      summary: Update created sanction
+      description: Update staus of created sanciton request.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                message:
+                  $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  # Allocation Requests-----------------------------------------
+  /allocation:
+    post:
+      tags:
+        - Events
+      summary: Request to create allocation 
+      description: User can request to create an allocation for sanction.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /on-allocation:
+    post:
+      tags:
+        - Events
+      summary: Update allocation status
+      description: Update created allocation staus
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  # Disburse Requests-----------------------------------------
+  /disburse:
+    post:
+      tags:
+        - Events
+      summary: Initiate payment request
+      description: Create new disbursement request to initiate payment.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /on-disburse:
+    post:
+      tags:
+        - Events
+      summary: Updated status of create disburse request
+      description: Updated status of create disburse request
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  # Demand Requests-----------------------------------------
+  /demand:
+    post:
+      tags:
+        - Events
+      summary: Initiate demand request
+      description: Create new demand request.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /on-demand:
+    post:
+      tags:
+        - Events
+      summary: Updated create demand request
+      description: Updated create demand request
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  # Receipt Requests-----------------------------------------
+  /receipt:
+    post:
+      tags:
+        - Events
+      summary: Initiate receipt request
+      description: Create new receipt.
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: create
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+  /on-receipt:
+    post:
+      tags:
+        - Events
+      summary: Updated status of create receipt request
+      description: Updated status of create receipt request
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signature:
+                  $ref: '#/components/schemas/MsgSignature'
+                header:
+                  allOf:
+                    - $ref: '#/components/schemas/MsgHeader'
+                    - properties:
+                        action:
+                          example: update
+                message:
+                  allOf:
+                    - $ref: '#/components/schemas/EventDetails'
+              required:
+                - header
+                - message
+      responses:
+        '401':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '403':
+          $ref: '#/components/responses/HttpErrorResponse'
+        '500':
+          $ref: '#/components/responses/HttpErrorResponse'
+        default:
+          $ref: '#/components/responses/Response'
+      deprecated: false
+
+
+components:
+  schemas:
+    correlation_id:
+      description: |
+        1. correlation_id acknowledged by end txn processing system (i.e receiver) to co-relate all related requests in the context of a business transaction.
+        2. correlation_id uniqueness is ensured by txn processing system (i.e receiver)
+      type: string
+      maxLength: 99
+      example: '9876543210'
+        
+    Ack:
+      type: string
+      description: |
+        1. ACK: If the request is valid (for basic checks) and async callback (i.e webhook) will be invoked by reciever back to the sender.
+        2. NACK: If the request is valid (for basic checks) and there is no futher updates from reciever back to the sender.
+        3. ERR: If the reuqest is invalid and reciver can't process the request. error object holds error code, message.
+      enum:
+        - ACK
+        - NACK
+        - ERR
+    AdditionalInfo:
+      type: object
+      description: Additional JSON property oject to hold custom user defined contextual data
+    Timestamp:
+      description: |
+        1. All dates and timestamps are represented in epoc timestamp - e.g 1708428280.
+      type: string
+      format: int64
+      example: 1708428280
+    Error:
+      description: |
+        Commumication layer Asyn errors that are returned as part of message acknowledgement.
+        1. Messages that are not parsable or message integrity check fails.
+        2. This object may be used across all transport layer protocols (https, sftp, messaging, etc,) to ack the receipt of a message.
+        3. Business context and related validation is NOT in scope of this error object.
+      type: object
+      properties:
+        code:
+          type: string
+          description: Standard error code
+          enum:
+            - err.request.bad
+            - err.request.unauthorized
+            - err.request.forbidden
+            - err.request.not_found
+            - err.request.timeout
+            - err.version.not_supported
+            - err.request.too_many_requests
+            - err.sender_id.invalid
+            - err.sender_uri.invalid
+            - err.receiver_id.invalid
+            - err.signature.missing
+            - err.signature.invalid
+            - err.encryption.invalid
+            - err.service.unavailable
+        message:
+          type: string
+          description: message to describe above error code
+          maxLength: 999
+    MsgCallbackHeader:
+      type: object
+      description: Message header
+      properties:
+        message_id:
+          description: |
+            1. Unique message id to communicate between sender and receiver systems to realiable deliver the message over any transport layer i.e https, pub/sub, sftp etc.,
+            2. The scope of message_id end with successful ack of the message by the receiver.
+            3. To realy the message between hops, underlying relying parties may consider to store and forward the message with integirty, ie Signature intact.
+          type: string
+          example: '789'
+        message_ts:
+          $ref: '#/components/schemas/Timestamp'
+        status:
+          $ref: '#/components/schemas/RequestStatus'
+        status_reason_code:
+          $ref: '#/components/schemas/MsgHeaderStatusReasonCode'
+        status_reason_message:
+          description: 'Status reascon code message, if any, Helps actionanble messaging for system/end users'
+          type: string
+          maxLength: 999
+        sender_id:
+          description: |
+            1. sender_id registered with the receiving system or gateway. 
+            2. Used for authorization, encryption, digital sign verfication, etc.,
+          type: string
+          example: civilregistry.example.org
+        receiver_id:
+          description: 'receiver id registered with the calling system. Used for authorization, encryption, digital sign verfication, etc., functions.'
+          type: string
+          example: registry.example.org
+      required:
+        - message_id
+        - message_ts
+        - action
+        - status
+    MsgHeader:
+      type: object
+      description: Message header
+      properties:
+        message_id:
+          description: |
+            1. Unique message id to communicate between sender and receiver systems to realiable deliver the message over any transport layer i.e https, pub/sub, sftp etc.,
+            2. The scope of message_id end with successful ack of the message by the receiver.
+            3. To realy the message between hops, underlying relying parties may consider to store and forward the message with integirty, ie Signature intact.
+          type: string
+          example: '123'
+        message_ts:
+          $ref: '#/components/schemas/Timestamp'
+        action:
+          description: 'identity payload type in message property.'
+          type: string
+          enum:
+            - create
+            - update
+            - search
+        sender_id:
+          description: |
+            1. sender_id registered with the receiving system or gateway. 
+            2. Used for authorization, encryption, digital sign verfication, etc.,
+          type: string
+          example: ifix@https://mukta.odisa.govt.org
+        sender_uri:
+          description: |
+            1. sender url to accept callbacks. Applicable only for async communications and if response ack_status is ACK.
+            2. Default uri is assumed to be configred on the gateway as part of sender/receiver onboarding. 
+            3. For SFTP based communications, this shall be set to server/folder details.
+          type: string
+          format: uri
+          example: 'https://mukta.odisa.govt.org/{namespace}/callback/on-search'
+        receiver_id:
+          description: 'receiver id registered with the calling system. Used for authorization, encryption, digital sign verfication, etc., functions.'
+          type: string
+          example: ifix@https://ifms.odisa.govt.org
+      required:
+        - message_id
+        - message_ts
+        - sender_id
+        - receiver_id
+    MsgHeaderStatusReasonCode:
+      type: string
+      description: Message header related common status reason codes
+      enum:
+        - rjct.version.invalid
+        - rjct.message_id.duplicate
+        - rjct.message_ts.invalid
+        - rjct.action.invalid
+        - rjct.action.not_supported
+        - rjct.total_count.invalid
+        - rjct.total_count.limit_exceeded
+        - rjct.errors.too_many
+    MsgSignature:
+      type: string
+      description: 'Signature of {header}+{message} body verified using sender''s signing public key'
+      example: 'TgE1hcA2E+YPMdPGz4vveKQpR0x+pgzRTlet52qh63Kekr71vWWScXqaRFtQW64uRFZGBUhHYYZQ2y6LffwnNOOQhhssaThhqVBhXNEwX9i75SNYXi5XSJVDYzSyHrhF20HW6RE9mAVWdc80i7d+FXlh+b/U+fnj+SrZ2s6Xd0WUZvU29LgqeUpyznlWLu1mDdJxNZavsDLWmxjTnknqBjDvwSc35WhFDhXDA2lWmm8YpZ1Y6TBmvvtVS7mAOTnhFy9sdCbrLcfXk5QWIsdzlvPqlkvdwEf30OZ6ewb680Aj3hO2OT5LCv7iLyz7C7srnB9lJT5gXiw+eSnktPXlDA=='
+    RequestStatus:
+      type: string
+      description: 'Request (e.g disburse, link, unlink, resolve, issue, search, verify, etc.,) status: <br> 1. rcvd: Received; Request received <br> 2. pdng: Pending; Request initiated <br> 3. succ: Success; Request successful <br> 4. rjct: Rejected; Request rejected'
+      enum:
+        - rcvd
+        - pdng
+        - succ
+        - rjct
+    TransactionId:
+      description: |
+        1. transaction_id set by txn initiating system (i.e sender) to co-relate all related requests in the context of a business transaction.
+        2. transaction_id should be samme across processing systems/service end points.
+        2. transaction_id uniqueness is ensured by txn initiating system (i.e sender)
+      type: string
+      maxLength: 99
+      example: 0123456789
+
+    EventDetails:
+      type: object
+      description: 'Exchange message content which will be shared with all request'
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+          readOnly: true
+        name:
+          type: string
+          description: 'Name of the program'
+          minLength: 2
+          maxLength: 64
+          example: Community Development Initiative
+        type:
+          type: string
+          minLength: 2
+          maxLength: 64
+          readOnly: true
+          enum:
+            - program
+            - estimate
+            - sanction
+            - allocation
+            - disburse
+            - demand
+            - receipt
+        linked_id:
+          type: string
+          description: Linked id of the event, if event is dependent on any other. It will be in format {event_type}:uuid
+          example: sanction:251c51eb-e970-4e01-a99a-70136c47a934
+          minLength: 2
+          maxLength: 64
+        location_code:
+          type: string
+          description: Unique identifier of the tenant that could be a department/ulb/state
+          minLength: 2
+          maxLength: 64
+          example: pb.jalandhar,dwss
+        program_code:
+          type: string
+          description: Formated program code PROG/{FINANCIAL_YEAR}/{ULB-CODE}/{AUTO_NUMBER}
+          minLength: 2
+          maxLength: 64
+          example: PORG/2023-24/PG.CITYA/00001
+        transaction_id:
+          type: string
+          description: Formated transaction code, it will return after transaction is created at another end.
+          minLength: 2
+          maxLength: 64
+          example: PI/2023-24/00001,BENF/2023-24/00001
+        net_amount:
+          type: number
+          description: Amount to be paid including deduction amount
+          example: 1000
+        gross_amount:
+          type: number
+          description: Actual amount to be paid without deduction
+          example: 1000
+        individual:
+          allOf:
+            - $ref: "#/components/schemas/Individual"
+        children:
+          type: array
+          items:
+            type: object
+        status:
+          $ref: '#/components/schemas/Status'
+        additional_details: 
+          $ref: "#/components/schemas/AdditionalInfo"
+        audit_details:
+          $ref: "#/components/schemas/AuditDetails"
+        account_code:
+          type: string
+          description: Account no with ifsc code will be account code, it will be in format ACCOUNT_NO@IFSC_CODE
+          example: 1234567890@SBIN0003491
+        function_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: FC001
+        administration_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: AC002
+        recipient_segment_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: RSC003
+        economic_segment_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: ESC004
+        source_of_fund_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: SFC005
+        target_segment_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: TSC006
+        currency_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: INR
+        locale_code:
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: LC007
+        
+    Status:
+      type: object
+      properties:
+        status_code:
+          type: string
+          enum:
+            - RECEIVED
+            - APPROVED
+            - REJECTED
+            - INPROCESS
+            - INITIATED
+            - SUCCESSFUL
+            - FAILED
+            - PARTIAL
+            - CANCELLED
+            - COMPLETED
+            - ERROR
+            - INFO
+            - ACTIVE
+            - INACTIVE
+          example: SUCCESSFUL
+        status_message:
+          type: string
+    Individual:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        pin:
+          type: string
+        address:
+          type: string
+      required:
+        - name
+        - phone
+        - address
+    AuditDetails:
+      type: object
+      description: Collection of audit related fields used by most models
+      readOnly: true
+      properties:
+        created_by: 
+          type: string
+          description: username (preferred) or userid of the user that created the object
+        last_modified_by: 
+          type: string
+          description: username (preferred) or userid of the user that last modified the object
+        created_time:
+          type: integer
+          format: int64
+          description: epoch of the time object is created
+        last_modified_time:
+          type: integer
+          format: int64
+          description: epoch of the time object is last modified
+  responses:
+    HttpErrorResponse:
+      description: HTTP layer error details
+      content:
+        application/json:
+          schema:
+            type: object
+            description: 'HTTP transport layer error codes. Used by components like gateways, LB responding with HTTP status codes 1xx, 2xx, 3xx, 4xx and 5xx'
+            properties:
+              errors:
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: error code
+                    message:
+                      type: string
+                      description: error message
+    Response:
+      description: Acknowledgement of message received after successful validation of message and signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: object
+                properties:
+                  ack_status:
+                    $ref: '#/components/schemas/Ack'
+                  timestamp:
+                    $ref: '#/components/schemas/Timestamp'
+                  error:
+                    $ref: '#/components/schemas/Error'
+                  correlation_id:
+                    $ref: '#/components/schemas/correlation_id'
+                required:
+                  - ack_status
+                  - timestamp
+                  - correlation_id
