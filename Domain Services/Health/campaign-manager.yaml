@@ -20,14 +20,24 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/BulkResourceCreateRequest"
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                ResourceDetails:
+                  $ref: '#/components/schemas/ResourceDetails'
       responses:
         200:
           description: Successful Response.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  ResponseDetails:
+                    $ref: '#/components/schemas/CreateResponseDetails'
         400:
           description: Invalid input.
           content:
@@ -45,14 +55,24 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/SearchRequest"   
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                SearchCriteria:
+                  $ref: '#/components/schemas/SearchCriteria'
       responses:
         200:
           description: Successful Response.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/SearchResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  ResponseDetails:
+                    $ref: '#/components/schemas/SearchResponse'
         400:
           description: Invalid input.
           content:
@@ -103,7 +123,12 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkGenerateResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  GeneratedResource:
+                    $ref: '#/components/schemas/GeneratedResource'
         400:
           description: Invalid input.
           content:
@@ -156,7 +181,12 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkDownloadResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  GeneratedResource:
+                    $ref: '#/components/schemas/GeneratedResource'
         400:
           description: Invalid input.
           content:
@@ -220,22 +250,28 @@ paths:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
 components:
   schemas:
-    BulkResourceCreateRequest:
-      type: object
-      properties:
-        RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-        ResourceDetails:
-          $ref: '#/components/schemas/ResourceDetails'
     ResourceDetails:
       type: object
       properties:
+        id:
+          type: "string"
+          format: uuid
+          description: System generated unique identifier for the entry
+          readOnly: true
         type:
           type: "string"
+          example: "facility|user|boundary"
         tenantId:
           type: "string"
         fileStoreId:
           type: "string"
+          format: uuid
+          description: input file
+        action:
+          type: "string"
+          enum: 
+            - "create"
+            - "validate"
     CampaignResourceDetails:
       type: object
       properties:
@@ -304,136 +340,106 @@ components:
         type:
           type: "string"
           example: "facility"
-    SearchRequest:
-      type: object
+
+    SearchCriteria:
+      type: "object"
       properties:
-        RequestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-        SearchCriteria:
-          type: "object"
-          properties:
-            id:
-              type: "array"
-              items:
-                type: "string"
-            tenantId:
-              type: "string"
-            processReferenceNumber:
-              type: "string"
-            type:
-              type: "string"
-    SearchResponse:
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        ResponseDetails:
+        id:
           type: "array"
           items:
+            type: "string"
+        tenantId:
+          type: "string"
+        processReferenceNumber:
+          type: "string"
+        type:
+          type: "string"
+    SearchResponse:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          status:
+            type: "string"
+            example: "data-accepted"
+          id:
+            type: "string"
+            example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+          tenantId:
+            type: "string"
+          processReferenceNumber:
+            type: "string"
+            example: "PRO-001-001-001"
+          fileStoreId:
+            type: "string"
+            example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+            format: uuid
+            description: input file
+          processedFileStoreId:
+            type: "string"
+            example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+            format: uuid
+            description: processed file with updated status
+          type:
+            type: "string"
+            example: "facility"
+          additionalDetails:
+            type: "object"
+            example: {}
+          auditDetails:
             type: "object"
             properties:
-              status:
+              createdBy:
                 type: "string"
-                example: "data-accepted"
-              id:
+                example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+              lastModifiedBy:
                 type: "string"
-                example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
-              tenantId:
+                example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+              createdTime:
                 type: "string"
-              processReferenceNumber:
+                example: "1644426612"
+              lastModifiedTime:
                 type: "string"
-                example: "PRO-001-001-001"
-              fileStoreId:
-                type: "string"
-                example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
-              processedFileStoreId:
-                type: "string"
-                example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
-              type:
-                type: "string"
-                example: "facility"
-              additionalDetails:
-                type: "object"
-                example: {}
-              auditDetails:
-                type: "object"
-                properties:
-                  createdBy:
-                    type: "string"
-                    example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-                  lastModifiedBy:
-                    type: "string"
-                    example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-                  createdTime:
-                    type: "string"
-                    example: "1644426612"
-                  lastModifiedTime:
-                    type: "string"
-                    example: "1644426612"
-    BulkGenerateResponse:
-      type: object
+                example: "1644426612"
+    GeneratedResource:
+      type: "object"
       properties:
-        ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        GeneratedResource:
+        id:
+          type: "string"
+          example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+        tenantId:
+          type: "string"
+          example: "pg.citya"
+        fileStoreid:
+          type: "string"
+          example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
+        type:
+          type: "string"
+          example: "facility"
+        status:
+          type: "string"
+          example: "completed"
+        count:
+          type: "number"
+          example: 100
+        additionalDetails:
+          type: "object"
+          example : {}
+        auditDetails:
           type: "object"
           properties:
-            id:
+            createdBy:
               type: "string"
-              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
-            type:
+              example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+            lastModifiedBy:
               type: "string"
-              example: "facility"
-            status:
+              example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+            createdTime:
               type: "string"
-              example: "generation started"
-            tenantId:
+              example: "1644426612"
+            lastModifiedTime:
               type: "string"
-              example: "pg.citya"
-    BulkDownloadResponse:
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        GeneratedResource:
-          type: "object"
-          properties:
-            id:
-              type: "string"
-              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
-            tenantId:
-              type: "string"
-              example: "pg.citya"
-            fileStoreid:
-              type: "string"
-              example: "c0ab3641-97bb-4601-9a8a-60bb9db59708"
-            type:
-              type: "string"
-              example: "facility"
-            status:
-              type: "string"
-              example: "completed"
-            count:
-              type: "number"
-              example: 100
-            additionalDetails:
-              type: "object"
-              example : {}
-            auditDetails:
-              type: "object"
-              properties:
-                createdBy:
-                  type: "string"
-                  example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-                lastModifiedBy:
-                  type: "string"
-                  example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-                createdTime:
-                  type: "string"
-                  example: "1644426612"
-                lastModifiedTime:
-                  type: "string"
-                  example: "1644426612"
+              example: "1644426612"
     Campaign:
       type: object
       properties:
