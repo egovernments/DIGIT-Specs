@@ -281,10 +281,20 @@ components:
           type: "string"
         campaignName:
           type: "string"
-        type:
+        action:
           type: "string"
-          example: "boundary||campaign"
-        filestoreIds:
+          example: "draft||create"
+        startDate:
+          type: number
+          format: timestamp
+          example: 1665497225000
+          description: Timestamp of the start date in milliseconds
+        endDate: 
+          type: number
+          format: timestamp
+          example: 1665497225000
+          description: Timestamp of the start date in milliseconds
+        resources:
           type: "array"
           items:
             type: "object"
