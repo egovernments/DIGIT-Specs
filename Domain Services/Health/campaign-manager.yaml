@@ -36,8 +36,10 @@ paths:
                 properties:
                   ResponseInfo:
                     $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-                  ResponseDetails:
-                    $ref: '#/components/schemas/CreateResponseDetails'
+                  ResourceDetails:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/ResourceDetails'
         400:
           description: Invalid input.
           content:
@@ -72,7 +74,9 @@ paths:
                   ResponseInfo:
                     $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
                   ResponseDetails:
-                    $ref: '#/components/schemas/SearchResponse'
+                    type: "array"
+                    items:  
+                      $ref: '#/components/schemas/ResourceDetails'
         400:
           description: Invalid input.
           content:
@@ -128,7 +132,9 @@ paths:
                   ResponseInfo:
                     $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
                   GeneratedResource:
-                    $ref: '#/components/schemas/GeneratedResource'
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/GeneratedResource'
         400:
           description: Invalid input.
           content:
@@ -186,7 +192,9 @@ paths:
                   ResponseInfo:
                     $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
                   GeneratedResource:
-                    $ref: '#/components/schemas/GeneratedResource'
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/GeneratedResource'
         400:
           description: Invalid input.
           content:
@@ -221,7 +229,9 @@ paths:
                   ResponseInfo:
                       $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
                   CampaignDetails:
-                      $ref: '#/components/schemas/CampaignDetails'
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/CampaignResourceDetails'
         400:
           description: Invalid input.
           content:
@@ -251,7 +261,9 @@ paths:
                   ResponseInfo:
                       $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
                   CampaignDetails:
-                      $ref: '#/components/schemas/CampaignDetails'
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/CampaignResourceDetails'
         400:
           description: Invalid input.
           content:
@@ -266,6 +278,7 @@ components:
         id:
           type: "string"
           format: uuid
+          example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
           description: System generated unique identifier for the entry
           readOnly: true
         type:
@@ -275,13 +288,43 @@ components:
           type: "string"
         fileStoreId:
           type: "string"
+          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
           format: uuid
           description: input file
+        processedFileStoreId:
+          type: "string"
+          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+          format: uuid
+          description: processed file with updated status
+          readOnly: true
+        status:
+          readOnly: true
+          type: "string"
+          example: "data-accepted"
         action:
           type: "string"
           enum: 
             - "create"
             - "validate"
+        additionalDetails:
+          type: "object"
+          example: {}
+        auditDetails:
+          readOnly: true
+          type: "object"
+          properties:
+            createdBy:
+              type: "string"
+              example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+            lastModifiedBy:
+              type: "string"
+              example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+            createdTime:
+              type: "string"
+              example: "1644426612"
+            lastModifiedTime:
+              type: "string"
+              example: "1644426612"
     CampaignResourceDetails:
       type: object
       properties:
@@ -315,6 +358,7 @@ components:
           description: Timestamp of the start date in milliseconds
         boundaries:
           type: "array"
+          description: "As they select some boundaries at which they plan to run a campaign at"
           items:
             type: "object"
             properties:
@@ -374,33 +418,6 @@ components:
                       type: "number" 
         additionalDetails:
           type: "object"
-    BulkResourceCreateResponse:
-      type: object
-      properties:
-        ResponseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
-        ResponseDetails:
-          $ref: '#/components/schemas/CreateResponseDetails'
-    CreateResponseDetails:
-      type: "object"
-      properties:
-        id:
-          type: "string"
-          example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
-        tenantId:
-          type: "string"
-        status:
-          type: "string"
-          example: "data-accepted"
-        processReferenceNumber:
-          type: "string"
-          example: "PRO-001-001-001"
-        fileStoreId:
-          type: "string"
-          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
-        type:
-          type: "string"
-          example: "facility"
 
     SearchCriteria:
       type: "object"
@@ -415,53 +432,6 @@ components:
           type: "string"
         type:
           type: "string"
-    SearchResponse:
-      type: "array"
-      items:
-        type: "object"
-        properties:
-          status:
-            type: "string"
-            example: "data-accepted"
-          id:
-            type: "string"
-            example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
-          tenantId:
-            type: "string"
-          processReferenceNumber:
-            type: "string"
-            example: "PRO-001-001-001"
-          fileStoreId:
-            type: "string"
-            example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
-            format: uuid
-            description: input file
-          processedFileStoreId:
-            type: "string"
-            example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
-            format: uuid
-            description: processed file with updated status
-          type:
-            type: "string"
-            example: "facility"
-          additionalDetails:
-            type: "object"
-            example: {}
-          auditDetails:
-            type: "object"
-            properties:
-              createdBy:
-                type: "string"
-                example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-              lastModifiedBy:
-                type: "string"
-                example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
-              createdTime:
-                type: "string"
-                example: "1644426612"
-              lastModifiedTime:
-                type: "string"
-                example: "1644426612"
     GeneratedResource:
       type: "object"
       properties:
