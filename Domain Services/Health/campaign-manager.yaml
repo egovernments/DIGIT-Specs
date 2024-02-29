@@ -294,6 +294,15 @@ components:
           format: timestamp
           example: 1665497225000
           description: Timestamp of the start date in milliseconds
+        boundaries:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              code:
+                type: "string"
+              type:
+                type: "string"
         resources:
           type: "array"
           items:
