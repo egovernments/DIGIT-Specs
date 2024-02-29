@@ -208,7 +208,7 @@ paths:
               properties:
                 RequestInfo:
                   $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
-                ResourceDetails:
+                CampaignDetails:
                   $ref: '#/components/schemas/CampaignResourceDetails'
       responses:
         200:
@@ -216,7 +216,12 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                      $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  CampaignDetails:
+                      $ref: '#/components/schemas/CampaignDetails'
         400:
           description: Invalid input.
           content:
@@ -241,7 +246,12 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BulkResourceCreateResponse'
+                type: object
+                properties:
+                  ResponseInfo:
+                      $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  CampaignDetails:
+                      $ref: '#/components/schemas/CampaignDetails'
         400:
           description: Invalid input.
           content:
@@ -275,6 +285,15 @@ components:
     CampaignResourceDetails:
       type: object
       properties:
+        id:
+          type: "string"
+          format: uuid
+          description: System generated unique identifier for the entry
+          readOnly: true
+        campaignNumber:
+          type: "string"
+          description: System generated formatted no
+          readOnly: true
         hierarchyType:
           type: "string"
         tenantId:
