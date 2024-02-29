@@ -335,15 +335,15 @@ components:
                   type: "string"
               conditions:
                 type: "array"
-                items: 
+                items:
                   type: "object"
-                    properties:
-                      attribute:
-                        type: "string"
-                      operator:
-                        type: "string"
-                      value:
-                        type: "number" 
+                  properties:
+                    attribute:
+                      type: "string"
+                    operator:
+                      type: "string"
+                    value:
+                      type: "number" 
         additionalDetails:
           type: "object"
     BulkResourceCreateResponse:
