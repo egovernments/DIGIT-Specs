@@ -316,11 +316,34 @@ components:
             type: "object"
             properties:
               startDate:
-                type: "string"
-              endDate:
-                type: "string"
-              cycle:
-                type: "string"
+                type: number
+                format: timestamp
+                example: 1665497225000
+                description: Timestamp of the start date in milliseconds
+              endDate: 
+                type: number
+                format: timestamp
+                example: 1665497225000
+                description: Timestamp of the start date in milliseconds
+              cycleNumber:
+                type: "number"
+              deliveryNumber:
+                type: "number"
+              products:
+                type: "array"
+                items:
+                  type: "string"
+              conditions:
+                type: "array"
+                items: 
+                  type: "object"
+                    properties:
+                      attribute:
+                        type: "string"
+                      operator:
+                        type: "string"
+                      value:
+                        type: "number" 
         additionalDetails:
           type: "object"
     BulkResourceCreateResponse:
