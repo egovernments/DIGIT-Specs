@@ -466,6 +466,26 @@ components:
           type: "string"
         campaignNumber:
           type: "string"
+        pagination:
+          type: "object"
+          properties:
+            sortBy:
+              description: sort the search results by fields
+              type: string
+              enum:
+                - createdTime
+            sortOrder:
+              description: sorting order of the search resulsts
+              type: string
+              enum:
+                - asc
+                - desc
+            limit:
+              description: limit on the resulsts
+              type: number
+            offset:
+              description: offset index of the overall search resulsts
+              type: number
     GeneratedResource:
       type: "object"
       properties:
