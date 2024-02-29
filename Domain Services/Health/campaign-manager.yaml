@@ -249,7 +249,12 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/SearchRequest"   
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                CampaignDetails:
+                  "$ref": "#/components/schemas/CampaignSearchCriteria"   
       responses:
         200:
           description: Successful Response.
@@ -336,13 +341,20 @@ components:
         campaignNumber:
           type: "string"
           description: System generated formatted no
+          example: "CAM/2023-24-0001"
           readOnly: true
         hierarchyType:
           type: "string"
+          example: "admin"
+
         tenantId:
           type: "string"
+          example: "mz"
+
         campaignName:
           type: "string"
+          example: "Bednet LLIN"
+
         action:
           type: "string"
           example: "draft||create"
@@ -366,6 +378,11 @@ components:
                 type: "string"
               type:
                 type: "string"
+        projectId:
+          type: "string"
+          format: uuid
+          description: System generated project id
+          readOnly: true
         resources:
           type: "array"
           items:
@@ -428,9 +445,26 @@ components:
             type: "string"
         tenantId:
           type: "string"
-        processReferenceNumber:
-          type: "string"
         type:
+          type: "string"
+    CampaignSearchCriteria:
+      type: "object"
+      properties:
+        ids:
+          type: "array"
+          items:
+            type: "string"
+        tenantId:
+          type: "string"
+        projectType:
+          type: "string"
+        campaignName:
+          type: "string"
+        status:
+          type: "string"
+        createdBy:
+          type: "string"
+        campaignNumber:
           type: "string"
     GeneratedResource:
       type: "object"
