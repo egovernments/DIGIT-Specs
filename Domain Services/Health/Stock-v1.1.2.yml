@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 1.0.1
+  version: 1.1.2
   title: Stock Service
   description: >
     This module facilitates operations on Stock.
@@ -476,6 +476,16 @@ definitions:
     type: integer
     format: int64
     description: Number/Quantity/Count of units of the product variant that are being transacted
+  senderId:
+    type: string
+    minLength: 2
+    maxLength: 64
+    description: senderId of a facility or staff
+  receiverId:
+    type: string
+    minLength: 2
+    maxLength: 64
+    description: receiverId of a facility or staff
   referenceId:
     type: string
     example: "C-1"
@@ -486,6 +496,11 @@ definitions:
     minLength: 2
     maxLength: 64
     description: Entity type that referenceId refers to
+  SenderReceiverType:
+    type: string
+    enum:
+      - WAREHOUSE
+      - STAFF
   transactionType:
     type: string
     minLength: 2
@@ -558,6 +573,14 @@ definitions:
         $ref: '#/definitions/wayBillNumber'
       referenceId:
         $ref: '#/definitions/referenceId'
+      senderId:
+        $ref: '#/definitions/senderId'
+      senderType:
+        $ref: '#/definitions/SenderReceiverType'
+      receiverId:
+        $ref: '#/definitions/receiverId'
+      receiverType:
+        $ref: '#/definitions/SenderReceiverType'
       referenceIdType:
         $ref: '#/definitions/referenceIdType'
       transactionType:
