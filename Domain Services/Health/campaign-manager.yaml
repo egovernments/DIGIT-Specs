@@ -1,15 +1,15 @@
 openapi: 3.0.1
 info:
-  title: Campaign Manager
+  title: Project Factory (Campaign Manager)
   description: BFF service APIs - to Bulk create, search and fetch all data in a registry.
   contact:
     name: eGov
     email: info@egovernments.org
   version: 1.0.0
 servers:
-- url: /campaign-manager/v1
+- url: /project-factory/v1
 paths:
-  /campaign-manager/data/v1/_create:
+  /project-factory/v1/data/_create:
     post:
       tags:
       - Bulk Data Creation
@@ -46,7 +46,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/data/v1/_search:
+  /project-factory/v1/data/_search:
     post:
       tags:
       - Bulk Data Creation
@@ -83,7 +83,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/data/v1/_generate:
+  /project-factory/v1/data/_generate:
     post:
       tags:
       - Bulk Data retrieval
@@ -141,7 +141,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/data/v1/_download:
+  /project-factory/v1/data/_download:
     post:
       tags:
       - Bulk Data retrieval
@@ -201,7 +201,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/process/v1/create-campaign:
+  /project-factory/v1/process/create:
     post:
       tags:
       - Process Campaign
@@ -238,7 +238,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /campaign-manager/process/v1/search-campaign:
+  /project-factory/v1/process/search:
     post:
       tags:
       - Process Campaign
