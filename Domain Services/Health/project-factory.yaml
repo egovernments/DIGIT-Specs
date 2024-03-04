@@ -83,7 +83,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /project-factory/v1/data/_generate:
+  /project-factory/v1/data/template/_generate:
     post:
       tags:
       - Bulk Data retrieval
@@ -141,7 +141,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /project-factory/v1/data/_download:
+  /project-factory/v1/data/template/_download:
     post:
       tags:
       - Bulk Data retrieval
@@ -201,7 +201,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /project-factory/v1/process/create:
+  /project-factory/v1/project-type/create:
     post:
       tags:
       - Process Campaign
@@ -238,7 +238,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /project-factory/v1/process/search:
+  /project-factory/v1/project-type/search:
     post:
       tags:
       - Process Campaign
@@ -288,7 +288,7 @@ components:
           readOnly: true
         type:
           type: "string"
-          example: "facility|user|boundary"
+          example: "facility|user|boundarywithtarget"
         tenantId:
           type: "string"
         fileStoreId:
@@ -378,6 +378,8 @@ components:
                 type: "string"
               type:
                 type: "string"
+              isRoot:
+                type: "boolean"
         projectId:
           type: "string"
           format: uuid
@@ -446,6 +448,8 @@ components:
         tenantId:
           type: "string"
         type:
+          type: "string"
+        status:
           type: "string"
     CampaignSearchCriteria:
       type: "object"
