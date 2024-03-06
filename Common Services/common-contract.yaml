@@ -371,7 +371,7 @@ components:
         with ResponseInfo as part of ErrorResponse whenever the request processing
         status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
         be HTTP 400.
-    ErrorRes:
+    ErrorResponse:
       required:
         - ResponseInfo
       type: object
