@@ -9,7 +9,6 @@ info:
 servers:
 - url: https://dev.digit.org/dashboard/[APIEndPoint]
 paths:
-  
   /getDashboardConfig/{dashboardId}:
     get:
       tags:
@@ -39,173 +38,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /getChartV2:
     post:
       tags:
-      - Dashboard
+      - Order
       summary: Get Chart API will be responding with the Data for each visualization
         based on the Chart ID which has been sent
       description: Based on the Chart ID and the Visualization Type and the Request
         Dates and Filters, the API will aggregate the data and give the data which
         needs to be painted on Visualization Charts
-      parameters:
-      - name: contextPath
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: httpMethod
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-          enum:
-          - DELETE
-          - GET
-          - HEAD
-          - OPTIONS
-          - PATCH
-          - POST
-          - PUT
-          - TRACE
-      - name: locale.ISO3Country
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.ISO3Language
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.country
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayCountry
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayLanguage
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayName
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayScript
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.displayVariant
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.extensionKeys
-        in: query
-        required: false
-        style: pipeDelimited
-        schema:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-      - name: locale.language
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.script
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: locale.unicodeLocaleAttributes
-        in: query
-        required: false
-        style: pipeDelimited
-        schema:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-      - name: locale.unicodeLocaleKeys
-        in: query
-        required: false
-        style: pipeDelimited
-        schema:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-      - name: locale.variant
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: nativeRequest
-        in: query
-        required: false
-        style: form
-        schema:
-          type: object
-      - name: nativeResponse
-        in: query
-        required: false
-        style: form
-        schema:
-          type: object
-      - name: notModified
-        in: query
-        required: false
-        style: form
-        schema:
-          type: boolean
-      - name: remoteUser
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: secure
-        in: query
-        required: false
-        style: form
-        schema:
-          type: boolean
-      - name: userPrincipal.name
-        in: query
-        required: false
-        style: form
-        schema:
-          type: string
-      - name: x-user-info
-        in: header
-        description: x-user-info
-        required: false
-        schema:
-          type: string  
       requestBody:
         description: This request object contains the Visualization for which the
           data has to be served.
@@ -226,9 +68,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
       x-codegen-request-body-name: order
-  
 components:
   schemas:
     Chart:
@@ -466,57 +307,3 @@ components:
             id from the server
       description: Status Information object will hold the run time status and the
         live response obtained from the server for the respective API Call.
-    Error:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code will be module specific error label/code to identiffy
-            the error. All modules should also publish the Error codes with their
-            specific localized values in localization service to ensure clients can
-            print locale specific error messages. Example for error code would be
-            User.NotFound to indicate User Not Found by User/Authentication service.
-            All services must declare their possible Error Codes with brief description
-            in the error response section of their API path.
-        message:
-          type: string
-          description: English locale message of the error code. Clients should make
-            a separate call to get the other locale description if configured with
-            the service.
-        description:
-          type: string
-          description: Optional long description of the error to help clients take
-            remedial action. This will not be available as part of localization service.
-        params:
-          type: array
-          description: Some error messages may carry replaceable fields (say $1, $2)
-            to provide more context to the message. E.g. Format related errors may
-            want to indicate the actual field for which the format is invalid. Client's
-            should use the values in the param array to replace those fields.
-          items:
-            type: string
-      description: Error object will be returned as a part of reponse body in conjunction
-        with ResponseInfo as part of ErrorResponse whenever the request processing
-        status in the ResponseInfo is FAILED. HTTP return in this scenario will usually
-        be HTTP 400.
-    ErrorRes:
-      required:
-      - statusInfo
-      type: object
-      properties:
-        statusInfo:
-          $ref: '#/components/schemas/StatusInfo'
-        errors:
-          type: array
-          description: Error response array corresponding to Request Object array.
-            In case of single object submission or _search related paths this may
-            be an array of one error element
-          items:
-            $ref: '#/components/schemas/Error'
-      description: All APIs will return ErrorRes in case of failure which will carry
-        ResponseInfo as metadata and Error object as actual representation of error.
-        In case of bulk apis, some apis may chose to return the array of Error objects
-        to indicate individual failure.

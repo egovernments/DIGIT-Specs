@@ -1,0 +1,885 @@
+openapi: 3.0.0
+info:
+  version: 1.1.0
+  title: Vendor Registration(Business entity registration)
+  description: |
+    ### Register Vendor for desludging  ###
+    * Register Desludging oprator in the system
+    * Map vehicle to the DSO
+    * Map driver to DSO
+    * Search vendor details
+    * add new vendor
+    * update existing vendor details
+    
+  contact:
+    name: Egovernments Foundation
+    email: contact@egovernments.org
+x-module: FSM
+x-common-path: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml'
+paths:
+  /vendor/v1/_create:
+    post:
+      tags:
+        - Vendor
+      summary: Add new vendor  
+      description: Add the vendor details into the system
+      operationId: createUsingPOST
+      requestBody:
+        description: Request schema.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VendorRequest'
+      responses:
+        '200':
+          description: Request submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VendorResponse'
+        '201':
+          description: Created
+        '400':
+          description: Failed to process the Request
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /vendor/v1/_plainsearch:
+    post:
+      tags:
+        - Vendor
+      summary: Get the Vendor details via plain search
+      description: |
+        Gets the list of Vendor for a particular ULB based on plain search criteria.
+      operationId: plainsearchUsingPOST
+      parameters:
+        - name: tenantId
+          in: query
+          description: search with tenantId of the business entity
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: search with name of the business entity
+          schema:
+            type: string
+        - name: vehicleRegistrationNumber
+          in: query
+          description: search based on the vehicle assigned to DSO with the vehicle registration number
+          schema:
+            type: string
+        - name: vehicleType
+          in: query
+          description: search based on the vehicle assigned to DSO with the vehicleType
+          schema:
+            type: string
+        - name: vehicleIds
+          in: query
+          description: search by list of uuid(s) of the vehicle assigned to the SO
+          schema:
+            type: array
+            items:
+              type: string
+        - name: vehicleCapacity
+          in: query
+          description: Vehicle Capacity
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: ids
+          in: query
+          description: Search by list of UUID
+          schema:
+            type: array
+            items:
+              type: string
+        - name: offset
+          in: query
+          description: offset for the pagination results
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit for the pagination results
+          schema:
+           type: integer
+        - name: ownerIds
+          in: query
+          description: search by list of uuid(s) of the owner of the DSo
+          schema:
+            type: array
+            items:
+              type: string
+        - name: mobileNumber
+          in: query
+          description: Search DSO by mobileNumber of the Owner of the DSO
+          schema:
+            type: string
+        - name: driverIds
+          in: query
+          description: Search by list of UUID of of the drivers
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: sortBy
+          in: query
+          description: sort the search results by fields
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - createdTime
+              - driverIds
+              - ids
+              - mobileNumber
+              - name
+              - ownerIds
+              - status
+              - tenantId
+              - vehicleCapacity
+              - vehicleIds
+              - vehicleRegistrationNumber
+              - vehicleType
+              - vendor_createdTime
+        - name: sortOrder
+          in: query
+          description: sorting order of the search resulsts
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: status
+          in: query
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+      requestBody:
+        description: Request Schema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VendorResponse'
+        '201':
+          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /vendor/v1/_search:
+    post:
+      tags:
+        - Vendor
+      summary: Get the Vendor details
+      description: |
+        Gets the list of Vendor for a particular ULB based on search criteria.
+      parameters:
+        - name: tenantId
+          in: query
+          description: search with tenantId of the business entity
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: search with name of the business entity
+          schema:
+            type: string
+        - name: vehicleRegistrationNumber
+          in: query
+          description: search based on the vehicle assigned to DSO with the vehicle registration number
+          schema:
+            type: string
+        - name: vehicleType
+          in: query
+          description: search based on the vehicle assigned to DSO with the vehicleType
+          schema:
+            type: string
+        - name: vehicleIds
+          in: query
+          description: search by list of uuid(s) of the vehicle assigned to the SO
+          schema:
+            type: array
+            items:
+              type: string
+        - name: vehicleCapacity
+          in: query
+          description: Vehicle Capacity
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: ids
+          in: query
+          description: Search by list of UUID
+          schema:
+            type: array
+            items:
+              type: string
+        - name: offset
+          in: query
+          description: offset for the pagination results
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit for the pagination results
+          schema:
+           type: integer
+        - name: ownerIds
+          in: query
+          description: search by list of uuid(s) of the owner of the DSo
+          schema:
+            type: array
+            items:
+              type: string
+        - name: mobileNumber
+          in: query
+          description: Search DSO by mobileNumber of the Owner of the DSO
+          schema:
+            type: string
+        - name: driverIds
+          in: query
+          description: Search by list of UUID of of the drivers
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: sortBy
+          in: query
+          description: sort the search results by fields
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - createdTime
+              - driverIds
+              - ids
+              - mobileNumber
+              - name
+              - ownerIds
+              - status
+              - tenantId
+              - vehicleCapacity
+              - vehicleIds
+              - vehicleRegistrationNumber
+              - vehicleType
+              - vendor_createdTime
+        - name: sortOrder
+          in: query
+          description: sorting order of the search resulsts
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: status
+          in: query
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+      requestBody:
+        description: Request Schema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VendorResponse'
+        '201':
+          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /vendor/v1/_update:
+    post:
+      summary: Update existing vendor details
+      description: Updates the details of the vendor 
+      tags:
+        - Vendor
+      operationId: updateUsingPOST
+      requestBody:
+        description: Request schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VendorRequest'
+      responses:
+        '200':
+          description: Request submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VendorResponse'
+        '201':
+          description: Created
+        '400':
+          description: Failed to process the application
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          
+  /vendor/driver/v1/_create:
+    post:
+      tags:
+        - Vendor Driver
+      summary: Add new driver 
+      description: Add the vendor driver details into the system
+      operationId: createUsingPOST_1
+      requestBody:
+        description: Request Schema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverRequest'
+      responses:
+        '200':
+          description: Request submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DriverResponse'
+        '201':
+          description: Created
+        '400':
+          description: Failed to process the Request
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /vendor/driver/v1/_search:
+    post:
+      tags:
+        - Vendor Driver
+      summary: Get the Driver details via search
+      description: |
+        Gets the list of Drivers for a particular ULB based on search criteria.
+      operationId: searchUsingPOST_1
+      parameters:
+        - name: driverWithNoVendor
+          in: query
+          description: True if there is a driver without any vendor assigned
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: dsoName
+          in: query
+          description: Name of DSO
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ids
+          in: query
+          description: "List of system generated ids of applications."
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: mobileNumber
+          in: query
+          description: "MobileNumber of driver"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: "Name of driver"
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: offset
+          in: query
+          description: offset index of the overall search results
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: ownerIds
+          in: query
+          description: Id credential for Owners
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: sortBy
+          in: query
+          description: sort the search results by fields
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - createdTime
+              - driverWithNoVendor
+              - dsoName
+              - ids
+              - mobileNumber
+              - name
+              - ownerIds
+              - status
+              - tenantId
+        - name: sortOrder
+          in: query
+          description: sorting order of the search results
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: status
+          in: query
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          description: "Unique id for a tenant."
+          required: false
+          style: form
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DriverResponse'
+        '201':
+          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /vendor/driver/v1/_update:
+    post:
+      tags:
+        - Vendor Driver
+      summary: Update existing driver details
+      description: Updates the details of the driver
+      operationId: updateUsingPOST_1
+      requestBody:
+        description: Request schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverRequest'
+      responses:
+        '200':
+          description: Request submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DriverResponse'
+        '201':
+          description: Created
+        '400':
+          description: Failed to process the application
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+components:
+  schemas:
+    Boundary:
+      title: Boundary
+      required:
+        - code
+        - name
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        code:
+          type: string
+          description: code of the boundary.
+        label:
+          type: string
+          description: localized label for the boundry.
+        latitude:
+          type: string
+          description: latitude of the boundary.
+        longitude:
+          type: string
+          description: longitude of the boundary.
+        materializedPath:
+          type: string
+          description: materialized path of the boundary - this would be of the format tenantid.[code] from parentt till teh current boundary
+          readOnly: true
+        name:
+          type: string
+          description: name of the boundary.
+    Driver:
+      title: Driver
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        description:
+          type: string
+        id:
+          description: "List of system generated id of applications."
+          type: string
+        licenseNumber:
+          description: "License number of the driver"
+          type: string
+        name:
+          description: "Name of the driver"
+          maxLength: 128
+          minLength: 0
+          type: string
+        owner:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+        ownerId:
+          description: "Owner id of the driver"
+          maxLength: 64
+          minLength: 0
+          type: string
+        status:
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
+          type: string
+          enum:
+            - ACTIVE
+            - DISABLED
+            - INACTIVE
+        tenantId:
+          description: "Unique id for a tenant."
+          maxLength: 64
+          minLength: 0
+          type: string
+        vendorDriverStatus:
+          type: string
+          description: Vendor driver status
+          enum:
+            - ACTIVE
+            - DISABLED
+            - INACTIVE
+    DriverRequest:
+      title: DriverRequest
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        driver:
+          $ref: '#/components/schemas/Driver'
+    DriverResponse:
+      title: DriverResponse
+      type: object
+      properties:
+        driver:
+          type: array
+          items:
+            $ref: '#/components/schemas/Driver'
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        totalCount:
+          type: integer
+          format: int32
+          description: Total count
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    Vehicle:
+      type: object
+      description: |
+        Instance of Service request raised for a particular service. As per extension propsed in the Service definition "attributes" carry the input values requried by metadata definition in the structure as described by the corresponding schema.
+
+        * Any one of 'address' or '(lat and lang)' or 'addressid' is mandatory
+      properties:
+        vehicleOwner:
+          $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/UserInfo'
+        id:
+          type: string
+          readOnly: true
+          description: The server generated unique ID(UUID).
+          minLength: 2
+          maxLength: 64
+        tenantId:
+          type: string
+          description: Unique identifier of the tenant.
+          minLength: 2
+          maxLength: 64
+        registrationNumber: 
+          type: string
+          description: Unique Vehicle registration number.
+          minLength: 2
+          maxLength: 128
+        model:
+          type: string
+          description: Vehicle model number(this the master data defined in MDMS).
+          minLength: 2
+          maxLength: 256
+        type:
+          type: string
+          description: Vehicle Type master, defined in MDMS. 
+          minLength: 2
+          maxLength: 64
+        tankCapicity:
+          type: integer
+          format: int64
+          description: Tank capacity in liters. 
+          minLength: 2
+          maxLength: 64
+        suctionType:
+          type: string
+          description: This is the mdms master data. 
+          minLength: 2
+          maxLength: 64
+        pollutionCertiValidTill:
+          type: integer
+          format: int64
+          description: Pollution certificate valid till for vehicle(epoc date). 
+          minLength: 2
+          maxLength: 64
+        InsuranceCertValidTill:
+          type: integer
+          format: int64
+          description: Vehicle insurance valid till(epoc date). 
+          minLength: 2
+          maxLength: 64
+        fitnessValidTill:
+          type: integer
+          format: int64
+          description: Vehicle fitness valid till(epoc date). 
+          minLength: 2
+          maxLength: 64
+        roadTaxPaidTill:
+          type: integer
+          format: int64
+          description: Road tax paid for the Vehicle. 
+          minLength: 2
+          maxLength: 64
+        gpsEnabled:
+          type: boolean
+          description: Whether Vehicle equipped with GPS device. 
+        additionalDetail:
+          type: object
+          description: This is the json object that will carry the actual input (whereever the metadata requries input). Structure should be same as the schema definition provided in the metadata of the service (schema compliance check to be performed at client/server)
+        source:
+          type: string
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
+          minLength: 2
+          maxLength: 64
+          example: whatsapp, ivr etc
+        status:
+          type: string
+          description: Inactive records will be consider as soft deleted 
+          enum:
+           - ACTIVE
+           - INACTIVE
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+      required:
+        - tenantId
+        - registrationNumber
+        - model
+        - type
+    Vendor:
+      title: Vendor
+      type: object
+      properties:
+        additionalDetails:
+          type: object
+        address:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
+        agencyType:
+          description: Type of agency
+          maxLength: 128
+          minLength: 0
+          type: string
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        description:
+          type: string
+        drivers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Driver'
+        id:
+          type: string
+          description: Unique id credential for Vendor
+        name: 
+          description: Name of the Vendor
+          maxLength: 128
+          minLength: 0
+          type: string
+        owner:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+        ownerId:
+          description: Unique Owner id credential 
+          maxLength: 64
+          minLength: 0
+          type: string
+        paymentPreference:
+          description: Payment preference for the vendor
+          maxLength: 128
+          minLength: 0
+          type: string
+        source:
+          description: source
+          type: string
+        status:
+          description: current application status in the system records
+          type: string
+          enum:
+            - ACTIVE
+            - DISABLED
+            - INACTIVE
+        tenantId:
+          description: "Unique id for a tenant."
+          maxLength: 64
+          minLength: 0
+          type: string
+        vehicles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+    VendorRequest:
+      title: VendorRequest
+      description: Request for Vendor registration 
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        vendor:
+          $ref: '#/components/schemas/Vendor'
+    VendorResponse:
+      title: VendorResponse
+      description: Response of Vendor detail
+      type: object
+      properties:
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        totalCount:
+          type: integer
+          format: int32
+        vendor:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vendor'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/WalkingTreeDev/eGov-DSO/1.0.0
