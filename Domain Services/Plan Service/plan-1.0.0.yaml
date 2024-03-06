@@ -362,6 +362,9 @@ components:
           type: string
           format: uuid
           description: Unique entity id of the Resource
+        activityCode:
+          type: string
+          description: Unique code of the activity which requires this Resource
         resourceType:
           type: string
           description: Type of resource
@@ -423,6 +426,9 @@ components:
         tenantId:
           type: string
           description: Unique tenant id
+        code:
+          type: string
+          description: Unique code for the activity
         description:
           type: string
           description: Description of the activity
@@ -439,9 +445,6 @@ components:
           items:
             type: string
             description: Unique id of the activity which needs to be completed before this activity is executed
-        resourceId:
-          type: string
-          description: Resource which needs to be given as part of the activity
         conditions:
           type: array
           items:
@@ -453,10 +456,9 @@ components:
           type: string
           format: uuid
           description: Unique entity id of the target.
-        taskId:
+        activityCode:
           type: string
-          format: uuid
-          description: Id of the task to which this target linked to.
+          description: Unique code of the activity for the provided target.
         metric:
           type: string
           description: Metric for milestone achievement.
