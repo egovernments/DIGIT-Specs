@@ -289,6 +289,9 @@ components:
         type:
           type: "string"
           example: "facility|user|boundarywithtarget"
+        hierarchyType:
+          type: "string"
+          example: "admin|revenue"
         tenantId:
           type: "string"
         fileStoreId:
