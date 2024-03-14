@@ -673,7 +673,7 @@ components:
             2. The scope of message_id end with successful ack of the message by the receiver.
             3. To realy the message between hops, underlying relying parties may consider to store and forward the message with integirty, ie Signature intact.
           type: string
-          example: '123'
+          example: '251c51eb-e970-4e01-a99a-70136c47a934'
         message_ts:
           $ref: '#/components/schemas/Timestamp'
         action:
@@ -780,23 +780,23 @@ components:
           description: Unique identifier of the tenant that could be a department/ulb/state
           minLength: 2
           maxLength: 64
-          example: pb.jalandhar,dwss
+          example: pb.jalandhar
         program_code:
           type: string
-          description: Formated program code PROG/{FINANCIAL_YEAR}/{ULB-CODE}/{AUTO_NUMBER}
+          description: Formated program code PROG/{FINANCIAL_YEAR}/{AUTO_NUMBER}
           minLength: 2
           maxLength: 64
-          example: PORG/2023-24/PG.CITYA/00001
+          example: PORG/2023-24/00001
         transaction_id:
           type: string
-          description: Formated transaction code, it will return after transaction is created at another end.
+          description: Formated transaction code, it will return after transaction is created in payment system.
           minLength: 2
           maxLength: 64
-          example: PI/2023-24/00001,BENF/2023-24/00001
+          example: PI/2023-24/00001
         net_amount:
           type: number
           description: Amount to be paid including deduction amount
-          example: 1000
+          example: 1000.00
         gross_amount:
           type: number
           description: Actual amount to be paid without deduction
@@ -807,7 +807,7 @@ components:
         children:
           type: array
           items:
-            type: object
+            $ref: '#/components/schemas/EventDetails'
         status:
           $ref: '#/components/schemas/Status'
         additional_details: 
@@ -822,32 +822,34 @@ components:
           type: string
           minLength: 2
           maxLength: 64
-          example: FC001
+          example: LIVELIHOOD
         administration_code:
           type: string
           minLength: 2
           maxLength: 64
-          example: AC002
+          example: HUDD
         recipient_segment_code:
+          description: "Whoese getting the money"
           type: string
           minLength: 2
           maxLength: 64
-          example: RSC003
+          example: CBO
         economic_segment_code:
           type: string
           minLength: 2
           maxLength: 64
-          example: ESC004
+          example: PEOPLE
         source_of_fund_code:
           type: string
+          description: ""
           minLength: 2
           maxLength: 64
-          example: SFC005
+          example: STATE
         target_segment_code:
           type: string
           minLength: 2
           maxLength: 64
-          example: TSC006
+          example: MALE
         currency_code:
           type: string
           minLength: 2
@@ -884,17 +886,31 @@ components:
           type: string
     Individual:
       type: object
+      description: "Beneficiary personal details."
       properties:
         name:
           type: string
+          minLength: 2
+          maxLength: 64
+          example: John
         email:
           type: string
+          minLength: 2
+          maxLength: 64
+          example: john@gmail.com
         phone:
           type: string
+          minLength: 10
+          maxLength: 10
+          example: 9876543210
         pin:
           type: string
+          example: 110001
         address:
           type: string
+          minLength: 2
+          maxLength: 246
+          example: "3476, Gali Bajrang Bali, Delhi"
       required:
         - name
         - phone
