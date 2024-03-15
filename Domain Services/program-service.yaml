@@ -1448,20 +1448,16 @@ components:
       type: object
       description: 'Exchange message content which will be shared with all request'
       properties:
-        exchange_type:
+        type:
           type: string
           minLength: 2
           maxLength: 64
           readOnly: true
           enum:
-            - Program
-            - on-program
+            - program
             - sanction
-            - on-sanction
             - allocation
-            - on-allocation
             - disburse
-            - on-disburse
         function_code:
           type: string
           minLength: 2
@@ -1629,7 +1625,7 @@ components:
           type: number
         gross_amount:
           type: number
-        type:
+        allocation_type:
           type: string
           default: ALLOCATION
           enum:
