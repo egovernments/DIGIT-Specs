@@ -238,6 +238,43 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /project-factory/v1/project-type/update:
+    post:
+      tags:
+      - Process Campaign
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                CampaignDetails:
+                  $ref: '#/components/schemas/CampaignResourceDetails'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  ResponseInfo:
+                      $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  CampaignDetails:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/CampaignResourceDetails'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /project-factory/v1/project-type/search:
     post:
       tags:
