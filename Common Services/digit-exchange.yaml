@@ -55,8 +55,6 @@ paths:
           $ref: '#/components/responses/HttpErrorResponse'
         default:
           $ref: '#/components/responses/Response'
-      security:
-        - Authorization: []
       deprecated: false
 
 
