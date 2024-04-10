@@ -436,6 +436,8 @@ components:
                 type: "string"
               isRoot:
                 type: "boolean"
+              includeAllChildren:
+                type: "boolean"
         projectId:
           type: "string"
           format: uuid
