@@ -454,6 +454,9 @@ components:
               type:
                 type: "string"
                 example: "user"
+              resourceId:
+                type: "string"
+                example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
               filename:
                 type: "string"
                 example: "user.xlsx"
