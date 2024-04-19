@@ -1,0 +1,404 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Get applications for inbox
+  description: |
+    ### API specs for inbox ###
+    * Employees get applications in his inbox on which are assigned to him or on which he can take action
+  contact:
+    name: Egovernments Foundation
+    email: contact@egovernments.org
+x-module: Inbox
+x-common-path: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml'
+paths:
+
+  /inbox/v1/_search:
+    post:
+      description: Returns applications to be displayed in inbox
+      tags:
+        - inbox-controller
+      summary:  Searches applications based on given search criteria
+      operationId: searchUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboxRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InboxResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /inbox/v1/dss/_search:
+    description: Returns dss applications to be displayed in inbox
+    post:
+      tags:
+        - inbox-controller
+      summary: getChartV2 for dss applications
+      operationId: getChartV2UsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboxMetricCriteria'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: number
+                  format: bigdecimal
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /inbox/v1/elastic/_search:
+    post:
+      description: Returns elastic search response to be displayed in inbox
+      tags:
+        - inbox-controller
+      summary: Returns elastic search response
+      operationId: elasticSearchUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboxElasticSearchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+  /inbox/v2/_search:
+    post:
+      description: Returns applications to be displayed in inbox as per event based inbox design
+      tags:
+        - inbox-controller
+      summary:  Searches applications based on given search criteria
+      operationId: searchEventBasedInboxUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboxRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InboxResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /inbox/v2/_getFields:
+    post:
+      description: Returns fields to be fetched from ElasticSearch
+      tags:
+        - inbox-controller
+      summary:  Fetches specific fields from ElasticSearch Index
+      operationId: searchFieldsUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          
+        
+
+components:
+  schemas:
+    InboxSearchCriteria:
+      type: object
+      description: 'BPA application object to capture the details of land, land owners, and address of the land.'
+      properties:
+        tenantId:
+          type: string
+          description: TenantId of the user
+          minLength: 1
+          maxLength: 64
+        processSearchCriteria:
+          type: object
+          items:
+            $ref: '#/components/schemas/ProcessInstanceSearchCriteria'  
+        moduleSearchCriteria:
+          type: object
+          description: Hashmap containing the module search params and values
+          minLength: 1
+          maxLength: 64
+        offset:
+          type: integer
+          description: Offset of the search result
+        limit:
+          description: Limit of search result
+          type: integer
+    
+    InboxElasticSearchCriteria:
+      title: InboxElasticSearchCriteria
+      required:
+        - indexKey
+        - tenantId
+      type: object
+      properties:
+        fromDate:
+          type: integer
+          format: int64
+        indexKey:
+          type: string
+        limit:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int32
+        sortOrder:
+          type: string
+        tenantId:
+          type: string
+        toDate:
+          type: integer
+          format: int64
+    
+    InboxElasticSearchRequest:
+      title: InboxElasticSearchRequest
+      type: object
+      properties:
+        InboxElasticSearchCriteria:
+          $ref: '#/components/schemas/InboxElasticSearchCriteria'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    
+    InboxMetricCriteria:
+      title: InboxMetricCriteria
+      type: object
+      properties:
+        module:
+          type: string
+          description: Module name of the applications 
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant to which inbox metric primarily belongs
+   
+    ProcessInstanceSearchCriteria:
+      type: object
+      description: |
+        Schema to search process instances
+      properties:
+        tenantId:
+          type: string
+          readOnly: true
+          description: The tenantIds of the applications.
+          minLength: 2
+          maxLength: 64
+        status:
+          type: array
+          items:
+            type: string
+          description: List of statuses of pplications.
+        businessIds:
+          type: string
+          items:
+            type: string
+          description: The application numbers to search
+        assignee:
+          type: string
+          description: UUID of the assignee
+          minLength: 2
+          maxLength: 256
+        ids:
+          type: string
+          items:
+            type: string
+          description: UUIDS of the processinstances 
+          minLength: 2
+          maxLength: 64
+        businessService:
+          type: string
+          description: BusinessService (Workdflow config code) of the applications
+        moduleName:
+          type: string
+          description: Module name of the applications 
+          readOnly: true
+        isProcessCountCall:
+          type: string
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
+          minLength: 2
+          maxLength: 64
+          example: whatsapp, ivr etc
+        offset:
+          type: integer
+          description: Offset of the search
+        limit:
+          type: string
+          description: Limit of the search
+
+    InboxRequest:
+      type: object
+      description: Response of the FSM
+      properties:
+        RequestInfo:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo
+        inbox:
+          $ref: '#/components/schemas/InboxSearchCriteria'
+    SearchRequest:
+      type: object
+      description: Search request
+      properties:
+        RequestInfo:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo
+        SearchCriteria:
+          $ref: '#/components/schemas/IndexSearchCriteria'
+    
+    IndexSearchCriteria:
+      type: object
+      description: 'BPA application object to capture the details of land, land owners, and address of the land.'
+      properties:
+        tenantId:
+          type: string
+          description: TenantId of the user
+          minLength: 1
+          maxLength: 64
+        moduleName:
+          type: string
+          description: Module name for searching
+        moduleSearchCriteria:
+          type: object
+          description: Hashmap containing the module search params and values
+          minLength: 1
+          maxLength: 64
+        offset:
+          type: integer
+          description: Offset of the search result
+        limit:
+          description: Limit of search result
+          type: integer
+    
+    SearchResponse:
+      type: object
+      description: Response of the FSM
+      properties:
+        responseInfo:
+          $ref: >-
+            https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Data'
+    
+    Data:
+      type: object
+      description: Response of _getFields
+      properties:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field'
+            
+    Field:
+      type: object
+      description: Response of _getFields
+      properties:
+        key:
+          type: string
+        value:
+          type: object
+    
+    InboxResponse:
+      type: object
+      description: Response of the FSM
+      properties:
+        responseInfo:
+          $ref: >-
+            
+        statusMap:
+          type: object
+          description: map of status vs count
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inbox'
+        totalCount:
+          type: string
+          description: totalcount of records available in the system satifyig the search criteria
+          
+    Inbox:
+      type: object
+      description: >
+        Inbox object
+      properties:
+        businessObject:
+          type: string
+          description: Entity object as key value pair
+        ProcessInstance:
+          $ref: 'https://raw.githubusercontent.com/egovernments/core-services/master/docs/worfklow-2.0.yml#/definitions/ProcessInstance'

@@ -1,0 +1,795 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: eChallan System
+  description: |
+    ### API Specs For eChallan System ###
+    1. Generate the new challan.
+    2. Update the details of existing challan
+    3. Search the existing challan
+    4. Generate the demand and bill for the challan amount so that collection can be done in online and offline mode.
+  contact:
+    name: Egovernments Foundation
+    email: contact@egovernments.org
+x-module: BPA
+x-common-path: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml'
+
+paths:
+ 
+  /eChallan/v1/_create:
+    post:
+      summary: Create new challan request
+      description: Generate the challan in the system with the defined attributes
+      tags:
+        - eChallan APIs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallanRequest'
+        description: Request schema.
+        required: true
+      responses:
+        '202':
+          description: Application submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChallanResponse'
+        '400':
+          description: Failed to process the application
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+  /eChallan/v1/_update:
+    post:
+      summary: Update the existing challan details
+      description: Update the existing challan details
+      tags:
+        - eChallan APIs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallanRequest'
+        description: Request schema.
+        required: true
+      
+      responses:
+        '202':
+          description: Application submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChallanResponse'
+        '400':
+          description: Failed to process the application
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+  
+  /eChallan/v1/_search:
+    post:
+      summary: Get the list of existing challan details 
+      description: |
+        Gets the list of service requests for a particular ULB based on search criteria.
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/parameters/tenantId'
+        - name: serviceCode
+          in: query
+          description: Allows search for service type - comma separated list
+          schema:
+            type: array
+            items:
+              type: string
+              maxItems: 5
+        - name: ids
+          in: query
+          description: Search by list of UUID
+          schema:
+            type: array
+            items:
+              type: string
+              maxItems: 10
+        - name: mobileNo
+          in: query
+          description: Search by mobile number citizen
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ChallanResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+      tags:
+        - eChallan APIs
+  /eChallan/v1/_count:
+    post:
+      description: Get the list of count of paid, active, cancelled and total number of challan for given tenant Id.
+      tags:
+        - eChallan APIs
+      summary: Get the list of count of paid, active, cancelled and total number of challan 
+      operationId: countUsingPOST
+      parameters:
+        - name: tenantId
+          in: query
+          description: tenantId
+          required: true
+          style: form
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      
+components:
+  schemas:
+    Amount:
+      title: Amount
+      type: object
+      properties:
+        amount:
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: bigdecimal
+          description: Capture the amount for a tax head
+        taxHeadCode:
+          type: string
+          description: Tax head code from tax head master(Tax codes are desfined at business service level so each business service can have diffrent tax head code defined) 
+    Boundary:
+      title: Boundary
+      required:
+        - code
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        code:
+          type: string
+          description: code of the boundary.
+        label:
+          type: string
+          description: localized label for the boundary
+        latitude:
+          type: string
+          description: latitude of the boundary.
+        longitude:
+          type: string
+          description: longitude of the boundary.
+        materializedPath:
+          type: string
+          description: materialized path of the boundary - this would be of the format tenantid.[code] from parentt till teh current boundary  
+        name:
+          type: string
+          description: name of the boundary.
+    Calculation:
+      title: Calculation
+      required:
+        - tenantId
+      type: object
+      properties:
+        challan:
+          $ref: '#/components/schemas/ChallanReq'
+        challanNo:
+          type: string
+        taxHeadEstimates:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxHeadEstimate'
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+    ChallanReq:
+      title: ChallanReq
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: "Initiator User UUID"
+        additionalDetail:
+          type: object
+        address:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
+        amount:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amount'
+        applicationStatus:
+          type: string
+          enum:
+            - ACTIVE
+            - CANCELLED
+            - PAID
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        businessService:
+          type: string
+        calculation:
+          $ref: '#/components/schemas/Calculation'
+        challanNo:
+          type: string
+          description:  The unique formatted id for challan.
+        citizen:
+          $ref: '#/components/schemas/UserInfoReq'
+        description:
+          type: string
+        filestoreid:
+          type: string
+          description: id generated by filestore 
+        id:
+          description: "List of system generated ids of applications."
+          type: string
+        receiptNumber:
+          type: string
+          description: the verification code generated by system which acknowledges the received communication of return information or extension request.
+        referenceId:
+          type: string
+          description: Unique identifier of the entity for which the challan is generated
+        source:
+          type: string
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
+        taxPeriodFrom:
+          type: integer
+          format: int64
+        taxPeriodTo:
+          type: integer
+          format: int64
+        tenantId:
+          type: string
+          description: "Unique id for a tenant."
+    ChallanRequest:
+      title: ChallanRequest
+      type: object
+      properties:
+        Challan:
+          $ref: '#/components/schemas/ChallanReq'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    ChallanRes:
+      title: ChallanRes
+      type: object
+      properties:
+        accountId:
+          type: string
+        additionalDetail:
+          type: object
+        address:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
+        amount:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amount'
+        applicationStatus:
+          type: string
+          enum:
+            - ACTIVE
+            - CANCELLED
+            - PAID
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        businessService:
+          type: string
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+        calculation:
+          $ref: '#/components/schemas/Calculation'
+        challanNo:
+          type: string
+        citizen:
+          $ref: '#/components/schemas/UserInfoRes'
+        description:
+          type: string
+        filestoreid:
+          type: string
+          description: id generated by filestore
+        id:
+          type: string
+          description: "List of system generated ids of applications."
+        receiptNumber:
+          type: string
+          description: the verification code generated by system which acknowledges the received communication of return information or extension request.
+        referenceId:
+          type: string
+          description: Unique identifier of the entity for which the challan is generated
+        source:
+          type: string
+          description: 'Source mdms master data. Which captures the source of the service request(ex:- whatsapp, ivr, Swachhata etc)'
+        taxPeriodFrom:
+          type: integer
+          format: int64
+        taxPeriodTo:
+          type: integer
+          format: int64
+        tenantId:
+          type: string
+          description: "Unique id for a tenant."
+    ChallanResponse:
+      title: ChallanResponse
+      type: object
+      properties:
+        challanValidity:
+          type: integer
+          format: int32
+        challans:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChallanRes'
+        countOfServices:
+          type: integer
+          format: int32
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        totalAmountCollected:
+          type: integer
+          format: int32
+        totalCount:
+          type: integer
+          format: int32
+    ResponseEntity:
+      title: ResponseEntity
+      type: object
+      properties:
+        body:
+          type: object
+          description: response body 
+        statusCode:
+          type: string
+          enum:
+            - ACCEPTED
+            - ALREADY_REPORTED
+            - BAD_GATEWAY
+            - BAD_REQUEST
+            - BANDWIDTH_LIMIT_EXCEEDED
+            - CHECKPOINT
+            - CONFLICT
+            - CONTINUE
+            - CREATED
+            - DESTINATION_LOCKED
+            - EXPECTATION_FAILED
+            - FAILED_DEPENDENCY
+            - FORBIDDEN
+            - FOUND
+            - GATEWAY_TIMEOUT
+            - GONE
+            - HTTP_VERSION_NOT_SUPPORTED
+            - IM_USED
+            - INSUFFICIENT_SPACE_ON_RESOURCE
+            - INSUFFICIENT_STORAGE
+            - INTERNAL_SERVER_ERROR
+            - I_AM_A_TEAPOT
+            - LENGTH_REQUIRED
+            - LOCKED
+            - LOOP_DETECTED
+            - METHOD_FAILURE
+            - METHOD_NOT_ALLOWED
+            - MOVED_PERMANENTLY
+            - MOVED_TEMPORARILY
+            - MULTIPLE_CHOICES
+            - MULTI_STATUS
+            - NETWORK_AUTHENTICATION_REQUIRED
+            - NON_AUTHORITATIVE_INFORMATION
+            - NOT_ACCEPTABLE
+            - NOT_EXTENDED
+            - NOT_FOUND
+            - NOT_IMPLEMENTED
+            - NOT_MODIFIED
+            - NO_CONTENT
+            - OK
+            - PARTIAL_CONTENT
+            - PAYLOAD_TOO_LARGE
+            - PAYMENT_REQUIRED
+            - PERMANENT_REDIRECT
+            - PRECONDITION_FAILED
+            - PRECONDITION_REQUIRED
+            - PROCESSING
+            - PROXY_AUTHENTICATION_REQUIRED
+            - REQUESTED_RANGE_NOT_SATISFIABLE
+            - REQUEST_ENTITY_TOO_LARGE
+            - REQUEST_HEADER_FIELDS_TOO_LARGE
+            - REQUEST_TIMEOUT
+            - REQUEST_URI_TOO_LONG
+            - RESET_CONTENT
+            - SEE_OTHER
+            - SERVICE_UNAVAILABLE
+            - SWITCHING_PROTOCOLS
+            - TEMPORARY_REDIRECT
+            - TOO_EARLY
+            - TOO_MANY_REQUESTS
+            - UNAUTHORIZED
+            - UNAVAILABLE_FOR_LEGAL_REASONS
+            - UNPROCESSABLE_ENTITY
+            - UNSUPPORTED_MEDIA_TYPE
+            - UPGRADE_REQUIRED
+            - URI_TOO_LONG
+            - USE_PROXY
+            - VARIANT_ALSO_NEGOTIATES
+        statusCodeValue:
+          type: integer
+          format: int32
+          description: value of status code to be displayed 
+    RoleReq:
+      title: RoleReq
+      type: object
+      properties:
+        code:
+          type: string
+          description: "Unique code of the role"
+        id:
+          type: integer
+          description: "List of system generated ids of BPA applications."
+          format: int64
+        name:
+          type: string
+        tenantId:
+          description: "Unique id for a tenant."
+          type: string
+    RoleRes:
+      title: RoleRes
+      type: object
+      properties:
+        code:
+          type: string
+          description: "Unique code of the role"
+        id:
+          type: integer
+          format: int64
+          description: "List of system generated ids of applications."
+        name:
+          type: string
+        tenantId:
+          type: string
+          description: "Unique id for a tenant."
+    TaxHeadEstimate:
+      title: TaxHeadEstimate
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+            - ADVANCE_COLLECTION
+            - CHARGES
+            - EXEMPTION
+            - FEE
+            - FINES
+            - PENALTY
+            - REBATE
+            - TAX
+        estimateAmount:
+          type: number
+          format: bigdecimal
+        taxHeadCode:
+          type: string
+    TenantRoleReq:
+      title: TenantRoleReq
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleReq'
+        tenantId:
+          type: string
+    TenantRoleRes:
+      title: TenantRoleRes
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRes'
+        tenantId:
+          type: string
+    UserInfoReq:
+      title: UserInfoReq
+      description: User info request
+      required:
+        - mobileNumber
+        - name
+      type: object
+      properties:
+        aadhaarNumber:
+          pattern: ^[0-9]{12}$
+          description: Aadhaar number of the User
+          type: string
+        accountLocked:
+          type: boolean
+          description: Is account locked for the user 
+        active:
+          type: boolean
+        additionalroles:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantRoleReq'
+        altContactNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: Alternate Contact Number of the User
+        bloodGroup:
+          maxLength: 32
+          minLength: 0
+          type: string
+          description: Blood group of the User
+        correspondenceAddress:
+          maxLength: 300
+          minLength: 0
+          type: string
+          description: Correspondence address of the User
+        correspondenceCity:
+          maxLength: 300
+          minLength: 0
+          type: string
+          description: Correspondence city of the User
+        correspondencePinCode:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: Correspondence pin code of the User
+        createdBy:
+          maxLength: 64
+          minLength: 0
+          type: string
+        createdDate:
+          type: integer
+          format: int64
+          description: Date of creation
+        dob:
+          type: integer
+          format: int64
+          description: Date of birth of the User
+        email:
+          type: string
+          description: Email address of the User
+        emailId:
+          maxLength: 128
+          minLength: 0
+          pattern: ^$|^(?=^.{1,64}$)((([^<>()\[\]\\.,;:\s$*@'"]+(\.[^<>()\[\]\\.,;:\s@'"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))$
+          type: string
+        fatherOrHusbandName:
+          maxLength: 100
+          minLength: 0
+          type: string
+        gender:
+          type: string
+        id:
+          type: integer
+          format: int64
+        idToken:
+          type: string
+        identificationMark:
+          type: string
+        lastModifiedBy:
+          maxLength: 64
+          minLength: 0
+          type: string
+        lastModifiedDate:
+          type: integer
+          format: int64
+        locale:
+          maxLength: 16
+          minLength: 0
+          type: string
+        mobileNumber:
+          pattern: ^[6-9][0-9]{9}$
+          type: string
+        name:
+          maxLength: 100
+          minLength: 0
+          pattern: ^[a-zA-Z \-'`\.]*$
+          type: string
+        otpReference:
+          type: string
+        pan:
+          maxLength: 10
+          minLength: 0
+          type: string
+        password:
+          type: string
+        permanentAddress:
+          maxLength: 300
+          minLength: 0
+          type: string
+        permanentCity:
+          maxLength: 300
+          minLength: 0
+          type: string
+        permanentPinCode:
+          maxLength: 10
+          minLength: 0
+          type: string
+        photo:
+          type: string
+        primaryrole:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleReq'
+        pwdExpiryDate:
+          type: integer
+          format: int64
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleReq'
+        salutation:
+          type: string
+        signature:
+          type: string
+        tenantId:
+          type: string
+        type:
+          maxLength: 50
+          minLength: 0
+          type: string
+        userName:
+          type: string
+        uuid:
+          type: string
+    UserInfoRes:
+      title: UserInfoRes
+      description: User info response
+      required:
+        - mobileNumber
+        - name
+      type: object
+      properties:
+        aadhaarNumber:
+          pattern: ^[0-9]{12}$
+          type: string
+        accountLocked:
+          type: boolean
+        active:
+          type: boolean
+        additionalroles:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantRoleRes'
+        altContactNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+        bloodGroup:
+          maxLength: 32
+          minLength: 0
+          type: string
+        correspondenceAddress:
+          maxLength: 300
+          minLength: 0
+          type: string
+        correspondenceCity:
+          maxLength: 300
+          minLength: 0
+          type: string
+        correspondencePinCode:
+          maxLength: 10
+          minLength: 0
+          type: string
+        createdBy:
+          maxLength: 64
+          minLength: 0
+          type: string
+        createdDate:
+          type: integer
+          format: int64
+        dob:
+          type: integer
+          format: int64
+        email:
+          type: string
+        emailId:
+          maxLength: 128
+          minLength: 0
+          pattern: ^$|^(?=^.{1,64}$)((([^<>()\[\]\\.,;:\s$*@'"]+(\.[^<>()\[\]\\.,;:\s@'"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))$
+          type: string
+        fatherOrHusbandName:
+          maxLength: 100
+          minLength: 0
+          type: string
+        gender:
+          type: string
+        id:
+          type: integer
+          format: int64
+        idToken:
+          type: string
+        identificationMark:
+          type: string
+        lastModifiedBy:
+          maxLength: 64
+          minLength: 0
+          type: string
+        lastModifiedDate:
+          type: integer
+          format: int64
+        locale:
+          maxLength: 16
+          minLength: 0
+          type: string
+        mobileNumber:
+          pattern: ^[6-9][0-9]{9}$
+          type: string
+        name:
+          maxLength: 100
+          minLength: 0
+          pattern: ^[a-zA-Z \-'`\.]*$
+          type: string
+        otpReference:
+          type: string
+        pan:
+          maxLength: 10
+          minLength: 0
+          type: string
+        password:
+          type: string
+        permanentAddress:
+          maxLength: 300
+          minLength: 0
+          type: string
+        permanentCity:
+          maxLength: 300
+          minLength: 0
+          type: string
+        permanentPinCode:
+          maxLength: 10
+          minLength: 0
+          type: string
+        photo:
+          type: string
+        primaryrole:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRes'
+        pwdExpiryDate:
+          type: integer
+          format: int64
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleRes'
+        salutation:
+          type: string
+        signature:
+          type: string
+        tenantId:
+          type: string
+        type:
+          maxLength: 50
+          minLength: 0
+          type: string
+        userName:
+          type: string
+        uuid:
+          type: string

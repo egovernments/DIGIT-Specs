@@ -1,0 +1,957 @@
+openapi: 3.0.1
+info:
+  title: Public Grievance Redressal
+  description: "\n### API specs for PGR ###\nApplication to Raise Grivances and track\
+    \ the progress.\n. It allows any citizen registered in the system to raise a complaint\
+    \ (based on the   Service definition provided in the master data, Please Refer\
+    \ MDMS service to        Service Definition master) for any ulb belonging to the\
+    \ state.\n. Notifications will be provided on progress of the complaint in evevry\
+    \ step. \n. Feedback can be provided by the citizen once the complint is resolved.\n\
+    . If not satisfied the citizen can reopen the complaint.\n"
+  contact:
+    name: info
+  version: 1.0.0
+servers:
+- url: https://dev.digit.org/rainmaker-pgr
+paths:
+  /v2/_migrate:
+    post:
+      tags:
+        - migration-controller
+      summary: Migrate search for property
+      description: This api performs migration search for property
+      operationId: searchUsingPOST
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          style: form
+          description: offset
+          schema:
+            type: integer
+            format: int32
+        - name: serviceRequestIds
+          description: Search by serviceRequestId of the complaint
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+        - name: tenantIds
+          in: query
+          description: Unique id for a tenant
+          required: false
+          style: pipeDelimited
+          schema:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /reports/_get:
+    post:
+      tags:
+        - report-controller
+      summary: Fetch reports for pgr
+      description: This api fethces report for pgr
+      operationId: getReportsUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/requests/_count:
+    post:
+      tags:
+        - service-controller
+      summary: Counts for the property request
+      description: This api counts for the property request
+      operationId: countUsingPOST
+      parameters:
+        - name: accountId
+          in: query
+          description: "Initiator User UUID" 
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z0-9]$
+            type: string
+        - name: active
+          in: query
+          description: True if the user is active and False if the inactive.
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: assignedTo
+          in: query
+          description: name of the user who is assigned the service
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z0-9]$
+            type: string
+        - name: createdBy
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          description: Latest epoch time to include in search -  request created time |
+           If search is on start date then end date is mandatory, if end date is null then server will take current date as end date.
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: group
+          in: query
+          description: Attribute of service config, it indicate the "Department" for which service type is defined.
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z.]$
+            type: string
+        - name: lastUpdatedSince
+          in: query
+          description: searches all requests that have been modified/created since last modified epoch time as provided here
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: noOfRecords
+          in: query
+          description: number of records 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: offset
+          in: query
+          description: offset 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: phone
+          in: query
+          description: "PhoneNumber of property owners"
+          required: false
+          style: form
+          schema:
+            pattern: (^$|[0-9]{10})
+            type: string
+        - name: serviceCodes
+          in: query
+          description: Allows search for service type - comma separated list
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: serviceRequestId
+          in: query
+          description: Search by serviceRequestId of the complaint
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: startDate
+          in: query
+          description: Earliest epoch time to include in search - request created time 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          description: Current status of the request
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          description: Unique id for a tenant
+          required: true
+          style: form
+          schema:
+            maximum: 25
+            minimum: 2
+            maxLength: 25
+            minLength: 2
+            pattern: ^[a-zA-Z.]*$
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/requests/_create:
+    post:
+      tags:
+        - service-controller
+      summary: Create service requests
+      description: Create new service requests - supports batch -  please note that in case of errors entire batch is rejected
+      operationId: createUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRequest'
+      responses:
+        '200':
+          description: Service Request Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '201':
+          description: Created
+        '400':
+          description: Response Info + List of errors
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/requests/_plainsearch:
+    post:
+      tags:
+        - service-controller
+      summary: Get service requests plainsearch
+      description: |
+        Gets the list of service requests for a particular ULB based on plainsearch criteria.
+      operationId: plainsearchUsingPOST
+      parameters:
+        - name: accountId
+          in: query
+          description: "Initiator User UUID" 
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z0-9]$
+            type: string
+        - name: active
+          in: query
+          description: True if the user is active and False if the inactive.
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: assignedTo
+          in: query
+          description: name of the user who is assigned the service
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z0-9]$
+            type: string
+        - name: createdBy
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          description: Latest epoch time to include in search -  request created time |
+           If search is on start date then end date is mandatory, if end date is null then server will take current date as end date.
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: group
+          in: query
+          description: Attribute of service config, it indicate the "Department" for which service type is defined.
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z.]$
+            type: string
+        - name: lastUpdatedSince
+          in: query
+          description: searches all requests that have been modified/created since last modified epoch time as provided here
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: noOfRecords
+          in: query
+          description: number of records 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: offset
+          in: query
+          description: offset 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: phone
+          in: query
+          description: "PhoneNumber of property owners"
+          required: false
+          style: form
+          schema:
+            pattern: (^$|[0-9]{10})
+            type: string
+        - name: serviceCodes
+          in: query
+          description: Allows search for service type - comma separated list
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: serviceRequestId
+          in: query
+          description: Search by serviceRequestId of the complaint
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: startDate
+          in: query
+          description: Earliest epoch time to include in search - request created time 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          description: Current status of the request
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          description: Unique id for a tenant
+          required: true
+          style: form
+          schema:
+            maximum: 25
+            minimum: 2
+            maxLength: 25
+            minLength: 2
+            pattern: ^[a-zA-Z.]*$
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"  
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/requests/_search:
+    post:
+      tags:
+        - service-controller
+      summary: Get service requests
+      description: |
+        Gets the list of service requests for a particular ULB based on search criteria.
+      operationId: searchUsingPOST_1
+      parameters:
+        - name: accountId
+          in: query
+          description: "Initiator User UUID" 
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z0-9]$
+            type: string
+        - name: active
+          in: query
+          description: True if the user is active and False if the inactive.
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: assignedTo
+          in: query
+          description: name of the user who is assigned the service
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z0-9]$
+            type: string
+        - name: createdBy
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          description: Latest epoch time to include in search -  request created time |
+           If search is on start date then end date is mandatory, if end date is null then server will take current date as end date.
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: group
+          in: query
+          description: Attribute of service config, it indicate the "Department" for which service type is defined.
+          required: false
+          style: form
+          schema:
+            pattern: ^[a-zA-Z.]$
+            type: string
+        - name: lastUpdatedSince
+          in: query
+          description: searches all requests that have been modified/created since last modified epoch time as provided here
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: noOfRecords
+          in: query
+          description: number of records 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: offset
+          in: query
+          description: offset 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: phone
+          in: query
+          description: "PhoneNumber of property owners"
+          required: false
+          style: form
+          schema:
+            pattern: (^$|[0-9]{10})
+            type: string
+        - name: serviceCodes
+          in: query
+          description: Allows search for service type - comma separated list
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: serviceRequestId
+          in: query
+          description: Search by serviceRequestId of the complaint
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: startDate
+          in: query
+          description: Earliest epoch time to include in search - request created time 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          description: Current status of the request
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          description: Unique id for a tenant
+          required: true
+          style: form
+          schema:
+            maximum: 25
+            minimum: 2
+            maxLength: 25
+            minLength: 2
+            pattern: ^[a-zA-Z.]*$
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Successful response sorted by reverse chrnological order of creation
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/requests/_update:
+    post:
+      tags:
+        - service-controller
+      summary: Update service requests
+      description: Updates service request - supports batch - please note that in case of errors entire batch is rejected
+      operationId: updateUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRequest'
+      responses:
+        '200':
+          description: Service Request Updated
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '201':
+          description: Created
+        '400':
+          description: Response Info + List of errors
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    ActionHistory:
+      title: ActionHistory
+      type: object
+      properties:
+        actions:
+            $ref: "#/components/schemas/ActionInfo"
+    ActionInfo:
+      title: ActionInfo
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: The unique identifier for Service - this is equivalent to jurisdiction_id in Open311. As the   platform intends to be multi tenanted - this is always required
+          minLength: 2
+          maxLength: 50
+        by:
+          type: string
+          description: 'who made the Action Citizen/Employee, it''s a combination of userid and role delimited by colon (ex- userid:citizen).'
+          readOnly: true
+        isInternal:
+          type: string
+          description: If employee is making an action with isInteral as true then server will not return that action info to citizen search result.
+        when:
+          type: integer
+          format: int64
+          description: epoch time of when the action made.
+          x-format: dd/mm/yyyy HH-MM-SS
+          readOnly: true
+        businessKey:
+          type: string
+          readOnly: true
+          description: The server generated unique ID of the service request.
+          minLength: 2
+          maxLength: 64
+        action:
+          type: string
+          description: 'Action will be Reject, Approve, Reassign, Forward.'
+        status:
+          type: string
+          readOnly: true
+          description: Each action will have a mapping with status at server side.
+        assignee:
+          type: string
+          description: user id of the employee to whom request id need to be assigne.
+        media:
+          type: array
+          maximum: 10
+          items:
+            type: string
+        comment:
+          type: string
+          description: Capture the comments made by Employee/Citizen.
+        uuid:
+          type: string
+          description: Uuid of the employee
+    ServiceResponse:
+      title: ServiceResponse
+      type: object
+      properties:
+        actionHistory:
+          type: array
+          items: 
+            $ref: "#/components/schemas/ActionHistory"
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/Service"
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+      description: Response to the service request
+      
+    
+    Citizen:
+      title: Citizen
+      type: object
+      properties:
+        aadhaarNumber:
+          type: string
+          description: Aadhaar number of the User
+        active:
+          type: boolean
+        emailId:
+          type: string
+          description: Email address of the User
+        gender:
+          type: string
+          enum:
+            - FEMALE
+            - MALE
+            - OTHERS
+        id:
+          type: integer
+          format: int64
+          description: The unique id an user.
+        mobileNumber:
+          pattern: (^$|[0-9]{10})
+          description: Mobile number ofuser the user
+          type: string
+        name:
+          maxLength: 30
+          minLength: 0
+          pattern: ^[a-zA-Z. ]*$
+          type: string
+          description: The full name of the user.
+        pan:
+          type: string
+          description: PAN number of the user
+        password:
+          type: string
+          description: Password for user login.
+        permanentAddress:
+          maxLength: 160
+          minLength: 0
+          pattern: '^[a-zA-Z0-9!@#.,/: ()&''-]*$'
+          description: Permanent address of the user.
+          type: string
+        roles:
+          type: array
+          description: List of roles that are attached to the user.
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Role'
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+        type:
+          type: string
+          description: System set value internally. For employee value will be always
+            "EMPLOYEE". For citizen value will be "CITIZEN".
+          enum:
+            - BUSINESS
+            - CITIZEN
+            - EMPLOYEE
+            - SYSTEM
+        userName:
+          type: string
+          description: The unique username used for user login.
+        uuid:
+          type: string      
+          description: The unique id for authenticated user.
+    ParamValue:
+      title: ParamValue
+      type: object
+      properties:
+        input:
+          type: object
+        name:
+          type: string      
+    ReportRequest:
+      title: ReportRequest
+      required:
+        - RequestInfo
+        - reportName
+        - tenantId
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        reportName:
+          type: string
+          description: Name of the report
+        searchParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParamValue'
+        tenantId:
+          type: string 
+          description: "Unique id for a tenant."
+    Service:
+      title: Service
+      required:
+        - addressDetail
+        - phone
+        - serviceCode
+        - tenantId
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: "Initiator User UUID" 
+        active:
+          type: boolean
+        address:
+          description: 'Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case. '
+          maxLength: 160
+          minLength: 0
+          pattern: '^[a-zA-Z0-9!@#.,/: ()&'']*$'
+          type: string
+        addressDetail:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
+        addressId:
+          type: string
+          description: The internal address ID used by a tenant master address repository or other addressing system - for eGov it can be boundary id in the boundary service
+        attributes:
+          description: This is the json object that will carry the actual input (whereever the metadata requries input). Structure should be same as the schema definition provided in the metadata of the service (schema compliance check to be performed at client/server)
+          type: object
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        citizen:
+          $ref: '#/components/schemas/Citizen'
+        description:
+          description: A full description of the request provided by the user
+          maxLength: 256
+          minLength: 0
+          pattern: '^[a-zA-Z0-9!@#.,/: ()&'']*$'
+          type: string
+        deviceId:
+          description: The unique device ID of the device submitting the request.
+          maxLength: 160
+          minLength: 0
+          pattern: '^[a-zA-Z0-9!@#.,/: ()&'']*$'
+          type: string
+        email:
+          description: The email address of the person submitting the request.
+          type: string
+        expectedTime:
+          description: epoch of the time object is last modified.
+          type: integer
+          format: int64
+        feedback: 
+          description: FeedBack of the service by citizen.
+          pattern: '^[a-zA-Z0-9!@#.,/: ()&'']*$'
+          type: string
+        firstName:
+          description: The given name of the person submitting the request.
+          pattern: (^[a-zA-Z. ]$)
+          type: string
+        landmark:
+          pattern: '^[a-zA-Z0-9!@#.,/: ()&'']*$'
+          type: string
+          description: land mark close to the address
+        lastName:
+          description: The family name of the person submitting the request.
+          pattern: (^[a-zA-Z. ]$)
+          type: string
+        lat:
+          type: number
+          format: double
+          description: Latitude of the location.
+        long:
+          type: number
+          format: double
+          description: Longitude of the location.
+        phone:
+          description: The phone number of the person submitting the request.
+          maxLength: 2147483647
+          minLength: 1
+          pattern: (^$|[0-9]{10})
+          type: string
+        rating:
+          description: Rating about service from 1 to 5.
+          type: string
+        serviceCode:
+          description: Code of the service being requested (as per the service definition)
+          maxLength: 50
+          minLength: 2
+          pattern: ^[a-zA-Z0-9._]*$
+          type: string
+        serviceRequestId:
+          description: The server generated unique ID of the service request.
+          type: string
+        source:
+          description: 'source of the complaint - Text, Mobile app, Phone, CSC, WhatsApp'
+          type: string
+          enum:
+            - RB Bot
+            - csc
+            - email
+            - ivr
+            - mobileapp
+            - sms
+            - web
+            - whatsapp
+        status:
+          description: The current status of the service request.
+          type: string
+          enum:
+            - assigned
+            - cancelled
+            - closed
+            - open
+            - reassignrequested
+            - rejected
+            - resolved
+        tenantId:
+          description: The unique identifier for Service - this is equivalent to jurisdiction_id in Open311. As the platform intends to be multi tenanted - this is always required
+          maxLength: 25
+          minLength: 2
+          pattern: ^[a-zA-Z.]*$
+          type: string      
+    ServiceRequest:
+      description: Request object to fetch the report data
+      title: ServiceRequest
+      required:
+        - services
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        actionInfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionInfo'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'      
+   
+    RequestInfoWrapper: 
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
