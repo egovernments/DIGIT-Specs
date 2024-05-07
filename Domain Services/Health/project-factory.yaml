@@ -500,6 +500,22 @@ components:
                       type: "number" 
         additionalDetails:
           type: "object"
+        auditDetails:
+          readOnly: true
+          type: "object"
+          properties:
+            createdBy:
+              type: "string"
+              example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+            lastModifiedBy:
+              type: "string"
+              example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+            createdTime:
+              type: "string"
+              example: "1644426612"
+            lastModifiedTime:
+              type: "string"
+              example: "1644426612"
 
     SearchCriteria:
       type: "object"
