@@ -115,6 +115,14 @@ paths:
           maxLength: 256
           type: string
           format: varchar
+      - name: campaignId
+        in: query
+        description: campaign for which resource has to be generated
+        required: true
+        schema:
+          maxLength: 256
+          type: string
+          format: varchar
       - name: hierarchyType
         in: query
         description: type of the resource
@@ -358,6 +366,12 @@ components:
           format: uuid
           description: processed file with updated status
           readOnly: true
+        campaignId:
+          type: "string"
+          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+          format: uuid
+          description: campaign id for which data is getting created or validated
+          readOnly: true
         status:
           readOnly: true
           type: "string"
@@ -460,6 +474,10 @@ components:
               filename:
                 type: "string"
                 example: "user.xlsx"
+              createResourceId:
+                type: "string"
+                readOnly: true
+                example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
         projectType:
           type: "string"
         deliveryRules:
