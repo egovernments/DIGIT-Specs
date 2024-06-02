@@ -23,14 +23,14 @@ paths:
           description: Capture details of stock transaction.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockRequest'
       tags:
         - Stock
       responses:
         '202':
           description: Stock Transaction request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -49,7 +49,7 @@ paths:
           description: Capture details of stock transaction.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockBulkRequest'
       tags:
         - Stock
       responses:
@@ -75,14 +75,14 @@ paths:
           description: Capture details of stock transaction
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockRequest'
       tags:
         - Stock
       responses:
         '202':
           description: Stock Transaction request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -101,7 +101,7 @@ paths:
           description: Capture details of stock transaction
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockBulkRequest'
       tags:
         - Stock
       responses:
@@ -127,14 +127,14 @@ paths:
           description: Capture details of stock transaction
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockRequest'
       tags:
         - Stock
       responses:
         '202':
           description: Stock Transaction delete request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -153,7 +153,7 @@ paths:
           description: Capture details of stock transaction
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockBulkRequest'
       tags:
         - Stock
       responses:
@@ -179,7 +179,7 @@ paths:
           description: Capture details of Stock Transfer.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockSearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -191,7 +191,7 @@ paths:
         '200':
           description: Stock transfer.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -210,14 +210,14 @@ paths:
           description: Capture details of stock transaction.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationRequest'
       tags:
         - Stock Reconciliation
       responses:
         '202':
           description: Accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -235,7 +235,7 @@ paths:
           description: Capture details of stock transaction.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationBulkRequest'
       tags:
         - Stock Reconciliation
       responses:
@@ -259,14 +259,14 @@ paths:
           description: Capture details of stock transaction
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationRequest'
       tags:
         - Stock Reconciliation
       responses:
         '202':
           description: Stock Reconciliation request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -285,7 +285,7 @@ paths:
           description: Capture details of stock transaction
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationBulkRequest'
       tags:
         - Stock Reconciliation
       responses:
@@ -309,14 +309,14 @@ paths:
           description: Capture details of stock transaction
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationRequest'
       tags:
         - Stock Reconciliation
       responses:
         '202':
           description: Stock Reconciliation delete request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -335,7 +335,7 @@ paths:
           description: Capture details of stock transaction
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationBulkRequest'
       tags:
         - Stock Reconciliation
       responses:
@@ -358,7 +358,7 @@ paths:
           description: Capture details of Stock Reconciliation.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationSearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -370,7 +370,7 @@ paths:
         '200':
           description: Stock reconciliations.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/StockReconciliationBulkResponse'
         '400':
           description: Invalid Input body.
           schema:

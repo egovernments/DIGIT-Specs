@@ -24,7 +24,7 @@ paths:
           description: Capture details of Individual.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Individual
@@ -32,7 +32,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualResponse'
         '400':
           description: Bad Request
           schema:
@@ -56,7 +56,7 @@ paths:
           description: Capture details of Individual.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Individual
@@ -64,7 +64,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkResponse'
         '400':
           description: Bad Request
           schema:
@@ -88,7 +88,7 @@ paths:
           description: Details for the Individual.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Individual
@@ -96,7 +96,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualResponse'
         '400':
           description: Bad Request
           schema:
@@ -120,7 +120,7 @@ paths:
           description: Details for the Individual.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Individual
@@ -128,7 +128,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkResponse'
         '400':
           description: Bad Request
           schema:
@@ -152,7 +152,7 @@ paths:
           description: Details for the Individual.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Individual
@@ -160,7 +160,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualResponse'
         '400':
           description: Bad Request
           schema:
@@ -184,7 +184,7 @@ paths:
           description: Details for the Individual.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Individual
@@ -192,7 +192,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualBulkResponse'
         '400':
           description: Bad Request
           schema:
@@ -216,7 +216,7 @@ paths:
           description: Individual details.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/IndividualSearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -310,6 +310,6 @@ definitions:
       Individuals:
         type: array
         items:
-          $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/Individual'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/Individual'
     required:
       - ResponseInfo

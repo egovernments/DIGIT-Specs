@@ -24,14 +24,14 @@ paths:
           description: Capture details of Facility.
           required: true
           schema:
-              $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
       tags:
         - Facility
       responses:
         '202':
           description: Facility request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -49,7 +49,7 @@ paths:
           description: Capture details of Facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
       tags:
         - Facility
       responses:
@@ -74,14 +74,14 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
       tags:
         - Facility
       responses:
         '202':
           description: Facility request accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -99,7 +99,7 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
       tags:
         - Facility
       responses:
@@ -124,14 +124,14 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
       tags:
         - Facility
       responses:
         '202':
           description: Facility request accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -149,7 +149,7 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
       tags:
         - Facility
       responses:
@@ -174,7 +174,7 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilitySearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilitySearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -186,7 +186,7 @@ paths:
         '200':
           description: Facilities.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -279,11 +279,11 @@ definitions:
     type: object
     properties:
       requestInfo:
-        $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/RequestInfo'
+        $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/RequestInfo'
       boundary:
         type: array
         items:
-          $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/Boundary'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/Boundary'
     required:
       - requestInfo
       - boundary
@@ -292,11 +292,11 @@ definitions:
     type: object
     properties:
       responseInfo:
-        $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ResponseInfo'
+        $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ResponseInfo'
       boundary:
         type: array
         items:
-          $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/Boundary'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/Boundary'
 
   BoundarySearchCriteria:
     type: object

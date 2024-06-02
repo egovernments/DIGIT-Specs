@@ -24,7 +24,7 @@ paths:
           description: Capture details of Household.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -32,7 +32,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
         '400':
           description: Bad Request
           schema:
@@ -56,7 +56,7 @@ paths:
           description: Capture details of Household.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -87,7 +87,7 @@ paths:
           description: Details for existing household.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -95,7 +95,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
         '400':
           description: Bad Request
           schema:
@@ -119,7 +119,7 @@ paths:
           description: Details for existing household.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -151,7 +151,7 @@ paths:
           description: Details for the household.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -159,7 +159,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
         '400':
           description: Bad Request
           schema:
@@ -183,7 +183,7 @@ paths:
           description: Details for the Household.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -215,7 +215,7 @@ paths:
           description: Details for existing household.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdSearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -227,7 +227,7 @@ paths:
         '200':
           description: Ok
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkResponse'
         '400':
           description: Bad Request
           schema:
@@ -251,7 +251,7 @@ paths:
           description: Capture linkage of Household to Member.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -259,7 +259,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberResponse'
         '400':
           description: Bad Request
           schema:
@@ -283,7 +283,7 @@ paths:
           description: Capture linkage of Household to Member.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -315,7 +315,7 @@ paths:
           description: Linkage details for existing household member.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -323,7 +323,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
         '400':
           description: Bad Request
           schema:
@@ -347,7 +347,7 @@ paths:
           description: Linkage details for existing household members.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -379,7 +379,7 @@ paths:
           description: Details for the household member.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -387,7 +387,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberResponse'
         '400':
           description: Bad Request
           schema:
@@ -411,7 +411,7 @@ paths:
           description: Details for the Household.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -443,7 +443,7 @@ paths:
           description: Details for existing household member.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberSearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -455,7 +455,7 @@ paths:
         '200':
           description: Ok
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkResponse'
         '400':
           description: Bad Request
           schema:

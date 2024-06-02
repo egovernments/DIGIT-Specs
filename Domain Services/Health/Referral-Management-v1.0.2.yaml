@@ -19,14 +19,14 @@ paths:
           description: Downsync of registry based on area.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/DownsyncRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/DownsyncRequest'
       tags:
         - Beneficiary Downsync
       responses:
         '200':
           description: Downsync.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/DownsyncResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/DownsyncResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -41,14 +41,14 @@ paths:
           description: Capture details of Side Effect
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
       tags:
         - Side Effect
       responses:
         '202':
           description: Create side effect request has been accepted for creation.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -63,7 +63,7 @@ paths:
           description: Capture details of Task
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
       tags:
         - Side Effect
       responses:
@@ -85,14 +85,14 @@ paths:
           description: Capture details of Existing side effect
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
       tags:
         - Side Effect
       responses:
         '202':
           description: update side effect request has been accepted for update.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -107,7 +107,7 @@ paths:
           description: Capture details of Existing Side Effects
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
       tags:
         - Side Effect
       responses:
@@ -129,14 +129,14 @@ paths:
           description: Capture details of Existing Side Effect
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
       tags:
         - Side Effect
       responses:
         '202':
           description: delete Side Effect request has been accepted for deletion.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -151,7 +151,7 @@ paths:
           description: Capture details of Existing Side Effect
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
       tags:
         - Side Effect
       responses:
@@ -173,7 +173,7 @@ paths:
           description: Side Effect Search.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectSearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -185,7 +185,7 @@ paths:
         '200':
           description: Side Effects.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -200,14 +200,14 @@ paths:
           description: Capture details of Referral
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
       tags:
         - Referral
       responses:
         '202':
           description: Create referral request has been accepted for creation.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -222,7 +222,7 @@ paths:
           description: Capture details of Task
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
       tags:
         - Referral
       responses:
@@ -244,14 +244,14 @@ paths:
           description: Capture details of Existing referral
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
       tags:
         - Referral
       responses:
         '202':
           description: update referral request has been accepted for update.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -266,7 +266,7 @@ paths:
           description: Capture details of Existing Referrals
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
       tags:
         - Referral
       responses:
@@ -288,14 +288,14 @@ paths:
           description: Capture details of Existing Referral
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
       tags:
         - Referral
       responses:
         '202':
           description: delete Referral request has been accepted for deletion.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -310,7 +310,7 @@ paths:
           description: Capture details of Existing Referral
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
       tags:
         - Referral
       responses:
@@ -332,7 +332,7 @@ paths:
           description: Referral Search.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralSearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -344,7 +344,7 @@ paths:
         '200':
           description: Referrals.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -359,14 +359,14 @@ paths:
           description: Capture details of HFReferral
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
       tags:
         - HFReferral
       responses:
         '202':
           description: Create HFReferral request has been accepted for creation.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -381,7 +381,7 @@ paths:
           description: Capture details of Task
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
       tags:
         - HFReferral
       responses:
@@ -403,14 +403,14 @@ paths:
           description: Capture details of Existing HFReferral
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
       tags:
         - HFReferral
       responses:
         '202':
           description: update HFReferral request has been accepted for update.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -425,7 +425,7 @@ paths:
           description: Capture details of Existing HFReferrals
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
       tags:
         - HFReferral
       responses:
@@ -447,14 +447,14 @@ paths:
           description: Capture details of Existing HFReferral
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
       tags:
         - HFReferral
       responses:
         '202':
           description: delete HFReferral request has been accepted for deletion.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -469,7 +469,7 @@ paths:
           description: Capture details of Existing HFReferral
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
       tags:
         - HFReferral
       responses:
@@ -491,7 +491,7 @@ paths:
           description: HFReferral Search.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralSearchRequest'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
         - $ref: '#/parameters/tenantId'
@@ -503,7 +503,7 @@ paths:
         '200':
           description: HFReferrals.
           schema:
-            $ref: 'https://raw.githubusercontent.com/kanishq-egov/DIGIT-Specs/hcm-specs/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
