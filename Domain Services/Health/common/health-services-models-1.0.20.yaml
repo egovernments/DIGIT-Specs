@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 1.0.20-SNAPSHOT
   title: Attendance Service
   description: ''
 schemes:
@@ -236,6 +236,17 @@ components:
             boundaryCode:
               type: string
               description: Locality code of the facility
+    FacilitySearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Facility:
+          $ref: '#/components/schemas/FacilitySearch'
+      required:
+        - RequestInfo
+        - Facility
+
 
     Household:
       type: object
@@ -2088,3 +2099,41 @@ components:
         - WAREHOUSE
         - STAFF
       description: Specify the type of sender or receiver i.e. WAREHOUSE or STAFF
+
+    Boundary:
+      type: object
+      properties:
+        id:
+          type: string
+        tenantId:
+          type: string
+        code:
+          type: string
+        geometry:
+          type: object
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+        additionalDetails:
+          type: object
+    boundaryCode:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/boundaryCode
+    id:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/id
+    idForSearch:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/idForSearch
+    clientReferenceIdForSearch:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/clientReferenceIdForSearch
+    clientReferenceId:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/clientReferenceId
+    tenantId:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/tenantId
+    eventTimestamp:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/eventTimestamp
+    isDeleted:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/isDeleted
+    rowVersion:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/rowVersion
+    apiOperation:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/apiOperation
+    additionalFields:
+      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/additionalFields
