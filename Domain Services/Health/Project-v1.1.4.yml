@@ -96,6 +96,33 @@ paths:
             $ref: >-
               https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
 
+  /project/v2/_search:
+    post:
+      summary: >-
+        Search for existing project
+      description: >-
+        Search for existing project
+      parameters:
+        - name: Project
+          in: body
+          description: Details for the project.
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectSearchURLParams'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectSearchRequest'
+      tags:
+        - Project
+      responses:
+        '200':
+          description: Projects.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectSearchResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: >-
+              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+
   /project/beneficiary/v1/_create:
     post:
       summary: >-
