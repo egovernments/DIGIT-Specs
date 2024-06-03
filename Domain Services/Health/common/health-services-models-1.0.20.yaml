@@ -1,11 +1,8 @@
 openapi: 3.0.0
 info:
   version: 1.0.20-SNAPSHOT
-  title: Attendance Service
-  description: ''
-schemes:
-  - https
-basePath: '/common/v1/definitions'
+  title: HCM common models
+  description: 'common library models for HCM'
 
 paths: {}
 components:
@@ -35,11 +32,10 @@ components:
           type: boolean
           description: Indicates if there are errors in the model
         additionalFields:
-          $ref: '#/components/schemas/AdditionalFields'
+          $ref: '#/components/schemas/additionalFields'
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
       required:
-        - id
         - tenantId
     EgovOfflineModel:
       allOf:
@@ -60,7 +56,6 @@ components:
             type: "string"
             description: "List of IDs for searching entities."
           description: "A list of IDs used in search operations."
-
     EgovOfflineSearchModel:
       type: "object"
       allOf:
@@ -72,40 +67,7 @@ components:
             type: "string"
             description: "List of client reference IDs for searching entities."
           description: "A list of client reference IDs used in offline search operations."
-
-    ProjectSearchURLParams:
-      type: "object"
-      properties:
-        includeAncestors:
-          type: "boolean"
-          description: "Specify if response should include ancestor project elements."
-        includeDescendants:
-          type: "boolean"
-          description: "Specify if response should include descendant project elements."
-        createdFrom:
-          type: "integer"
-          format: "int64"
-          description: "Limit search results to projects created after this date."
-        createdTo:
-          type: "integer"
-          format: "int64"
-          description: "Limit search results to projects created before this date."
-
-    SearchResponse:
-      type: "object"
-      properties:
-        totalCount:
-          type: "integer"
-          format: "int64"
-          description: "Total count of the search results."
-        response:
-          type: "array"
-          items:
-            type: "object"
-            description: "Generic response type."
-          description: "A list of generic responses for the search."
-
-    URLParams:
+    UrlParams:
       type: "object"
       required:
         - "limit"
@@ -133,11 +95,41 @@ components:
         includeDeleted:
           type: "boolean"
           description: "Flag indicating whether soft deleted records should be included in search results."
+    ProjectSearchURLParams:
+      type: "object"
+      allOf:
+        - $ref: "#/components/schemas/UrlParams"
+      properties:
+        includeAncestors:
+          type: "boolean"
+          description: "Specify if response should include ancestor project elements."
+        includeDescendants:
+          type: "boolean"
+          description: "Specify if response should include descendant project elements."
+        createdFrom:
+          type: "integer"
+          format: "int64"
+          description: "Limit search results to projects created after this date."
+        createdTo:
+          type: "integer"
+          format: "int64"
+          description: "Limit search results to projects created before this date."
+    SearchResponse:
+      type: "object"
+      properties:
+        totalCount:
+          type: "integer"
+          format: "int64"
+          description: "Total count of the search results."
+        response:
+          type: "array"
+          items:
+            type: "object"
+            description: "Generic response type."
+          description: "A list of generic responses for the search."
+
     Address:
       $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/Address'
-    AdditionalFields:
-      type: object
-      description: Any additional details of the register
     AuditDetails:
       $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/AuditDetails'
     RequestInfo:
@@ -2116,24 +2108,95 @@ components:
         additionalDetails:
           type: object
     boundaryCode:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/boundaryCode
+      description: "Reference to boundary code."
+      type: "string"
+      format: "varchar"
+      minLength: 0
+      maxLength: 64
     id:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/id
+      type: "string"
+      minLength: 2
+      maxLength: 64
+      description: "Unique system generated GUID"
+      readOnly: true
     idForSearch:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/idForSearch
+      type: "array"
+      items:
+        type: "string"
+        minLength: 2
+        maxLength: 64
+        description: "Unique system generated GUID"
     clientReferenceIdForSearch:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/clientReferenceIdForSearch
+      type: "array"
+      items:
+        type: "string"
+        minLength: 2
+        maxLength: 64
+        description: "Unique client generated GUID"
     clientReferenceId:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/clientReferenceId
+      type: "string"
+      minLength: 2
+      maxLength: 64
+      description: "Unique client generated GUID"
     tenantId:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/tenantId
+      type: "string"
+      minLength: 2
+      maxLength: 1000
+      description: "Unique tenant of the system"
+      example: "tenantA"
     eventTimestamp:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/eventTimestamp
+      type: "integer"
+      format: "int64"
+      example: 1663218161
     isDeleted:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/isDeleted
+      type: "boolean"
+      description: "Flag to indicate if record is soft deleted"
+      readOnly: true
     rowVersion:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/rowVersion
+      type: "integer"
+      format: "int64"
+      description: "Field to indicate the version of the row that the client used as\
+        \ a base to perform an update operation. This is to validate and maintain the\
+        \ sequence of updates."
     apiOperation:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/apiOperation
+      type: "string"
+      description: "Specify the type of operation being performed i.e. CREATE, UPDATE\
+        \ or DELETE"
+      example: "CREATE"
+      enum:
+        - "CREATE"
+        - "UPDATE"
+        - "DELETE"
+    Field:
+      type: "object"
+      required:
+        - "key"
+        - "value"
+      properties:
+        key:
+          type: "string"
+          example: "height"
+          minLength: 2
+          maxLength: 64
+        value:
+          type: "string"
+          example: 180
+          minLength: 2
+          maxLength: 10000
     additionalFields:
-      $ref: https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/additionalFields
+      type: "object"
+      properties:
+        schema:
+          type: "string"
+          example: "HOUSEHOLD"
+          minLength: 2
+          maxLength: 64
+        version:
+          type: "integer"
+          example: 2
+          minimum: 1
+        fields:
+          type: "array"
+          items:
+            type: "object"
+            $ref: "#/components/schemas/Field"
