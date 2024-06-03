@@ -1,0 +1,611 @@
+swagger: '2.0'
+info:
+  version: 1.0.2
+  title: Referral Management System
+  contact:
+    name: egovernments foundation
+    email: info@egovernments.org
+schemes:
+  - https
+x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml
+paths:
+  /referralmanagement/beneficiary-downsync/v1/_get:
+    post:
+      summary: Downsync beneficiary details for a Project
+      description: when data created by a different registar needs to be downsynced by another registar/device, this api will serve as a one point search for benefeiciary details
+      parameters:
+        - name: Downsync
+          in: body
+          description: Downsync of registry based on area.
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/DownsyncRequest'
+      tags:
+        - Beneficiary Downsync
+      responses:
+        '200':
+          description: Downsync.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/DownsyncResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/side-effect/v1/_create:
+    post:
+      summary: Create side effect for the project
+      description: Create side effect for the project
+      parameters:
+        - name: SideEffect
+          in: body
+          description: Capture details of Side Effect
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
+      tags:
+        - Side Effect
+      responses:
+        '202':
+          description: Create side effect request has been accepted for creation.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/side-effect/v1/bulk/_create:
+    post:
+      summary: Create side effects for the project in bulk
+      description: Create side effects for the project in bulk
+      parameters:
+        - name: SideEffect
+          in: body
+          description: Capture details of Task
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
+      tags:
+        - Side Effect
+      responses:
+        '202':
+          description: Create side effect request has been accepted for creation.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/side-effect/v1/_update:
+    post:
+      summary: Side Effect Request
+      description: Side Effect Request
+      parameters:
+        - name: SideEffect
+          in: body
+          description: Capture details of Existing side effect
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
+      tags:
+        - Side Effect
+      responses:
+        '202':
+          description: update side effect request has been accepted for update.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/side-effect/v1/bulk/_update:
+    post:
+      summary: Side Effect Request in bulk for a project
+      description: Side Effect Request in bulk for a project
+      parameters:
+        - name: SideEffect
+          in: body
+          description: Capture details of Existing Side Effects
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
+      tags:
+        - Side Effect
+      responses:
+        '202':
+          description: update Side Effects bulk request has been accepted for update.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/side-effect/v1/_delete:
+    post:
+      summary: Soft delete Side Effect for a project
+      description: Soft delete Side Effect for a project
+      parameters:
+        - name: SideEffect
+          in: body
+          description: Capture details of Existing Side Effect
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectRequest'
+      tags:
+        - Side Effect
+      responses:
+        '202':
+          description: delete Side Effect request has been accepted for deletion.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/side-effect/v1/bulk/_delete:
+    post:
+      summary: Soft delete Side Effects for a project
+      description: Soft delete Side Effects for a project
+      parameters:
+        - name: SideEffect
+          in: body
+          description: Capture details of Existing Side Effect
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkRequest'
+      tags:
+        - Side Effect
+      responses:
+        '202':
+          description: delete bulk Side Effect request has been accepted for deletion.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/side-effect/v1/_search:
+    post:
+      summary: Search Side Effect for Project
+      description: Search Side Effect for Project
+      parameters:
+        - name: SideEffect
+          in: body
+          description: Side Effect Search.
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectSearchRequest'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/tenantId'
+        - $ref: '#/parameters/lastChangedSince'
+        - $ref: '#/parameters/includeDeleted'
+      tags:
+        - Side Effect
+      responses:
+        '200':
+          description: Side Effects.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectBulkResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/v1/_create:
+    post:
+      summary: Create referral for the project beneficiary
+      description: Create referral for the project benefiaciary
+      parameters:
+        - name: Referral
+          in: body
+          description: Capture details of Referral
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
+      tags:
+        - Referral
+      responses:
+        '202':
+          description: Create referral request has been accepted for creation.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/v1/bulk/_create:
+    post:
+      summary: Create referrals for the project beneficiary in bulk
+      description: Create referrals for the project beneficiary in bulk
+      parameters:
+        - name: Referral
+          in: body
+          description: Capture details of Task
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
+      tags:
+        - Referral
+      responses:
+        '202':
+          description: Create referral request has been accepted for creation.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/v1/_update:
+    post:
+      summary: Referral Request
+      description: Referral Request
+      parameters:
+        - name: Referral
+          in: body
+          description: Capture details of Existing referral
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
+      tags:
+        - Referral
+      responses:
+        '202':
+          description: update referral request has been accepted for update.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/v1/bulk/_update:
+    post:
+      summary: Referral Request in bulk for a project beneficiary
+      description: Referral Request in bulk for a project beneficiary
+      parameters:
+        - name: Referral
+          in: body
+          description: Capture details of Existing Referrals
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
+      tags:
+        - Referral
+      responses:
+        '202':
+          description: update Referrals bulk request has been accepted for update.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/v1/_delete:
+    post:
+      summary: Soft delete Referral for a project beneficiary
+      description: Soft delete Referral for a project beneficiary
+      parameters:
+        - name: Referral
+          in: body
+          description: Capture details of Existing Referral
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralRequest'
+      tags:
+        - Referral
+      responses:
+        '202':
+          description: delete Referral request has been accepted for deletion.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/v1/bulk/_delete:
+    post:
+      summary: Soft delete Referrals for a project beneficiary
+      description: Soft delete Referrals for a project beneficiary
+      parameters:
+        - name: Referral
+          in: body
+          description: Capture details of Existing Referral
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkRequest'
+      tags:
+        - Referral
+      responses:
+        '202':
+          description: delete bulk Referral request has been accepted for deletion.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/v1/_search:
+    post:
+      summary: Search Referral for Project
+      description: Search Referral for Project
+      parameters:
+        - name: Referral
+          in: body
+          description: Referral Search.
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralSearchRequest'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/tenantId'
+        - $ref: '#/parameters/lastChangedSince'
+        - $ref: '#/parameters/includeDeleted'
+      tags:
+        - Referral
+      responses:
+        '200':
+          description: Referrals.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralBulkResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/hf-referral/v1/_create:
+    post:
+      summary: Create HFReferral
+      description: Create HFReferral
+      parameters:
+        - name: HFReferral
+          in: body
+          description: Capture details of HFReferral
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
+      tags:
+        - HFReferral
+      responses:
+        '202':
+          description: Create HFReferral request has been accepted for creation.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/hf-referral/v1/bulk/_create:
+    post:
+      summary: Create HFReferrals in bulk
+      description: Create HFReferrals in bulk
+      parameters:
+        - name: HFReferral
+          in: body
+          description: Capture details of Task
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
+      tags:
+        - HFReferral
+      responses:
+        '202':
+          description: Create HFReferral request has been accepted for creation.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/hf-referral/v1/_update:
+    post:
+      summary: HFReferral Request
+      description: HFReferral Request
+      parameters:
+        - name: HFReferral
+          in: body
+          description: Capture details of Existing HFReferral
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
+      tags:
+        - HFReferral
+      responses:
+        '202':
+          description: update HFReferral request has been accepted for update.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/hf-referral/v1/bulk/_update:
+    post:
+      summary: HFReferral Request in bulk for a project beneficiary
+      description: HFReferral Request in bulk for a project beneficiary
+      parameters:
+        - name: HFReferral
+          in: body
+          description: Capture details of Existing HFReferrals
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
+      tags:
+        - HFReferral
+      responses:
+        '202':
+          description: update HFReferrals bulk request has been accepted for update.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/hf-referral/v1/_delete:
+    post:
+      summary: Soft delete HFReferral for a project beneficiary
+      description: Soft delete HFReferral for a project beneficiary
+      parameters:
+        - name: HFReferral
+          in: body
+          description: Capture details of Existing HFReferral
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralRequest'
+      tags:
+        - HFReferral
+      responses:
+        '202':
+          description: delete HFReferral request has been accepted for deletion.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/hf-referral/v1/bulk/_delete:
+    post:
+      summary: Soft delete HFReferrals for a project beneficiary
+      description: Soft delete HFReferrals for a project beneficiary
+      parameters:
+        - name: HFReferral
+          in: body
+          description: Capture details of Existing HFReferral
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkRequest'
+      tags:
+        - HFReferral
+      responses:
+        '202':
+          description: delete bulk HFReferral request has been accepted for deletion.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /referralmanagement/hf-referral/v1/_search:
+    post:
+      summary: Search HFReferral for Project
+      description: Search HFReferral for Project
+      parameters:
+        - name: HFReferral
+          in: body
+          description: HFReferral Search.
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralSearchRequest'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/tenantId'
+        - $ref: '#/parameters/lastChangedSince'
+        - $ref: '#/parameters/includeDeleted'
+      tags:
+        - HFReferral
+      responses:
+        '200':
+          description: HFReferrals.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralBulkResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+
+
+
+parameters:
+  tenantId:
+    name: tenantId
+    in: query
+    description: Unique id for a tenant.
+    required: true
+    type: string
+    format: varchar
+  lastChangedSince:
+    name: lastChangedSince
+    description: |
+      epoch of the time since when the changes on the object should be picked up. Search results from this parameter should include both newly created objects since this time as well as any modified objects since this time. This criterion is included to help polling clients to get the changes in system since a last time they synchronized with the platform.
+    in: query
+    required: false
+    type: integer
+    format: int64
+  echoResource:
+    name: echoResource
+    in: query
+    type: boolean
+    required: false
+    default: true
+    description: Client can specify if the resource in request body needs to be sent back in the response. This is being used to limit amount of data that needs to flow back from the server to the client in low bandwidth scenarios. Server will always send the server generated id for validated requests.
+  serverHandlesErrors:
+    name: serverHandlesErrors
+    in: query
+    type: boolean
+    required: false
+    default: false
+    description: Client can specify that it is incapable of handling any errors with the requests and server should route these for manual intervention if required.
+  limit:
+    name: limit
+    description: Pagination - limit records in response
+    in: query
+    type: integer
+    minimum: 0
+    maximum: 1000
+    required: true
+  offset:
+    name: offset
+    description: Pagination - offset from which records should be returned in response
+    in: query
+    type: integer
+    minimum: 0
+    required: true
+  includeDeleted:
+    name: includeDeleted
+    description: Used in search APIs to specify if (soft) deleted records should be included in search results.
+    in: query
+    type: boolean
+    default: false
+    required: false
+  includeEnded:
+    name: includeEnded
+    description: Used in project search API to specify if records past end date should be included in search results.
+    in: query
+    type: boolean
+    default: false
+    required: false
+  includeAncestors:
+    name: includeAncestors
+    description: Used in project search API to specify if response should include project elements that are in the preceding hierarchy of matched projects.
+    in: query
+    type: boolean
+    default: false
+    required: false
+  includeDescendants:
+    name: includeDescendants
+    description: Used in project search API to specify if response should include project elements that are in the following hierarchy of matched projects.
+    in: query
+    type: boolean
+    default: false
+    required: false
+  createdFrom:
+    name: createdFrom
+    description: |
+      Used in project search API to limit the search results to only those projects whose creation date is after the specified 'createdFrom' date.
+    in: query
+    required: false
+    type: integer
+    format: int64
+  createdTo:
+    name: createdTo
+    description: |
+      Used in project search API to limit the search results to only those projects whose creation date is before the specified 'createdTo' date.
+    in: query
+    required: false
+    type: integer
+    format: int64
+definitions:
+
+  BulkAcceptedResponse:
+    type: object
+    properties:
+      ResponseInfo:
+        $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
+    required:
+      - ResponseInfo

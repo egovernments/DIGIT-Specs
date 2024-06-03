@@ -1,0 +1,475 @@
+openapi: 3.0.1
+info:
+  title: Master Data Management Service(MDMS)
+  description: | 
+   APIs available to get the master data for particular tenant and module
+   master.
+  contact:
+    name: eGovernments Foundation
+  version: 1.0.0
+servers:
+- url: https://unified-dev.digit.org/
+paths:
+  /egov-mdms-service/schema/v1/_create:
+    post:
+      tags:
+      - MDMS-Schema
+      summary: Create the schema for master
+      description: Each master data will have diffrent schema, mdms create and update APIs will use this schema to validate the data request
+      requestBody:
+        description: Request body to add new master schema
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SchemaDefinitionRequest'
+        required: true
+      responses:
+        201:
+          description: Master schema added successfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SchemaDefinitionResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /egov-mdms-service/schema/v1/_search:
+    post:
+      tags:
+      - MDMS-Schema
+      summary: Get list of masters for a particular module and tenantId.
+      description: Get list of masters for a perticulare module and tenantId.
+      requestBody:
+        description: Details of module and master which need to be search using MDMS
+          .
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SchemaDefSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Schema Definition searched sucessfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SchemaDefinitionResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /egov-mdms-service/v2/_create/{schemaCode}:
+    post:
+      tags:
+      - MDMS
+      summary: Create or Add data for a schema
+      description: Request to create the data
+      parameters: 
+        - in: path
+          name: schemaCode
+          schema:
+            type: string
+          required: true
+          description: Unique schema code from schema master
+
+      requestBody:
+        description: Data create request
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/MdmsRequest'
+        required: true
+      responses:
+        200:
+          description: Data created sucessfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MdmsResponseV2'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /egov-mdms-service/v2/_update/{schemaCode}:
+    post:
+      tags:
+      - MDMS
+      summary: Get list of masters for a particular module and tenantId.
+      description: Get list of masters for a perticulare module and tenantId.
+      parameters: 
+        - in: path
+          name: schemaCode
+          schema:
+            type: string
+          required: true
+          description: Unique schema code from schema master
+      
+      requestBody:
+        description: Details of module and master which need to be search using MDMS
+          .
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/MdmsRequest'
+        required: true
+      responses:
+        200:
+          description: Data updated sucessfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MdmsResponseV2'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /egov-mdms-service/v1/_search:
+    post:
+      tags:
+      - MDMS
+      summary: Get list of masters for a particular module and tenantId.
+      description: Get list of masters for a perticulare module and tenantId.
+      requestBody:
+        description: Details of module and master which need to be search using MDMS
+          .
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/MdmsCriteriaReq'
+        required: true
+      responses:
+        200:
+          description: Data searched sucessfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MdmsResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /egov-mdms-service/v2/_search:
+    post:
+      tags:
+      - MDMS
+      summary: Get list of masters for a particular module and tenantId.
+      description: Get list of masters for a perticulare module and tenantId.
+      requestBody:
+        description: Details of module and master which need to be search using MDMS
+          .
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/MdmsCriteriaReqV2'
+        required: true
+      responses:
+        200:
+          description: Data searched sucessfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MdmsResponseV2'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+components:
+  schemas:
+    SchemaDefinition:
+      type: object
+      description: Bind the request meta data(RequestInfo) and Schema defination
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Unique identifier for the tenant
+        code:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: This is namespaced unique identifier for the schema defination(To standarize the schema code for master data we should use moduleName.masterName)
+          example: Property.PropertyType
+        description:
+          maxLength: 512
+          minLength: 2
+          type: string
+          description:  Description about schema defination 
+        definition:
+          type: object
+          additionalProperties: true
+        isActive:
+          type: boolean
+          default: true
+          example: Property.PropertyType
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+      required: [tenantId, code, definition]
+    Mdms:
+      type: object
+      description: Bind the request meta data(RequestInfo) and Schema defination
+      properties:
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: Unique identifier for the tenant
+        schemaCode:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: This is namespaced unique identifier for the schema defination(To standarize the schema code for master data we should use moduleName.masterName)
+          example: Property.PropertyType
+        uniqueIdentifier:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: This unique idetifier of the record for it's schema
+          example: Property.PropertyType
+          readOnly: true
+        data:
+          type: object
+          additionalProperties: true
+        isActive:
+          type: boolean
+          default: true
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+      required: [tenantId, data]
+    Workflow:
+      type: object
+      properties:
+        action:
+          type: string
+          description: 'Action of the workflow to be performned on the request'
+        comment:
+          type: string
+          description: 'comment for the workflow action to be performed'
+        assignees:
+          type: array
+          items:
+            type: string
+            description: ' uuid of the users in the system to assign workflow to the specific user intead of a all the users with the gien role.'
+        
+      required: [ action ]
+    MdmsCriteria:
+      type: object
+      properties:
+        tenantId:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Unique id for for a tenant.
+        moduleDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModuleDetail'
+    ModuleDetail:
+      required:
+      - masterDetails
+      - moduleName
+      type: object
+      properties:
+        moduleName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Name of the module for which master are required.
+        masterDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/MasterDetail'
+    MasterDetail:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Unique id for for a tenant.
+        filter:
+          maxLength: 500
+          minLength: 1
+          type: string
+          description: Pass JsonPath predicate to get ther filtered data for a master.
+    SchemaDefinitionRequest:
+      type: object
+      description: Bind the request meta data(RequestInfo) and Schema defination 
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        SchemaDefinition:
+          $ref: '#/components/schemas/SchemaDefinition'
+      required: [RequestInfo, SchemaDefinition]
+    SchemaDefinitionResponse:
+      type: object
+      description: Response from server
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        SchemaDefinitions:
+          type: array
+          items: 
+             $ref: '#/components/schemas/SchemaDefinition'
+    SchemaDefCriteria:
+      type: object
+      properties:
+        tenantId:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Unique id for a tenant.
+        codes:
+          type: array
+          description: Search by schema unique identifiers 
+          items:
+            type: string
+    SchemaDefSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
+        SchemaDefCriteria:
+          $ref: '#/components/schemas/SchemaDefCriteria'
+    MdmsRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
+        Mdms:
+          $ref: '#/components/schemas/Mdms'
+        Workflow:
+          $ref: '#/components/schemas/Workflow'
+    MdmsCriteriaV2:
+      title: MdmsCriteriaV2
+      required:
+      - tenantId
+      type: object
+      properties:
+        filters:
+          type: object
+          description: filter map to filter master data
+        ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+          description: db entity ids to search master data
+        isActive:
+          type: boolean
+          description: search master data whether it is enabled or disabled
+        limit:
+          type: integer
+          format: int32
+          description: number of records to be fetched in search response
+        offset:
+          type: integer
+          format: int32
+          description: offset from which data should be fethed
+        schemaCode:
+          type: string
+          description: schema code for which master data needs to be searched
+        tenantId:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: tenantId against which master data needs to be searched
+        uniqueIdentifiers:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+          description: unique identifiers of the master data which needs to be fetched
+    MdmsCriteriaReq:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        MdmsCriteria:
+          $ref: '#/components/schemas/MdmsCriteria'
+    MdmsCriteriaReqV2:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        MdmsCriteriaV2:
+          $ref: '#/components/schemas/MdmsCriteriaV2'
+    MdmsResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        MdmsRes: 
+          type: object
+          additionalProperties: true
+          description: This object will contain Map of Map where keys of each map will represents the "modulename" and 'mastername' respectively
+          example: {
+            "Property": {
+              "PropertyType": {
+              },
+              "Usage": {
+              }
+            }
+          }
+    MdmsResponseV2:
+      title: MdmsResponseV2
+      type: object
+      properties:
+        ResponseInfo:
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo"
+        mdms:
+          type: array
+          items:
+            "$ref": "#/components/schemas/MdmsRes"
+    MdmsRes:
+      title: MdmsRes
+      required:
+      - data
+      - schemaCode
+      - tenantId
+      type: object
+      properties:
+        auditDetails:
+          "$ref": "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+        data:
+          type: object
+          description: master data json
+        id:
+          maxLength: 64
+          minLength: 2
+          type: string
+          readOnly: true
+          description: db entity uuid
+        isActive:
+          type: boolean
+          description: boolean field to enable/disable master data
+        schemaCode:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: schema code against which data is created
+        tenantId:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: tenant id of the master data
+        uniqueIdentifier:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: unique identifier of the master data
