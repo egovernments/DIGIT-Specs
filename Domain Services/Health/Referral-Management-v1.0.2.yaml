@@ -174,11 +174,11 @@ paths:
           required: true
           schema:
             $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/SideEffectSearchRequest'
-        - $ref: '#/parameters/limit'
-        - $ref: '#/parameters/offset'
-        - $ref: '#/parameters/tenantId'
-        - $ref: '#/parameters/lastChangedSince'
-        - $ref: '#/parameters/includeDeleted'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Side Effect
       responses:
@@ -333,11 +333,11 @@ paths:
           required: true
           schema:
             $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ReferralSearchRequest'
-        - $ref: '#/parameters/limit'
-        - $ref: '#/parameters/offset'
-        - $ref: '#/parameters/tenantId'
-        - $ref: '#/parameters/lastChangedSince'
-        - $ref: '#/parameters/includeDeleted'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Referral
       responses:
@@ -492,11 +492,11 @@ paths:
           required: true
           schema:
             $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HFReferralSearchRequest'
-        - $ref: '#/parameters/limit'
-        - $ref: '#/parameters/offset'
-        - $ref: '#/parameters/tenantId'
-        - $ref: '#/parameters/lastChangedSince'
-        - $ref: '#/parameters/includeDeleted'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - HFReferral
       responses:
@@ -512,21 +512,6 @@ paths:
 
 
 parameters:
-  tenantId:
-    name: tenantId
-    in: query
-    description: Unique id for a tenant.
-    required: true
-    type: string
-    format: varchar
-  lastChangedSince:
-    name: lastChangedSince
-    description: |
-      epoch of the time since when the changes on the object should be picked up. Search results from this parameter should include both newly created objects since this time as well as any modified objects since this time. This criterion is included to help polling clients to get the changes in system since a last time they synchronized with the platform.
-    in: query
-    required: false
-    type: integer
-    format: int64
   echoResource:
     name: echoResource
     in: query
@@ -541,28 +526,6 @@ parameters:
     required: false
     default: false
     description: Client can specify that it is incapable of handling any errors with the requests and server should route these for manual intervention if required.
-  limit:
-    name: limit
-    description: Pagination - limit records in response
-    in: query
-    type: integer
-    minimum: 0
-    maximum: 1000
-    required: true
-  offset:
-    name: offset
-    description: Pagination - offset from which records should be returned in response
-    in: query
-    type: integer
-    minimum: 0
-    required: true
-  includeDeleted:
-    name: includeDeleted
-    description: Used in search APIs to specify if (soft) deleted records should be included in search results.
-    in: query
-    type: boolean
-    default: false
-    required: false
   includeEnded:
     name: includeEnded
     description: Used in project search API to specify if records past end date should be included in search results.
