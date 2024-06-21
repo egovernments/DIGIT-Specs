@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 1.0.1
+  version: 1.1.3
   title: Household Registry
   description: >
     This module facilitates maintenance of a household registry.
@@ -24,7 +24,7 @@ paths:
           description: Capture details of Household.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -32,7 +32,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: '#/definitions/HouseholdResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
         '400':
           description: Bad Request
           schema:
@@ -56,7 +56,7 @@ paths:
           description: Capture details of Household.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -87,7 +87,7 @@ paths:
           description: Details for existing household.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -95,7 +95,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: '#/definitions/HouseholdResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
         '400':
           description: Bad Request
           schema:
@@ -119,7 +119,7 @@ paths:
           description: Details for existing household.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -151,7 +151,7 @@ paths:
           description: Details for the household.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -159,7 +159,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: '#/definitions/HouseholdRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdRequest'
         '400':
           description: Bad Request
           schema:
@@ -183,7 +183,7 @@ paths:
           description: Details for the Household.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household
@@ -215,19 +215,19 @@ paths:
           description: Details for existing household.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdSearchRequest'
-        - $ref: '#/parameters/limit'
-        - $ref: '#/parameters/offset'
-        - $ref: '#/parameters/tenantId'
-        - $ref: '#/parameters/lastChangedSince'
-        - $ref: '#/parameters/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdSearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Household
       responses:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/HouseholdBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdBulkResponse'
         '400':
           description: Bad Request
           schema:
@@ -251,7 +251,7 @@ paths:
           description: Capture linkage of Household to Member.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdMemberRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -259,7 +259,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: '#/definitions/HouseholdMemberResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberResponse'
         '400':
           description: Bad Request
           schema:
@@ -283,7 +283,7 @@ paths:
           description: Capture linkage of Household to Member.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdMemberBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -315,7 +315,7 @@ paths:
           description: Linkage details for existing household member.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdMemberRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -323,7 +323,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: '#/definitions/HouseholdResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdResponse'
         '400':
           description: Bad Request
           schema:
@@ -347,7 +347,7 @@ paths:
           description: Linkage details for existing household members.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdMemberBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -379,7 +379,7 @@ paths:
           description: Details for the household member.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdMemberRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -387,7 +387,7 @@ paths:
         '202':
           description: Accepted
           schema:
-            $ref: '#/definitions/HouseholdMemberResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberResponse'
         '400':
           description: Bad Request
           schema:
@@ -411,7 +411,7 @@ paths:
           description: Details for the Household.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdMemberBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Household Member
@@ -443,19 +443,19 @@ paths:
           description: Details for existing household member.
           required: true
           schema:
-            $ref: '#/definitions/HouseholdMemberSearchRequest'
-        - $ref: '#/parameters/limit'
-        - $ref: '#/parameters/offset'
-        - $ref: '#/parameters/tenantId'
-        - $ref: '#/parameters/lastChangedSince'
-        - $ref: '#/parameters/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberSearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Household Member
       responses:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/HouseholdMemberBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/HouseholdMemberBulkResponse'
         '400':
           description: Bad Request
           schema:
@@ -470,23 +470,6 @@ paths:
 
 parameters:
   #TODO is tenantId required as a query param if it can be determine from requestInfo->userInfo
-  tenantId:
-    name: tenantId
-    in: query
-    description: Unique id for a tenant.
-    required: true
-    type: string
-    format: varchar
-
-  lastChangedSince:
-    name: lastChangedSince
-    description: |
-      epoch of the time since when the changes on the object should be picked up. Search results from this parameter should include both newly created objects since this time as well as any modified objects since this time. This criterion is included to help polling clients to get the changes in system since a last time they synchronized with the platform.
-    in: query
-    required: false
-    type: integer
-    format: int64
-
   echoResource:
     name: echoResource
     in: query
@@ -502,31 +485,6 @@ parameters:
     required: false
     default: false
     description: Client can specify that it is incapable of handling any errors with the requests and server should route these for manual intervention if required.
-
-  limit:
-    name: limit
-    description: Pagination - limit records in response
-    in: query
-    type: integer
-    minimum: 0
-    maximum: 1000 #TODO review
-    required: true
-
-  offset:
-    name: offset
-    description: Pagination - offset from which records should be returned in response
-    in: query
-    type: integer
-    minimum: 0
-    required: true
-
-  includeDeleted:
-    name: includeDeleted
-    description: Used in search APIs to specify if (soft) deleted records should be included in search results.
-    in: query
-    type: boolean
-    default: false
-    required: false
 
 definitions:
   boundaryCode:
@@ -559,185 +517,6 @@ definitions:
     maximum: 1000
     description: Total no of individuals in a household. Could be different from the count of members as all members may not be enumerated individually.
 
-  Household:
-    description: A representation of Household.
-    type: object
-    required:
-      - memberCount
-    properties:
-      id:
-        $ref: '#/definitions/id'
-      tenantId:
-        $ref: '#/definitions/tenantId'
-      clientReferenceId:
-        $ref: '#/definitions/clientReferenceId'
-      memberCount:
-        $ref: '#/definitions/memberCount'
-      address:
-        $ref: '#/definitions/Address'
-      #      members:
-      #        type: array
-      #        items:
-      #          $ref: '#/definitions/HouseholdMember'
-      additionalFields:
-        $ref: '#/definitions/additionalFields'
-      isDeleted:
-        $ref: '#/definitions/isDeleted'
-      rowVersion:
-        $ref: '#/definitions/rowVersion'
-      auditDetails:
-        $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/AuditDetails'
-
-  HouseholdSearch:
-    description: A representation of Household.
-    type: object
-    properties:
-      id:
-        $ref: '#/definitions/idForSearch'
-      clientReferenceId:
-        $ref: '#/definitions/clientReferenceIdForSearch'
-      boundaryCode:
-        $ref: '#/definitions/boundaryCode'
-
-  HouseholdMember:
-    description: A representation of a household member (already registered as an individual)
-    type: object
-    required:
-      - householdId
-      - individualId
-    properties:
-      id:
-        $ref: '#/definitions/id'
-      householdId:
-        $ref: '#/definitions/id'
-      householdClientReferenceId:
-        $ref: '#/definitions/clientReferenceId'
-      individualId:
-        $ref: '#/definitions/id'
-      individualClientReferenceId:
-        $ref: '#/definitions/clientReferenceId'
-      isHeadOfHousehold:
-        type: boolean
-        default: false
-      tenantId:
-        $ref: '#/definitions/tenantId'
-      additionalFields:
-        $ref: '#/definitions/additionalFields'
-      isDeleted:
-        $ref: '#/definitions/isDeleted'
-      rowVersion:
-        $ref: '#/definitions/rowVersion'
-      auditDetails:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/AuditDetails
-
-  HouseholdMemberSearch:
-    description: Search model for household member
-    type: object
-    properties:
-      id:
-        $ref: '#/definitions/idForSearch'
-      householdId:
-        $ref: '#/definitions/id'
-      householdClientReferenceId:
-        $ref: '#/definitions/clientReferenceId'
-      individualId:
-        $ref: '#/definitions/id'
-      individualClientReferenceId:
-        $ref: '#/definitions/clientReferenceId'
-      isHeadOfHousehold:
-        type: boolean
-
-  HouseholdRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      Household:
-        type: object
-        $ref: '#/definitions/Household'
-    required:
-      - RequestInfo
-      - Household
-
-  HouseholdBulkRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      Households:
-        type: array
-        minItems: 1
-        items:
-          $ref: '#/definitions/Household'
-    required:
-      - RequestInfo
-      - Household
-
-  HouseholdSearchRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      Household:
-        $ref: '#/definitions/HouseholdSearch'
-    required:
-      - RequestInfo
-      - Household
-
-  HouseholdResponse:
-    type: object
-    properties:
-      ResponseInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-      Household:
-        type: object
-        $ref: '#/definitions/Household'
-    required:
-      - ResponseInfo
-
-  HouseholdBulkResponse:
-    type: object
-    properties:
-      ResponseInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-      Households:
-        type: array
-        items:
-          $ref: '#/definitions/Household'
-    required:
-      - ResponseInfo
-
-  HouseholdMemberRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      HouseholdMember:
-        type: object
-        $ref: '#/definitions/HouseholdMember'
-    required:
-      - RequestInfo
-
-  HouseholdMemberBulkRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      HouseholdMembers:
-        type: array
-        minItems: 1
-        items:
-          $ref: '#/definitions/HouseholdMember'
-    required:
-      - RequestInfo
 
   BulkResponse:
     type: object
@@ -745,42 +524,5 @@ definitions:
       ResponseInfo:
         $ref: >-
           https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-    required:
-      - ResponseInfo
-
-  HouseholdMemberSearchRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      HouseholdMember:
-        $ref: '#/definitions/HouseholdMemberSearch'
-    required:
-      - RequestInfo
-      - HouseholdMember
-
-  HouseholdMemberResponse:
-    type: object
-    properties:
-      ResponseInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-      HouseholdMember:
-        type: object
-        $ref: '#/definitions/HouseholdMember'
-    required:
-      - ResponseInfo
-
-  HouseholdMemberBulkResponse:
-    type: object
-    properties:
-      ResponseInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-      HouseholdMembers:
-        type: array
-        items:
-          $ref: '#/definitions/HouseholdMember'
     required:
       - ResponseInfo

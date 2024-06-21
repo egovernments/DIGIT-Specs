@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 1.0.0
+  version: 1.1.2
   title: Facility Registry
   description: >
     This module facilitates maintenance of a Facility registry.
@@ -24,14 +24,14 @@ paths:
           description: Capture details of Facility.
           required: true
           schema:
-            $ref: '#/definitions/FacilityRequest'
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
       tags:
         - Facility
       responses:
         '202':
           description: Facility request has been accepted.
           schema:
-            $ref: '#/definitions/FacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -49,7 +49,7 @@ paths:
           description: Capture details of Facility.
           required: true
           schema:
-            $ref: '#/definitions/FacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
       tags:
         - Facility
       responses:
@@ -74,14 +74,14 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: '#/definitions/FacilityRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
       tags:
         - Facility
       responses:
         '202':
           description: Facility request accepted.
           schema:
-            $ref: '#/definitions/FacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -99,7 +99,7 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: '#/definitions/FacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
       tags:
         - Facility
       responses:
@@ -124,14 +124,14 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: '#/definitions/FacilityRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityRequest'
       tags:
         - Facility
       responses:
         '202':
           description: Facility request accepted.
           schema:
-            $ref: '#/definitions/FacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -149,7 +149,7 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: '#/definitions/FacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkRequest'
       tags:
         - Facility
       responses:
@@ -174,19 +174,19 @@ paths:
           description: Details for existing facility.
           required: true
           schema:
-            $ref: '#/definitions/FacilitySearchRequest'
-        - $ref: '#/parameters/limit'
-        - $ref: '#/parameters/offset'
-        - $ref: '#/parameters/tenantId'
-        - $ref: '#/parameters/lastChangedSince'
-        - $ref: '#/parameters/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilitySearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Facility
       responses:
         '200':
           description: Facilities.
           schema:
-            $ref: '#/definitions/FacilityBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/FacilityBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -195,23 +195,6 @@ paths:
 
 parameters:
   #TODO is tenantId required as a query param if it can be determine from requestInfo->userInfo
-  tenantId:
-    name: tenantId
-    in: query
-    description: Unique id for a tenant.
-    required: true
-    type: string
-    format: varchar
-
-  lastChangedSince:
-    name: lastChangedSince
-    description: |
-      epoch of the time since when the changes on the object should be picked up. Search results from this parameter should include both newly created objects since this time as well as any modified objects since this time. This criterion is included to help polling clients to get the changes in system since a last time they synchronized with the platform.
-    in: query
-    required: false
-    type: integer
-    format: int64
-
   echoResource:
     name: echoResource
     in: query
@@ -228,30 +211,7 @@ parameters:
     default: false
     description: Client can specify that it is incapable of handling any errors with the requests and server should route these for manual intervention if required.
 
-  limit:
-    name: limit
-    description: Pagination - limit records in response
-    in: query
-    type: integer
-    minimum: 0
-    maximum: 1000
-    required: true
 
-  offset:
-    name: offset
-    description: Pagination - offset from which records should be returned in response
-    in: query
-    type: integer
-    minimum: 0
-    required: true
-
-  includeDeleted:
-    name: includeDeleted
-    description: Used in search APIs to specify if (soft) deleted records should be included in search results.
-    in: query
-    type: boolean
-    default: false
-    required: false
 
 definitions:
   id:
@@ -275,123 +235,43 @@ definitions:
   Address:
     $ref: 'https://raw.githubusercontent.com/digit-egov/health-api-specs/main/contracts/common.yaml#/definitions/Address'
 
-  Facility:
+  BoundaryRequest:
     type: object
     properties:
-      id:
-        $ref: '#/definitions/id'
-      tenantId:
-        $ref: '#/definitions/tenantId'
-      isPermanent:
-        type: boolean
-        default: true
-      name:
-        type: string
-        minLength: 2
-        maxLength: 2000
-        description: Name of the facility
-        example: 'Facility XYZ'
-      usage:
-        type: string
-        example: 'STORAGE_WAREHOUSE'
-      #        enum:
-      #          - STORAGE_WAREHOUSE
-      #          - MEDICAL_FACILITY
-      #          - SEWAGE_TREATMENT_PLANT
-      storageCapacity:
-        type: integer
-        description: Physical storage capacity of the facility in cubic meters
-      address:
-        $ref: '#/definitions/Address'
-      additionalFields:
-        $ref: '#/definitions/additionalFields'
-      isDeleted:
-        $ref: '#/definitions/isDeleted'
-      rowVersion:
-        $ref: '#/definitions/rowVersion'
-      auditDetails:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/AuditDetails
-
-  FacilitySearch:
-    type: object
-    properties:
-      id:
-        $ref: '#/definitions/idForSearch'
-      isPermanent:
-        type: boolean
-      usage:
-        type: string
-      storageCapacity:
-        type: integer
-      boundaryCode:
-        $ref: '#/definitions/boundaryCode'
-
-  FacilityRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      Facility:
-        type: object
-        $ref: '#/definitions/Facility'
-    required:
-      - RequestInfo
-      - Facility
-
-  FacilityBulkRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      Facilities:
+      requestInfo:
+        $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/RequestInfo'
+      boundary:
         type: array
+        items:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/Boundary'
+    required:
+      - requestInfo
+      - boundary
+
+  BoundaryResponse:
+    type: object
+    properties:
+      responseInfo:
+        $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ResponseInfo'
+      boundary:
+        type: array
+        items:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/Boundary'
+
+  BoundarySearchCriteria:
+    type: object
+    properties:
+      codes:
+        type: array
+        items:
+          type: string
         minItems: 1
-        items:
-          $ref: '#/definitions/Facility'
-    required:
-      - RequestInfo
-      - Facility
-
-  FacilitySearchRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo
-      Facility:
-        $ref: '#/definitions/FacilitySearch'
-    required:
-      - RequestInfo
-      - Facility
-
-  FacilityResponse:
-    type: object
-    properties:
-      ResponseInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-      Facility:
-        type: object
-        $ref: '#/definitions/Facility'
-    required:
-      - ResponseInfo
-
-  FacilityBulkResponse:
-    type: object
-    properties:
-      ResponseInfo:
-        $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
-      Facilities:
-        type: array
-        items:
-          $ref: '#/definitions/Facility'
-    required:
-      - ResponseInfo
-
+      tenantId:
+        type: string
+      offset:
+        type: integer
+      limit:
+        type: integer
 
   BulkAcceptedResponse:
     type: object
@@ -401,4 +281,3 @@ definitions:
           https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
     required:
       - ResponseInfo
-
