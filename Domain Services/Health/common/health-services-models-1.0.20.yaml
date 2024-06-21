@@ -1,0 +1,2202 @@
+openapi: 3.0.0
+info:
+  version: 1.0.20-SNAPSHOT
+  title: HCM common models
+  description: 'common library models for HCM'
+
+paths: {}
+components:
+  schemas:
+    Field:
+      type: "object"
+      required:
+        - "key"
+        - "value"
+      properties:
+        key:
+          type: "string"
+          example: "height"
+          minLength: 2
+          maxLength: 64
+        value:
+          type: "string"
+          example: 180
+          minLength: 2
+          maxLength: 10000
+    AdditionalFields:
+      type: "object"
+      properties:
+        schema:
+          type: "string"
+          example: "HOUSEHOLD"
+          minLength: 2
+          maxLength: 64
+        version:
+          type: "integer"
+          example: 2
+          minimum: 1
+        fields:
+          type: "array"
+          items:
+            type: "object"
+            $ref: "#/components/schemas/Field"
+    EgovModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the model
+        tenantId:
+          type: string
+          description: Tenant ID for the model
+        status:
+          type: string
+          description: Status of the model
+        source:
+          type: string
+          description: Source of the model
+        rowVersion:
+          type: integer
+          description: Version of the model
+        applicationId:
+          type: string
+          description: Application ID of the model
+        hasErrors:
+          type: boolean
+          description: Indicates if there are errors in the model
+        additionalFields:
+          $ref: '#/components/schemas/AdditionalFields'
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+      required:
+        - tenantId
+    EgovOfflineModel:
+      allOf:
+        - $ref: '#/components/schemas/EgovModel'
+        - type: object
+          properties:
+            clientReferenceId:
+              type: string
+              description: Client reference ID for the model
+            clientAuditDetails:
+              $ref: '#/components/schemas/AuditDetails'
+    EgovSearchModel:
+      type: "object"
+      properties:
+        id:
+          type: "array"
+          items:
+            type: "string"
+            description: "List of IDs for searching entities."
+          description: "A list of IDs used in search operations."
+    EgovOfflineSearchModel:
+      type: "object"
+      allOf:
+        - $ref: "#/components/schemas/EgovSearchModel"
+      properties:
+        clientReferenceId:
+          type: "array"
+          items:
+            type: "string"
+            description: "List of client reference IDs for searching entities."
+          description: "A list of client reference IDs used in offline search operations."
+    UrlParams:
+      type: "object"
+      required:
+        - "limit"
+        - "offset"
+        - "tenantId"
+      properties:
+        limit:
+          type: "integer"
+          format: "int32"
+          minimum: 0
+          maximum: 1000
+          description: "The maximum number of records to be returned in the response."
+        offset:
+          type: "integer"
+          format: "int32"
+          minimum: 0
+          description: "The offset from which records should be returned in the response."
+        tenantId:
+          type: "string"
+          description: "The unique identifier for the tenant."
+        lastChangedSince:
+          type: "integer"
+          format: "int64"
+          description: "Epoch time representing the point in time since the last modification in the table."
+        includeDeleted:
+          type: "boolean"
+          description: "Flag indicating whether soft deleted records should be included in search results."
+    ProjectSearchURLParams:
+      type: "object"
+      allOf:
+        - $ref: "#/components/schemas/UrlParams"
+      properties:
+        includeAncestors:
+          type: "boolean"
+          description: "Specify if response should include ancestor project elements."
+        includeDescendants:
+          type: "boolean"
+          description: "Specify if response should include descendant project elements."
+        createdFrom:
+          type: "integer"
+          format: "int64"
+          description: "Limit search results to projects created after this date."
+        createdTo:
+          type: "integer"
+          format: "int64"
+          description: "Limit search results to projects created before this date."
+    SearchResponse:
+      type: "object"
+      properties:
+        totalCount:
+          type: "integer"
+          format: "int64"
+          description: "Total count of the search results."
+        response:
+          type: "array"
+          items:
+            type: "object"
+            description: "Generic response type."
+          description: "A list of generic responses for the search."
+
+    Address:
+      $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/Address'
+    AuditDetails:
+      $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/AuditDetails'
+    RequestInfo:
+      $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/RequestInfo'
+    ResponseInfo:
+      $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo'
+    Facility:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+        - type: object
+          properties:
+            isPermanent:
+              type: boolean
+              description: Whether the facility is permanent
+            name:
+              type: string
+              description: Name of the facility
+              minLength: 2
+              maxLength: 2000
+            usage:
+              type: string
+              description: Usage type of the facility
+            storageCapacity:
+              type: integer
+              description: Storage capacity of the facility
+            isDeleted:
+              type: boolean
+              description: Whether the facility is deleted
+      required:
+        - isPermanent
+        - name
+        - usage
+        - storageCapacity
+        - address
+    FacilityRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Facility:
+          $ref: '#/components/schemas/Facility'
+      required:
+        - RequestInfo
+        - Facility
+    FacilityResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Facility:
+          $ref: '#/components/schemas/Facility'
+      required:
+        - ResponseInfo
+        - Facility
+    FacilityBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Facilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Facility'
+          minItems: 1
+      required:
+        - RequestInfo
+        - Facilities
+    FacilityBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Facilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Facility'
+        TotalCount:
+          type: integer
+          format: int64
+      required:
+        - ResponseInfo
+    FacilitySearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+        - type: object
+          properties:
+            isPermanent:
+              type: boolean
+              description: Whether the facility is permanent
+            usage:
+              type: string
+              description: Usage type of the facility
+            storageCapacity:
+              type: integer
+              description: Storage capacity of the facility
+            boundaryCode:
+              type: string
+              description: Locality code of the facility
+    FacilitySearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Facility:
+          $ref: '#/components/schemas/FacilitySearch'
+      required:
+        - RequestInfo
+        - Facility
+
+
+    Household:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+        - type: object
+          properties:
+            memberCount:
+              type: integer
+              minimum: 0
+              maximum: 1000
+              description: "Number of members in the household"
+            address:
+              $ref: '#/components/schemas/Address'
+            isDeleted:
+              type: boolean
+              default: false
+
+    HouseholdBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Households:
+          type: array
+          items:
+            $ref: '#/components/schemas/Household'
+          minItems: 1
+
+    HouseholdBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Households:
+          type: array
+          items:
+            $ref: '#/components/schemas/Household'
+        TotalCount:
+          type: integer
+          format: int64
+          default: 0
+
+    HouseholdMember:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+        - type: object
+          properties:
+            householdId:
+              type: string
+              minLength: 2
+              maxLength: 64
+            householdClientReferenceId:
+              type: string
+              minLength: 2
+              maxLength: 64
+            individualId:
+              type: string
+              minLength: 2
+              maxLength: 64
+            individualClientReferenceId:
+              type: string
+              minLength: 2
+              maxLength: 64
+            isHeadOfHousehold:
+              type: boolean
+              default: false
+            isDeleted:
+              type: boolean
+              default: false
+
+    HouseholdMemberBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        HouseholdMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HouseholdMember'
+          minItems: 1
+
+    HouseholdMemberBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        HouseholdMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HouseholdMember'
+        TotalCount:
+          type: integer
+          format: int64
+          default: 0
+
+    HouseholdMemberRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        HouseholdMember:
+          $ref: '#/components/schemas/HouseholdMember'
+
+    HouseholdMemberResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        HouseholdMember:
+          $ref: '#/components/schemas/HouseholdMember'
+
+    HouseholdMemberSearch:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+        - type: object
+          properties:
+            clientReferenceId:
+              type: array
+              items:
+                type: string
+            householdId:
+              type: array
+              items:
+                type: string
+            householdClientReferenceId:
+              type: array
+              items:
+                type: string
+            individualId:
+              type: array
+              items:
+                type: string
+            individualClientReferenceId:
+              type: array
+              items:
+                type: string
+            isHeadOfHousehold:
+              type: boolean
+
+    HouseholdMemberSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        HouseholdMember:
+          $ref: '#/components/schemas/HouseholdMemberSearch'
+
+    HouseholdRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Household:
+          $ref: '#/components/schemas/Household'
+
+    HouseholdResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Household:
+          $ref: '#/components/schemas/Household'
+
+    HouseholdSearch:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+        - type: object
+          properties:
+            boundaryCode:
+              type: string
+            latitude:
+              type: number
+              format: double
+              minimum: -90
+              maximum: 90
+            longitude:
+              type: number
+              format: double
+              minimum: -180
+              maximum: 180
+            searchRadius:
+              type: number
+              format: double
+              minimum: 0
+
+    HouseholdSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Household:
+          $ref: '#/components/schemas/HouseholdSearch'
+
+
+          minItems: 1
+
+    UserInfo:
+      type: object
+      properties:
+        tenantId:
+          type: string
+        uuid:
+          type: string
+        userName:
+          type: string
+        password:
+          type: string
+        idToken:
+          type: string
+        mobile:
+          type: string
+        email:
+          type: string
+        primaryrole:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+          minItems: 1
+        additionalroles:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantRole'
+          nullable: true
+
+    Identifier:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              minLength: 2
+              maxLength: 64
+            clientReferenceId:
+              type: string
+              minLength: 2
+              maxLength: 64
+            individualId:
+              type: string
+              minLength: 2
+              maxLength: 64
+            identifierType:
+              type: string
+              minLength: 2
+              maxLength: 64
+            identifierId:
+              type: string
+              minLength: 2
+              maxLength: 64
+            isDeleted:
+              type: boolean
+            auditDetails:
+              $ref: '#/components/schemas/AuditDetails'
+      description: Identifier
+
+    Individual:
+      type: object
+      properties:
+        individualId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        userId:
+          type: string
+        userUuid:
+          type: string
+        name:
+          $ref: '#/components/schemas/Name'
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          $ref: '#/components/schemas/Gender'
+        bloodGroup:
+          $ref: '#/components/schemas/BloodGroup'
+        mobileNumber:
+          type: string
+          maxLength: 20
+        altContactNumber:
+          type: string
+          maxLength: 16
+        email:
+          type: string
+          minLength: 5
+          maxLength: 200
+        address:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/Address'
+        fatherName:
+          type: string
+          maxLength: 100
+        husbandName:
+          type: string
+          maxLength: 100
+        relationship:
+          type: string
+          minLength: 1
+          maxLength: 100
+        identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/Skill'
+        photo:
+          type: string
+        isSystemUser:
+          type: boolean
+        isSystemUserActive:
+          type: boolean
+        userDetails:
+          $ref: '#/components/schemas/UserDetails'
+
+    IndividualBulkRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        individuals:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Individual'
+
+    IndividualBulkResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseInfo'
+        - type: object
+          properties:
+            totalCount:
+              type: integer
+              default: 0
+            individual:
+              type: array
+              items:
+                $ref: '#/components/schemas/Individual'
+
+    IndividualDeleteRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        individualIds:
+          type: array
+          items:
+            type: string
+        addressIds:
+          type: array
+          items:
+            type: string
+        identifiersId:
+          type: array
+          items:
+            type: string
+
+    IndividualRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        individual:
+          $ref: '#/components/schemas/Individual'
+
+    IndividualResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseInfo'
+        - type: object
+          properties:
+            individual:
+              $ref: '#/components/schemas/Individual'
+
+    IndividualSearch:
+      type: object
+      properties:
+        individualId:
+          type: array
+          items:
+            type: string
+        name:
+          $ref: '#/components/schemas/Name'
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          $ref: '#/components/schemas/Gender'
+        mobileNumber:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        socialCategory:
+          type: string
+        wardCode:
+          type: string
+        individualName:
+          type: string
+        createdFrom:
+          type: number
+        createdTo:
+          type: number
+        identifier:
+          $ref: '#/components/schemas/Identifier'
+        boundaryCode:
+          type: string
+        roleCodes:
+          type: array
+          items:
+            type: string
+        username:
+          type: array
+          items:
+            type: string
+        userId:
+          type: array
+          items:
+            type: integer
+        userUuid:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+
+    IndividualSearchRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        individual:
+          $ref: '#/components/schemas/IndividualSearch'
+
+    Name:
+      type: object
+      properties:
+        givenName:
+          type: string
+          minLength: 2
+          maxLength: 200
+        familyName:
+          type: string
+          minLength: 2
+          maxLength: 200
+        otherNames:
+          type: string
+          maxLength: 200
+
+    Skill:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 2
+          maxLength: 64
+        clientReferenceId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        individualId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        type:
+          type: string
+          minLength: 2
+          maxLength: 64
+        level:
+          type: string
+          minLength: 2
+          maxLength: 64
+        experience:
+          type: string
+          minLength: 2
+          maxLength: 64
+        isDeleted:
+          type: boolean
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+
+    UserDetails:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 180
+        password:
+          type: string
+          maxLength: 64
+        tenantId:
+          type: string
+          minLength: 2
+          maxLength: 1000
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        userType:
+          $ref: '#/components/schemas/UserType'
+
+    Product:
+      type: object
+      properties:
+        type:
+          type: string
+          minLength: 2
+          maxLength: 100
+        name:
+          type: string
+          minLength: 2
+          maxLength: 1000
+        manufacturer:
+          type: string
+          minLength: 0
+          maxLength: 1000
+        isDeleted:
+          type: boolean
+
+    ProductRequest:
+      allOf:
+        - $ref: '#/components/schemas/RequestInfo'
+        - type: object
+          properties:
+            product:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/Product'
+            apiOperation:
+              $ref: '#/components/schemas/ApiOperation'
+
+    ProductResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseInfo'
+        - type: object
+          properties:
+            product:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+
+    ProductSearch:
+      type: object
+      properties:
+        type:
+          type: string
+        name:
+          type: array
+          items:
+            type: string
+        manufacturer:
+          type: array
+          items:
+            type: string
+
+    ProductSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/RequestInfo'
+        - type: object
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductSearch'
+
+    ProductVariant:
+      type: object
+      properties:
+        productId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        sku:
+          type: string
+          minLength: 0
+          maxLength: 1000
+        variation:
+          type: string
+          minLength: 0
+          maxLength: 1000
+        isDeleted:
+          type: boolean
+
+    ProductVariantRequest:
+      allOf:
+        - $ref: '#/components/schemas/RequestInfo'
+        - type: object
+          properties:
+            productVariant:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/ProductVariant'
+            apiOperation:
+              $ref: '#/components/schemas/ApiOperation'
+
+    ProductVariantResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseInfo'
+        - type: object
+          properties:
+            productVariant:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductVariant'
+
+    ProductVariantSearch:
+      type: object
+      properties:
+        productId:
+          type: array
+          items:
+            type: string
+        sku:
+          type: string
+          minLength: 0
+          maxLength: 1000
+        variation:
+          type: string
+          minLength: 0
+          maxLength: 1000
+
+    ProductVariantSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/RequestInfo'
+        - type: object
+          properties:
+            productVariant:
+              $ref: '#/components/schemas/ProductVariantSearch'
+    BeneficiaryBulkRequest:
+      allOf:
+        - type: object
+          properties:
+            RequestInfo:
+              $ref: '#/components/schemas/RequestInfo'
+            ProjectBeneficiaries:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/ProjectBeneficiary'
+    BeneficiaryBulkResponse:
+      allOf:
+        - type: object
+          properties:
+            ResponseInfo:
+              $ref: '#/components/schemas/ResponseInfo'
+            TotalCount:
+              type: integer
+              default: 0
+            ProjectBeneficiaries:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectBeneficiary'
+    BeneficiaryRequest:
+      allOf:
+        - type: object
+          properties:
+            RequestInfo:
+              $ref: '#/components/schemas/RequestInfo'
+            ProjectBeneficiary:
+              $ref: '#/components/schemas/ProjectBeneficiary'
+    BeneficiaryResponse:
+      allOf:
+        - type: object
+          properties:
+            ResponseInfo:
+              $ref: '#/components/schemas/ResponseInfo'
+            ProjectBeneficiary:
+              $ref: '#/components/schemas/ProjectBeneficiary'
+    BeneficiarySearchRequest:
+      allOf:
+        - type: object
+          properties:
+            RequestInfo:
+              $ref: '#/components/schemas/RequestInfo'
+            ProjectBeneficiary:
+              $ref: '#/components/schemas/ProjectBeneficiarySearch'
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        tenantId:
+          type: string
+        projectNumber:
+          type: string
+        name:
+          type: string
+        projectType:
+          type: string
+        projectSubType:
+          type: string
+        department:
+          type: string
+        description:
+          type: string
+        referenceID:
+          type: string
+        projectTypeId:
+          type: string
+        documents:
+          type: array
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/workflow.yaml#/components/schemas/Document'
+        address:
+          $ref: '#/components/schemas/Address'
+        startDate:
+          type: integer
+        endDate:
+          type: integer
+        isTaskEnabled:
+          type: boolean
+        parent:
+          type: string
+        projectHierarchy:
+          type: string
+        natureOfWork:
+          type: string
+        ancestors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        descendants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Target'
+        additionalDetails:
+          type: object
+        isDeleted:
+          type: boolean
+        rowVersion:
+          type: integer
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+    ProjectBeneficiary:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+      properties:
+        projectId:
+          type: string
+        beneficiaryId:
+          type: string
+        dateOfRegistration:
+          type: integer
+        beneficiaryClientReferenceId:
+          type: string
+        tag:
+          type: string
+    ProjectBeneficiarySearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+      properties:
+        projectId:
+          type: array
+          items:
+            type: string
+        beneficiaryId:
+          type: array
+          items:
+            type: string
+        dateOfRegistration:
+          type: integer
+        tag:
+          type: array
+          items:
+            type: string
+    ProjectFacility:
+      allOf:
+        - $ref: '#/components/schemas/EgovModel'
+      properties:
+        facilityId:
+          type: string
+        projectId:
+          type: string
+    ProjectFacilityBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectFacilities:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ProjectFacility'
+    ProjectFacilityBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        ProjectFacilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectFacility'
+    ProjectFacilityRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectFacility:
+          $ref: '#/components/schemas/ProjectFacility'
+    ProjectFacilityResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        ProjectFacility:
+          $ref: '#/components/schemas/ProjectFacility'
+    ProjectFacilitySearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovSearchModel'
+      properties:
+        facilityId:
+          type: array
+          items:
+            type: string
+        projectId:
+          type: array
+          items:
+            type: string
+    ProjectFacilitySearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectFacility:
+          $ref: '#/components/schemas/ProjectFacilitySearch'
+    ProjectProductVariant:
+      type: object
+      properties:
+        productVariantId:
+          type: string
+        type:
+          type: string
+        isBaseUnitVariant:
+          type: boolean
+    ProjectRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Projects:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Project'
+        apiOperation:
+          $ref: '#/components/schemas/ApiOperation'
+
+    ProjectResource:
+      allOf:
+        - $ref: '#/components/schemas/EgovModel'
+      properties:
+        projectId:
+          type: string
+        resource:
+          $ref: '#/components/schemas/ProjectProductVariant'
+        isDeleted:
+          type: boolean
+        startDate:
+          type: integer
+        endDate:
+          type: integer
+    ProjectResourceBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectResources:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ProjectResource'
+    ProjectResourceBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        ProjectResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectResource'
+    ProjectResourceRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectResource:
+          $ref: '#/components/schemas/ProjectResource'
+    ProjectResourceResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        ProjectResource:
+          $ref: '#/components/schemas/ProjectResource'
+    ProjectResourceSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovSearchModel'
+      properties:
+        projectId:
+          type: array
+          items:
+            type: string
+    ProjectResourceSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectResource:
+          $ref: '#/components/schemas/ProjectResourceSearch'
+    ProjectResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Project:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        TotalCount:
+          type: integer
+    ProjectSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovSearchModel'
+      properties:
+        startDate:
+          type: integer
+        endDate:
+          type: integer
+        isTaskEnabled:
+          type: boolean
+        parent:
+          type: string
+        projectTypeId:
+          type: string
+        subProjectTypeId:
+          type: string
+        department:
+          type: string
+        referenceId:
+          type: string
+        boundaryCode:
+          type: string
+        includeAncestors:
+          type: boolean
+        includeDescendants:
+          type: boolean
+        createdFrom:
+          type: integer
+        createdTo:
+          type: integer
+        name:
+          type: string
+    ProjectSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Project:
+          $ref: '#/components/schemas/ProjectSearch'
+    ProjectStaff:
+      allOf:
+        - $ref: '#/components/schemas/EgovModel'
+      properties:
+        userId:
+          type: string
+        projectId:
+          type: string
+        startDate:
+          type: integer
+        endDate:
+          type: integer
+        channel:
+          type: string
+        isDeleted:
+          type: boolean
+    ProjectStaffBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectStaff:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ProjectStaff'
+    ProjectStaffBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        ProjectStaff:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectStaff'
+    ProjectStaffRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectStaff:
+          $ref: '#/components/schemas/ProjectStaff'
+    ProjectStaffResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        ProjectStaff:
+          $ref: '#/components/schemas/ProjectStaff'
+    ProjectStaffSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovSearchModel'
+      properties:
+        staffId:
+          type: array
+          items:
+            type: string
+        projectId:
+          type: array
+          items:
+            type: string
+        startDate:
+          type: integer
+        endDate:
+          type: integer
+    ProjectStaffSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        ProjectStaff:
+          $ref: '#/components/schemas/ProjectStaffSearch'
+    ProjectType:
+      type: object
+      properties:
+        id:
+          type: string
+        tenantId:
+          type: string
+        name:
+          type: string
+          minLength: 2
+          maxLength: 64
+        code:
+          type: string
+          maxLength: 64
+        group:
+          type: string
+          maxLength: 64
+        beneficiaryType:
+          type: string
+        eligibilityCriteria:
+          type: array
+          maxItems: 10
+          items:
+            type: string
+        taskProcedure:
+          type: array
+          maxItems: 10
+          items:
+            type: string
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectProductVariant'
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+    Role:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 64
+        code:
+          type: string
+          maxLength: 64
+        description:
+          type: string
+
+    Target:
+      type: object
+      properties:
+        id:
+          type: string
+        beneficiaryType:
+          type: string
+        totalNo:
+          type: integer
+        targetNo:
+          type: integer
+        isDeleted:
+          type: boolean
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+    Task:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+      properties:
+        projectId:
+          type: string
+        projectBeneficiaryId:
+          type: string
+        projectBeneficiaryClientReferenceId:
+          type: string
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskResource'
+        plannedStartDate:
+          type: integer
+        plannedEndDate:
+          type: integer
+        actualStartDate:
+          type: integer
+        actualEndDate:
+          type: integer
+        createdBy:
+          type: string
+        createdDate:
+          type: integer
+        address:
+          $ref: '#/components/schemas/Address'
+        isDeleted:
+          type: boolean
+        status:
+          type: string
+    TaskBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Tasks:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Task'
+    TaskBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        TotalCount:
+          type: integer
+        Tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+    TaskRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Task:
+          $ref: '#/components/schemas/Task'
+    TaskResource:
+      type: object
+      properties:
+        id:
+          type: string
+        tenantId:
+          type: string
+        clientReferenceId:
+          type: string
+        taskId:
+          type: string
+        productVariantId:
+          type: string
+        quantity:
+          type: integer
+        isDelivered:
+          type: boolean
+        deliveryComment:
+          type: string
+        isDeleted:
+          type: boolean
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+    TaskResourceRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        resources:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/TaskResource'
+        apiOperation:
+          $ref: '#/components/schemas/ApiOperation'
+    TaskResourceResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskResource'
+    TaskResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Task:
+          $ref: '#/components/schemas/Task'
+    TaskSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+      properties:
+        projectId:
+          type: array
+          items:
+            type: string
+        projectBeneficiaryId:
+          type: array
+          items:
+            type: string
+        projectBeneficiaryClientReferenceId:
+          type: array
+          items:
+            type: string
+        plannedStartDate:
+          type: integer
+        plannedEndDate:
+          type: integer
+        actualStartDate:
+          type: integer
+        actualEndDate:
+          type: integer
+        createdBy:
+          type: string
+        status:
+          type: string
+        boundaryCode:
+          type: string
+    TaskSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Task:
+          $ref: '#/components/schemas/TaskSearch'
+
+
+    UserServiceResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+
+    Downsync:
+      type: object
+      properties:
+        Households:
+          type: array
+          items:
+            $ref: '#/components/schemas/Household'
+        HouseholdMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HouseholdMember'
+        Individuals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Individual'
+        ProjectBeneficiaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectBeneficiary'
+        Tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        SideEffects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SideEffect'
+        Referrals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Referral'
+        DownsyncCriteria:
+          $ref: '#/components/schemas/DownsyncCriteria'
+    DownsyncCriteria:
+      type: object
+      properties:
+        locality:
+          type: string
+        lastSyncedTime:
+          type: integer
+        projectId:
+          type: string
+        tenantId:
+          type: string
+        includeDeleted:
+          type: boolean
+        offset:
+          type: integer
+        limit:
+          type: integer
+        totalCount:
+          type: integer
+    DownsyncRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        DownsyncCriteria:
+          $ref: '#/components/schemas/DownsyncCriteria'
+    DownsyncResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Downsync:
+          $ref: '#/components/schemas/Downsync'
+    HFReferral:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+      properties:
+        projectId:
+          type: string
+        projectFacilityId:
+          type: string
+        symptom:
+          type: string
+        symptomSurveyId:
+          type: string
+        beneficiaryId:
+          type: string
+        referralCode:
+          type: string
+        nationalLevelId:
+          type: string
+        isDeleted:
+          type: boolean
+    HFReferralBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        HFReferrals:
+          type: array
+          items:
+            $ref: '#/components/schemas/HFReferral'
+    HFReferralBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        HFReferrals:
+          type: array
+          items:
+            $ref: '#/components/schemas/HFReferral'
+    HFReferralRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        HFReferral:
+          $ref: '#/components/schemas/HFReferral'
+    HFReferralResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        HFReferral:
+          $ref: '#/components/schemas/HFReferral'
+    HFReferralSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+      properties:
+        facilityId:
+          type: array
+          items:
+            type: string
+        projectId:
+          type: string
+        symptom:
+          type: array
+          items:
+            type: string
+        symptomSurveyId:
+          type: array
+          items:
+            type: string
+        beneficiaryId:
+          type: array
+          items:
+            type: string
+        referralCode:
+          type: array
+          items:
+            type: string
+        nationalLevelId:
+          type: array
+          items:
+            type: string
+    HFReferralSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        HFReferral:
+          $ref: '#/components/schemas/HFReferralSearch'
+    Referral:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+      properties:
+        projectBeneficiaryId:
+          type: string
+        projectBeneficiaryClientReferenceId:
+          type: string
+        referrerId:
+          type: string
+        recipientType:
+          type: string
+        recipientId:
+          type: string
+        reasons:
+          type: array
+          items:
+            type: string
+        referralCode:
+          type: string
+        sideEffect:
+          $ref: '#/components/schemas/SideEffect'
+        isDeleted:
+          type: boolean
+    ReferralBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Referrals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Referral'
+    ReferralBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        TotalCount:
+          type: integer
+        Referrals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Referral'
+    ReferralRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Referral:
+          $ref: '#/components/schemas/Referral'
+    ReferralResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Referral:
+          $ref: '#/components/schemas/Referral'
+    ReferralSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+      properties:
+        projectBeneficiaryId:
+          type: array
+          items:
+            type: string
+        projectBeneficiaryClientReferenceId:
+          type: array
+          items:
+            type: string
+        sideEffectId:
+          type: array
+          items:
+            type: string
+        sideEffectClientReferenceId:
+          type: array
+          items:
+            type: string
+        referrerId:
+          type: array
+          items:
+            type: string
+        recipientId:
+          type: array
+          items:
+            type: string
+    ReferralSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Referral:
+          $ref: '#/components/schemas/ReferralSearch'
+
+    SideEffect:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+      properties:
+        taskId:
+          type: array
+          items:
+            type: string
+        taskClientReferenceId:
+          type: array
+          items:
+            type: string
+        projectBeneficiaryId:
+          type: string
+        projectBeneficiaryClientReferenceId:
+          type: string
+        symptoms:
+          type: array
+          items:
+            type: string
+        isDeleted:
+          type: boolean
+    SideEffectBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        SideEffects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SideEffect'
+    SideEffectBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        TotalCount:
+          type: integer
+        SideEffects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SideEffect'
+    SideEffectRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        SideEffect:
+          $ref: '#/components/schemas/SideEffect'
+    SideEffectResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        SideEffect:
+          $ref: '#/components/schemas/SideEffect'
+    SideEffectSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+      properties:
+        taskId:
+          type: array
+          items:
+            type: string
+        taskClientReferenceId:
+          type: array
+          items:
+            type: string
+    SideEffectSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        SideEffect:
+          $ref: '#/components/schemas/SideEffectSearch'
+
+    Stock:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+      properties:
+        productVariantId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+        referenceId:
+          type: string
+        referenceIdType:
+          $ref: '#/components/schemas/ReferenceIdType'
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+        transactionReason:
+          $ref: '#/components/schemas/TransactionReason'
+        senderId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        senderType:
+          $ref: '#/components/schemas/SenderReceiverType'
+        receiverId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        receiverType:
+          $ref: '#/components/schemas/SenderReceiverType'
+        wayBillNumber:
+          type: string
+          minLength: 2
+          maxLength: 200
+        isDeleted:
+          type: boolean
+        dateOfEntry:
+          type: integer
+    StockBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Stock:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stock'
+    StockBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Stock:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stock'
+    StockReconciliation:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+      properties:
+        facilityId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        productVariantId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        referenceId:
+          type: string
+        referenceIdType:
+          type: string
+          minLength: 2
+          maxLength: 64
+        physicalCount:
+          type: integer
+        calculatedCount:
+          type: integer
+        commentsOnReconciliation:
+          type: string
+        dateOfReconciliation:
+          type: integer
+        isDeleted:
+          type: boolean
+    StockReconciliationBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        StockReconciliation:
+          type: array
+          items:
+            $ref: '#/components/schemas/StockReconciliation'
+    StockReconciliationBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        StockReconciliation:
+          type: array
+          items:
+            $ref: '#/components/schemas/StockReconciliation'
+    StockReconciliationRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        StockReconciliation:
+          $ref: '#/components/schemas/StockReconciliation'
+    StockReconciliationResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        StockReconciliation:
+          $ref: '#/components/schemas/StockReconciliation'
+    StockReconciliationSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+      properties:
+        facilityId:
+          type: array
+          items:
+            type: string
+        productVariantId:
+          type: array
+          items:
+            type: string
+    StockReconciliationSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        StockReconciliation:
+          $ref: '#/components/schemas/StockReconciliationSearch'
+    StockRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Stock:
+          $ref: '#/components/schemas/Stock'
+    StockResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        Stock:
+          $ref: '#/components/schemas/Stock'
+    StockSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+      properties:
+        facilityId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        productVariantId:
+          type: array
+          items:
+            type: string
+        referenceId:
+          type: string
+        wayBillNumber:
+          type: array
+          items:
+            type: string
+        referenceIdType:
+          type: string
+          minLength: 2
+          maxLength: 64
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+        transactionReason:
+          $ref: '#/components/schemas/TransactionReason'
+        transactingPartyId:
+          type: string
+          minLength: 2
+          maxLength: 64
+        transactingPartyType:
+          type: string
+    StockSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Stock:
+          $ref: '#/components/schemas/StockSearch'
+
+    TenantRole:
+      type: object
+      properties:
+        tenantId:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+
+    Gender:
+      type: string
+      enum:
+        - MALE
+        - FEMALE
+        - OTHER
+        - TRANSGENDER
+      description: Gets or Sets gender
+    BloodGroup:
+      type: string
+      enum:
+        - B+
+        - B-
+        - A+
+        - A-
+        - AB+
+        - AB-
+        - O-
+        - O+
+      description: Gets or Sets blood group
+
+    ApiOperation:
+      type: string
+      enum:
+        - CREATE
+        - UPDATE
+        - DELETE
+      description: Specify the type of operation being performed i.e. CREATE, UPDATE, or DELETE
+
+    UserType:
+      type: string
+      enum:
+        - EMPLOYEE
+        - CITIZEN
+        - SYSTEM
+
+    ReferenceIdType:
+      type: string
+      enum:
+        - PROJECT
+        - OTHER
+
+    TransactionType:
+      type: string
+      enum:
+        - RECEIVED
+        - DISPATCHED
+      description: Specify the type of transaction i.e. RECEIVED or DISPATCHED
+
+    TransactionReason:
+      type: string
+      enum:
+        - RECEIVED
+        - RETURNED
+        - LOST_IN_STORAGE
+        - LOST_IN_TRANSIT
+        - DAMAGED_IN_STORAGE
+        - DAMAGED_IN_TRANSIT
+      description: Specify the reason for the transaction
+
+    SenderReceiverType:
+      type: string
+      enum:
+        - WAREHOUSE
+        - STAFF
+      description: Specify the type of sender or receiver i.e. WAREHOUSE or STAFF
+
+    Boundary:
+      type: object
+      properties:
+        id:
+          type: string
+        tenantId:
+          type: string
+        code:
+          type: string
+        geometry:
+          type: object
+        auditDetails:
+          $ref: '#/components/schemas/AuditDetails'
+        additionalDetails:
+          type: object
+    boundaryCode:
+      description: "Reference to boundary code."
+      type: "string"
+      format: "varchar"
+      minLength: 0
+      maxLength: 64
+    id:
+      type: "string"
+      minLength: 2
+      maxLength: 64
+      description: "Unique system generated GUID"
+      readOnly: true
+    idForSearch:
+      type: "array"
+      items:
+        type: "string"
+        minLength: 2
+        maxLength: 64
+        description: "Unique system generated GUID"
+    clientReferenceIdForSearch:
+      type: "array"
+      items:
+        type: "string"
+        minLength: 2
+        maxLength: 64
+        description: "Unique client generated GUID"
+    clientReferenceId:
+      type: "string"
+      minLength: 2
+      maxLength: 64
+      description: "Unique client generated GUID"
+    tenantId:
+      type: "string"
+      minLength: 2
+      maxLength: 1000
+      description: "Unique tenant of the system"
+      example: "tenantA"
+    eventTimestamp:
+      type: "integer"
+      format: "int64"
+      example: 1663218161
+    isDeleted:
+      type: "boolean"
+      description: "Flag to indicate if record is soft deleted"
+      readOnly: true
+    rowVersion:
+      type: "integer"
+      format: "int64"
+      description: "Field to indicate the version of the row that the client used as\
+        \ a base to perform an update operation. This is to validate and maintain the\
+        \ sequence of updates."
+    apiOperation:
+      type: "string"
+      description: "Specify the type of operation being performed i.e. CREATE, UPDATE\
+        \ or DELETE"
+      example: "CREATE"
+      enum:
+        - "CREATE"
+        - "UPDATE"
+        - "DELETE"
