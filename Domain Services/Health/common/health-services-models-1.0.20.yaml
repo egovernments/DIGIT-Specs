@@ -7,6 +7,39 @@ info:
 paths: {}
 components:
   schemas:
+    Field:
+      type: "object"
+      required:
+        - "key"
+        - "value"
+      properties:
+        key:
+          type: "string"
+          example: "height"
+          minLength: 2
+          maxLength: 64
+        value:
+          type: "string"
+          example: 180
+          minLength: 2
+          maxLength: 10000
+    AdditionalFields:
+      type: "object"
+      properties:
+        schema:
+          type: "string"
+          example: "HOUSEHOLD"
+          minLength: 2
+          maxLength: 64
+        version:
+          type: "integer"
+          example: 2
+          minimum: 1
+        fields:
+          type: "array"
+          items:
+            type: "object"
+            $ref: "#/components/schemas/Field"
     EgovModel:
       type: object
       properties:
@@ -32,7 +65,7 @@ components:
           type: boolean
           description: Indicates if there are errors in the model
         additionalFields:
-          $ref: '#/components/schemas/additionalFields'
+          $ref: '#/components/schemas/AdditionalFields'
         auditDetails:
           $ref: '#/components/schemas/AuditDetails'
       required:
@@ -2167,36 +2200,3 @@ components:
         - "CREATE"
         - "UPDATE"
         - "DELETE"
-    Field:
-      type: "object"
-      required:
-        - "key"
-        - "value"
-      properties:
-        key:
-          type: "string"
-          example: "height"
-          minLength: 2
-          maxLength: 64
-        value:
-          type: "string"
-          example: 180
-          minLength: 2
-          maxLength: 10000
-    additionalFields:
-      type: "object"
-      properties:
-        schema:
-          type: "string"
-          example: "HOUSEHOLD"
-          minLength: 2
-          maxLength: 64
-        version:
-          type: "integer"
-          example: 2
-          minimum: 1
-        fields:
-          type: "array"
-          items:
-            type: "object"
-            $ref: "#/components/schemas/Field"
