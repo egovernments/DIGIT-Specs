@@ -47,7 +47,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   
-  /project-factory/v1/data/_create:
+  /sandbox-connector/v1/data/_create:
     post:
       tags:
       - Bulk Data Creation
@@ -84,7 +84,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
-  /project-factory/v1/data/_search:
+  /sandbox-connector/v1/data/_search:
     post:
       tags:
       - Bulk Data Creation
@@ -163,7 +163,7 @@ components:
           readOnly: true
         type:
           type: "string"
-          example: "facility|user|boundarywithtarget"
+          example: "boundary|mdms"
         hierarchyType:
           type: "string"
           example: "admin|revenue"
@@ -214,17 +214,17 @@ components:
             lastModifiedTime:
               type: "string"
               example: "1644426612"
-      SearchCriteria:
-        type: "object"
-        properties:
-          id:
-            type: "array"
-            items:
-              type: "string"
-          tenantId:
+    SearchCriteria:
+      type: "object"
+      properties:
+        id:
+          type: "array"
+          items:
             type: "string"
-          type:
-            type: "string"
-          status:
-            type: "string"
+        tenantId:
+          type: "string"
+        type:
+          type: "string"
+        status:
+          type: "string"
 
