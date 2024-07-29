@@ -1,0 +1,230 @@
+openapi: 3.0.1
+info:
+  title: Sandbox Connector
+  description: BFF service APIs - to Bulk create, search and fetch all data in a registry.
+  contact:
+    name: Jagankumar
+    email: jagan.kumar@egovernments.org
+  version: 1.0.0
+servers:
+- url: /sandbox-connector/v1
+paths:
+  /sandbox-connector/v1/actions/_get:
+    post:
+      tags:
+      - Bulk Data Creation
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                ActionDetails:
+                  $ref: '#/components/schemas/ActionDetails'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  ActionDetails:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/ActionDetails'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  
+  /project-factory/v1/data/_create:
+    post:
+      tags:
+      - Bulk Data Creation
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                ResourceDetails:
+                  $ref: '#/components/schemas/ResourceDetails'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  ResourceDetails:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/ResourceDetails'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /project-factory/v1/data/_search:
+    post:
+      tags:
+      - Bulk Data Creation
+      summary: "This API endpoint searches for API resources"
+      description: "This API endpoint searches for API resources"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                SearchCriteria:
+                  $ref: '#/components/schemas/SearchCriteria'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  ResponseDetails:
+                    type: "array"
+                    items:  
+                      $ref: '#/components/schemas/ResourceDetails'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+components:
+  schemas:
+    ActionDetails:
+      type: object
+      properties:
+        actionId:
+          type: "string"
+          format: uuid
+          example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+          description: System generated unique identifier for the entry
+          readOnly: true
+        type:
+          type: "string"
+          example: "sidebar|application|home"
+        tenantId:
+          type: "string"
+        metaData:
+          type: "object"
+          readOnly: true
+          properties:
+            order:
+              type: "number"
+            path:
+              type: "string"
+            navigationURL:
+              type: "string"
+            iconName:
+              type: "string"
+            name:
+              type: "string"
+
+    ResourceDetails:
+      type: object
+      properties:
+        id:
+          type: "string"
+          format: uuid
+          example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
+          description: System generated unique identifier for the entry
+          readOnly: true
+        type:
+          type: "string"
+          example: "facility|user|boundarywithtarget"
+        hierarchyType:
+          type: "string"
+          example: "admin|revenue"
+        tenantId:
+          type: "string"
+        fileStoreId:
+          type: "string"
+          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+          format: uuid
+          description: input file
+        processedFileStoreId:
+          type: "string"
+          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+          format: uuid
+          description: processed file with updated status
+          readOnly: true
+        campaignId:
+          type: "string"
+          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
+          format: uuid
+          description: campaign id for which data is getting created or validated
+          readOnly: true
+        status:
+          readOnly: true
+          type: "string"
+          example: "data-accepted"
+        action:
+          type: "string"
+          enum: 
+            - "create"
+            - "validate"
+        additionalDetails:
+          type: "object"
+          example: {}
+        auditDetails:
+          readOnly: true
+          type: "object"
+          properties:
+            createdBy:
+              type: "string"
+              example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+            lastModifiedBy:
+              type: "string"
+              example: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+            createdTime:
+              type: "string"
+              example: "1644426612"
+            lastModifiedTime:
+              type: "string"
+              example: "1644426612"
+      SearchCriteria:
+        type: "object"
+        properties:
+          id:
+            type: "array"
+            items:
+              type: "string"
+          tenantId:
+            type: "string"
+          type:
+            type: "string"
+          status:
+            type: "string"
+
