@@ -178,7 +178,7 @@ paths:
         description: unique id for a tenant.
         required: true
         schema:
-          maxLength: 256
+          maxLength: 128
           type: string
           format: varchar
       - name: type
@@ -186,7 +186,7 @@ paths:
         description: type of the resource
         required: true
         schema:
-          maxLength: 256
+          maxLength: 128
           type: string
           format: varchar
       - name: hierarchyType
@@ -194,7 +194,7 @@ paths:
         description: type of the resource
         required: true
         schema:
-          maxLength: 256
+          maxLength: 128
           type: string
           format: varchar
       - name: id
@@ -202,7 +202,23 @@ paths:
         description: unique id of the generated request
         required: false
         schema:
-          maxLength: 256
+          maxLength: 128
+          type: string
+          format: varchar
+      - name: status
+        in: query
+        description: status of the generated request
+        required: false
+        schema:
+          maxLength: 500
+          type: string
+          format: varchar
+      - name: campaignId
+        in: query
+        description: campaignId of the resource
+        required: false
+        schema:
+          maxLength: 128
           type: string
           format: varchar
       responses:
@@ -336,6 +352,156 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                
+  /project-factory/v1/project-type/getProcessTrack:
+    post:
+      tags:
+      - Process Campaign
+      summary: Get Process Track
+      description: Fetches the process track for a specific campaign ID.
+      parameters:
+        - name: campaignId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier for the campaign.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  type: object
+                  properties:
+                    apiId:
+                      type: string
+                      example: Rainmaker
+                    authToken:
+                      type: string
+                      example: 9b6e53ef-b2ee-4613-b4ff-ee6de99ce3b6
+                    userInfo:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1284
+                        uuid:
+                          type: string
+                          example: 867ba408-1b82-4746-8274-eb916e625fea
+                        userName:
+                          type: string
+                          example: EMP57
+                        name:
+                          type: string
+                          example: Jagan
+                        mobileNumber:
+                          type: string
+                          example: 6667776662
+                        emailId:
+                          type: string
+                          example: xyz@egovernments.org
+                        locale:
+                          type: string
+                          example: string
+                        type:
+                          type: string
+                          example: EMPLOYEE
+                        roles:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              code:
+                                type: string
+                              tenantId:
+                                type: string
+                        active:
+                          type: boolean
+                          example: true
+                        tenantId:
+                          type: string
+                          example: mz
+                        permanentCity:
+                          type: string
+                          example: Amritsar
+                    msgId:
+                      type: string
+                      example: 1713593588138|en_MZ
+                    plainAccessRequest:
+                      type: object
+                      additionalProperties: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ResponseInfo:
+                    type: object
+                    properties:
+                      apiId:
+                        type: string
+                        example: egov-bff
+                      ver:
+                        type: string
+                        example: 0.0.1
+                      ts:
+                        type: integer
+                        example: 1722848949604
+                      status:
+                        type: string
+                        example: successful
+                      desc:
+                        type: string
+                        example: new-response
+                  processTrack:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 158efeca-6888-4360-a204-24f9c343f82a
+                        campaignId:
+                          type: string
+                          example: 47108c06-b38e-41f2-8cb4-27771565638b
+                        type:
+                          type: string
+                          example: trigger-resource-creation
+                        status:
+                          type: string
+                          example: completed
+                        showInUi:
+                          type: boolean
+                          example: false
+                        details:
+                          type: object
+                          additionalProperties: true
+                        additionalDetails:
+                          type: object
+                          additionalProperties: true
+                        createdTime:
+                          type: integer
+                          example: 1722839084951
+                        lastModifiedTime:
+                          type: integer
+                          example: 1722839086698
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+
 components:
   schemas:
     ResourceDetails:
