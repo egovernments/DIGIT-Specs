@@ -398,22 +398,16 @@ definitions:
       - $ref: '#/definitions/EgovOfflineSearchModel'
     type: object
     properties:
+      createdBy:
+        type: string
       projectId:
-        type: array
-        items:
-          type: string
+        type: string
       boundaryCode:
-        type: array
-        items:
-          type: string
+        type: string
       beneficiaryTag:
-        type: array
-        items:
-          type: string
+        type: string
       resourceTag:
-        type: array
-        items:
-          type: string
+        type: string
 
   LocationCapture:
     allOf:
