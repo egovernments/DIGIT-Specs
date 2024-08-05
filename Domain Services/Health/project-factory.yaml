@@ -178,7 +178,7 @@ paths:
         description: unique id for a tenant.
         required: true
         schema:
-          maxLength: 256
+          maxLength: 128
           type: string
           format: varchar
       - name: type
@@ -186,7 +186,7 @@ paths:
         description: type of the resource
         required: true
         schema:
-          maxLength: 256
+          maxLength: 128
           type: string
           format: varchar
       - name: hierarchyType
@@ -194,7 +194,7 @@ paths:
         description: type of the resource
         required: true
         schema:
-          maxLength: 256
+          maxLength: 128
           type: string
           format: varchar
       - name: id
@@ -202,7 +202,23 @@ paths:
         description: unique id of the generated request
         required: false
         schema:
-          maxLength: 256
+          maxLength: 128
+          type: string
+          format: varchar
+      - name: status
+        in: query
+        description: status of the generated request
+        required: false
+        schema:
+          maxLength: 500
+          type: string
+          format: varchar
+      - name: campaignId
+        in: query
+        description: campaignId of the resource
+        required: false
+        schema:
+          maxLength: 128
           type: string
           format: varchar
       responses:
