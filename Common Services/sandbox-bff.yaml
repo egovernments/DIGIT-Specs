@@ -121,6 +121,43 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /sandbox-connector/v1/seed-data/_create:
+    post:
+      tags:
+      - Bulk Data Creation
+      summary: "This API endpoint used to do a bulk upload of data based on type"
+      description: "This API endpoint used to do a bulk upload of data based on type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RequestInfo:
+                  $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+                ResourceDetails:
+                  $ref: '#/components/schemas/EntityDetails'
+      responses:
+        200:
+          description: Successful Response.
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  ResponseInfo:
+                    $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+                  ResourceDetails:
+                    type: "array"
+                    items:
+                      $ref: '#/components/schemas/ResourceDetails'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
 components:
   schemas:
     ActionDetails:
@@ -164,9 +201,9 @@ components:
         type:
           type: "string"
           example: "boundary|mdms"
-        hierarchyType:
+        schema:
           type: "string"
-          example: "admin|revenue"
+          example: "admin|revenue|any mdms schma code"
         tenantId:
           type: "string"
         fileStoreId:
@@ -179,12 +216,6 @@ components:
           example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
           format: uuid
           description: processed file with updated status
-          readOnly: true
-        campaignId:
-          type: "string"
-          example: "a47e3f92-5c05-4abf-bf4e-17d2d4a35a72"
-          format: uuid
-          description: campaign id for which data is getting created or validated
           readOnly: true
         status:
           readOnly: true
@@ -227,4 +258,19 @@ components:
           type: "string"
         status:
           type: "string"
+    EntityDetails:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          tenantId:
+            type: "string"
+            example: "pwc"
+          type:
+            type: "string"
+            example: "boundary"
+          schema:
+            type: "string"
+            example: "admin"
+            
 
