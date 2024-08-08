@@ -1,0 +1,1212 @@
+openapi: 3.0.3
+info:
+  title: Account/Tenant Management and Auth&Auth APIs
+  description: API for managing tenants, subTenants, roles, actions, roleActions, and users.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+tags:
+  - name: Tenant
+    description: Individual or organization that uses a shared software application or service
+  - name: Role
+    description: Roles of the user
+  - name: Action
+    description: Action that can be performed 
+  - name: User
+    description: Operations about user
+
+paths:
+  /tenant/_create:
+    post:
+      tags:
+        - Tenant
+      summary: Create a new tenant
+      description: Create a new tenant with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantRequest'
+      responses:
+        '201':
+          description: Tenant created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantResponse'
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /tenant/_update:
+    post:
+      tags:
+        - Tenant
+      summary: Update an existing tenant
+      description: Update the details of an existing tenant.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantRequest'
+      responses:
+        '200':
+          description: Tenant updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /tenant/_search:
+    post:
+      tags:
+        - Tenant
+      summary: Search tenants
+      description: Search for tenants based on code or name.
+      parameters:
+        - name: code
+          in: query
+          description: Tenant code to search for.
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Tenant name to search for.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: List of tenants
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/TenantResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /subTenant/_create:
+    post:
+      tags:
+        - Tenant
+      summary: Create a new subTenant
+      description: Create a new subTenant with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubTenantRequest'
+      responses:
+        '201':
+          description: SubTenant created successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/SubTenantResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /subTenant/_update:
+    post:
+      tags:
+        - Tenant
+      summary: Update an existing subTenant
+      description: Update the details of an existing subTenant.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubTenantRequest'
+      responses:
+        '200':
+          description: SubTenant updated successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/SubTenantResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /subTenant/_search:
+    post:
+      tags:
+        - Tenant
+      summary: Search subTenants
+      description: Search for subTenants based on code or name.
+      parameters:
+        - name: code
+          in: query
+          description: SubTenant code to search for.
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: SubTenant name to search for.
+          schema:
+            type: string
+        - name: parentId
+          in: query
+          description: Search based on parentId
+          schema:
+            type: string            
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: List of subTenants
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/SubTenantResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  
+  /tenant/config/_create:
+    post:
+      tags:
+        - Tenant
+      summary: Create configuration for a given tenant
+      description: Create a new tenant with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        '201':
+          description: Tenant created successfully
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /tenant/config/_update:
+    post:
+      tags:
+        - Tenant
+      summary: Update an existing tenant
+      description: Update the details of an existing tenant.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        '200':
+          description: Tenant updated successfully
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /tenant/config/_search:
+    post:
+      tags:
+        - Tenant
+      summary: Search tenants
+      description: Search for tenants based on code or name.
+      parameters:
+        - name: code
+          in: query
+          description: Tenant code to search for.
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Tenant name to search for.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        '200':
+          description: List of tenants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /role/_create:
+    post:
+      tags:
+        - Role
+      summary: Create a new role
+      description: Create a new role with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+      responses:
+        '201':
+          description: Role created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /role/_update:
+    post:
+      tags:
+        - Role
+      summary: Update an existing role
+      description: Update the details of an existing role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+      responses:
+        '200':
+          description: Role updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /role/_search:
+    post:
+      tags:
+        - Role
+      summary: Search roles
+      description: Search for roles based on tenantId or code.
+      parameters:
+        - name: tenantId
+          in: query
+          description: Tenant ID to search for roles.
+          schema:
+            type: string
+        - name: code
+          in: query
+          description: Role code to search for.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: List of roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /action/_create:
+    post:
+      tags:
+        - Action
+      summary: Create a new action
+      description: Create a new action with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionRequest'
+      responses:
+        '201':
+          description: Action created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /action/_update:
+    post:
+      tags:
+        - Action
+      summary: Update an existing action
+      description: Update the details of an existing action.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionRequest'
+      responses:
+        '200':
+          description: Action updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /action/_search:
+    post:
+      tags:
+        - Action
+      summary: Search actions
+      description: Search for actions based on id or uri.
+      parameters:
+        - name: id
+          in: query
+          description: Action ID to search for.
+          schema:
+            type: string
+        - name: uri
+          in: query
+          description: URI of the action to search for.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: List of actions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /roleAction/_create:
+    post:
+      tags:
+        - Action
+      summary: Create a new roleAction
+      description: Create a new roleAction with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleActionRequest'
+      responses:
+        '200':
+          description: List of Role-actions Mapping 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleActionResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /roleAction/_update:
+    post:
+      tags:
+        - Action
+      summary: Update an existing roleAction
+      description: Update the details of an existing roleAction.
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleActionRequest'
+      responses:
+        '200':
+          description: RoleAction updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleActionResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /roleAction/_search:
+    post:
+      tags:
+        - Action
+      summary: Search roleActions
+      description: Search for roleActions based on tenantId, roleCode, or actionId.
+      parameters:
+        - name: tenantId
+          in: query
+          description: Tenant ID to search for roleActions.
+          schema:
+            type: string
+        - name: roleCode
+          in: query
+          description: Role code to search for roleActions.
+          schema:
+            type: string
+        - name: actionId
+          in: query
+          description: Action ID to search for roleActions.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: List of roleActions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleActionResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /user/_register:
+    post:
+      tags:
+        - User
+      summary: Create a new user
+      description: Create a new user with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /user/_update:
+    post:
+      tags:
+        - User
+      summary: Update an existing user
+      description: Update the details of an existing user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+
+  /user/_search:
+    post:
+      tags:
+        - User
+      summary: Search users
+      description: Search for users based on tenantId or username.
+      parameters:
+        - name: tenantId
+          in: query
+          description: Tenant ID to search for users.
+          schema:
+            type: string
+        - name: username
+          in: query
+          description: Username to search for users.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                
+  /user/_verify:
+    post:
+      tags:
+        - User
+      summary: Create a new user
+      description: Create a new user with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /user/_block:
+    post:
+      tags:
+        - User
+      summary: Create a new user
+      description: Create a new user with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /user/_unblock:
+    post:
+      tags:
+        - User
+      summary: Create a new user
+      description: Create a new user with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /user/_logout:
+    post:
+      tags:
+        - User
+      summary: Create a new user
+      description: Create a new user with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /user/_token:
+    post:
+      summary: Obtain a token
+      description: Obtain an access token from Keycloak.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  description: The type of grant being used.
+                  example: password
+                client_id:
+                  type: string
+                  description: The client ID.
+                client_secret:
+                  type: string
+                  description: The client secret.
+                username:
+                  type: string
+                  description: The username.
+                token:
+                  type: string
+                  description: Token can be password/OTP 
+                
+      responses:
+        '200':
+          description: Token obtained successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  expires_in:
+                    type: integer
+                  refresh_expires_in:
+                    type: integer
+                  refresh_token:
+                    type: string
+                  token_type:
+                    type: string
+                  'not-before-policy':
+                    type: integer
+                  session_state:
+                    type: string
+                  scope:
+                    type: string
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized.
+
+components:
+  schemas:
+    Tenant:
+      type: object
+      description: Details of a tenant
+      required:
+        - code
+        - name
+        - email
+      properties:
+        id:
+          maxLength: 128
+          minLength: 2
+          type: string
+          description: This unique identifier of the tenant
+          readOnly: true
+        code:
+          type: string
+          description: Unique code for the tenant
+          minLength: 1
+          maxLength: 20
+          readOnly: true
+        name:
+          type: string
+          description: Name of the tenant
+          minLength: 1
+          maxLength: 100
+        email:
+          type: string
+          description: Email address of the tenant
+          format: email
+          minLength: 5
+          maxLength: 100
+        additionalAttributes:
+          type: object
+          description: Any additional key-value pair can be stored
+        isActive:
+          type: boolean
+          description: Status indicating if the tenant is active
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+
+    SubTenant:
+      type: object
+      description: Details of a subTenant
+      required:
+        - code
+        - name
+        - parentId
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: This unique identifier of the sub tenant
+          readOnly: true      
+        code:
+          type: string
+          description: Unique code for the subTenant
+          minLength: 1
+          maxLength: 20
+        name:
+          type: string
+          description: Name of the subTenant
+          minLength: 1
+          maxLength: 100
+        parentId:
+          type: string
+          description: Reference Id of the Tenant
+          minLength: 1
+          maxLength: 100
+        additionalAttributes:
+          type: object
+          description: Any additional key-value pair can be stored
+        isActive:
+          type: boolean
+          description: Status indicating if the subTenant is active
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+
+    Role:
+      type: object
+      description: Details of a role
+      required:
+        - tenantId
+        - code
+        - isActive
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: This unique identifier of the Role
+          readOnly: true      
+        tenantId:
+          type: string
+          description: ID of the tenant to which the role belongs
+          minLength: 1
+          maxLength: 50
+        code:
+          type: string
+          description: Unique code for the role
+          minLength: 1
+          maxLength: 20
+        isActive:
+          type: boolean
+          description: Status indicating if the role is active
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+
+    Action:
+      type: object
+      description: Details of an action
+      required:
+        - id
+        - uri
+        - description
+        - isActive
+        - tag
+        - accessType
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique ID for the action
+        uri:
+          type: string
+          description: URI of the action
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          description: Description of the action
+          minLength: 1
+          maxLength: 255
+        isActive:
+          type: boolean
+          description: Status indicating if the action is active
+        tag:
+          type: array
+          items:
+            type: string
+          description: Tags associated with the action
+          minItems: 1
+        accessType:
+          type: array
+          items:
+            type: string
+            enum:
+              - OPEN
+              - PROTECTED
+          description: Access types for the action
+          minItems: 1
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+
+
+    RoleAction:
+      type: object
+      description: Details of a roleAction
+      required:
+        - tenantId
+        - roleCode
+        - actionId
+      properties:
+        id:
+          type: string
+          description: Unique ID for the action
+          format: uuid
+        tenantId:
+          type: string
+          description: ID of the tenant to which the roleAction belongs
+          minLength: 1
+          maxLength: 50
+        roleCode:
+          type: string
+          description: Code of the role associated with the roleAction
+          minLength: 1
+          maxLength: 20
+        actionId:
+          type: string
+          description: ID of the action associated with the roleAction
+          minLength: 1
+          maxLength: 20
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+
+    User:
+      type: object
+      description: Details of a user
+      required:
+        - tenantId
+        - userName
+        - loginType
+        - roles
+      properties:
+        id:
+          type: string
+          description: Unique ID for the action
+          format: uuid  
+        tenantId:
+          type: string
+          description: ID of the tenant to which the user belongs
+          minLength: 1
+          maxLength: 50
+        userName:
+          type: string
+          description: Username of the user
+          minLength: 1
+          maxLength: 50
+        email:
+          type: string
+          description: User email address
+          minLength: 1
+          maxLength: 50
+        emailVarified:
+          type: boolean
+          description: True if email address is varified 
+        mobile:
+          type: string
+          description: User mobile number
+          minLength: 1
+          maxLength: 50
+        mobileVarified:
+          type: boolean
+          description: True if mobile no is varified 
+        loginType:
+          type: string
+          description: Type of login for the user
+          enum:
+            - Password
+            - OTP
+            - 2FA
+        loginCount:
+          type: number
+          description: Store no of login
+          minLength: 1
+          maxLength: 20
+        roles:
+          type: array
+          description: Roles assigned to the user
+          items:
+            type: object
+            required:
+              - role
+              - tenant
+            properties:
+              role:
+                type: string
+                description: Role assigned to the user
+                minLength: 1
+                maxLength: 20
+              tenant:
+                type: array
+                description: Tenant associated with the role
+                items:
+                  type: string
+                
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+          
+    UserCredentials:
+      type: object
+      description: Details of a user
+      required:
+        - tenantId
+        - userId
+        - password
+      properties:
+        id:
+          type: string
+          description: Unique ID for the action
+          format: uuid  
+        tenantId:
+          type: string
+          description: ID of the tenant to which the user belongs
+          minLength: 1
+          maxLength: 50
+        userId:
+          type: string
+          description: Username of the user
+          minLength: 1
+          maxLength: 50
+        password:
+          type: string
+          description: User email address
+          minLength: 1
+          maxLength: 50
+                
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+    
+    
+    
+    TenantRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        tenant:
+          $ref: '#/components/schemas/Tenant'
+      required:
+        - requestInfo
+        - tenant
+    
+    TenantResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        Tenants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tenant'
+            
+    SubTenantRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        subTenant:
+          $ref: '#/components/schemas/SubTenant'
+        
+      required:
+        - requestInfo
+        - subTenant
+    
+    SubTenantResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        Tenants:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubTenant'
+    
+    RoleRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        role:
+          $ref: '#/components/schemas/Role'
+        
+      required:
+        - requestInfo
+        - role
+    
+    RoleResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+            
+    ActionRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        action:
+          $ref: '#/components/schemas/Action'
+        
+      required:
+        - requestInfo
+        - action
+    
+    ActionResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+            
+    RoleActionRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        roleAction:
+          $ref: '#/components/schemas/RoleAction'
+        
+      required:
+        - requestInfo
+        - roleAction
+    
+    RoleActionResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        roleActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleAction'
+            
+    UserRequest:
+      type: object
+      properties:
+        requestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        user:
+          $ref: '#/components/schemas/User'
+        
+      required:
+        - requestInfo
+        - user
+    
+    UserResponse:
+      type: object
+      properties:
+        responseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        user:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+            
+    
+            
+            
