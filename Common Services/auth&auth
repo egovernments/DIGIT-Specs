@@ -7,11 +7,17 @@ servers:
   - url: http://localhost:8080/api
 tags:
   - name: Tenant
-    description: Individual or organization that uses a shared software application or service
+    description: Everything about your Pets
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
   - name: Role
-    description: Roles of the user
+    description: Access to Petstore orders
+    externalDocs:
+      description: Find out more about our store
+      url: http://swagger.io
   - name: Action
-    description: Action that can be performed 
+    description: Operations about user
   - name: User
     description: Operations about user
 
@@ -202,8 +208,8 @@ paths:
     post:
       tags:
         - Tenant
-      summary: Create configuration for a given tenant
-      description: Create a new tenant with the provided details.
+      summary: Create Tenant Configuration
+      description: Add the configuration of a root tenant
       requestBody:
         required: true
         content:
@@ -223,8 +229,8 @@ paths:
     post:
       tags:
         - Tenant
-      summary: Update an existing tenant
-      description: Update the details of an existing tenant.
+      summary: Update an existing tenant configuration
+      description: Update the details of an existing tenant configuration.
       requestBody:
         required: true
         content:
@@ -245,17 +251,12 @@ paths:
     post:
       tags:
         - Tenant
-      summary: Search tenants
-      description: Search for tenants based on code or name.
+      summary: Search tenants configuration
+      description: Search tenant configuration
       parameters:
-        - name: code
+        - name: tenantId
           in: query
           description: Tenant code to search for.
-          schema:
-            type: string
-        - name: name
-          in: query
-          description: Tenant name to search for.
           schema:
             type: string
       requestBody:
@@ -729,6 +730,8 @@ paths:
                 $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
   /user/_token:
     post:
+      tags:
+        - User
       summary: Obtain a token
       description: Obtain an access token from Keycloak.
       requestBody:
@@ -862,6 +865,47 @@ components:
           description: Status indicating if the subTenant is active
         auditDetails:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+    TenantConfig:
+      type: object
+      description: Details of Tenant Configuration
+      required:
+        - code
+        - name
+        - parentId
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: This unique identifier of the sub tenant
+          readOnly: true      
+        headerUrl:
+          type: string
+          description: Unique code for the subTenant
+          minLength: 1
+          maxLength: 20
+        footerUrl:
+          type: string
+          description: Name of the subTenant
+          minLength: 1
+          maxLength: 100
+        defaultLoginType:
+          type: string
+          description: The tenant admin can configure a default login type for all users within the tenant.
+          enum:
+            - Password
+            - OTP
+            - 2FA
+        enableUserBasedLogin:
+          type: boolean
+          description: If enabled, users can choose or change their login type from the available methods configured by the tenant.
+        additionalAttributes:
+          type: object
+          description: Any additional key-value pair can be stored
+        isActive:
+          type: boolean
+          description: Status indicating if the subTenant is active
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/grouped-service-contracts/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
 
     Role:
       type: object
@@ -880,12 +924,18 @@ components:
           type: string
           description: ID of the tenant to which the role belongs
           minLength: 1
-          maxLength: 50
+          maxLength: 64
         code:
           type: string
           description: Unique code for the role
           minLength: 1
-          maxLength: 20
+          maxLength: 64
+        actions:
+          type: array
+          description: List of resources that role has access
+          items:
+            type: string
+          readOnly: true
         isActive:
           type: boolean
           description: Status indicating if the role is active
@@ -896,27 +946,25 @@ components:
       type: object
       description: Details of an action
       required:
-        - id
         - uri
         - description
-        - isActive
-        - tag
         - accessType
       properties:
         id:
           type: string
           format: uuid
           description: Unique ID for the action
+          readOnly: true
         uri:
           type: string
           description: URI of the action
           minLength: 1
-          maxLength: 100
+          maxLength: 256
         description:
           type: string
           description: Description of the action
           minLength: 1
-          maxLength: 255
+          maxLength: 256
         isActive:
           type: boolean
           description: Status indicating if the action is active
