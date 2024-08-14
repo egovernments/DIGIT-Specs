@@ -27,7 +27,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/v1/_update:
     post:
@@ -50,7 +50,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/v1/_search:
     post:
@@ -62,7 +62,7 @@ paths:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/parameters/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/parameters/tenantId'
         - name: ids
           description: List of register ids
           in: query
@@ -154,7 +154,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/staff/v1/_create:
     post:
@@ -178,7 +178,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/staff/v1/_delete:
     post:
@@ -202,7 +202,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/attendee/v1/_create:
     post:
@@ -226,7 +226,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/attendee/v1/_delete:
     post:
@@ -250,7 +250,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/log/v1/_create:
     post:
@@ -274,7 +274,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/log/v1/_update:
     post:
@@ -298,7 +298,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ErrorRes'
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/ErrorRes'
 
   /attendance/log/v1/_search:
     post:
@@ -310,7 +310,7 @@ paths:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/parameters/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/parameters/tenantId'
         - name: registerId
           in: query
           required: true
@@ -423,7 +423,7 @@ components:
               - $ref: '#/components/schemas/IndividualEntry'
               - description: 'Entries of the attendees of the register.'
         auditDetails:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/AuditDetails'
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails'
         additionalDetails:
           type: object
           description: Any additional details of the register
@@ -436,7 +436,7 @@ components:
     AttendanceRegisterRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/RequestInfo'
         attendanceRegister:
           type: array
@@ -448,7 +448,7 @@ components:
     AttendanceRegisterResponse:
       type: object
       properties:
-        responseInfo:
+        ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/ResponseInfo'
         attendanceRegister:
           type: array
@@ -484,11 +484,16 @@ components:
           type: string
           example: pb.amritsar
           description: Tenant Id
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails'
+        additionalDetails:
+          type: object
+          description: Any additional details of the register
 
     AttendeeCreateRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/RequestInfo'
         attendees:
           type: array
@@ -504,7 +509,7 @@ components:
     AttendeeCreateResponse:
       type: object
       properties:
-        responseInfo:
+        ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/ResponseInfo'
         attendees:
           type: array
@@ -514,7 +519,7 @@ components:
     AttendeeDeleteRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/RequestInfo'
         attendees:
           type: array
@@ -530,7 +535,7 @@ components:
     AttendeeDeleteResponse:
       type: object
       properties:
-        responseInfo:
+        ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/ResponseInfo'
         attendees:
           type: array
@@ -564,6 +569,8 @@ components:
           readOnly: true
           type: number
           description: The timestamp at which the access permission is revoked. It is set to the current time when the delete api is called.
+        additionalDetails:
+          type: object
       required:
         - registerId
         - userId
@@ -571,7 +578,7 @@ components:
     StaffPermissionRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/RequestInfo'
         staff:
           type: array
@@ -586,7 +593,7 @@ components:
     StaffPermissionResponse:
       type: object
       properties:
-        responseInfo:
+        ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/ResponseInfo'
         staff:
           type: array
@@ -629,9 +636,11 @@ components:
           description: Used to store file store ids. Need to verify validity of them using file store service.
           type: array
           items:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/Document'
+            $ref: '#/components/schemas/Document'
         additionalDetails:
           type: object
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails'
       required:
         - registerId
         - individualId
@@ -642,7 +651,7 @@ components:
     AttendanceLogRequest:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/RequestInfo'
         attendance:
           type: array
@@ -652,7 +661,7 @@ components:
     AttendanceLogResponse:
       type: object
       properties:
-        responseInfo:
+        ResponseInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/ResponseInfo'
         attendance:
           type: array
@@ -662,5 +671,38 @@ components:
     RequestInfoWrapper:
       type: object
       properties:
-        requestInfo:
+        RequestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/subhashini_devguide_changes/core-services/docs/common-contract.yml#/definitions/RequestInfo'
+
+    Document:
+      description: >-
+        This object holds list of documents attached during the transaciton for
+        a property
+      type: object
+      properties:
+        id:
+          description: system id of the Document.
+          type: string
+          maxLength: 64
+        documentType:
+          description: >-
+            unique document type code, should be validated with document type
+            master
+          type: string
+        fileStore:
+          description: File store reference key.
+          type: string
+        documentUid:
+          description: The unique id(Pancard Number,Adhar etc.) of the given Document.
+          type: string
+          maxLength: 64
+        additionalDetails:
+          description: >-
+            Json object to capture any extra information which is not
+            accommodated by model
+          type: object
+        status:
+          type: string
+          enum: 
+            - ACTIVE
+            - INACTIVE
