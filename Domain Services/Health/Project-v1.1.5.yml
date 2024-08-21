@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 1.1.4
+  version: 1.1.5
   title: Project Management System
   contact:
     name: egovernments foundation
@@ -1057,8 +1057,8 @@ paths:
               https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
   /project/user-action/v1/_create:
     post:
-      summary: Create User-Actions (ie. Closed Household) for the project in bulk
-      description: Create User-Actions (ie. Closed Household) for the project in bulk
+      summary: Create User-Actions for the project in bulk
+      description: Create User-Actions for the project in bulk
       parameters:
         - name: UserAction
           in: body
@@ -1070,7 +1070,7 @@ paths:
         - User Action
       responses:
         '202':
-          description: Create User-Action (ie. Closed Household) request has been accepted for creation.
+          description: Create User-Action request has been accepted for creation.
           schema:
             $ref: '#/definitions/BulkAcceptedResponse'
         '400':
@@ -1079,8 +1079,8 @@ paths:
             $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
   /project/user-action/v1/_update:
     post:
-      summary: User-Action (ie. Closed Household) Request in bulk for a project
-      description: User-Action (ie. Closed Household) Request in bulk for a project
+      summary: User-Action Request in bulk for a project
+      description: User-Action Request in bulk for a project
       parameters:
         - name: UserAction
           in: body
@@ -1092,7 +1092,7 @@ paths:
         - User Action
       responses:
         '202':
-          description: update User-Actions (ie. Closed Household) bulk request has been accepted for update.
+          description: update User-Actions bulk request has been accepted for update.
           schema:
             $ref: '#/definitions/BulkAcceptedResponse'
         '400':
@@ -1101,12 +1101,12 @@ paths:
             $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
   /project/user-action/v1/_search:
     post:
-      summary: Search User-Action (ie. Closed Household) for Project
-      description: Search User-Action (ie. Closed Household) for Project
+      summary: Search User-Action for Project
+      description: Search User-Action for Project
       parameters:
         - name: UserAction
           in: body
-          description: User-Action (ie. Closed Household) Search.
+          description: User-Action Search.
           required: true
           schema:
             $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UserActionSearchRequest'
