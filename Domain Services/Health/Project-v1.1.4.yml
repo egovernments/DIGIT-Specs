@@ -22,14 +22,14 @@ paths:
           description: Details for the new Project.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectRequest'
       tags:
         - Project
       responses:
         '202':
           description: Project request accepted for creation.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -47,14 +47,14 @@ paths:
           description: Details for the new Project.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectRequest'
       tags:
         - Project
       responses:
         '202':
           description: Employee request accepted for creation.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -73,12 +73,12 @@ paths:
           description: Details for the project.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectRequest'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/includeDeleted'
         - $ref: '#/parameters/includeAncestors'
         - $ref: '#/parameters/includeDescendants'
         - $ref: '#/parameters/createdFrom'
@@ -89,7 +89,7 @@ paths:
         '200':
           description: Projects.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -108,15 +108,15 @@ paths:
           description: Details for the project.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectSearchURLParams'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectSearchRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectSearchURLParams'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectSearchRequest'
       tags:
         - Project
       responses:
         '200':
           description: Projects.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectSearchResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectSearchResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -135,14 +135,14 @@ paths:
           description: Capture details of benificiary type.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryRequest'
       tags:
         - Project Beneficiary
       responses:
         '202':
           description: add beneficiary request has been accepted for creation.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -161,7 +161,7 @@ paths:
           description: Capture details of beneficiary type.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryBulkRequest'
       tags:
         - Project Beneficiary
       responses:
@@ -187,7 +187,7 @@ paths:
           description: Project Beneficiary Registration.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Project Beneficiary
@@ -195,7 +195,7 @@ paths:
         '202':
           description: Project Beneficiary request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -215,7 +215,7 @@ paths:
           description: Project Beneficiary Registration.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Project Beneficiary
@@ -242,7 +242,7 @@ paths:
           description: Soft Delete Project Beneficiary Registration.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Project Beneficiary
@@ -250,7 +250,7 @@ paths:
         '202':
           description: Project Beneficiary request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -269,7 +269,7 @@ paths:
           description: Project Beneficiary Registration.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryBulkRequest'
         - $ref: '#/parameters/echoResource'
       tags:
         - Project Beneficiary
@@ -296,12 +296,12 @@ paths:
           description: Project Beneficiary Search.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiarySearchRequest'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiarySearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/includeDeleted'
 
       tags:
         - Project Beneficiary
@@ -309,7 +309,7 @@ paths:
         '200':
           description: Project Beneficaries.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/BeneficiaryBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/BeneficiaryBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -328,14 +328,14 @@ paths:
           description: Capture details of Task
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskRequest'
       tags:
         - Project Task
       responses:
         '202':
           description: Create task request has been accepted for creation.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -354,7 +354,7 @@ paths:
           description: Capture details of Task
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskBulkRequest'
       tags:
         - Project Task
       responses:
@@ -380,14 +380,14 @@ paths:
           description: Capture details of Existing task
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskRequest'
       tags:
         - Project Task
       responses:
         '202':
           description: update task request has been accepted for update.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -406,7 +406,7 @@ paths:
           description: Capture details of Existing tasks
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskBulkRequest'
       tags:
         - Project Task
       responses:
@@ -432,14 +432,14 @@ paths:
           description: Capture details of Existing task
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskRequest'
       tags:
         - Project Task
       responses:
         '202':
           description: delete task request has been accepted for deletion.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -458,7 +458,7 @@ paths:
           description: Capture details of Existing task
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskBulkRequest'
       tags:
         - Project Task
       responses:
@@ -484,19 +484,19 @@ paths:
           description: Project Task Search.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskSearchRequest'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskSearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Project Task
       responses:
         '200':
           description: Project Tasks.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/TaskBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/TaskBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -517,14 +517,14 @@ paths:
           description: Capture linkage of Project and staff user.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffRequest'
       tags:
         - Project Staff
       responses:
         '202':
           description: Project Staff request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -543,7 +543,7 @@ paths:
           description: Capture linkage of Project and staff users.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffBulkRequest'
       tags:
         - Project Staff
       responses:
@@ -569,14 +569,14 @@ paths:
           description: Capture linkage of Project and staff user.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffRequest'
       tags:
         - Project Staff
       responses:
         '202':
           description: Project Staff request has been accepted for updation.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -595,7 +595,7 @@ paths:
           description: Capture linkage of Project and staff user.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffBulkRequest'
       tags:
         - Project Staff
       responses:
@@ -621,14 +621,14 @@ paths:
           description: Capture linkage of Project and staff user.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffRequest'
       tags:
         - Project Staff
       responses:
         '202':
           description: Project Staff request has been accepted for deletion.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -647,7 +647,7 @@ paths:
           description: Capture linkage of Project and staff user.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffBulkRequest'
       tags:
         - Project Staff
       responses:
@@ -673,19 +673,19 @@ paths:
           description: Capture linkage of Project and staff user.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffSearchRequest'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffSearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Project Staff
       responses:
         '200':
           description: Project Staff.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectStaffBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectStaffBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -706,14 +706,14 @@ paths:
           description: Capture linkage of Project and facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityRequest'
       tags:
         - Project Facility
       responses:
         '202':
           description: Project Staff request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -731,7 +731,7 @@ paths:
           description: Capture linkage of Project and facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityBulkRequest'
       tags:
         - Project Facility
       responses:
@@ -756,14 +756,14 @@ paths:
           description: Capture linkage of Project and facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityRequest'
       tags:
         - Project Facility
       responses:
         '202':
           description: Project Facility request has been accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -781,7 +781,7 @@ paths:
           description: Capture linkage of Project and facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityBulkRequest'
       tags:
         - Project Facility
       responses:
@@ -806,14 +806,14 @@ paths:
           description: Capture linkage of Project and facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityRequest'
       tags:
         - Project Facility
       responses:
         '202':
           description: Project Facility delete request has been accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -831,7 +831,7 @@ paths:
           description: Capture linkage of Project and facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityBulkRequest'
       tags:
         - Project Facility
       responses:
@@ -856,19 +856,19 @@ paths:
           description: Capture linkage of Project and facility.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilitySearchRequest'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilitySearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Project Facility
       responses:
         '200':
           description: Project Facilities
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectFacilityBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectFacilityBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -887,14 +887,14 @@ paths:
           description: Capture linkage of Project and resources.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceRequest'
       tags:
         - Project Resource
       responses:
         '202':
           description: Project Resource request has been accepted.
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -912,7 +912,7 @@ paths:
           description: Capture linkage of Project and resources.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceBulkRequest'
       tags:
         - Project Resource
       responses:
@@ -937,14 +937,14 @@ paths:
           description: Capture linkage of Project and Resource.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceRequest'
       tags:
         - Project Resource
       responses:
         '202':
           description: Project Resource request has been accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -962,7 +962,7 @@ paths:
           description: Capture linkage of Project and Resource.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceBulkRequest'
       tags:
         - Project Resource
       responses:
@@ -987,14 +987,14 @@ paths:
           description: Delete linkage of Project and Resource.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceRequest'
       tags:
         - Project Resource
       responses:
         '202':
           description: Project Resource deletion request has been accepted
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -1012,7 +1012,7 @@ paths:
           description: Delete linkage of Project and Resource.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceBulkRequest'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceBulkRequest'
       tags:
         - Project Resource
       responses:
@@ -1037,24 +1037,145 @@ paths:
           description: Search linkage of Project and resource.
           required: true
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceSearchRequest'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/limit'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/offset'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/tenantId'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/UrlParams/properties/includeDeleted'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceSearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/includeDeleted'
       tags:
         - Project Resource
       responses:
         '200':
           description: Project Resources
           schema:
-            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.20.yaml#/components/schemas/ProjectResourceBulkResponse'
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/ProjectResourceBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
             $ref: >-
               https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /project/user-action/v1/_create:
+    post:
+      summary: Create User-Actions (ie. Closed Household) for the project in bulk
+      description: Create User-Actions (ie. Closed Household) for the project in bulk
+      parameters:
+        - name: UserAction
+          in: body
+          description: Capture details of UserAction
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UserActionBulkRequest'
+      tags:
+        - User Action
+      responses:
+        '202':
+          description: Create User-Action (ie. Closed Household) request has been accepted for creation.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /project/user-action/v1/_update:
+    post:
+      summary: User-Action (ie. Closed Household) Request in bulk for a project
+      description: User-Action (ie. Closed Household) Request in bulk for a project
+      parameters:
+        - name: UserAction
+          in: body
+          description: Capture details of Existing User-Actions (ie. Closed Household)
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UserActionBulkRequest'
+      tags:
+        - User Action
+      responses:
+        '202':
+          description: update User-Actions (ie. Closed Household) bulk request has been accepted for update.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /project/user-action/v1/_search:
+    post:
+      summary: Search User-Action (ie. Closed Household) for Project
+      description: Search User-Action (ie. Closed Household) for Project
+      parameters:
+        - name: UserAction
+          in: body
+          description: User-Action (ie. Closed Household) Search.
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UserActionSearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/includeDeleted'
+      tags:
+        - User Action
+      responses:
+        '200':
+          description: User-Actions (ie. Closed Household).
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UserActionBulkResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+
+  /project/user-location/v1/_create:
+    post:
+      summary: Create User locations in bulk
+      description: Create User locations in bulk
+      parameters:
+        - name: UserAction
+          in: body
+          description: Capture details of UserAction
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UserActionBulkRequest'
+      tags:
+        - Location Capture
+      responses:
+        '202':
+          description: Create Location Capture Task request has been accepted for creation.
+          schema:
+            $ref: '#/definitions/BulkAcceptedResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+  /project/user-location/v1/_search:
+    post:
+      summary: Search Location Capture Task for Project
+      description: Search Location Capture Task for Project
+      parameters:
+        - name: Task
+          in: body
+          description: Location Capture Task Search.
+          required: true
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UserActionSearchRequest'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/limit'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/offset'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/tenantId'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/lastChangedSince'
+        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UrlParams/properties/includeDeleted'
+      tags:
+        - Location Capture
+      responses:
+        '200':
+          description: UserActions.
+          schema:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Domain%20Services/Health/common/health-services-models-1.0.21.yaml#/components/schemas/UserActionBulkResponse'
+        '400':
+          description: Invalid Input body.
+          schema:
+            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
 
 
 parameters:
