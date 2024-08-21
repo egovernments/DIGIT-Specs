@@ -86,12 +86,12 @@ paths:
       summary: Create User locations in bulk
       description: Create User locations in bulk
       parameters:
-        - name: LocationCapture
+        - name: UserAction
           in: body
-          description: Capture details of LocationCapture
+          description: Capture details of UserAction
           required: true
           schema:
-            $ref: '#/definitions/LocationCaptureBulkRequest'
+            $ref: '#/definitions/UserActionBulkRequest'
       tags:
         - Location Capture
       responses:
@@ -113,7 +113,7 @@ paths:
           description: Location Capture Task Search.
           required: true
           schema:
-            $ref: '#/definitions/LocationCaptureSearchRequest'
+            $ref: '#/definitions/UserActionSearchRequest'
         - $ref: '#/definitions/UrlParams/properties/limit'
         - $ref: '#/definitions/UrlParams/properties/offset'
         - $ref: '#/definitions/UrlParams/properties/tenantId'
@@ -123,9 +123,9 @@ paths:
         - Location Capture
       responses:
         '200':
-          description: LocationCaptures.
+          description: UserActions.
           schema:
-            $ref: '#/definitions/LocationCaptureBulkResponse'
+            $ref: '#/definitions/UserActionBulkResponse'
         '400':
           description: Invalid Input body.
           schema:
@@ -320,7 +320,7 @@ definitions:
             minLength: 2
             maxLength: 64
           action:
-            $ref: '#/definitions/TaskAction'
+            $ref: '#/definitions/UserActionEnum'
           beneficiaryTag:
             type: string
           resourceTag:
@@ -390,7 +390,7 @@ definitions:
     properties:
       RequestInfo:
         $ref: '#/definitions/RequestInfo'
-      Task:
+      UserAction:
         $ref: '#/definitions/UserActionSearch'
 
   UserActionSearch:
@@ -408,118 +408,7 @@ definitions:
         type: string
       resourceTag:
         type: string
-
-  LocationCapture:
-    allOf:
-      - $ref: '#/definitions/EgovOfflineModel'
-      - type: object
-        properties:
-          latitude:
-            type: number
-            format: double
-            minimum: -90
-            maximum: 90
-          longitude:
-            type: number
-            format: double
-            minimum: -180
-            maximum: 180
-          locationAccuracy:
-            type: number
-            format: double
-            minimum: 0
-          boundaryCode:
-            type: string
-          projectId:
-            type: string
-            minLength: 2
-            maxLength: 64
-          action:
-            $ref: '#/definitions/TaskAction'
-        required:
-          - projectId
-          - latitude
-          - longitude
-          - locationAccuracy
-          - boundaryCode
-          - action
-
-  LocationCaptureBulkRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: '#/definitions/RequestInfo'
-      locationCaptures:
-        type: array
-        items:
-          $ref: '#/definitions/LocationCapture'
-        minItems: 1
-    required:
-      - RequestInfo
-      - locationCaptures
-
-  LocationCaptureBulkResponse:
-    type: object
-    properties:
-      ResponseInfo:
-        $ref: '#/definitions/ResponseInfo'
-      TotalCount:
-        type: integer
-        default: 0
-      locationCaptures:
-        type: array
-        items:
-          $ref: '#/definitions/LocationCapture'
-    required:
-      - ResponseInfo
-      - locationCaptures
-
-  LocationCaptureRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: '#/definitions/RequestInfo'
-      LocationCapture:
-        $ref: '#/definitions/LocationCapture'
-    required:
-      - RequestInfo
-      - LocationCapture
-
-  LocationCaptureResponse:
-    type: object
-    properties:
-      ResponseInfo:
-        $ref: '#/definitions/ResponseInfo'
-      LocationCapture:
-        $ref: '#/definitions/LocationCapture'
-    required:
-      - ResponseInfo
-      - LocationCapture
-
-  LocationCaptureSearchRequest:
-    type: object
-    properties:
-      RequestInfo:
-        $ref: '#/definitions/RequestInfo'
-      Task:
-        $ref: '#/definitions/LocationCaptureSearch'
-
-  LocationCaptureSearch:
-    allOf:
-      - $ref: '#/definitions/EgovOfflineSearchModel'
-    type: object
-    properties:
-      projectId:
-        type: array
-        items:
-          type: string
-      boundaryCode:
-        type: array
-        items:
-          type: string
-
-
-  TaskAction:
+  UserActionEnum:
     type: string
     enum:
       - CLOSED_HOUSEHOLD
@@ -528,17 +417,12 @@ definitions:
   TaskStatus:
     type: string
     enum:
+      - ADMINISTRATION_FAILED
+      - ADMINISTRATION_SUCCESS
       - BENEFICIARY_REFUSED
-      - BENEFICIARY_REFERRED
-      - BENEFICIARY_INELIGIBLE
-      - BENEFICIARY_SICK
-      - BENEFICIARY_ABSENT
-      - SPRAYED
-      - REFUSED
-      - HOUSE_CLOSED
-      - INELIGIBLE
-      - RESOLVED
-      - LOCATION_CAPTURE
+      - CLOSED_HOUSEHOLD
+      - DELIVERED
+      - NOT_ADMINISTERED
     description: Specify Task Status
   UrlParams:
     type: "object"
