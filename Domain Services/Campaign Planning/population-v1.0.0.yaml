@@ -1,0 +1,174 @@
+openapi: 3.0.1
+info:
+  title: Population Registry
+  description: APIs to create, search and update population records.
+  version: 1.0.0
+servers:
+- url: /population
+paths:
+  /_create:
+    post:
+      tags:
+      - Population
+      summary: API endpoint to create population record.
+      description: |
+        Provides functionality to create population record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PopulationRequest"
+      responses:
+        202:
+          description: Accepted.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PopulationResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /_search:
+    post:
+      tags:
+      - Population
+      summary: API endpoint to search population record.
+      description: |
+        Provides functionality to search population record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PopulationSearchRequest"
+      responses:
+        200:
+          description: Successful response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PopulationResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /_update:
+    post:
+      tags:
+      - Population
+      summary: API endpoint to update population record.
+      description: |
+        Provides functionality to update population record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PopulationRequest"
+      responses:
+        202:
+          description: Accepted.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PopulationResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+components:
+  schemas:
+    PopulationRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        Population:
+          $ref: '#/components/schemas/Population'
+    PopulationResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        Population:
+          type: array
+          items:
+            $ref: '#/components/schemas/Population'
+    PopulationSearchCriteria:
+      type: object
+      properties:
+        tenantId:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Unique id for a tenant.
+        areaCodes:
+          type: array
+          items:
+            type: string
+            example: ["in.ka.blr", "in.ka.hssn"]
+          description: Area codes for population records
+    PopulationSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
+        PlanConfigurationSearchCriteria:
+          $ref: '#/components/schemas/PopulationSearchCriteria'
+    Population:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          example: "IN"
+        hierarchyType:
+          type: string
+          example: "ADMIN"
+        boundaryCode:
+          type: string
+          example: "in.ka.blr"
+        boundaryType:
+          type: string
+          example: "city"
+        type:
+          type: string
+          enum: [people, animals, plants, other]
+          example: people
+        totalPopulation:
+          type: integer
+          format: int64
+          example: 50000
+        populationByDemographics:
+          type: array
+          items:
+            $ref: '#/components/schemas/PopulationByDemographic'
+        effectiveFrom:
+          type: integer
+          description: epoch of the time the population record is effective from
+          format: int64
+          example: 1724303913
+        effectiveTo:
+          type: integer
+          description: epoch of the time the population record is effective to
+          format: int64
+          example: 1724307219
+        source:
+          type: string
+          example: "Census 2024"
+        additionalDetails:
+          type: object
+    PopulationByDemographic:
+      type: object
+      properties:
+        demographicVariable:
+          type: string
+          enum: [age, gender, ethnicity]
+          example: age
+        populationDistribution:
+          type: object
+          example: '{"0-14": 10000, "15-24": 8000, "25-64": 25000, "65+": 7000}'
