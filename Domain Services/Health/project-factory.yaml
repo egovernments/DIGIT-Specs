@@ -590,10 +590,28 @@ components:
         campaignName:
           type: "string"
           example: "Bednet LLIN"
-
+        campaignNumber":
+          type: "string"
+          readOnly: true
+          example: "CMP-2024-08-12-002295"
+        parentCampaignId:
+          type: "string"
+          format: uuid
+          description: null for a new campaign & previous campaign id for a update request
+        projectId:
+          type: "string"
+          format: uuid
+          description: null for a new campaign & previous root project id for a update request
+        projectType:
+          type: "string"
+          description: LLIN\ MR-DN based on project type master
         action:
           type: "string"
           example: "draft||create"
+        status:
+          type: "string"
+          example: "drafted||created"
+          readOnly: true
         startDate:
           type: number
           format: timestamp
@@ -618,11 +636,6 @@ components:
                 type: "boolean"
               includeAllChildren:
                 type: "boolean"
-        projectId:
-          type: "string"
-          format: uuid
-          description: System generated project id
-          readOnly: true
         resources:
           type: "array"
           items:
@@ -644,8 +657,6 @@ components:
                 type: "string"
                 readOnly: true
                 example: "cf3bd20c-5ac3-4af1-a303-55445049b289"
-        projectType:
-          type: "string"
         deliveryRules:
           type: "array"
           items:
