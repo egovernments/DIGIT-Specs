@@ -241,6 +241,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ResourceMapping'
+        assignedEmployees:
+          type: object
+          description: IDs of employees tagged to the plan
+        additionalDetails:
+          type: object
+          description: Field to capture any additional details
     File:
       type: object
       properties:
@@ -306,6 +312,9 @@ components:
           description: Name of the key to which the operational output needs to be mapped to
           maxLength: 32
           minLength: 1
+        showOnEstimationDashboard:
+          type: boolean
+          description: Determines if this particular operation has to be shown on estimation preview page or not
       required:
         - input
         - operator
