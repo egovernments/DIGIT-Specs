@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
-  title: Census Registry
+  title: Census Service
   description: APIs to create, search and update census records.
   version: 1.0.0
 servers:
-- url: /Census
+- url: /census
 paths:
   /_create:
     post:
@@ -122,6 +122,13 @@ components:
           $ref: '#/components/schemas/CensusSearchCriteria'
     Census:
       type: object
+      required:
+        - tenantId
+        - hierarchyType
+        - boundaryCode
+        - type
+        - totalPopulation
+        - source
       properties:
         tenantId:
           type: string
