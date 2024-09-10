@@ -691,6 +691,9 @@ components:
         additionalDetails:
           type: object
           description: Field to capture any additional information.
+        active:
+          type: boolean
+          description: Boolean field to indicate whether the plan employee assignment is active or not.
     PlanEmployeeAssignmentSearchCriteria:
       type: object
       properties:
