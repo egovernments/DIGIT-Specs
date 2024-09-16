@@ -705,6 +705,9 @@ components:
         planConfigurationId:
           type: string
           description: Unique id of the plan configuration for which employee assignments need to be retrieved.
+        employeeId:
+          type: string
+          description: Unique id of the employee whose assignment is being fetched.
         role:
           type: string
           description: Role of the employee being searched.
