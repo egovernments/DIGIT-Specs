@@ -34,7 +34,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/v1/_update:
     post:
       summary: >-
@@ -59,7 +59,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/v1/_search:
     post:
@@ -94,7 +94,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/v2/_search:
     post:
@@ -121,7 +121,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/beneficiary/v1/_create:
     post:
@@ -147,7 +147,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/beneficiary/v1/bulk/_create:
     post:
@@ -173,7 +173,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/beneficiary/v1/_update:
     post:
@@ -200,7 +200,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   
 
   /project/beneficiary/v1/bulk/_update:
@@ -228,7 +228,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/beneficiary/v1/_delete:
     post:
@@ -255,7 +255,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/beneficiary/v1/bulk/_delete:
     post:
@@ -282,7 +282,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/beneficiary/v1/_search:
     post:
@@ -314,7 +314,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/task/v1/_create:
     post:
@@ -340,7 +340,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/task/v1/bulk/_create:
     post:
@@ -366,7 +366,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/task/v1/_update:
     post:
@@ -392,7 +392,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/task/v1/bulk/_update:
     post:
@@ -418,7 +418,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/task/v1/_delete:
     post:
@@ -444,7 +444,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/task/v1/bulk/_delete:
     post:
@@ -470,7 +470,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/task/v1/_search:
     post:
@@ -501,7 +501,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
 
 
@@ -529,7 +529,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/staff/v1/bulk/_create:
     post:
@@ -555,7 +555,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/staff/v1/_update:
     post:
@@ -581,7 +581,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/staff/v1/bulk/_update:
     post:
@@ -607,7 +607,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/staff/v1/_delete:
     post:
@@ -633,7 +633,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/staff/v1/bulk/_delete:
     post:
@@ -659,7 +659,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/staff/v1/_search:
     post:
@@ -690,7 +690,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
 
 
@@ -718,7 +718,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/facility/v1/bulk/_create:
     post:
       summary: >-
@@ -743,7 +743,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/facility/v1/_update:
     post:
       summary: >-
@@ -768,7 +768,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/facility/v1/bulk/_update:
     post:
       summary: >-
@@ -793,7 +793,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/facility/v1/_delete:
     post:
       summary: >-
@@ -818,7 +818,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/facility/v1/bulk/_delete:
     post:
       summary: >-
@@ -843,7 +843,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/facility/v1/_search:
     post:
       summary: >-
@@ -873,7 +873,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/resource/v1/_create:
     post:
@@ -899,7 +899,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/resource/v1/bulk/_create:
     post:
       summary: >-
@@ -924,7 +924,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/resource/v1/_update:
     post:
       summary: >-
@@ -949,7 +949,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/resource/v1/bulk/_update:
     post:
       summary: >-
@@ -974,7 +974,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/resource/v1/_delete:
     post:
       summary: >-
@@ -999,7 +999,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/resource/v1/bulk/_delete:
     post:
       summary: >-
@@ -1024,7 +1024,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/resource/v1/_search:
     post:
       summary: >-
@@ -1054,7 +1054,7 @@ paths:
           description: Invalid Input body.
           schema:
             $ref: >-
-              https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+              https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/user-action/v1/_create:
     post:
       summary: Create User-Actions for the project in bulk
@@ -1076,7 +1076,7 @@ paths:
         '400':
           description: Invalid Input body.
           schema:
-            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+            $ref: https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/user-action/v1/_update:
     post:
       summary: User-Action Request in bulk for a project
@@ -1098,7 +1098,7 @@ paths:
         '400':
           description: Invalid Input body.
           schema:
-            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+            $ref: https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/user-action/v1/_search:
     post:
       summary: Search User-Action for Project
@@ -1125,7 +1125,7 @@ paths:
         '400':
           description: Invalid Input body.
           schema:
-            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+            $ref: https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
   /project/user-location/v1/_create:
     post:
@@ -1148,7 +1148,7 @@ paths:
         '400':
           description: Invalid Input body.
           schema:
-            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+            $ref: https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
   /project/user-location/v1/_search:
     post:
       summary: Search Location Capture Task for Project
@@ -1175,7 +1175,7 @@ paths:
         '400':
           description: Invalid Input body.
           schema:
-            $ref: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ErrorRes
+            $ref: https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes
 
 
 parameters:
@@ -1248,6 +1248,6 @@ definitions:
     properties:
       ResponseInfo:
         $ref: >-
-          https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml#/definitions/ResponseInfo
+          https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo
     required:
       - ResponseInfo
