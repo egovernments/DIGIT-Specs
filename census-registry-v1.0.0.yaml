@@ -1,0 +1,151 @@
+openapi: 3.0.1
+info:
+  title: Census Registry
+  description: APIs to create, search and update census records.
+  version: 1.0.0
+servers:
+- url: /census
+paths:
+  /_create:
+    post:
+      tags:
+      - Census
+      summary: API endpoint to create census record.
+      description: |
+        Provides functionality to create census record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CensusRequest"
+      responses:
+        202:
+          description: Accepted.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CensusResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /_search:
+    post:
+      tags:
+      - Census
+      summary: API endpoint to search census record.
+      description: |
+        Provides functionality to search census record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CensusSearchRequest"
+      responses:
+        200:
+          description: Successful response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CensusResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+  /_update:
+    post:
+      tags:
+      - Census
+      summary: API endpoint to update census record.
+      description: |
+        Provides functionality to update census record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CensusRequest"
+      responses:
+        202:
+          description: Accepted.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CensusResponse'
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+components:
+  schemas:
+    CensusRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        Census:
+          $ref: '#/components/schemas/Census'
+    CensusResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        Census:
+          type: array
+          items:
+            $ref: '#/components/schemas/Census'
+    CensusSearchCriteria:
+      type: object
+      properties:
+        areaCodes:
+          type: array
+          items:
+            type: string
+            example: ["in.ka.blr", "in.ka.hssn"]
+          description: Area codes for census records
+    CensusSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-0-0.yml#/definitions/RequestInfo'
+        CensusSearchCriteria:
+          $ref: '#/components/schemas/CensusSearchCriteria'
+    Census:
+      type: object
+      required:
+        - areaCode
+        - type
+        - totalPopulation
+        - effectiveFrom
+        - effectiveTo
+        - source
+      properties:
+        areaCode:
+          type: string
+          example: "in.ka.blr"
+        type:
+          type: string
+          enum: [people, animals, plants, other]
+          example: people
+        totalPopulation:
+          type: integer
+          format: int64
+          example: 50000
+        effectiveFrom:
+          type: integer
+          description: epoch of the time the census record is effective from
+          format: int64
+          example: 1724303913
+        effectiveTo:
+          type: integer
+          description: epoch of the time the census record is effective to
+          format: int64
+          example: 1724307219
+        source:
+          type: string
+          example: "Census 2024"
