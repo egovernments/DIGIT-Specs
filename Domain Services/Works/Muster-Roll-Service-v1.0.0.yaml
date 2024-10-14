@@ -66,7 +66,11 @@ paths:
             schema:
               $ref: '#/components/schemas/RequestInfoWrapper'
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/parameters/tenantId'
+        - name: tenantId
+          in: query
+          schema:
+            type: string
+            example: pb.amritsar
         - name: ids
           description: Array of muster roll ids
           in: query
@@ -232,23 +236,11 @@ components:
           type: object
           description: This is an updatable field from the user's input.
 
-    AttendanceLog:
-      $ref: 'https://github.com/egovernments/DIGIT-Works/blob/develop/backend/attendance-service/Attendance-Service-1.0.0.yaml#/components/schemas/AttendanceLog'
-
-    AttendanceLogResponse:
-      $ref: 'https://github.com/egovernments/DIGIT-Works/blob/develop/backend/attendance-service/Attendance-Service-1.0.0.yaml#/components/schemas/AttendanceLogResponse'
-
-    AttendanceRegister:
-      $ref: 'https://github.com/egovernments/DIGIT-Works/blob/develop/backend/attendance-service/Attendance-Service-1.0.0.yaml#/components/schemas/AttendanceRegister'
-
-    AttendanceRegisterResponse:
-      $ref: 'https://github.com/egovernments/DIGIT-Works/blob/develop/backend/attendance-service/Attendance-Service-1.0.0.yaml#/components/schemas/AttendanceRegisterResponse'
-
     MusterRollRequest:
       type: object
       properties:
-        requestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/RequestHeader'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo'
         musterRoll:
           $ref: '#/components/schemas/MusterRoll'
         workflow:
@@ -259,7 +251,7 @@ components:
               description: 'Action of the workflow to be performned on the request'
             comment:
               type: string
-              description: 'Comment for the workflow action to be performed'
+              description: 'comment for the workflow action to be performed'
             assignees:
               type: array
               items:
@@ -271,8 +263,8 @@ components:
     MusterRollResponse:
       type: object
       properties:
-        responseInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/ResponseHeader'
+        ResponseInfo:
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
         musterRolls:
           type: array
           items:
@@ -281,5 +273,5 @@ components:
     RequestInfoWrapper:
       type: object
       properties:
-        requestInfo:
-          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/RequestHeader'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo'
