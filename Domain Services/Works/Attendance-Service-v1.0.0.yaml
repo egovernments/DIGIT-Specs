@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: Attendance Service
-  description: 'This module models functionality of an attendance register. Staff and attendees can be mapped to an attendance register. Entry and exit times are logged in epoch time for an entity'
+  description: ''
 
 paths:
 
@@ -115,6 +115,21 @@ paths:
           in: query
           schema:
             type: string
+        - name: localityCode
+          description: Get all the registers based on the combination of referenceId and localityCode
+          in: query
+          schema:
+            type: string
+        - name: isChildrenRequired
+          description: Get all the registers including child Project registers
+          in: query
+          schema:
+            type: boolean
+        - name: reviewStatus
+          description: Get all the registers based on the reviewStatus
+          in: query
+          schema:
+            type: string
         - name: sortBy
           in: query
           description: sort the search results by fields
@@ -158,7 +173,7 @@ paths:
 
   /attendance/staff/v1/_create:
     post:
-      description: Grant permission to a user to access and modify an attendance register. This user can enroll / denroll individuals. Staff can log entry and exit timestamps for the attendees.
+      description: Grant permission to a user to access and modify an attendance register. This user can enroll / denroll individuals. They will add attendance entries for the attendees.
       tags:
         - Register Permission
       requestBody:
@@ -422,6 +437,14 @@ components:
             allOf:
               - $ref: '#/components/schemas/IndividualEntry'
               - description: 'Entries of the attendees of the register.'
+        localityCode:
+          type: string
+          example: HIERARCHYTEST_MO_13_02_01_01_23_LIPIRANI
+          description: A reference to the boundary code associated with the attendance register, representing the geographical or administrative area the register is bounded by.
+        reviewStatus:
+          type: string
+          example: PENDINGFORAPPROVAL
+          description:  Indicates whether the attendance register has been reviewed or approved
         auditDetails:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/components/schemas/AuditDetails'
         additionalDetails:
@@ -564,6 +587,15 @@ components:
           readOnly: true
           type: number
           description: The timestamp at which the access permission is revoked. It is set to the current time when the delete api is called.
+        staffType:
+          type: string
+          description: Defines the role assigned to a staff member within the attendance register. Roles determine the level of access and responsibilities.
+          items:
+            type: string
+            enum:
+              - EDITOR
+              - OWNER
+              - APPROVER
       required:
         - registerId
         - userId
