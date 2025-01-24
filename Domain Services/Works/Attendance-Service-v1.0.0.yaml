@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: Attendance Service
-  description: ''
+  description: 'This module models functionality of an attendance register. Staff and attendees can be mapped to an attendance register. Entry and exit times are logged in epoch time for an entity'
 
 paths:
 
