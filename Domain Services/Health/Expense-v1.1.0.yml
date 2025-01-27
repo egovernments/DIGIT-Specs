@@ -408,6 +408,20 @@ components:
           type: array
           items:
             type: string
+        localityCode:
+          description: Tenant Identifier
+          example: 'HIERARCHYTEST_MO_13_02_01_01_23_LIPIRANI'
+          type: string
+        fromDate:
+          description: Start date of billing period 
+          type: number
+          format: int64
+          example: 1680307200000
+        toDate:
+          description: Start date of billing period 
+          type: number
+          format: int64
+          example: 1680307200000
         status:
           $ref: '#/components/schemas/Status'
       required: 
