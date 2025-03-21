@@ -182,7 +182,7 @@ components:
         RequestInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
-        Application:
+        Service:
           $ref: '#/components/schemas/Service'
           
     ServiceInitResponse:
@@ -191,7 +191,7 @@ components:
         ResponseInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
-        bill:
+        Services:
           type: array
           items:
             $ref: '#/components/schemas/Service'
@@ -258,7 +258,7 @@ components:
         ResponseInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
-        bill:
+        Applications:
           type: array
           items:
             $ref: '#/components/schemas/Application'
