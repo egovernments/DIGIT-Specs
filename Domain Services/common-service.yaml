@@ -1,13 +1,36 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Common Service 
+  title: Generic Service 
   description: Common Service
 paths:
+  /common-service/v1/_init:
+    post:
+      tags:
+        - Generic Service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceInitRequest'
+      responses:
+        '202':
+          description: Accepted account registration request.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceInitResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
   /common-service/v1/_apply:
     post:
       tags:
-        - Application
+        - Application Service
       requestBody:
         content:
           application/json:
@@ -30,7 +53,7 @@ paths:
   /common-service/v1/_update:
     post:
       tags:
-        - Application
+        - Application Service
       requestBody:
         content:
           application/json:
@@ -53,7 +76,7 @@ paths:
   /common-service/v1/_search:
     post:
       tags:
-        - Application
+        - Application Service
       requestBody:
         content:
           application/json:
@@ -153,6 +176,70 @@ components:
         - serviceDetails
         - service
 
+    ServiceInitRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: >-
+                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
+        Application:
+          $ref: '#/components/schemas/Service'
+          
+    ServiceInitResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: >-
+                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ResponseInfo
+        bill:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+        pagination:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+
+    Service:
+      description: A Object which holds the info about the application details
+      type: object
+      properties:
+        id:
+          description: Unique identifier of the Service Registered
+          readOnly: true
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: "8801de85-f123-4e4b-9e4e-adbd04e49965"
+        tenantId:
+          description: Tenant Identifier
+          example: pg
+          type: string
+          minLength: 2
+          maxLength: 64
+        serviceType:
+          type: string
+          description: all the enabled service like tradelicence / propertytax etc
+          minLength: 2
+          maxLength: 64
+          example: newTL
+        module:
+          type: string
+          description: all the enabled service like tradelicence / propertytax etc
+          minLength: 2
+          maxLength: 64
+          example: tradelicence
+        status:
+          description: enum value for the payment status 
+          type: string
+          enum: [INACTIVE, ACTIVE]
+        additionalDetails:
+          description: Any additional details that need to be captured
+          type: object
+        auditDetails:
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+      required:
+        - tenantId
+        - module
+        - serviceType
 
     ApplicationRequest:
       type: object
