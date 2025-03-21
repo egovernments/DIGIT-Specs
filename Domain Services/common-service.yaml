@@ -366,6 +366,11 @@ components:
           type: integer
           description: Mobile number of the user
           example: 99999999999
+        emailId:
+          description: name of the user
+          type: string
+          maxLength: 64
+          example: john@gmail.com  
 
         prefix:
           type: string
