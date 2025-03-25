@@ -186,7 +186,7 @@ components:
           type: string
           minLength: 2
           maxLength: 64
-        service:
+        module:
           type: string
           description: all the enabled service like tradelicence / propertytax etc
           minLength: 2
@@ -284,7 +284,7 @@ components:
           type: string
           minLength: 2
           maxLength: 64
-        serviceType:
+        businessService:
           type: string
           description: all the enabled service like tradelicence / propertytax etc
           minLength: 2
@@ -308,7 +308,7 @@ components:
       required:
         - tenantId
         - module
-        - serviceType
+        - businessService
 
     ApplicationRequest:
       type: object
@@ -351,7 +351,13 @@ components:
             example: 'c453edf5-0b89-4040-8f34-b8fbdfac1b2e'
         businessService:
           description: Search bill by business service
-          example: WORKS-MUSTERROLE
+          example: NEWTL
+          type: string
+          minLength: 2
+          maxLength: 64
+        module:
+          description: Search bill by business service
+          example: tradelicence
           type: string
           minLength: 2
           maxLength: 64
@@ -396,17 +402,17 @@ components:
           maxLength: 64
           example: 8801de85-f123-4e4b-9e4e-adbd04e49965
         referenceType:
-          description: Pass reference type in the service to uniquely identify 
-          type: string
-          minLength: 2
-          maxLength: 64
-          example: propertytax
-        service:
           description: Pass reference service information like billing / payment / internal
           type: string
           minLength: 2
           maxLength: 64
           example: internal
+        module:
+          description: Pass reference service information
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: property
         tenantId:
           description: Tenant Identifier
           example: pg
@@ -414,7 +420,7 @@ components:
           minLength: 2
           maxLength: 64
         referenceNo:
-          description: Tenant Identifier
+          description: Application number / unique number
           example: pg
           type: string
           minLength: 2
@@ -431,6 +437,19 @@ components:
           minLength: 2
           maxLength: 64
           example: citizen inidvidual institution
+        userId:
+          description: Unique identifier of the User
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: "8801de85-f123-4e4b-9e4e-adbd04e49965"
+        id:
+          description: Unique identifier 
+          readOnly: true
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: "8801de85-f123-4e4b-9e4e-adbd04e49965"
         name:
           description: name of the user
           type: string
@@ -450,6 +469,10 @@ components:
           type: string
           description: country prefix
           example: +91
+        active:
+          type: boolean
+          description: active user mapping
+          example: true
           
     RecordRequest:
       type: object
@@ -490,7 +513,7 @@ components:
           type: string
           minLength: 2
           maxLength: 64
-        service:
+        module:
           type: string
           description: all the enabled service like tradelicence / propertytax etc
           minLength: 2
@@ -548,7 +571,7 @@ components:
         - tenantId
         - businessService
         - serviceDetails
-        - service
+        - module
 
     RecordCriteria:
       type: object
