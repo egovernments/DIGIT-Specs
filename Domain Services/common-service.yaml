@@ -257,7 +257,7 @@ components:
         - tenantId
         - businessService
         - serviceDetails
-        - service
+        - module
 
     ServiceInitRequest:
       type: object
