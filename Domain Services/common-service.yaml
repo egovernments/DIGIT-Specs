@@ -169,6 +169,20 @@ paths:
 
 components:
   schemas:
+    Address:
+      allOf:
+        - $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/Address"
+        - type: object
+          properties:
+            hierarchyType:
+              type: string
+              description: "Hierarchy type of the address"
+            boundarylevel:
+              type: string
+              description: "Level associated with the address"
+            boundarycode:
+              type: string
+              description: "Code representing the address"  
     Application:
       description: A Object which holds the info about the application details
       type: object
@@ -233,7 +247,7 @@ components:
           items:
             $ref: '#/components/schemas/Applicant'
         address:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/Address
+           $ref: '#/components/schemas/Address'
         additionalDetails:
           description: Any additional details that need to be captured
           type: object
@@ -561,7 +575,8 @@ components:
           items:
             $ref: '#/components/schemas/Applicant'
         address:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/Address
+          $ref: '#/components/schemas/Address' 
+                  
         additionalDetails:
           description: Any additional details that need to be captured
           type: object
