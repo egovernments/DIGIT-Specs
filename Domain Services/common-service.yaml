@@ -4,7 +4,7 @@ info:
   title: Generic Service 
   description: Application Service
 paths:
-  /application-service/v1/_init:
+  /generic-service/v1/_init:
     post:
       tags:
         - Generic Service
