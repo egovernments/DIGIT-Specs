@@ -27,10 +27,10 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /application-service/v1/_apply:
+  /generic-service/v1/_apply:
     post:
       tags:
-        - Application Service
+        - Generic Service
       requestBody:
         content:
           application/json:
@@ -50,10 +50,10 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /application-service/v1/_update:
+  /generic-service/v1/_update:
     post:
       tags:
-        - Application Service
+        - Generic Service
       requestBody:
         content:
           application/json:
@@ -73,10 +73,10 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /application-service/v1/_search:
+  /generic-service/v1/_search:
     post:
       tags:
-        - Application Service
+        - Generic Service
       requestBody:
         content:
           application/json:
@@ -96,6 +96,33 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+                  
+  /billing-service/bill/v2/_fetchbill:
+    post:
+      summary: Bill API
+      tags:
+        - Core Services
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/billing.yaml'
+                
+                
+  /payment-service/payments/_create:
+    post:
+      summary: Payments API
+      tags:
+        - Core Services
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/billing.yaml'
 
 components:
   schemas:
