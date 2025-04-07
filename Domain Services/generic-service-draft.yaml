@@ -4,7 +4,30 @@ info:
   title: Generic Service 
   description: Application Service
 paths:
-  /generic-service/v1/_init:
+  /generic-service/v1/service/_init:
+    post:
+      tags:
+        - Generic Service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceInitRequest'
+      responses:
+        '202':
+          description: Accepted account registration request.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceInitResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+  /generic-service/v1/_form:
     post:
       tags:
         - Generic Service
