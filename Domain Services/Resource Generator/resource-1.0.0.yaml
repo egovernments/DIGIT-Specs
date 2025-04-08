@@ -1,0 +1,51 @@
+openapi: 3.0.1
+info:
+  title: Resource Generator
+  version: 1.0.0
+  description: API to calculate draft estimates.
+paths:
+  /resource/drafts:
+    post:
+      tags:
+      - Plan Configuration
+      summary: API endpoint to generate draft plans
+      description: |
+        This API takes plan configuration id, and returns calculated plans based on those values.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DraftRequest"
+      responses:
+        202:
+          description: Accepted.
+        400:
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+                
+components:
+  schemas:
+    DraftRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+        DraftDetails:
+          $ref: '#/components/schemas/DraftDetails'
+    DraftDetails:
+      type: object
+      required:
+        - planConfigurationId
+        - tenantId
+      properties:
+        planConfigurationId:
+          type: string
+          format: uuid
+          description: Unique entity id of the Plan Configuration
+        tenantId:
+          type: string
+          format: uuid
+          description: Unique entity id of the tenant
