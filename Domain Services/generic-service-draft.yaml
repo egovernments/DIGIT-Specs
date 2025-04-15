@@ -1,13 +1,78 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
+  title: Generic Service API
+  description: |
+    This API allows interaction with the Generic Service system.
+
+    **Author:** Jagankumar E  
+    This spec was created for solving generic service gets created based on the config and using DIGIT 2.9 core services and provides users an application capability with workflows.
   version: 1.0.0
-  title: Generic Service 
-  description: Application Service
+  contact:
+    name: Jagankumar E
+    email: jagan.kumar@egovernments.org
+    
 paths:
-  /generic-service/v1/service/_init:
+  /generic-service/v1/service/{tenantId}:
+    get:
+      tags:
+        - Generic Service - Service Handler
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          example: pg
+          schema:
+            type: string
+        - name: businessService
+          in: query
+          description: businessService
+          required: false
+          example: NewTL
+          schema:
+            maxLength: 256
+            type: string
+            format: varchar
+        - name: module
+          in: query
+          example: Tradelicence
+          description: campaign for which resource has to be generated
+          required: false
+          schema:
+            maxLength: 256
+            type: string
+            format: varchar
+        - name: serviceCode
+          in: query
+          example: SVC-001
+          description: Unique serviceCode
+          required: false
+          schema:
+            maxLength: 256
+            type: string
+            format: varchar
+      responses:
+        '200':
+          description: List of available services.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceInitResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
     post:
       tags:
-        - Generic Service
+        - Generic Service - Service Handler
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -27,10 +92,23 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /generic-service/v1/_form:
-    post:
+  
+  /generic-service/v1/service/{tenantId}/{serviceCode}:
+    put:
       tags:
-        - Generic Service
+        - Generic Service - Service Handler
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: serviceCode
+          description: unique serviceCode of the service
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -50,38 +128,73 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /generic-service/v1/_apply:
-    post:
+
+  /generic-service/v1/application/{tenantId}/{serviceCode}:
+    get:
       tags:
-        - Generic Service
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ApplicationRequest'
-      responses:
-        '202':
-          description: Accepted account registration request.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApplicationResponse'
-        '400':
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: >-
-                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /generic-service/v1/_update:
-    post:
-      tags:
-        - Generic Service
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ApplicationRequest'
+        - Generic Service - Application Handler
+      parameters:
+        - name: tenantId
+          in: path
+          example: pg
+          required: true
+          schema:
+            type: string
+        - name: serviceCode
+          description: unique serviceCode of the service
+          in: path
+          example: SVC-001
+          required: true
+          schema:
+            type: string
+        - name: ids
+          in: query
+          description: Search application by ids 
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              example: 'c453edf5-0b89-4040-8f34-b8fbdfac1b2e'
+        - name: businessService
+          in: query
+          description: Search application by business service
+          example: NEWTL
+          required: false
+          schema:
+            type: string
+        - name: module
+          in: query
+          description: Search application by module
+          example: Tradelicence
+          required: false
+          schema:
+            type: string
+        - name: applicationNo
+          in: query
+          description: Search application by application number
+          example: TL-001100
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          description: Search application by application status
+          schema:
+            $ref: '#/components/schemas/Status'
+        - name: boundaryCode
+          in: query
+          required: false
+          description: Search application by boundary code
+          schema:
+            type: string
+        - name: userId
+          in: query
+          required: false
+          description: Search application by user id
+          schema:
+            type: string
       responses:
         '202':
           description: Accepted account updation request.
@@ -96,10 +209,65 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /generic-service/v1/_search:
     post:
       tags:
-        - Generic Service
+        - Generic Service - Application Handler
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: serviceCode
+          description: unique serviceCode of the service
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationRequest'
+      responses:
+        '202':
+          description: Accepted account registration request.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApplicationResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+    
+  /generic-service/v1/application/{tenantId}/{serviceCode}/{applicationId}:
+    put:
+      tags:
+        - Generic Service - Application Handler
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: serviceCode
+          description: unique serviceCode of the service
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: applicationId
+          description: unique id of the application
+          in: path
+          required: true
+          schema:
+            maxLength: 256
+            type: string
+            format: varchar
       requestBody:
         content:
           application/json:
@@ -119,33 +287,38 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+  
+  /generic-service/v1/form/{tenantId}/{serviceCode}:
+    get:
+      tags:
+        - Generic Service - Form Handler
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: serviceCode
+          description: unique serviceCode of the service
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted account registration request.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceInitResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
                   
-  /billing-service/bill/v2/_fetchbill:
-    post:
-      summary: Bill API
-      tags:
-        - Core Services
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/billing.yaml'
-                
-                
-  /payment-service/payments/_create:
-    post:
-      summary: Payments API
-      tags:
-        - Core Services
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/billing.yaml'
 
 components:
   schemas:
@@ -157,10 +330,10 @@ components:
             hierarchyType:
               type: string
               description: "Hierarchy type of the address"
-            boundarylevel:
+            boundaryLevel:
               type: string
               description: "Level associated with the address"
-            boundarycode:
+            boundaryCode:
               type: string
               description: "Code representing the address"  
     Application:
@@ -290,6 +463,11 @@ components:
           minLength: 2
           maxLength: 64
           example: tradelicence
+        serviceCode:
+          type: string
+          description: Unique code for any service generated by the generic service
+          example: SVC-001
+          readOnly: true
         status:
           description: enum value for the payment status 
           type: string
@@ -333,7 +511,7 @@ components:
       properties:
         tenantId:
           description: Tenant Identifier
-          example: pg.citya
+          example: pg
           type: string
           minLength: 2
           maxLength: 64
@@ -573,7 +751,7 @@ components:
       properties:
         tenantId:
           description: Tenant Identifier
-          example: pg.citya
+          example: pg
           type: string
           minLength: 2
           maxLength: 64
