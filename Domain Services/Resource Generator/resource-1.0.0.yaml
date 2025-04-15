@@ -7,10 +7,10 @@ paths:
   /resource/drafts:
     post:
       tags:
-      - Plan Configuration
+      - Resource Generator
       summary: API endpoint to generate draft plans
       description: |
-        This API takes plan configuration id, and returns calculated plans based on those values.
+        This API takes plan configuration id, asynchronously calculates plans based on those values and updated the plan configuration object with uploaded filestoreid.
       requestBody:
         content:
           application/json:
