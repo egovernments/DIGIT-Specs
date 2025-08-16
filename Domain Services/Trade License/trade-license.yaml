@@ -1,0 +1,1890 @@
+openapi: 3.0.1
+info:
+  title: eGov Trade License System.
+  description: "APIs for Trade License module. This modules handles Below functionality.\
+    \ \n1. Apply for new trade license.(Generate application number)\n2. Payment for\
+    \ Trade License\n3. Search existing trade application.\n4. Search existing trade\
+    \ license \n"
+  contact:
+    name: eGovernments Foundation
+    email: contacts@egovernments.org
+  version: 1.0.0
+servers:
+- url: /tl-service
+tags:
+- name: TradeLicense
+paths:
+ /v1/_batch:
+    post:
+      tags:
+        - TradeLicense
+      summary: Sends reminder SMS to user
+      description: This api sends reminder SMS to user
+      operationId: sendReminderSMSUsingPOST
+      parameters:
+        - name: servicename
+          in: query
+          description: servicename
+          required: true
+          schema:
+            type: string
+        - name: jobname
+          in: query
+          description: jobname
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Details for the RequestHeader meta data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Successfull response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        '201':
+          description: Created
+        '400':
+          description: Failed to batch response
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+ /v1/_create:
+    post:
+      tags:
+        - TradeLicense
+      summary: Creates trade license from the request data
+      description: This API creates trade license from the request data
+      operationId: createUsingPOST
+      parameters:
+        - name: servicename
+          in: query
+          description: servicename
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Details for the new trade-license + RequestHeader meta data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeLicenseRequest'
+      responses:
+        '200':
+          description: Trade License(s) Create Successful
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TradeLicenseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Failed to create Trade License(s)
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+ /v1/_plainsearch:
+    post:
+      tags:
+        - TradeLicense
+      summary: Get the list of exsting trade licenses via plain search
+      description: Get the trade license list based on the plain search input parameters.
+      operationId: plainsearchUsingPOST
+      parameters:
+        - name: applicationNumber
+          in: query
+          description: application number of tl application
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationType
+          in: query
+          description: "type of application"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: businessService
+          in: query
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: financialYear
+          in: query
+          description: TL applicable for financial year.
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: TL date, here search will happen as TL date is greater or equal to given fromDate
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          description: "List of system generated ids of applications."
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: issuedFrom
+          in: query
+          description: Name of the person issuing the license
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: issuedTo
+          in: query
+          description: Name of the person/organization being issued the license
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: licenseNumbers
+          in: query
+          description: License Number
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locality
+          in: query
+          description: search application by list of Locality (s)
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: mobileNumber
+          in: query
+          description: "MobileNumber of tl owners"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: offset
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: oldLicenseNumber
+          in: query
+          description: Unique Old License Number of the Trade. This is  unique in
+            system for a tenant. This is mandatory  for legacy license(DataEntry).
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: onlyMobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: ownerIds
+          in: query
+          description: Id credential for Owners
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ownerName
+          in: query
+          description: Name of owner
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: renewalPending
+          in: query
+          description: True if renewal is pending otherwise false
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: status
+          in: query
+          description: current application status in the system records
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          description: "Unique id for a tenant."
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: toDate
+          in: query
+          description: TL date, here search will happen as TL date is lesser or equal to given toDate
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: tradeName
+          in: query
+          description: Name of the trade
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tradeType
+          in: query
+          description: Type of trade
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: validTo
+          in: query
+          description: Expiry Date of the TL as epoch
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Request of TL details.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Trade License(s) Retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TradeLicenseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+ /v1/_search:
+    post:
+      tags:
+        - TradeLicense
+      summary: Get the list of exsting trade licenses.
+      description: Get the trade license list search input parameters.
+      operationId: searchUsingPOST
+      parameters:
+        - name: applicationNumber
+          in: query
+          description: application number of tl application
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationType
+          in: query
+          description: "type of application"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: businessService
+          in: query
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: financialYear
+          in: query
+          description: TL applicable for financial year.
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: TL date, here search will happen as TL date is greater or equal to given fromDate
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          description: "List of system generated ids of applications."
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: issuedFrom
+          in: query
+          description: Name of the person issuing the license
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: issuedTo
+          in: query
+          description: Name of the person/organization being issued the license
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: licenseNumbers
+          in: query
+          description: License Number
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locality
+          in: query
+          description: search application by list of Locality (s)
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: mobileNumber
+          in: query
+          description: "MobileNumber of tl owners"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: offset
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: oldLicenseNumber
+          in: query
+          description: Unique Old License Number of the Trade. This is  unique in
+            system for a tenant. This is mandatory  for legacy license(DataEntry).
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: onlyMobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: ownerIds
+          in: query
+          description: Id credential for Owners
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ownerName
+          in: query
+          description: Name of owner
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: renewalPending
+          in: query
+          description: True if renewal is pending otherwise false
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: status
+          in: query
+          description: current application status in the system records
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          description: "Unique id for a tenant."
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: toDate
+          in: query
+          description: TL date, here search will happen as TL date is lesser or equal to given toDate
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: tradeName
+          in: query
+          description: Name of the trade
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tradeType
+          in: query
+          description: Type of trade
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: validTo
+          in: query
+          description: Expiry Date of the TL as epoch
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Trade License(s) Retrieved Successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TradeLicenseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'  
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+ /v1/_update:
+    post:
+      tags:
+        - TradeLicense
+      summary: Update Trade License(s)
+      description: Updates Trade License(s) 
+      operationId: updateUsingPOST
+      parameters:
+        - name: servicename
+          in: query
+          description: servicename
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request of Trade License(s) details.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeLicenseRequest'
+      responses:
+        '200':
+          description: Trade License(s) Update Successful
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TradeLicenseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Trade License(s) Update Failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'  
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+ /v1/{servicename}/_create:
+    post:
+      tags:
+        - TradeLicense
+      summary: Creates trade license from the request data for a particular service
+      description: This API creates trade license from the request data for a particular service
+      operationId: createUsingPOST_1
+      parameters:
+        - name: servicename
+          in: path
+          description: servicename
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        description: Details for the new trade-license + RequestHeader meta data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeLicenseRequest'
+      responses:
+        '200':
+          description: Trade License(s) Create Successful
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TradeLicenseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Failed to create Trade License(s)
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+ /v1/{servicename}/_search:
+    post:
+      tags:
+        - TradeLicense
+      summary: Get the list of exsting trade licenses for a particular service.
+      description: Get the trade license list search input parameters for a particular service.
+      operationId: searchUsingPOST_1
+      parameters:
+        - name: accountId
+          in: query
+          description: "Initiator User UUID"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationNumber
+          in: query
+          description: application number of tl application
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: applicationType
+          in: query
+          description: "type of application"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: businessService
+          in: query
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: financialYear
+          in: query
+          description: TL applicable for financial year.
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: TL date, here search will happen as TL date is greater or equal to given fromDate
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: ids
+          in: query
+          description: "List of system generated ids of applications."
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: issuedFrom
+          in: query
+          description: Name of the person issuing the license
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: issuedTo
+          in: query
+          description: Name of the person/organization being issued the license
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: licenseNumbers
+          in: query
+          description: License Number
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locality
+          in: query
+          description: search application by list of Locality (s)
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: mobileNumber
+          in: query
+          description: "MobileNumber of tl owners"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: offset
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: oldLicenseNumber
+          in: query
+          description: Unique Old License Number of the Trade. This is  unique in
+            system for a tenant. This is mandatory  for legacy license(DataEntry).
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: onlyMobileNumber
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: ownerIds
+          in: query
+          description: Id credential for Owners
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ownerName
+          in: query
+          description: Name of owner
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: renewalPending
+          in: query
+          description: True if renewal is pending otherwise false
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: status
+          in: query
+          description: current application status in the system records
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tenantId
+          in: query
+          description: "Unique id for a tenant."
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: toDate
+          in: query
+          description: TL date, here search will happen as TL date is lesser or equal to given toDate
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: tradeName
+          in: query
+          description: Name of the trade
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: tradeType
+          in: query
+          description: Type of trade
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: validTo
+          in: query
+          description: Expiry Date of the TL as epoch
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: servicename
+          in: path
+          description: Name of service
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TradeLicenseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+ /v1/{servicename}/_update:
+    post:
+      tags:
+        - TradeLicense
+      summary: Update Trade License(s) for a particular service
+      description: Updates Trade License(s) for a particular service
+      operationId: updateUsingPOST_1
+      parameters:
+        - name: servicename
+          in: path
+          description: servicename
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        description: Request of Trade License(s) details.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeLicenseRequest'
+      responses:
+        '200':
+          description: Trade License(s) Update Successful
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TradeLicenseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Trade License(s) Update Failed
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+ /v1/{servicename}/{jobname}/_batch:
+    post:
+      tags:
+        - TradeLicense
+      summary: Sends reminder SMS to user for a particular service & job
+      description: This api sends reminder SMS to user for a particular service & job
+      operationId: sendReminderSMSUsingPOST_1
+      parameters:
+        - name: servicename
+          in: path
+          description: servicename
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: jobname
+          in: path
+          description: jobname
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        description: Details for the RequestHeader meta data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: Successfull response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        '201':
+          description: Created
+        '400':
+          description: Failed to batch response
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Accessory:
+      title: Accessory
+      type: object
+      properties:
+        accessoryCategory:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Accessory Category is a master from mdms 
+        active:
+          type: boolean
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        count:
+          type: integer
+          format: int32
+        id:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "System generated ids of applications."
+        tenantId:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "Unique id for a tenant."
+        uom:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: unit of measurement of trade type.
+        uomValue:
+          maxLength: 64
+          minLength: 0
+          type: string
+      description: A Object holds the basic data for a Trade License
+    Boundary:
+      title: Boundary
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Boundary'
+        code:
+          type: string
+          description: code of the boundary.
+        label:
+          type: string
+          description: localized label for the boundry.
+        latitude:
+          type: string
+          description: latitude of the boundary.
+        longitude:
+          type: string
+          description: longitude of the boundary.
+        materializedPath:
+          type: string
+          description: materialized path of the boundary - this would be of the format tenantid.[code] from parentt till teh current boundary
+          readOnly: true
+        name:
+          type: string
+          description: name of the boundary.
+    Calculation:
+      title: Calculation
+      required:
+        - tenantId
+      type: object
+      properties:
+        accessoryBillingIds:
+          $ref: '#/components/schemas/FeeAndBillingSlabIds'
+        applicationNumber:
+          type: string
+        taxHeadEstimates:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxHeadEstimate'
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: string
+        tradeLicense:
+          $ref: '#/components/schemas/TradeLicenseRes'
+        tradeTypeBillingIds:
+          $ref: '#/components/schemas/FeeAndBillingSlabIds'
+    Document:
+      title: Document
+      type: object
+      properties:
+        active:
+          type: boolean
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        documentType:
+          description: Type of document
+          maxLength: 64
+          minLength: 0
+          type: string
+        documentUid:
+          description: Unique Document Uuid 
+          maxLength: 64
+          minLength: 0
+          type: string
+        fileStoreId:
+          description: Filestore Id of document
+          maxLength: 64
+          minLength: 0
+          type: string
+        id:
+          description: Unique id credential.
+          maxLength: 64
+          minLength: 0
+          type: string
+        tenantId:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+      description: A Object holds the basic data for a Trade License
+    FeeAndBillingSlabIds:
+      title: FeeAndBillingSlabIds
+      type: object
+      properties:
+        billingSlabIds:
+          type: array
+          description: billing slab id credential
+          items:
+            type: string
+        fee:
+          description: Billing slab fee
+          type: number
+          format: bigdecimal
+        id:
+          description: Unique id credential.
+          type: string
+    Institution:
+      title: Institution
+      type: object
+      properties:
+        id:
+          maxLength: 64
+          type: "string"
+          description: "Unique Identifier of the Institution(UUID)."
+        tenantId:
+          maxLength: 256
+          type: "string"
+          description: "tenant id of the Property"
+        type:
+          maxLength: 64
+          type: "string"
+          description: "Institution type."
+        designation:
+          maxLength: 64
+          type: "string"
+          description: "Designation of the person creating/updatingentity on behalf of the institution"
+        active:
+          type: boolean
+        address:
+          maxLength: 512
+          minLength: 0
+          type: string
+          description: "Institution address"
+        contactNo:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "Institution contact number."
+        instituionName:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: "Institution name."
+        name:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "Name of person on behalf of Institution"
+        organisationRegistrationNo:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "Organisation Registration number."
+    OwnerInfo:
+      title: OwnerInfo
+      required:
+        - mobileNumber
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique id an user.
+          format: int64
+        userName:
+          maxLength: 64
+          minLength: 1
+          type: string
+          description: The unique username used for user login.
+        password:
+          maxLength: 64
+          type: string
+          description: Password for user login.
+          format: password
+        salutation:
+          maxLength: 5
+          type: string
+        name:
+          maxLength: 100
+          minLength: 3
+          type: string
+          description: The full name of the user.
+        gender:
+          type: string
+          description: Gender of the user.
+        mobileNumber:
+          maxLength: 10
+          type: string
+          description: Mobile number ofuser the user
+        emailId:
+          maxLength: 128
+          type: string
+          description: Email address of the user
+        altContactNumber:
+          maxLength: 10
+          type: string
+          description: Alternate contact number of the user
+        pan:
+          maxLength: 10
+          type: string
+          description: PAN number of the user
+        aadhaarNumber:
+          maxLength: 12
+          pattern: '[0-9]'
+          type: string
+          description: Aadhaar number of the user
+        permanentAddress:
+          maxLength: 300
+          type: string
+          description: Permanent address of the user.
+        permanentCity:
+          maxLength: 300
+          type: string
+          description: City of the permanent address.
+        permanentPincode:
+          maxLength: 6
+          type: string
+        correspondenceCity:
+          maxLength: 50
+          type: string
+          description: City of the correspondence address.
+        correspondencePincode:
+          maxLength: 6
+          type: string
+          description: Permanent address pincode.
+        correspondenceAddress:
+          maxLength: 300
+          type: string
+          description: Correspondence address of the user.
+        active:
+          type: boolean
+          description: True if the user is active and False if the user is inactive.
+        dob:
+          type: string
+          description: Data of bith of the user in dd/mm/yyyy format.
+          format: date
+        pwdExpiryDate:
+          type: string
+          description: Date on which the password registered will expire.
+          format: date
+          readOnly: true
+        locale:
+          maxLength: 10
+          type: string
+          description: Value will be set to "en_IN".
+        type:
+          maxLength: 20
+          type: string
+          description: System set value internally. For employee value will be always
+            EMPLOYEE. For citizen value will be CITIZEN.
+        signature:
+          type: string
+          description: Image to be loaded for the signature of the employee
+        accountLocked:
+          type: boolean
+          description: Set to True if account is locked after several incorrect password
+            attempt. False if account is not locked.
+        roles:
+          type: array
+          description: List of roles that are attached to the user.
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Role'
+        fatherOrHusbandName:
+          maxLength: 100
+          type: string
+          description: Name of user's father or husband.
+        bloodGroup:
+          maxLength: 3
+          type: string
+          description: Blood group of the user.
+        identificationMark:
+          maxLength: 300
+          type: string
+          description: Any identification mark of the person.
+        photo:
+          type: string
+          description: Image to be loaded for the photo of the user
+        createdBy:
+          type: integer
+          description: Id of the user who created the record.
+          format: int64
+        createdDate:
+          type: string
+          description: Date on which the user master data was added into the system.
+          format: date
+        lastModifiedBy:
+          type: integer
+          description: Id of the user who last modified the record.
+          format: int64
+        lastModifiedDate:
+          type: string
+          description: Date on which the user master data was last modified.
+          format: date
+        otpReference:
+          type: string
+          description: This is the UUID token that we genarate as part of OTP.
+        tenantId:
+          type: string
+          description: Unique Identifier of the tenant, Like AP, AP.Kurnool etc.
+        correspondencePinCode:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: correspondence pin code
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        institutionId:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: unique institution id credential
+        isPrimaryOwner:
+          type: boolean
+          description: true if user is primary owner else false
+        ownerShipPercentage:
+          type: number
+          format: double
+          description: Owner ship percentage of user
+        ownerType:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Type of owner, based on this option Exemptions will be applied. This is master data defined in mdms.
+        permanentPinCode:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: Permanent pin code of the owner
+        relationship:
+          type: string
+          description: relationship of the owner
+          enum:
+            - FATHER
+            - HUSBAND
+        userActive:
+          type: boolean
+          description: True if user is active otherwise false
+        uuid:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "System Generated User id of the authenticated user."
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    ResponseEntity:
+      title: ResponseEntity
+      type: object
+      properties:
+        body:
+          type: object
+        statusCode:
+          type: string
+          enum:
+            - ACCEPTED
+            - ALREADY_REPORTED
+            - BAD_GATEWAY
+            - BAD_REQUEST
+            - BANDWIDTH_LIMIT_EXCEEDED
+            - CHECKPOINT
+            - CONFLICT
+            - CONTINUE
+            - CREATED
+            - DESTINATION_LOCKED
+            - EXPECTATION_FAILED
+            - FAILED_DEPENDENCY
+            - FORBIDDEN
+            - FOUND
+            - GATEWAY_TIMEOUT
+            - GONE
+            - HTTP_VERSION_NOT_SUPPORTED
+            - IM_USED
+            - INSUFFICIENT_SPACE_ON_RESOURCE
+            - INSUFFICIENT_STORAGE
+            - INTERNAL_SERVER_ERROR
+            - I_AM_A_TEAPOT
+            - LENGTH_REQUIRED
+            - LOCKED
+            - LOOP_DETECTED
+            - METHOD_FAILURE
+            - METHOD_NOT_ALLOWED
+            - MOVED_PERMANENTLY
+            - MOVED_TEMPORARILY
+            - MULTIPLE_CHOICES
+            - MULTI_STATUS
+            - NETWORK_AUTHENTICATION_REQUIRED
+            - NON_AUTHORITATIVE_INFORMATION
+            - NOT_ACCEPTABLE
+            - NOT_EXTENDED
+            - NOT_FOUND
+            - NOT_IMPLEMENTED
+            - NOT_MODIFIED
+            - NO_CONTENT
+            - OK
+            - PARTIAL_CONTENT
+            - PAYLOAD_TOO_LARGE
+            - PAYMENT_REQUIRED
+            - PERMANENT_REDIRECT
+            - PRECONDITION_FAILED
+            - PRECONDITION_REQUIRED
+            - PROCESSING
+            - PROXY_AUTHENTICATION_REQUIRED
+            - REQUESTED_RANGE_NOT_SATISFIABLE
+            - REQUEST_ENTITY_TOO_LARGE
+            - REQUEST_HEADER_FIELDS_TOO_LARGE
+            - REQUEST_TIMEOUT
+            - REQUEST_URI_TOO_LONG
+            - RESET_CONTENT
+            - SEE_OTHER
+            - SERVICE_UNAVAILABLE
+            - SWITCHING_PROTOCOLS
+            - TEMPORARY_REDIRECT
+            - TOO_EARLY
+            - TOO_MANY_REQUESTS
+            - UNAUTHORIZED
+            - UNAVAILABLE_FOR_LEGAL_REASONS
+            - UNPROCESSABLE_ENTITY
+            - UNSUPPORTED_MEDIA_TYPE
+            - UPGRADE_REQUIRED
+            - URI_TOO_LONG
+            - USE_PROXY
+            - VARIANT_ALSO_NEGOTIATES
+        statusCodeValue:
+          type: integer
+          format: int32
+    TaxHeadEstimate:
+      title: TaxHeadEstimate
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+            - ADVANCE_COLLECTION
+            - CHARGES
+            - EXEMPTION
+            - FEE
+            - FINES
+            - PENALTY
+            - REBATE
+            - TAX
+        estimateAmount:
+          type: number
+          format: bigdecimal
+        taxHeadCode:
+          type: string
+    TradeLicenseDetail:
+      title: TradeLicenseDetailReq
+      required:
+        - address
+        - owners
+        - tradeUnits
+      type: object
+      properties:
+        accessories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Accessory'
+        additionalDetail:
+          type: object
+        address:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address'
+        adhocExemption:
+          type: number
+          format: bigdecimal
+          description: Adhoc exemption
+        adhocExemptionReason:
+          maxLength: 1024
+          minLength: 0
+          description: Reason for adhoc exemption
+          type: string
+        adhocPenalty:
+          type: number
+          format: bigdecimal
+          description: Penalty for adhoc
+        adhocPenaltyReason:
+          maxLength: 1024
+          minLength: 0
+          type: string
+          description: Reason for adhoc penalty
+        applicationDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        channel:
+          type: string
+          enum:
+            - CITIZEN
+            - COUNTER
+            - DATAENTRY
+        id:
+          description: id criteria
+          maxLength: 64
+          minLength: 0
+          type: string
+        institution:
+          $ref: '#/components/schemas/Institution'
+        noOfEmployees:
+          type: integer
+          format: int32
+          description: number of employees
+        operationalArea:
+          type: number
+          format: double
+          description: Operational area details
+        owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/OwnerInfo'
+        structureType:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Type of structure
+        subOwnerShipCategory:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: sub owner ship category
+        surveyNo:
+          maxLength: 64
+          minLength: 0
+          description: survey number
+          type: string
+        tradeUnits:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeUnit'
+        verificationDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+      description: A Object holds the basic data for a Trade License
+    TradeLicense:
+      title: TradeLicenseReq
+      required:
+        - action
+        - tenantId
+        - tradeLicenseDetail
+      type: object
+      properties:
+        accountId:
+          description: "Initiator User UUID"
+          maxLength: 64
+          minLength: 0
+          type: string
+        action:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Action to change the state of the trade license.
+        applicationDate:
+          type: integer
+          format: int64
+          description: date of application
+        applicationNumber:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "application numbers"
+        applicationType:
+          type: string
+          description: "type of application"
+          enum:
+            - NEW
+            - RENEWAL
+        assignee:
+          type: array
+          description: UUID of the assignee
+          items:
+            type: string
+            
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        businessService:
+          type: string
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+        calculation:
+          $ref: '#/components/schemas/Calculation'
+        commencementDate:
+          type: integer
+          format: int64
+          description: Commencement Date of the trade as epoch
+        comment:
+          maxLength: 128
+          minLength: 0
+          type: string
+          description: Capture the comments made by Employee/Citizen.
+        fileStoreId:
+          type: string
+          description: File store reference key.
+        financialYear:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Trade License(s) applicable for financial year.
+        id:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "List of system generated ids of applications."
+        issuedDate:
+          type: integer
+          format: int64
+          description: 1. License issued Date of the Trade License(s) as epoch. 2. Application approval date.
+        licenseNumber:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Unique License Number of the Trade. This is  unique in system
+            for a tenant. This is mandatory but always be generated on the final approval.
+            In Case of Legacy License User will enter the Old License Number.
+        licenseType:
+          type: string
+          description: Unique Identifier of the Trade License (UUID)
+          enum:
+            - PERMANENT
+            - TEMPORARY
+        oldLicenseNumber:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Unique Old License Number of the Trade. This is  unique in
+            system for a tenant. This is mandatory  for legacy license(DataEntry).
+        oldPropertyId:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: oldPropertyId to search.
+        propertyId:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: Property Id to search.
+        status:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
+        tenantId:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "Unique id for a tenant."
+        tradeLicenseDetail:
+          $ref: '#/components/schemas/TradeLicenseDetail'
+        tradeName:
+          description: Name of trade
+          maxLength: 256
+          minLength: 0
+          type: string
+        validFrom:
+          type: integer
+          format: int64
+          description: Date from when Trade License(s) is valid as epoch
+        validTo:
+          type: integer
+          format: int64
+          description: Date to when Trade License(s) is valid as epoch
+        wfDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        workflowCode:
+          type: string
+      description: A Object holds the basic data for a Trade License
+    TradeLicenseRequest:
+      title: TradeLicenseRequest
+      type: object
+      properties:
+        Licenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeLicense'
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+      description: Contract class to receive request. Array of tradelicense items are used in case of create, whereas single tradelicense item is used for update
+    TradeLicenseRes:
+      title: TradeLicenseRes
+      required:
+        - action
+        - tenantId
+        - tradeLicenseDetail
+      type: object
+      properties:
+        accountId:
+          description: "Initiator User UUID"
+          maxLength: 64
+          minLength: 0
+          type: string
+        action:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Action to change the state of the trade license.
+        applicationDate:
+          type: integer
+          format: int64
+          description: date of application
+        applicationNumber:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "application numbers"
+        applicationType:
+          type: string
+          description: "type of application"
+          enum:
+            - NEW
+            - RENEWAL
+        assignee:
+          type: array
+          description: UUID of the assignee
+          items:
+            type: string
+            
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        businessService:
+          type: string
+          description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+        calculation:
+          $ref: '#/components/schemas/Calculation'
+        commencementDate:
+          type: integer
+          format: int64
+          description: Commencement Date of the trade as epoch
+        comment:
+          maxLength: 128
+          minLength: 0
+          type: string
+          description: Capture the comments made by Employee/Citizen.
+        fileStoreId:
+          type: string
+          description: File store reference key.
+        financialYear:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Trade License(s) applicable for financial year.
+        id:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "List of system generated ids of applications."
+        issuedDate:
+          type: integer
+          format: int64
+          description: 1. License issued Date of the Trade License(s) as epoch. 2. Application approval date.
+        licenseNumber:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Unique License Number of the Trade. This is  unique in system
+            for a tenant. This is mandatory but always be generated on the final approval.
+            In Case of Legacy License User will enter the Old License Number.
+        licenseType:
+          type: string
+          description: Unique Identifier of the Trade License (UUID)
+          enum:
+            - PERMANENT
+            - TEMPORARY
+        oldLicenseNumber:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Unique Old License Number of the Trade. This is  unique in
+            system for a tenant. This is mandatory  for legacy license(DataEntry).
+        oldPropertyId:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: oldPropertyId to search.
+        propertyId:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: Property Id to search.
+        status:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "status of request processing - to be enhanced in futuer to include INPROGRESS"
+        tenantId:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: "Unique id for a tenant."
+        tradeLicenseDetail:
+          $ref: '#/components/schemas/TradeLicenseDetail'
+        tradeName:
+          description: Name of trade
+          maxLength: 256
+          minLength: 0
+          type: string
+        validFrom:
+          type: integer
+          format: int64
+          description: Date from when Trade License(s) is valid as epoch
+        validTo:
+          type: integer
+          format: int64
+          description: Date to when Trade License(s) is valid as epoch
+        wfDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        workflowCode:
+          type: string
+      description: A Object holds the basic data for a Trade License
+    TradeLicenseResponse:
+      title: TradeLicenseResponse
+      type: object
+      properties:
+        Count:
+          type: integer
+          format: int32
+        Licenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeLicenseRes'
+        ResponseInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo'
+        applicationValidity:
+          type: integer
+          format: int32
+          description: Application validity
+        applicationsIssued:
+          type: integer
+          format: int32
+          description: Application issued
+        applicationsRenewed:
+          type: integer
+          format: int32
+          description: Application renewed
+      description: Contract class to send response. Array of tradelicense items are used in case of search results or response for create, whereas single tradelicense item is used for update
+    TradeUnit:
+      title: TradeUnit
+      type: object
+      properties:
+        active:
+          type: boolean
+        auditDetails:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails'
+        id: 
+          description: "System generated ids of applications"
+          maxLength: 64
+          minLength: 0
+          type: string
+        tenantId:
+          description: unique id for a tenant
+          maxLength: 64
+          minLength: 0
+          type: string
+        tradeType:
+          description: Type of trade
+          maxLength: 64
+          minLength: 0
+          type: string
+        uom:
+          description: unit of measurement of trade type.
+          maxLength: 64
+          minLength: 0
+          type: string
+        uomValue:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: Unique License Number of the Trade. This is  unique in system
+            for a tenant. This is mandatory but always be generated on the final approval.
+            In Case of Legacy License User will enter the Old License Number.
+      description: A Object holds the basic data for a Trade License
+  parameters:
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of records returned.
+      schema:
+        multipleOf: 10.0
+        maximum: 100
+        exclusiveMaximum: false
+        minimum: 0
+        exclusiveMinimum: true
+        type: integer
+        default: 20
+    pageNumber:
+      name: pageNumber
+      in: query
+      description: Page number
+      schema:
+        type: integer
+        default: 1
+    sortProperty:
+      name: sort
+      in: query
+      description: TradeLicense results will be sorted by licenseNumber ascending
+        by default if this parameter is not provided.
+      style: pipeDelimited
+      schema:
+        maxItems: 3
+        minItems: 1
+        uniqueItems: true
+        type: array
+        items:
+          pattern: '[-+](licenseNumber|tradeTitle|ownerName)'
+          type: string
+        default: '[+](licenseNumber)'
+x-api-id: org.egov.tl.services
+x-common-path: https://raw.githubusercontent.com/egovernments/egov-services/master/docs/common/contracts/v1-1-1.yml

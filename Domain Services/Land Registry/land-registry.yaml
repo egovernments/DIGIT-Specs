@@ -1,0 +1,479 @@
+---
+openapi: "3.0.0"
+info:
+  title: "eGov Building Plan Application System v1.1"
+  description: "Stakeholders will apply for a building permit using the scrutinised\
+    \ number from eDCR.A stakeholder is a registered user in the system who logs in\
+    \ to the portal and apply for a service. \nThe building permit application is\
+    \ one of the services in the building plan approval system.\n"
+  contact:
+    name: "Egovernments Foundation"
+    email: "contact@egovernments.org"
+  version: "1.0.0"
+servers:
+- url: "https://dev.digit.org"
+paths:
+  /v1/land/_create:
+    post:
+      description: "Citizen, Employee, Or an Architect can create for new build plan approval"
+      tags:
+        - "Land Registry"
+      summary: "Create land detail in land registry"
+      operationId: createUsingPOST
+      requestBody:
+        description: "Fill Bpa application details and submit the request."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LandInfoRequest'
+      responses:
+        '200':
+          description: "Reqeuset submitted successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/LandInfoResponse'
+        '201':
+          description: Created
+        '400':
+          description: "Failed to process the request"
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/land/_update:
+    post:
+      tags:
+        - "Land Registry"
+      summary: "Update existing application."
+      description: "Updates a given `application` with newer details."
+      operationId: updateUsingPOST
+      requestBody:
+        description: "Request to update existing application details."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LandInfoRequest'
+        required: true    
+      responses:
+        '202':
+          description: "successfully updated"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/LandInfoResponse'
+        '201':
+          description: Created
+        '400':
+          description: "Failed to Update"
+          content:
+            '*/*':
+              schema:
+                $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/land/_search:
+    post:
+      tags:
+        - "Land Registry"
+      summary: "Get the list of land information."
+      description: "Get the list of land information..\n"
+      operationId: searchUsingPOST
+      parameters:
+        - name: ids
+          in: query
+          description: "List of system generated ids of BPA applications."
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: landUId
+          in: query
+          description: "land identifier."
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: limit 
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locality
+          in: query
+          description: name of locality
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: mobileNumber
+          in: query
+          description: "MobileNumber of land owners"
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: offset
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: tenantId
+          in: query
+          description: "Unique id for a tenant."
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: userIds
+          in: query
+          description: "Unique user id of the authenticated user"
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+        required: true      
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/LandInfoResponse'
+        '201':
+          description: Created
+        '400':
+          description: "Invalid input."
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    LandInfo:
+      title: "LandInfo"
+      required:
+      - "address"
+      - "owners"
+      - "tenantId"
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique Identifier(UUID) of the land for internal reference."
+          readOnly: true
+        landUId:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique formatted Identifier of the Land."
+          readOnly: true
+        landUniqueRegNo:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique Identifier of the Land in municipal departmrnt (eg.\
+            \ registration no, survey no etc)."
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: "string"
+          description: "tenant id of the Property"
+        status:
+          $ref: "#/components/schemas/Status"
+        address:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address"
+        ownershipCategory:
+          maxLength: 64
+          type: "string"
+          description: "The type of ownership of the property."
+        owners:
+          type: "array"
+          description: "Property owners, these will be citizen users in system."
+          items:
+            $ref: "#/components/schemas/OwnerInfo"
+        institution:
+          $ref: "#/components/schemas/Institution"
+        source:
+          $ref: "#/components/schemas/Source"
+        channel:
+          $ref: "#/components/schemas/Channel"
+        documents:
+          type: "array"
+          description: "Attach the documents."
+          items:
+            $ref: "#/components/schemas/Document"
+        unit:
+          type: "array"
+          description: "Unit details of the plot."
+          items:
+            $ref: "#/components/schemas/Unit"
+        additionalDetails:
+          type: "object"
+          description: "The json to capturing the custom fields"
+        auditDetails:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+    Status:
+      title: "Status"
+      type: "string"
+      description: "status of the Property"
+      enum:
+      - "ACTIVE"
+      - "INACTIVE"
+    LandInfoRequest:
+      required:
+      - "LandInfo"
+      - "RequestInfo"
+      properties:
+        RequestInfo:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+        LandInfo:
+          $ref: "#/components/schemas/LandInfo"
+      description: "Contract class to receive request. Array of Land items  are used\
+        \ in case of create . Where as single Land item is used for update"
+    LandInfoResponse:
+      properties:
+        ResponseInfo:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo"
+        LandInfo:
+          $ref: "#/components/schemas/LandInfo"
+      description: "Contains the ResponseHeader and the created/updated property"
+    Boundary:
+      required:
+      - "code"
+      - "name"
+      type: "object"
+      properties:
+        code:
+          type: "string"
+          description: "code of the boundary."
+        name:
+          type: "string"
+          description: "name of the boundary."
+        label:
+          type: "string"
+          description: "localized label for the boundry."
+        latitude:
+          type: "string"
+          description: "latitude of the boundary."
+        longitude:
+          type: "string"
+          description: "longitude of the boundary."
+        children:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Boundary"
+        materializedPath:
+          type: "string"
+          description: "materialized path of the boundary - this would be of the format\
+            \ tenantid.[code] from parentt till teh current boundary"
+          readOnly: true
+    OwnerInfo:
+      $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User"
+    Institution:
+      title: "Institution"
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          type: "string"
+          description: "Unique Identifier of the Institution(UUID)."
+        tenantId:
+          maxLength: 256
+          type: "string"
+          description: "tenant id of the Property"
+        type:
+          maxLength: 64
+          type: "string"
+          description: "Institution type."
+        designation:
+          maxLength: 64
+          type: "string"
+          description: "Designation of the person creating/updatingentity on behalf\
+            \ of the institution"
+        nameOfAuthorizedPerson:
+          maxLength: 256
+          type: "string"
+          description: "Name of the person who is taking action on behalf of institution"
+        additionalDetails:
+          type: "object"
+          description: "Json object to capture any extra information which is not\
+            \ accommodated by model"
+    Source:
+      title: "Source"
+      type: "string"
+      description: "Source of a constructionDetail data. The constructionDetail will\
+        \ be created in a system based on the data avaialble in their manual records\
+        \ or during field survey. There can be more from client to client."
+      enum:
+      - "MUNICIPAL_RECORDS"
+      - "FIELD_SURVEY"
+    Channel:
+      title: "Channel"
+      type: "string"
+      description: "constructionDetail details can be created from different channels\
+        \ Eg. System (properties created by ULB officials), CFC Counter (From citizen\
+        \ faciliation counters) etc. Here we are defining some known channels, there\
+        \ can be more client to client."
+      enum:
+      - "SYSTEM"
+      - "CFC_COUNTER"
+      - "CITIZEN"
+      - "DATA_ENTRY"
+      - "MIGRATION"
+    Document:
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          type: "string"
+          description: "system id of the Document."
+        documentType:
+          type: "string"
+          description: "unique document type code, should be validated with document\
+            \ type master"
+        fileStore:
+          type: "string"
+          description: "File store reference key."
+        documentUid:
+          maxLength: 64
+          type: "string"
+          description: "The unique id(Pancard Number,Adhar etc.) of the given Document."
+        additionalDetails:
+          type: "object"
+          description: "Json object to capture any extra information which is not\
+            \ accommodated by model"
+        auditDetails:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+      description: "This object holds list of documents attached during the transaciton\
+        \ for a property"
+    Unit:
+      title: "Unit"
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          description: "Unique Identifier of the Unit(UUID)."
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: "string"
+          description: "tenant id of the Property"
+        floorNo:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "floor number of the Unit"
+        unitType:
+          type: "string"
+          description: "Unit type is master data."
+          example: "Building, Room, Kitchen etc."
+        usageCategory:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "This is about the usage of the property like Residential,\
+            \ Non-residential, Mixed(Property witch is gettiong used for Residential,\
+            \ Non-residential purpose)"
+        occupancyType:
+          $ref: "#/components/schemas/OccupancyType"
+        occupancyDate:
+          type: "integer"
+          description: "Date on which unit is occupied."
+          format: "int64"
+        constructionDetail:
+          $ref: "#/components/schemas/ConstructionDetail"
+        additionalDetails:
+          type: "object"
+          description: "Json object to capture any extra information which is not\
+            \ accommodated by model"
+        auditDetails:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+    OccupancyType:
+      title: "OccupancyType"
+      type: "string"
+      description: "Value denoting if the unit is rented or occupied by owner"
+      enum:
+      - "OWNER"
+      - "TENANT"
+    ConstructionDetail:
+      title: "ConstructionDetail"
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          type: "string"
+          description: "id of the property with which the constructionDetail is associated."
+        carpetArea:
+          type: "number"
+          description: "Total built up area in sq ft(built-up area = carpet area +\
+            \ areas covered by walls)"
+        builtUpArea:
+          type: "number"
+          description: "Total built up area in sq ft(built-up area = carpet area +\
+            \ areas covered by walls)"
+        plinthArea:
+          type: "number"
+          description: "Area of the extension builtup of the Unit, Like balcony, sitouts."
+        superBuiltUpArea:
+          type: "number"
+          description: "Total built up area in sq ft(built-up area + Common area =\
+            \ Super built-up area)"
+        constructionType:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Construction type is defined in MDMS ConstructionTypeMaster."
+        constructionDate:
+          type: "integer"
+          description: "The date when the property was constructed"
+          format: "int64"
+        dimensions:
+          type: "object"
+          description: "The dimensions of the plot or building or any unit"
+        auditDetails:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+        additionalDetails:
+          type: "object"
+          description: "The json (array of '#/definitions/Factor')"
+      description: "Construction/constructionDetail details are captured here. Detail\
+        \ information of the constructionDetail including floor wise usage and area\
+        \ are saved as seperate units .For each financial year construction details\
+        \ may change. constructionDetail object is required for tax calculation"
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'  
+x-module: "BPA"
+x-common-path: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml"

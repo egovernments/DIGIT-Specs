@@ -1,0 +1,873 @@
+---
+openapi: "3.0.0"
+info:
+  title: "eGov Building Plan Application System v1.1"
+  description: "Stakeholders will apply for a building permit using the scrutinised\
+    \ number from eDCR.A stakeholder is a registered user in the system who logs in\
+    \ to the portal and apply for a service. \nThe building permit application is\
+    \ one of the services in the building plan approval system.\n"
+  contact:
+    name: "Egovernments Foundation"
+    email: "contact@egovernments.org"
+  version: "1.0.0"
+servers:
+- url: "https://dev.digit.org"
+paths:
+  /v1/bpa/_create:
+    post:
+      tags:
+      - "BPA_APPLY"
+      summary: "Apply for new building plan application."
+      description: "Citizen, Employee, Or an Architect can apply for new build plan\
+        \ approval"
+      requestBody:
+        description: "Fill Bpa application details and submit the request."
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BPARequest"
+        required: true
+      responses:
+        "202":
+          description: "Application submitted successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BPAResponse"
+        "400":
+          description: "Failed to process the application"
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+      x-roles: "BPA_ARCHITECT,CITIZEN,EMPLOYEE"
+  /v1/bpa/_update:
+    post:
+      tags:
+      - "BPA_APPLY"
+      summary: "Update existing application."
+      description: "Updates a given `application` with newer details."
+      requestBody:
+        description: "Request to update existing application details."
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BPARequest"
+        required: true
+      responses:
+        "202":
+          description: "Application updated successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BPAResponse"
+        "400":
+          description: "Failed to update"
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+      x-roles: "BPA_ARCHITECT,CITIZEN,EMPLOYEE"
+  /v1/bpa/_search:
+    post:
+      tags:
+      - "BPA_APPLY"
+      summary: "Get the list of application by passing the diffrent search criteria."
+      description: "Get the properties list based on the input parameters.\n"
+      parameters:
+      - name: "tenantId"
+        in: "query"
+        description: "Unique id for a tenant."
+        required: true
+        schema:
+          type: "string"
+          format: "varchar"
+      - name: "ids"
+        in: "query"
+        description: "List of system generated ids of BPA applications."
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "array"
+          items:
+            type: "string"
+      - name: "status"
+        in: "query"
+        schema:
+          type: "string"
+          format: "varchar"
+      - name: "edcrNumber"
+        in: "query"
+        description: "edcr Number."
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      - name: "applicationNo"
+        in: "query"
+        description: "application numbers"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      - name: "mobileNumber"
+        in: "query"
+        description: "MobileNumber of land owners"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "integer"
+          format: "int64"
+      - name: "approvalNo"
+        in: "query"
+        description: "approval no"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      - name: "landId"
+        in: "query"
+        description: unique land id
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "array"
+          items:
+            type: "string"
+      - name: "offset"
+        in: query
+        description: offset
+        schema: 
+          type: integer
+      - name: "limit"
+        in: query
+        description: limit
+        schema: 
+          type: integer
+      - name: "approvalDate"
+        in: query
+        description: approval date
+        schema: 
+          type: integer
+          format: int64
+      - name: "fromDate"
+        in: query
+        description: "Epoch date, here search will happen date is greater or equal to given fromDate"
+        schema: 
+          type: integer
+          format: int64
+      - name: "toDate"
+        in: query
+        description: "Epoch date, here search will happen date is lesser or equal to given toDate"
+        schema: 
+          type: integer
+          format: int64    
+      - name: "ownerIds"
+        in: query
+        description: Unique id credential for owner
+        schema:
+          type: array
+          items:
+            type: string
+      - name: "businessService"
+        in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+        schema:
+          type: array
+          items:
+            type: string
+      - name: "createdBy"
+        in: query
+        description: Created by 
+        schema:
+          type: array
+          items:
+            type: string      
+      - name: "locality"
+        in: "query"
+        description: "Name of locality."
+        schema:
+          type: "string"
+          format: "varchar"      
+      - name: "applicationType"
+        in: "query"
+        description: "Type of application"
+        schema:
+          type: "string"
+          format: "varchar"
+      - name: "serviceType"
+        in: "query"
+        description: "Type of service"
+        schema:
+          type: "string"
+          format: "varchar"
+      - name: "permitNumber"
+        in: "query"
+        description: "Permit number"
+        schema:
+          type: "string"
+          format: "varchar"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+        required: true
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BPAResponse"
+        "400":
+          description: "Invalid input."
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+      x-roles: "BPA_ARCHITECT,CITIZEN,EMPLOYEE"
+  /v1/bpa/_plainsearch:
+    post:
+      description: "Get the properties plainsearch list based on the input parameters.\n"
+      tags:
+        - BPA_APPLY
+      summary: Get the properties plainsearch list by passing different criteria.
+      operationId: plainSearchUsingPOST
+      parameters:
+      - name: "tenantId"
+        in: "query"
+        description: "Unique id for a tenant."
+        required: true
+        schema:
+          type: "string"
+          format: "varchar"
+      - name: "ids"
+        in: "query"
+        description: "List of system generated ids of BPA applications."
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "array"
+          items:
+            type: "string"
+      - name: "status"
+        in: "query"
+        schema:
+          type: "string"
+          format: "varchar"
+      - name: "edcrNumber"
+        in: "query"
+        description: "edcr Number."
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      - name: "applicationNo"
+        in: "query"
+        description: "application numbers"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      - name: "mobileNumber"
+        in: "query"
+        description: "MobileNumber of land owners"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "integer"
+          format: "int64"
+      - name: "approvalNo"
+        in: "query"
+        description: "approval no"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      - name: "landId"
+        in: "query"
+        description: unique land id
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "array"
+          items:
+            type: "string"
+      - name: "offset"
+        in: query
+        description: offset
+        schema: 
+          type: integer
+      - name: "limit"
+        in: query
+        description: limit
+        schema: 
+          type: integer
+      - name: "approvalDate"
+        in: query
+        description: approval date
+        schema: 
+          type: integer
+          format: int64
+      - name: "fromDate"
+        in: query
+        description: "Epoch date, here search will happen date is greater or equal to given fromDate"
+        schema: 
+          type: integer
+          format: int64
+      - name: "toDate"
+        in: query
+        description: "Epoch date, here search will happen date is lesser or equal to given toDate"
+        schema: 
+          type: integer
+          format: int64    
+      - name: "ownerIds"
+        in: query
+        description: Unique id credential for owner
+        schema:
+          type: array
+          items:
+            type: string
+      - name: "businessService"
+        in: query
+        description: 'Billing system details e.g., PropertyTax,Water Charges etc.'
+        schema:
+          type: array
+          items:
+            type: string
+      - name: "locality"
+        in: "query"
+        description: "Name of locality."
+        schema:
+          type: "string"
+          format: "varchar"      
+      - name: "applicationType"
+        in: "query"
+        description: "Type of application"
+        schema:
+          type: "string"
+          format: "varchar"
+      - name: "serviceType"
+        in: "query"
+        description: "Type of service"
+        schema:
+          type: "string"
+          format: "varchar"
+      - name: "permitNumber"
+        in: "query"
+        description: "Permit number"
+        schema:
+          type: "string"
+          format: "varchar"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInfoWrapper'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BPAResponse'
+        '201':
+          description: Created
+        "400":
+          description: "Failed to update"
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found    
+  /v1/bpa/_permitorderedcr:
+    post:
+      description: "Get the pdf for order permit on edcr \n"
+      tags:
+        - BPA_APPLY
+      summary: getPdf
+      operationId: getPdfUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BPARequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Resource'
+        '201':
+          description: Created
+        "400":
+          description: "Failed to update"
+          content:
+            '*/*':
+              schema:
+                $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ErrorRes"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found        
+components:
+  schemas:
+    RequestInfoWrapper:
+      title: RequestInfoWrapper
+      type: object
+      properties:
+        RequestInfo:
+          $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo'
+    LandInfo:
+      title: "LandInfo"
+      required:
+      - "address"
+      - "owners"
+      - "tenantId"
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique Identifier(UUID) of the land for internal reference."
+          readOnly: true
+        landUId:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique formatted Identifier of the Land."
+          readOnly: true
+        landUniqueRegNo:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique Identifier of the Land in municipal departmrnt (eg.\
+            \ registration no, survey no etc)."
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: "string"
+          description: "tenant id of the Property"
+        status:
+          $ref: "#/components/schemas/Status"
+        address:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/Address"
+        ownershipCategory:
+          maxLength: 64
+          type: "string"
+          description: "The type of ownership of the property."
+        owners:
+          type: "array"
+          description: "Property owners, these will be citizen users in system."
+          items:
+            $ref: "#/components/schemas/OwnerInfo"
+        institution:
+          $ref: "#/components/schemas/Institution"
+        source:
+          $ref: "#/components/schemas/Source"
+        channel:
+          $ref: "#/components/schemas/Channel"
+        documents:
+          type: "array"
+          description: "Attach the documents."
+          items:
+            $ref: "#/components/schemas/Document"
+        unit:
+          type: "array"
+          description: "Unit details of the plot."
+          items:
+            $ref: "#/components/schemas/Unit"
+        additionalDetails:
+          type: "object"
+          description: "The json to capturing the custom fields"
+        auditDetails:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+    Resource:
+      title: Resource
+      type: object
+      properties:
+        description:
+          type: string
+        file:
+          type: string
+          format: binary
+        filename:
+          type: string
+        inputStream:
+          $ref: '#/components/schemas/InputStream'
+        open:
+          type: boolean
+        readable:
+          type: boolean
+        uri:
+          type: string
+          format: uri
+        url:
+          type: string
+          format: url      
+    InputStream:
+      title: InputStream
+      type: object      
+    BPA:
+      required:
+      - "address"
+      - "owners"
+      - "tenantId"
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique Identifier(UUID) of the bpa application for internal\
+            \ reference."
+          readOnly: true
+        applicationNo:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Generate formatted Unique Identifier of the building permit\
+            \ application. Keep the format in mdms"
+          readOnly: true
+        approvalNo:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Generate Approval number based on wf status. When to generate\
+            \ approvalNo will be depends on wf state so make it configurable at  application\
+            \ level"
+          readOnly: true
+        accountId:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Initiator User UUID"
+        edcrNumber:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique Identifier scrutinized edcr number"
+        riskType:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Risk type will be drived based on mdms configuration"
+          readOnly: true
+        businessService:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "business service"
+          readOnly: true
+        landId:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique Identifier(UUID) of the land for internal reference."
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: "string"
+          description: "Unique ULB identifier."
+          nullable: false
+        approvalDate:
+          type: integer
+          format: int64
+        applicationDate:
+          type: integer
+          format: int64
+        status:
+          maxLength: 256
+          minLength: 2
+          type: "string"
+          description: "status of the application."
+          readOnly: true
+        documents:
+          type: "array"
+          description: "The documents attached by owner for exemption."
+          items:
+            $ref: "#/components/schemas/Document"
+        landInfo:
+          $ref: "#/components/schemas/LandInfo"
+        workflow:
+          $ref: "#/components/schemas/Workflow"
+        auditDetails:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+        additionalDetails:
+          type: "object"
+          description: "The json to capturing the custom fields"
+      description: "BPA application object to capture the details of land, land owners,\
+        \ and address of the land."
+    Workflow:
+      type: "object"
+      properties:
+        action:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Action on the application in certain"
+        assignes:
+          type: "array"
+          items:
+            type: "string"
+        comments:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Unique Identifier scrutinized number"
+        varificationDocuments:
+          type: "array"
+          description: "Attach the workflow varification documents."
+          items:
+            $ref: "#/components/schemas/Document"
+      description: "BPA application object to capture the details of land, land owners,\
+        \ and address of the land."
+    Status:
+      title: "Status"
+      type: "string"
+      description: "status of the Property"
+      enum:
+      - "ACTIVE"
+      - "INACTIVE"
+    BPARequest:
+      required:
+      - "BPA"
+      - "RequestInfo"
+      properties:
+        RequestInfo:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/RequestInfo"
+        BPA:
+          $ref: "#/components/schemas/BPA"
+      description: "Contract class to receive request. Array of Property items  are\
+        \ used in case of create . Where as single Property item is used for update"
+    BPAResponse:
+      properties:
+        ResponseInfo:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/ResponseInfo"
+        BPA:
+          $ref: "#/components/schemas/BPA"
+        count:
+          type: integer
+      description: "Contains the ResponseHeader and the created/updated property"
+    Boundary:
+      required:
+      - "code"
+      - "name"
+      type: "object"
+      properties:
+        code:
+          type: "string"
+          description: "code of the boundary."
+        name:
+          type: "string"
+          description: "name of the boundary."
+        label:
+          type: "string"
+          description: "localized label for the boundry."
+        latitude:
+          type: "string"
+          description: "latitude of the boundary."
+        longitude:
+          type: "string"
+          description: "longitude of the boundary."
+        children:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Boundary"
+        materializedPath:
+          type: "string"
+          description: "materialized path of the boundary - this would be of the format\
+            \ tenantid.[code] from parentt till teh current boundary"
+          readOnly: true
+    OwnerInfo:
+      $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/User'
+    Institution:
+      title: "Institution"
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          type: "string"
+          description: "Unique Identifier of the Institution(UUID)."
+        tenantId:
+          maxLength: 256
+          type: "string"
+          description: "tenant id of the Property"
+        type:
+          maxLength: 64
+          type: "string"
+          description: "Institution type."
+        designation:
+          maxLength: 64
+          type: "string"
+          description: "Designation of the person creating/updatingentity on behalf\
+            \ of the institution"
+        nameOfAuthorizedPerson:
+          maxLength: 256
+          type: "string"
+          description: "Name of the person who is taking action on behalf of institution"
+        additionalDetails:
+          type: "object"
+          description: "Json object to capture any extra information which is not\
+            \ accommodated by model"
+    Source:
+      title: "Source"
+      type: "string"
+      description: "Source of a constructionDetail data. The constructionDetail will\
+        \ be created in a system based on the data avaialble in their manual records\
+        \ or during field survey. There can be more from client to client."
+      enum:
+      - "MUNICIPAL_RECORDS"
+      - "FIELD_SURVEY"
+    Channel:
+      title: "Channel"
+      type: "string"
+      description: "constructionDetail details can be created from different channels\
+        \ Eg. System (properties created by ULB officials), CFC Counter (From citizen\
+        \ faciliation counters) etc. Here we are defining some known channels, there\
+        \ can be more client to client."
+      enum:
+      - "SYSTEM"
+      - "CFC_COUNTER"
+      - "CITIZEN"
+      - "DATA_ENTRY"
+      - "MIGRATION"
+    Document:
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          type: "string"
+          description: "system id of the Document."
+        documentType:
+          type: "string"
+          description: "unique document type code, should be validated with document\
+            \ type master"
+        fileStore:
+          type: "string"
+          description: "File store reference key."
+        documentUid:
+          maxLength: 64
+          type: "string"
+          description: "The unique id(Pancard Number,Adhar etc.) of the given Document."
+        additionalDetails:
+          type: "object"
+          description: "Json object to capture any extra information which is not\
+            \ accommodated by model"
+      description: "This object holds list of documents attached during the transaciton\
+        \ for a property"
+    Unit:
+      title: "Unit"
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          description: "Unique Identifier of the Unit(UUID)."
+        tenantId:
+          maxLength: 256
+          minLength: 2
+          type: "string"
+          description: "tenant id of the Property"
+        floorNo:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "floor number of the Unit"
+        unitType:
+          type: "string"
+          description: "Unit type is master data."
+          example: "Building, Room, Kitchen etc."
+        usageCategory:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "This is about the usage of the property like Residential,\
+            \ Non-residential, Mixed(Property witch is gettiong used for Residential,\
+            \ Non-residential purpose)"
+        occupancyType:
+          $ref: "#/components/schemas/OccupancyType"
+        occupancyDate:
+          type: "integer"
+          description: "Date on which unit is occupied."
+          format: "int64"
+        constructionDetail:
+          $ref: "#/components/schemas/ConstructionDetail"
+        additionalDetails:
+          type: "object"
+          description: "Json object to capture any extra information which is not\
+            \ accommodated by model"
+    OccupancyType:
+      title: "OccupancyType"
+      type: "string"
+      description: "Value denoting if the unit is rented or occupied by owner"
+      enum:
+      - "OWNER"
+      - "TENANT"
+    ConstructionDetail:
+      title: "ConstructionDetail"
+      type: "object"
+      properties:
+        id:
+          maxLength: 64
+          type: "string"
+          description: "id of the property with which the constructionDetail is associated."
+        carpetArea:
+          type: "number"
+          description: "Total built up area in sq ft(built-up area = carpet area +\
+            \ areas covered by walls)"
+        builtUpArea:
+          type: "number"
+          description: "Total built up area in sq ft(built-up area = carpet area +\
+            \ areas covered by walls)"
+        plinthArea:
+          type: "number"
+          description: "Area of the extension builtup of the Unit, Like balcony, sitouts."
+        superBuiltUpArea:
+          type: "number"
+          description: "Total built up area in sq ft(built-up area + Common area =\
+            \ Super built-up area)"
+        constructionType:
+          maxLength: 64
+          minLength: 1
+          type: "string"
+          description: "Construction type is defined in MDMS ConstructionTypeMaster."
+        constructionDate:
+          type: "integer"
+          description: "The date when the property was constructed"
+          format: "int64"
+        dimensions:
+          type: "object"
+          description: "The dimensions of the plot or building or any unit"
+        auditDetails:
+          $ref: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas/AuditDetails"
+        additionalDetails:
+          type: "object"
+          description: "The json (array of '#/definitions/Factor')"
+      description: "Construction/constructionDetail details are captured here. Detail\
+        \ information of the constructionDetail including floor wise usage and area\
+        \ are saved as seperate units .For each financial year construction details\
+        \ may change. constructionDetail object is required for tax calculation"
+x-module: "BPA"
+x-common-path: "https://raw.githubusercontent.com/egovernments/DIGIT-Specs/master/Common%20Services/common-contract.yaml#/components/schemas"
