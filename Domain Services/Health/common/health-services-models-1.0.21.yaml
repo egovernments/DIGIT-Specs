@@ -1405,7 +1405,7 @@ components:
         isDeleted:
           type: boolean
         status:
-          type: string
+          $ref: '#/components/schemas/TaskStatus'
     TaskBulkRequest:
       type: object
       properties:
@@ -2200,3 +2200,129 @@ components:
         - "CREATE"
         - "UPDATE"
         - "DELETE"
+    UserAction:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineModel'
+        - type: object
+          properties:
+            latitude:
+              type: number
+              format: double
+              minimum: -90
+              maximum: 90
+            longitude:
+              type: number
+              format: double
+              minimum: -180
+              maximum: 180
+            locationAccuracy:
+              type: number
+              format: double
+              minimum: 0
+            boundaryCode:
+              type: string
+            projectId:
+              type: string
+              minLength: 2
+              maxLength: 64
+            action:
+              $ref: '#/components/schemas/UserActionEnum'
+            beneficiaryTag:
+              type: string
+            resourceTag:
+              type: string
+          required:
+            - projectId
+            - latitude
+            - longitude
+            - locationAccuracy
+            - boundaryCode
+            - action
+
+    UserActionBulkRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        UserActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAction'
+          minItems: 1
+      required:
+        - RequestInfo
+        - UserActions
+
+    UserActionBulkResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        TotalCount:
+          type: integer
+          default: 0
+        UserActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAction'
+      required:
+        - ResponseInfo
+        - UserActions
+
+    UserActionRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        UserAction:
+          $ref: '#/components/schemas/UserAction'
+      required:
+        - RequestInfo
+        - UserAction
+    UserActionResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/ResponseInfo'
+        UserAction:
+          $ref: '#/components/schemas/UserAction'
+      required:
+        - ResponseInfo
+        - UserAction
+    UserActionSearchRequest:
+      type: object
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        UserAction:
+          $ref: '#/components/schemas/UserActionSearch'
+    UserActionSearch:
+      allOf:
+        - $ref: '#/components/schemas/EgovOfflineSearchModel'
+      type: object
+      properties:
+        createdBy:
+          type: string
+        projectId:
+          type: string
+        boundaryCode:
+          type: string
+        beneficiaryTag:
+          type: string
+        resourceTag:
+          type: string
+    UserActionEnum:
+      type: string
+      enum:
+        - CLOSED_HOUSEHOLD
+        - LOCATION_CAPTURE
+      description: Specify Task Action
+    TaskStatus:
+      type: string
+      enum:
+        - ADMINISTRATION_FAILED
+        - ADMINISTRATION_SUCCESS
+        - BENEFICIARY_REFUSED
+        - CLOSED_HOUSEHOLD
+        - DELIVERED
+        - NOT_ADMINISTERED
