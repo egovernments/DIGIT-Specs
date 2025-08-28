@@ -119,7 +119,7 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  /Payment/v1/_search:
+  /payment/v1/_search:
     post:
       tags:
         - Payment
@@ -223,7 +223,7 @@ components:
           description: Any additional details that need to be captured
           type: object
         auditDetails:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required:
         - tenantId
         - businessService
@@ -270,11 +270,11 @@ components:
         totalAmount:
           description: total Amount for the particular bill-detail during payment  
           type: number
-          format: int64
+          format: BigDecimal
         totalPaidAmount:
           description: Amount being paid for the particular bill-detail during payment  
           type: number
-          format: int64
+          format: BigDecimal
         fromPeriod:
           description: Start date of bill period  
           type: number
@@ -288,8 +288,7 @@ components:
         netLineItemAmount:
           description: Amount being paid for the particular bill-detail during payment  
           type: number
-          format: int64
-          example: 1682899199000
+          format: BigDecimal
         payee:
             $ref: '#/components/schemas/Party'
         lineItems:
@@ -306,11 +305,11 @@ components:
           description: Any additional details that need to be captured
           type: object
         auditDetails:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
 
       required:
         - payee
-        - payableLineItem
+        - payableLineItems
     LineItem:
       description: Line items are the amount breakups for net amounts 
       type: object
@@ -353,7 +352,7 @@ components:
           description: Any additional details that need to be captured
           type: object
         auditDetails:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required:
         - tenantId
         - headCode
@@ -455,9 +454,9 @@ components:
         billIds:
           description: search payment by the bill ids         
           type: array
-          format: string
           items:
             type: string
+            format: uuid
             example: 1e4bce04-499d-433c-928b-51d222019d45
         status:
             $ref: '#/components/schemas/Status'
@@ -519,7 +518,6 @@ components:
         bills:
           description: search payment by the bill ids         
           type: array
-          format: uuid
           items:
             $ref: '#/components/schemas/PaymentBill'
         status:
@@ -528,7 +526,7 @@ components:
           description: Any additional details that need to be captured
           type: object
         auditDetails:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required: 
         - tenantId  
         - netPaidAmount
@@ -566,7 +564,7 @@ components:
           items:
             $ref: '#/components/schemas/PaymentBillDetail'
         auditDetails:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required:
         - billId
         - totalAmount
@@ -588,11 +586,11 @@ components:
         totalAmount:
           description: total Amount for the particular bill-detail during payment  
           type: number
-          format: int64
+          format: BigDecimal
         totalPaidAmount:
           description: Amount being paid for the particular bill-detail during payment  
           type: number
-          format: int64
+          format: BigDecimal
         status:
           $ref: '#/components/schemas/PaymentStatus'
         payableLineItems:
@@ -601,7 +599,7 @@ components:
           items:
             $ref: '#/components/schemas/PaymentLineItem'
         auditDetails:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required:
         - billDetailId
         - totalPaidAmount
@@ -633,7 +631,7 @@ components:
         status:
           $ref: '#/components/schemas/PaymentStatus'
         auditDetails:
-          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+          $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required:
         - tenantId
         - lineItemid

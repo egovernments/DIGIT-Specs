@@ -25,7 +25,7 @@ paths:
             '*/*':
               schema:
                 $ref: >-
-                  https://raw.githubusercontent.com/egovernments/DIGIT-Works/expense-service-codegen/backend/expense/src/main/resources/expense-service-contract.yaml#/components/schemas/BillResponse
+                  https://raw.githubusercontent.com/egovernments/business-services/master/Docs/billingservice/V-2.0.yml#/definitions/BillResponse
         '400':
           description: Invalid input.
           content:
@@ -82,8 +82,6 @@ components:
             https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required:
         - tenantId
-        - type
-        - amount
     CalcEstimate:
       description: A Object which holds the info about the expense details.
       type: object
@@ -132,11 +130,11 @@ components:
           type: object
         auditDetails:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required:
         - tenantId
         - businessService
-        - billDetails
+        - calcDetails
     Party:
       description: Account details
       type: object
@@ -180,11 +178,17 @@ components:
         fromPeriod:
           description: Start date of bill period
           type: number
-          format: timestamp
+          format: double
+          example: 1735689600000
+          minimum: 0
+          multipleOf: 1 
         toPeriod:
           description: End date of bill period
           type: number
-          format: timestamp
+          format: double
+          example: 1735776000000
+          minimum: 0
+          multipleOf: 1
         payee:
           $ref: '#/components/schemas/Party'
         lineItems:
@@ -237,7 +241,7 @@ components:
           type: object
         auditDetails:
           $ref: >-
-            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
+            https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/AuditDetails
       required:
         - tenantId
         - headCode
