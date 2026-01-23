@@ -1,41 +1,44 @@
 openapi: 3.0.3
 info:
-  title: Generic Service API
+  title: Generic Public Service API
   description: |
-    This API allows interaction with the Generic Service system.
+    This API allows interaction with the Public Service system.
 
     **Author:** Jagankumar E  
-    This spec was created for solving generic service gets created based on the config and using DIGIT 2.9 core services and provides users an application capability with workflows.
+    This spec was created for solving public service gets created based on the config and using DIGIT 2.9 core services and provides users an application capability with workflows.
   version: 1.0.0
   contact:
     name: Jagankumar E
     email: jagan.kumar@egovernments.org
     
 paths:
-  /generic-service/v1/service/{tenantId}:
+  /public-service-init/v1/service:
     get:
       tags:
-        - Generic Service - Service Handler
+        - Public Service - Service Init Handler
+      summary: Search services
+      description: Search for registered services by various criteria
       parameters:
-        - name: tenantId
-          in: path
+        - name: X-Tenant-Id
+          in: header
           required: true
-          example: pg
           schema:
             type: string
+          example: st
+          description: allowed TenantId
         - name: businessService
           in: query
           description: businessService
           required: false
-          example: NewTL
+          example: newtl
           schema:
             maxLength: 256
             type: string
             format: varchar
         - name: module
           in: query
-          example: Tradelicence
-          description: campaign for which resource has to be generated
+          example: tradelicence
+          description: Module for which service is registered
           required: false
           schema:
             maxLength: 256
@@ -66,13 +69,17 @@ paths:
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
     post:
       tags:
-        - Generic Service - Service Handler
+        - Public Service - Service Init Handler
+      summary: Create a new service
+      description: Register a new public service
       parameters:
-        - name: tenantId
-          in: path
+        - name: X-Tenant-Id
+          in: header
           required: true
           schema:
             type: string
+          example: st
+          description: allowed TenantId
       requestBody:
         content:
           application/json:
@@ -80,43 +87,7 @@ paths:
               $ref: '#/components/schemas/ServiceInitRequest'
       responses:
         '202':
-          description: Accepted account registration request.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ServiceInitResponse'
-        '400':
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: >-
-                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-  
-  /generic-service/v1/service/{tenantId}/{serviceCode}:
-    put:
-      tags:
-        - Generic Service - Service Handler
-      parameters:
-        - name: tenantId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: serviceCode
-          description: unique serviceCode of the service
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ServiceInitRequest'
-      responses:
-        '202':
-          description: Accepted account registration request.
+          description: Service created successfully.
           content:
             '*/*':
               schema:
@@ -129,27 +100,71 @@ paths:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
 
-  /generic-service/v1/application/{tenantId}/{serviceCode}:
-    get:
+  /public-service-init/v1/service/{serviceCode}:
+    put:
       tags:
-        - Generic Service - Application Handler
+        - Public Service - Service Init Handler
+      summary: Update a service
+      description: Update an existing service by serviceCode
       parameters:
-        - name: tenantId
-          in: path
-          example: pg
+        - name: X-Tenant-Id
+          in: header
           required: true
           schema:
             type: string
+          example: st
+          description: allowed TenantId
         - name: serviceCode
           description: unique serviceCode of the service
           in: path
-          example: SVC-001
+          required: true
+          schema:
+            type: string
+          example: complaint_management_system-pgr-svc-2025-11-25-008445
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceInitRequest'
+      responses:
+        '202':
+          description: Service updated successfully.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceInitResponse'
+        '400':
+          description: Invalid input.
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
+
+  /public-service/v1/application/{serviceCode}:
+    get:
+      tags:
+        - Public Service - Application Handler
+      summary: Search applications by service code
+      description: Search applications for a specific service
+      parameters:
+        - name: X-Tenant-Id
+          in: header
+          required: true
+          schema:
+            type: string
+          example: dev
+          description: allowed TenantId
+        - name: serviceCode
+          description: unique serviceCode of the service
+          in: path
+          example: SVC-DEV-TRADELICENSE-NEWTL-04
           required: true
           schema:
             type: string
         - name: ids
           in: query
-          description: Search application by ids 
+          description: Search application by ids
           required: false
           schema:
             type: array
@@ -159,21 +174,21 @@ paths:
         - name: businessService
           in: query
           description: Search application by business service
-          example: NEWTL
+          example: NewTL
           required: false
           schema:
             type: string
         - name: module
           in: query
           description: Search application by module
-          example: Tradelicence
+          example: Tradelicense
           required: false
           schema:
             type: string
-        - name: applicationNo
+        - name: applicationNumber
           in: query
           description: Search application by application number
-          example: TL-001100
+          example: APL-2025-05-15-000112
           required: false
           schema:
             type: string
@@ -189,15 +204,21 @@ paths:
           description: Search application by boundary code
           schema:
             type: string
-        - name: userId
+        - name: createdBy
           in: query
           required: false
-          description: Search application by user id
+          description: Search application by creator uuid
+          schema:
+            type: string
+        - name: mobileNumber
+          in: query
+          required: false
+          description: Search application by applicant mobile number
           schema:
             type: string
       responses:
-        '202':
-          description: Accepted account updation request.
+        '200':
+          description: List of applications for the service.
           content:
             '*/*':
               schema:
@@ -211,17 +232,22 @@ paths:
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
     post:
       tags:
-        - Generic Service - Application Handler
+        - Public Service - Application Handler
+      summary: Create a new application
+      description: Create a new application for a service
       parameters:
-        - name: tenantId
-          in: path
+        - name: X-Tenant-Id
+          in: header
           required: true
           schema:
             type: string
+          example: dev
+          description: allowed TenantId
         - name: serviceCode
           description: unique serviceCode of the service
           in: path
           required: true
+          example: SVC-DEV-TRADELICENSE-NEWTL-04
           schema:
             type: string
       requestBody:
@@ -231,7 +257,7 @@ paths:
               $ref: '#/components/schemas/ApplicationRequest'
       responses:
         '202':
-          description: Accepted account registration request.
+          description: Application created successfully.
           content:
             '*/*':
               schema:
@@ -243,39 +269,34 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-    
-  /generic-service/v1/application/{tenantId}/{serviceCode}/{applicationId}:
     put:
       tags:
-        - Generic Service - Application Handler
+        - Public Service - Application Handler
+      summary: Update an application
+      description: Update an existing application for a service
       parameters:
-        - name: tenantId
-          in: path
+        - name: X-Tenant-Id
+          in: header
           required: true
           schema:
             type: string
+          example: dev
+          description: allowed TenantId
         - name: serviceCode
           description: unique serviceCode of the service
           in: path
           required: true
+          example: SVC-DEV-TRADELICENSE-NEWTL-04
           schema:
             type: string
-        - name: applicationId
-          description: unique id of the application
-          in: path
-          required: true
-          schema:
-            maxLength: 256
-            type: string
-            format: varchar
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ApplicationSearchRequest'
+              $ref: '#/components/schemas/ApplicationRequest'
       responses:
-        '200':
-          description: Return search results
+        '202':
+          description: Application updated successfully.
           content:
             '*/*':
               schema:
@@ -288,29 +309,100 @@ paths:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
   
-  /generic-service/v1/form/{tenantId}/{serviceCode}:
+  
+  /public-service/v1/record/_search:
     get:
       tags:
-        - Generic Service - Form Handler
+        - Public Service - Record Handler
+      summary: Search records
+      description: Search for records (approved applications/licenses) by various criteria
       parameters:
-        - name: tenantId
-          in: path
+        - name: X-Tenant-Id
+          in: header
           required: true
+          schema:
+            type: string
+          example: st
+          description: allowed TenantId
+        - name: ids
+          in: query
+          description: Search records by IDs
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              example: 'c453edf5-0b89-4040-8f34-b8fbdfac1b2e'
+        - name: recordNumber
+          in: query
+          description: Search by record number
+          example: pgrthreefourtest-testfour-record-2026-01-07-009990
+          required: false
+          schema:
+            type: string
+        - name: applicationNumber
+          in: query
+          description: Search by application number
+          example: APL-2025-05-15-000112
+          required: false
           schema:
             type: string
         - name: serviceCode
-          description: unique serviceCode of the service
-          in: path
-          required: true
+          in: query
+          description: Search by service code
+          example: SVC-DEV-TRADELICENSE-NEWTL-04
+          required: false
           schema:
             type: string
+        - name: businessService
+          in: query
+          description: Search by business service
+          example: NewTL
+          required: false
+          schema:
+            type: string
+        - name: module
+          in: query
+          description: Search by module
+          example: Tradelicense
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          description: Search by record status
+          schema:
+            $ref: '#/components/schemas/Status'
+        - name: includeHistory
+          in: query
+          required: false
+          description: Include historical versions of the record
+          example: true
+          schema:
+            type: boolean
+            default: false
+        - name: limit
+          in: query
+          required: false
+          description: Number of records to fetch
+          example: 10
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          description: Offset for pagination
+          example: 0
+          schema:
+            type: integer
       responses:
-        '202':
-          description: Accepted account registration request.
+        '200':
+          description: List of records matching search criteria.
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ServiceInitResponse'
+                $ref: '#/components/schemas/RecordResponse'
         '400':
           description: Invalid input.
           content:
@@ -318,7 +410,6 @@ paths:
               schema:
                 $ref: >-
                   https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/ErrorRes
-                  
 
 components:
   schemas:
@@ -341,66 +432,98 @@ components:
       type: object
       properties:
         id:
-          description: Unique identifier of the record
+          description: Unique identifier of the application
           readOnly: true
           type: string
           minLength: 2
           maxLength: 64
-          example: "8801de85-f123-4e4b-9e4e-adbd04e49965"
+          example: "9c1511d9-5e33-4493-8f77-1647be7c4c82"
         tenantId:
           description: Tenant Identifier
-          example: pg
+          example: dev
           type: string
           minLength: 2
           maxLength: 64
         module:
           type: string
-          description: all the enabled service like tradelicence / propertytax etc
+          description: Module name like Tradelicense / PropertyTax etc
           minLength: 2
           maxLength: 64
-          example: tradelicence
+          example: Tradelicense
         businessService:
-          description: captures the businessService information to be used in workflow service like NEWTL / RENEWTL NEWPROPERTY etc
-          example: NEWTL
+          description: Business service for workflow like NewTL / RenewTL etc
+          example: NewTL
           type: string
           minLength: 2
           maxLength: 64
-        
-        applicationNo:
+        serviceCode:
+          description: Unique service code linked to this application
+          example: SVC-DEV-TRADELICENSE-NEWTL-04
+          type: string
+          minLength: 2
+          maxLength: 128
+        applicationNumber:
           maxLength: 64
           minLength: 2
           type: string
-          description: Unique Application Number. This is  unique in
-            system for a tenant. This is mandatory but always be generated after validation.
+          description: Unique Application Number. Auto-generated after validation.
           readOnly: true
+          example: APL-2025-05-15-000112
+        recordNumber:
+          maxLength: 64
+          minLength: 2
+          type: string
+          description: Unique Record Number. Auto-generated after application is approved.
+          readOnly: true
+          example: RC-2025-05-15-000112
         status:
           $ref: '#/components/schemas/Status'
         channel:
-          description: channel which this application created like citizen/ employee/ system
-          example: citizen
+          description: Channel through which this application was created
+          example: counter
           type: string
           minLength: 2
-          maxLength: 64  
+          maxLength: 64
+          enum: [citizen, counter, employee, system]
         references:
           type: array
           items:
             $ref: '#/components/schemas/Reference'
-
+        documents:
+          type: array
+          description: Documents attached to the application
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Document'
         workflowStatus:
           type: string
           minLength: 2
           maxLength: 64
-          description: applied / approved according to workflow config
+          description: Current workflow status like applied / approved
           example: applied
         serviceDetails:
-          description: Service related information
+          description: Service specific details as a dynamic JSON object
           type: object
+          example:
+            tradeDetails:
+              financialYear: "2017-18"
+              licenseType: "PERMANENT"
+              tradeName: "Test Trade"
+            tradeUnits:
+              tradeCategory: "TECHNOLOGY"
+              tradeType: "SOFTWARE_DEVELOPMENT"
+        version:
+          type: integer
+          description: Version number of the service configuration
+          example: 5
+          readOnly: true
         applicants:
           type: array
           items:
             $ref: '#/components/schemas/Applicant'
         address:
-           $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
+        workflow:
+          $ref: '#/components/schemas/ApplicationWorkflow'
         additionalDetails:
           description: Any additional details that need to be captured
           type: object
@@ -435,46 +558,53 @@ components:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
 
     Service:
-      description: A Object which holds the info about the application details
+      description: Object containing service registration details
       type: object
       properties:
         id:
-          description: Unique identifier of the Service Registered
+          description: Unique identifier of the Service
           readOnly: true
           type: string
           minLength: 2
           maxLength: 64
-          example: "8801de85-f123-4e4b-9e4e-adbd04e49965"
+          example: "eb48b3e8-3ce0-4679-9e12-c4555e2fded9"
         tenantId:
           description: Tenant Identifier
-          example: pg
+          example: st
           type: string
           minLength: 2
           maxLength: 64
         businessService:
           type: string
-          description: all the enabled service like tradelicence / propertytax etc
+          description: Business service identifier like PGR, NewTL etc
           minLength: 2
           maxLength: 64
-          example: newTL
+          example: PGR
         module:
           type: string
-          description: all the enabled service like tradelicence / propertytax etc
+          description: Module name like Complaint_Management_System, Tradelicense etc
           minLength: 2
           maxLength: 64
-          example: tradelicence
+          example: Complaint_Management_System
         serviceCode:
           type: string
-          description: Unique code for any service generated by the generic service
-          example: SVC-001
+          description: Unique code for the service (auto-generated)
+          example: complaint_management_system-pgr-svc-2025-11-25-008445
+          readOnly: true
+        version:
+          type: integer
+          description: Version number of the service configuration
+          example: 5
           readOnly: true
         status:
-          description: enum value for the payment status 
+          description: Service status
           type: string
           enum: [INACTIVE, ACTIVE]
         additionalDetails:
           description: Any additional details that need to be captured
           type: object
+          example:
+            note: "initial creation"
         auditDetails:
           $ref: https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract.yml#/definitions/AuditDetails
       required:
@@ -484,18 +614,20 @@ components:
 
     ApplicationRequest:
       type: object
+      description: Request object for creating/updating an application
       properties:
         RequestInfo:
           $ref: >-
                 https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/RequestInfo
         Application:
           $ref: '#/components/schemas/Application'
-        Workflow:
-          $ref: >-
-                https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Workflow
-        
+      required:
+        - RequestInfo
+        - Application
+
     ApplicationResponse:
       type: object
+      description: Response object containing applications
       properties:
         ResponseInfo:
           $ref: >-
@@ -506,6 +638,33 @@ components:
             $ref: '#/components/schemas/Application'
         pagination:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/367d45e50eb274ccaabeddc302bc34420edebe09/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+
+    ApplicationWorkflow:
+      type: object
+      description: Workflow action details for application
+      properties:
+        action:
+          type: string
+          description: Workflow action to perform
+          example: VERIFY_AND_FORWARD
+        businessService:
+          type: string
+          description: Business service for workflow
+          example: Water.NewWC
+        comments:
+          type: string
+          description: Comments for the workflow action
+          example: Verified
+        assignees:
+          type: array
+          items:
+            type: string
+          description: List of user UUIDs to assign
+        documents:
+          type: array
+          description: Documents attached with the workflow action
+          items:
+            $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Document'
     ApplicationCriteria:
       type: object
       properties:
@@ -523,7 +682,7 @@ components:
             example: 'c453edf5-0b89-4040-8f34-b8fbdfac1b2e'
         businessService:
           description: Search bill by business service
-          example: NEWTL
+          example: newtl
           type: string
           minLength: 2
           maxLength: 64
@@ -628,6 +787,12 @@ components:
           minLength: 2
           maxLength: 64
           example: John
+        gender:
+          description: gender of the user
+          type: string
+          minLength: 2
+          maxLength: 64
+          example: John
         mobileNumber:
           type: integer
           description: Mobile number of the user
@@ -645,7 +810,24 @@ components:
           type: boolean
           description: active user mapping
           example: true
-          
+        additionalFields:
+          description: Any additional details that need to be captured
+          type: "object"
+          properties:
+            schema:
+              type: "string"
+              example: "identifier"
+              minLength: 2
+              maxLength: 64
+            version:
+              type: "integer"
+              example: 2
+              minimum: 1
+            fields:
+              type: "array"
+              items:
+                type: "object"
+                $ref: "#/components/schemas/Field"
     RecordRequest:
       type: object
       properties:
@@ -793,3 +975,21 @@ components:
           $ref: '#/components/schemas/RecordCriteria'
         pagination:
           $ref: 'https://raw.githubusercontent.com/egovernments/DIGIT-OSS/master/core-services/docs/common-contract_v1-1.yml#/components/schemas/Pagination'
+
+
+    Field:
+      type: "object"
+      required:
+        - "key"
+        - "value"
+      properties:
+        key:
+          type: "string"
+          example: "height"
+          minLength: 2
+          maxLength: 64
+        value:
+          type: "string"
+          example: 180
+          minLength: 2
+          maxLength: 10000
