@@ -1,0 +1,329 @@
+openapi: 3.0.3
+info:
+  title: Common API Specification
+  version: 3.0.0
+  description: Common headers and objects for all DIGIT specifications.
+paths: {}
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    RequestIdHeader:
+      name: X-Request-ID
+      in: header
+      required: false
+      description: Unique identifier for tracking each request. Helps in debugging
+        logs.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 64
+        example: req-12345-abcd
+    CorrelationIdHeader:
+      name: X-Correlation-ID
+      in: header
+      required: false
+      description: Used for distributed tracing across multiple services.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 64
+        example: corr-67890-xyz
+    UserAgentHeader:
+      name: User-Agent
+      in: header
+      required: false
+      description: Identifies the client making the request (browser, mobile app,
+        etc.).
+      schema:
+        type: string
+        minLength: 5
+        maxLength: 64
+        example: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+    UserIdHeader:
+      name: X-User-ID
+      in: header
+      required: false
+      description: Unique identifier assigned to the user making the request.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 64
+        example: 550e8400-e29b-41d4-a716-446655440000
+    TenantIdHeader:
+      name: X-Tenant-ID
+      in: header
+      required: true
+      description: Identifies the tenant making the request. Required in multi-tenant
+        systems.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 64
+        example: tenant-xyz
+    ForwardedForHeader:
+      name: X-Forwarded-For
+      in: header
+      required: false
+      description: Client IP address (used for tracing in load-balanced environments).
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 64
+        example: 192.168.1.1
+    ClientId:
+      name: X-Client-Id
+      in: header
+      required: false
+      description: Unique identifier assigned to the client making the request.
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 100
+        example: User-Admin-Client
+    ClientSecret:
+      name: X-Client-Secret
+      in: header
+      required: false
+      description: Secret key used to authenticate the client making the request.
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 256
+        example: s3cr3tK3y123
+    TimeStamp:
+      name: X-Time-Stamp
+      in: header
+      required: false
+      description: Epoch timestamp (in milliseconds) indicating when the request was
+        made.
+      schema:
+        type: integer
+        minimum: 1000000000000
+        maximum: 9999999999999
+        example: 1712830200000
+  headers:
+    X-Response-Time:
+      description: Total time taken to process the request (in milliseconds).
+      schema:
+        type: integer
+        minimum: 0
+      example: 132
+    X-Response-Timestamp:
+      description: Server-side timestamp (epoch milliseconds) when the response was
+        generated.
+      schema:
+        type: integer
+        minimum: 1000000000000
+        maximum: 9999999999999
+      example: 1712830212345
+    X-Request-ID:
+      description: Echoes the `X-Request-ID` from the request for tracking and correlation.
+      schema:
+        type: string
+      example: req-12345-abcd
+    X-Correlation-ID:
+      description: Echoes the `X-Correlation-ID` to trace the request across services.
+      schema:
+        type: string
+      example: corr-67890-xyz
+    X-Tenant-ID:
+      description: Echoes the `X-Tenant-ID` from the request, confirming tenant scope.
+      schema:
+        type: string
+      example: tenant-xyz
+    X-Rate-Limit:
+      description: Indicates the maximum number of allowed requests in a given timeframe.
+      schema:
+        type: integer
+        minimum: 1
+      example: 1000
+    X-Rate-Limit-Remaining:
+      description: Indicates the remaining number of requests in the current rate
+        limit window.
+      schema:
+        type: integer
+        minimum: 0
+      example: 999
+    X-Rate-Limit-Reset:
+      description: Indicates the time (in UTC epoch seconds) when the rate limit will
+        reset.
+      schema:
+        type: integer
+        minimum: 0
+      example: 1701237890
+  schemas:
+    Document:
+      type: object
+      description: 'Represents a user-uploaded document associated with an application
+        or entity.
+
+        Contains metadata such as document type (from MDMS), file storage reference,
+        and an optional document identifier (e.g., Aadhaar number).
+
+        '
+      required:
+      - documentType
+      - fileStoreId
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          minLength: 2
+          maxLength: 64
+          description: "System-generated unique identifier (UUID) for the document.\
+            \ \nThis field is read-only and assigned after creation.\n"
+        documentType:
+          type: string
+          minLength: 2
+          maxLength: 64
+          description: "Code representing the type of document. \nThis should match\
+            \ one of the predefined codes from MDMS (Master Data Management System).\n"
+          example: AADHAR
+        fileStoreId:
+          type: string
+          minLength: 2
+          maxLength: 64
+          description: 'Reference ID of the uploaded file in the file storage system.
+
+            '
+          example: abcde23423523sdfsd
+        documentUid:
+          type: string
+          minLength: 2
+          maxLength: 64
+          description: "Optional unique identifier of the document provided by the\
+            \ user. \nExamples include PAN number, Aadhaar number, Driving License\
+            \ number, etc.\n"
+          example: 1234-5678-9012
+    DocumentType:
+      type: object
+      description: "Represents metadata for a supported document type. \nUsed to standardize\
+        \ and validate the types of documents accepted in workflows and applications.\n"
+      required:
+      - name
+      - code
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 64
+          description: 'Human-readable name of the document type.
+
+            '
+          example: Aadhar
+        code:
+          type: string
+          minLength: 2
+          maxLength: 32
+          description: "Unique code used to identify the document type programmatically.\
+            \ \nShould be used as a reference in the `documentType` field of the Document\
+            \ object.\n"
+          example: AADHAR
+    AuditDetail:
+      type: object
+      description: Contains audit details, tracking record creation, modification,
+        and deletion events.
+      properties:
+        createdBy:
+          type: string
+          description: UUID of the user or system that created the record.
+          example: 550e8400-e29b-41d4-a716-446655440000
+          minLength: 2
+          maxLength: 64
+        createdTime:
+          type: integer
+          format: int64
+          description: Timestamp (epoch milliseconds) when the record was created.
+          example: 1701234567890
+        modifiedBy:
+          type: string
+          description: UUID of the user or system that updated the record.
+          example: 550e8400-e29b-41d4-a716-446655440000
+          minLength: 2
+          maxLength: 64
+        modifiedTime:
+          type: integer
+          format: int64
+          description: Timestamp (epoch milliseconds) when the record was last modified.
+          example: 1701237890123
+    Address:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          description: Tenant unique identifier.
+          example: tenant-123
+        addressId:
+          type: string
+          readOnly: true
+          description: Unique ID for the address.
+          example: ADDR-5678
+        streetAddress:
+          type: string
+          description: Full street address (house number, road, building).
+          example: 221B Baker Street
+        area:
+          type: string
+          description: Locality or zone.
+          example: Marylebone
+        city:
+          type: string
+          description: City name.
+          example: London
+        state:
+          type: string
+          description: State or province.
+          example: Greater London
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 country code.
+          example: GB
+        pincode:
+          type: string
+          description: ZIP or postal code.
+          example: NW1 6XE
+        landmark:
+          type: string
+          description: Nearby landmark for reference.
+          example: Near Regent's Park
+        geoLocation:
+          type: object
+          description: Latitude and longitude of the address.
+          properties:
+            latitude:
+              type: number
+              format: double
+              description: Geographical latitude.
+              example: 51.523767
+            longitude:
+              type: number
+              format: double
+              description: Geographical longitude.
+              example: -0.1585557
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Module-specific error code.
+          example: User.NotFound
+        message:
+          type: string
+          description: Readable error message.
+          example: User not found.
+        description:
+          type: string
+          description: Optional long description for debugging.
+        params:
+          type: array
+          description: Optional placeholders for dynamic messages.
+          items:
+            type: string
